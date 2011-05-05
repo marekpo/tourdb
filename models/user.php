@@ -25,6 +25,11 @@ class User extends AppModel
 				'rule' => 'isUnique'
 			)
 		),
+		'password' => array(
+			'empty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
 		'tempPassword' => array(
 			'empty' => array(
 				'rule' => 'notEmpty'
@@ -59,6 +64,19 @@ class User extends AppModel
 		$value = array_pop($field);
 
 		return $value === $this->data[$this->name][$compareField];
+	}
+
+	function hashPasswords($data)
+	{
+		if(isset($data['User']['username']) && isset($data['User']['password']))
+		{
+			$salt = $this->field('salt', array('User.username' => $data['User']['username']));
+			$data['User']['password'] = Security::hash($salt . $data['User']['password'], 'sha1', false);
+
+			return $data;
+		}
+
+		return $data;
 	}
 
 	function createAccount($username, $email, &$password)
