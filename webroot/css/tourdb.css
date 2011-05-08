@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+
+body		{ margin: 0; padding: 0; font-family: Helvetica, sans-serif; font-size: 10pt; }
+
+#page		{ background: #00ffff; }
+#container	{ background: #ff8000; width: 1000px; margin: 0 auto; }
+#header		{ background: #80ff00; height: 80px; }
+#topnav		{ background: #8000ff; height: 40px; position: relative; }
+
+#login_box				{ position: absolute; top: 0; right: 0; }
+#login_box .username	{ font-weight: bold; }
+
+#leftnav	{ background: #ff0080; width: 200px; float: left; }
+#content	{ background: #00ff80; width: 800px; float: left; }
+#footer		{ background: #80ff00; height: 80px; clear: left; }
