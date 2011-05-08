@@ -9,13 +9,19 @@ class AppController extends Controller
 		$this->__setupEmail();
 	}
 
+	function isAuthorized()
+	{
+		return true;
+	}
+
 	function __setupAuth()
 	{
 		$this->Auth->userScope = array('User.active' => 1);
-		$this->Auth->loginRedirect = array('controller' => 'users', 'action' => 'welcome');
+		$this->Auth->loginRedirect = '/';
 		$this->Auth->logoutRedirect = '/';
-		$this->Auth->autoRedirect = true;
+		$this->Auth->autoRedirect = false;
 		$this->Auth->authenticate = ClassRegistry::init('User');
+		$this->Auth->authorize = 'controller';
 
 		$this->Auth->loginError = __('Benutzername und/oder Passwort falsch.', true);
 		$this->Auth->authError = __('Du hast nicht genügten Rechte um diese Seite zu sehen.', true);

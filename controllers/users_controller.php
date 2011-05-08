@@ -3,7 +3,7 @@ class UsersController extends AppController
 {
 	var $name = 'Users';
 
-	var $components = array('Session', 'Email');
+	var $components = array('Session', 'Email', 'Cookie');
 
 	var $scaffold;
 
@@ -22,14 +22,14 @@ class UsersController extends AppController
 					'url' => $url,
 					'password' => $password
 				));
-				
+
 				$this->Email->to = $this->data['User']['email'];
 				$this->Email->subject = __('Dein Benutzerkonto bei TourDB', true);
 				$this->Email->lineLength = 998;
 				$this->Email->template = 'account_created';
 				$this->Email->send();
-				
-				$this->redirect(array('action' => 'index'));
+
+				$this->redirect('/');
 			}
 		}
 	}
@@ -51,7 +51,7 @@ class UsersController extends AppController
 
 			if($accountActivated)
 			{
-				$this->redirect(array('action' => 'index'));
+				$this->redirect('/');
 			}
 		}
 
@@ -60,11 +60,46 @@ class UsersController extends AppController
 
 	function login()
 	{
-		//$this->redirect($this->Auth->redirect());
+		if($this->Auth->user())
+		{
+			if(!empty($this->data))
+			{
+				$this->User->id = $this->Auth->user('id');
+				$this->User->saveField('last_login', date('Y-m-d H:i:s'));
+			}
+
+			if(!empty($this->data['User']['cookie']))
+			{
+				$loginCookie = array(
+					'username' => $this->data['User']['username'],
+					'password' => $this->data['User']['password']
+				);
+
+				$this->Cookie->write('User.Auth', $loginCookie, true, '+1 month');
+				unset($this->data['User']['cookie']);
+			}
+
+			$this->redirect($this->Auth->redirect());
+		}
+
+		if(empty($this->data))
+		{
+			$loginCookie = $this->Cookie->read('User.Auth');
+
+			if(!empty($loginCookie))
+			{
+				if($this->Auth->login($loginCookie))
+				{
+					$this->Session->delete('Message.auth');
+					$this->redirect($this->Auth->redirect());
+				}
+			}
+		}
 	}
 
 	function logout()
 	{
+		$this->Cookie->delete('User.Auth');
 		$this->redirect($this->Auth->logout());
 	}
 }
