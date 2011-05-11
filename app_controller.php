@@ -1,12 +1,14 @@
 <?php
 class AppController extends Controller
 {
-	var $components = array('Auth', 'Session', 'DebugKit.Toolbar');
+	var $components = array('Auth', 'Session', 'Cookie', 'DebugKit.Toolbar');
 
 	function beforeFilter()
 	{
 		$this->__setupAuth();
 		$this->__setupEmail();
+
+		$this->__loginByCookie();
 	}
 
 	function isAuthorized()
@@ -41,6 +43,19 @@ class AppController extends Controller
 				'timeout' => 30,
 				'host' => 'localhost',
 			);
+		}
+	}
+
+	function __loginByCookie()
+	{
+		$loginCookie = $this->Cookie->read('User.Auth');
+
+		if(!$this->Auth->user() && !empty($loginCookie))
+		{
+			if($this->Auth->login($loginCookie))
+			{
+				$this->Session->delete('Message.auth');
+			}
 		}
 	}
 }
