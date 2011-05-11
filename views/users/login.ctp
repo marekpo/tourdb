@@ -8,3 +8,5 @@ echo $this->Form->input('password', array('label' => __('Passwort', true), 'type
 echo $this->Form->input('cookie', array('label' => __('Login speichern', true), 'type' => 'checkbox'));
 
 echo $this->Form->end(__('Einloggen', true));
+
+echo $this->Html->link(__('Benutzerkonto eröffnen', true), array('action' => 'createAccount'));

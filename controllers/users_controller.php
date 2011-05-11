@@ -81,20 +81,6 @@ class UsersController extends AppController
 
 			$this->redirect($this->Auth->redirect());
 		}
-
-		if(empty($this->data))
-		{
-			$loginCookie = $this->Cookie->read('User.Auth');
-
-			if(!empty($loginCookie))
-			{
-				if($this->Auth->login($loginCookie))
-				{
-					$this->Session->delete('Message.auth');
-					$this->redirect($this->Auth->redirect());
-				}
-			}
-		}
 	}
 
 	function logout()
