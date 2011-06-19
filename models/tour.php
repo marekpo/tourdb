@@ -23,6 +23,7 @@ class Tour extends AppModel
 
 	var $hasAndBelongsToMany = array(
 		'TourType',
-		'ConditionalRequisite'
+		'ConditionalRequisite',
+		'Difficulty'
 	);
 }
