@@ -1,7 +1,7 @@
 <?php
 class AppController extends Controller
 {
-	var $components = array('Auth', 'Session', 'Cookie', 'DebugKit.Toolbar');
+	var $components = array('Auth', 'Session', 'Cookie', 'Authorization', 'DebugKit.Toolbar');
 
 	function beforeFilter()
 	{
@@ -13,7 +13,7 @@ class AppController extends Controller
 
 	function isAuthorized()
 	{
-		return true;
+		return $this->Authorization->check($this->name, $this->action);
 	}
 
 	function __setupAuth()
@@ -28,7 +28,7 @@ class AppController extends Controller
 		$this->Auth->loginError = __('Benutzername und/oder Passwort falsch.', true);
 		$this->Auth->authError = __('Du hast nicht genügten Rechte um diese Seite zu sehen.', true);
 
-		$this->Auth->allow('*');
+		$this->Auth->deny('*');
 	}
 
 	function __setupEmail()

@@ -5,6 +5,8 @@ class User extends AppModel
 {
 	var $name = 'User';
 
+	var $displayField = 'username';
+
 	var $validate = array(
 		'username' => array(
 			'alphaNumeric' => array(
@@ -49,6 +51,8 @@ class User extends AppModel
 			)
 		)
 	);
+
+	var $hasAndBelongsToMany = array('Role');
 
 	function correctTempPassword($field)
 	{
@@ -133,5 +137,43 @@ class User extends AppModel
 		}
 
 		return $this->field('active', array('User.id' => $id)) == 1;
+	}
+
+	function getPrivileges($id = null)
+	{
+		if($id == null)
+		{
+			$id = $this->id; 
+		}
+
+		$this->recursive = -1;
+		$dbo = $this->getDataSource();
+
+		$privileges = $this->find('all', array(
+			'conditions' => array('User.id' => $id),
+			'fields' => array('DISTINCT Privilege.id', 'Privilege.key', 'Privilege.label'),
+			'joins' => array(
+				array(
+					'table' => $dbo->fullTableName('roles_users'),
+					'alias' => 'UsersRoles',
+					'type' => 'left',
+					'conditions' => array('User.id = UsersRoles.user_id')
+				),
+				array(
+					'table' => $dbo->fullTableName('privileges_roles'),
+					'alias' => 'RolesPrivileges',
+					'type' => 'inner',
+					'conditions' => array('UsersRoles.role_id = RolesPrivileges.role_id')
+				),
+				array(
+					'table' => $dbo->fullTableName('privileges'),
+					'alias' => 'Privilege',
+					'type' => 'left',
+					'conditions' => array('Privilege.id = RolesPrivileges.privilege_id')
+				)
+			)
+		));
+
+		return $privileges;
 	}
 }

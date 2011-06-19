@@ -7,6 +7,13 @@ class UsersController extends AppController
 
 	var $scaffold;
 
+	function beforeFilter()
+	{
+		parent::beforeFilter();
+
+		$this->Auth->allow(array('createAccount', 'activateAccount', 'login'));
+	}
+
 	function createAccount()
 	{
 		if(!empty($this->data))
@@ -85,6 +92,7 @@ class UsersController extends AppController
 
 	function logout()
 	{
+		$this->Session->delete('Privileges');
 		$this->Cookie->delete('User.Auth');
 		$this->redirect($this->Auth->logout());
 	}

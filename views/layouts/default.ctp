@@ -5,6 +5,9 @@
     <title><?php __('TourDB'); ?> :: <?php echo $title_for_layout; ?></title>
     <?php echo $this->Html->meta('icon'); ?>
     <?php echo $this->Html->css('tourdb'); ?>
+    <?php echo $this->Html->css('jquery-ui-1.8.13.custom.css'); ?>
+    <?php echo $this->Html->script('jquery-1.6.1.min.js'); ?>
+    <?php echo $this->Html->script('jquery-ui-1.8.13.custom.min.js'); ?>
     <?php echo $scripts_for_layout; ?>
   </head>
 
@@ -48,5 +51,11 @@
         </div>
       </div>
     </div>
+<?php
+	if(isset($this->Js))
+	{
+		echo $this->Js->writeBuffer(); 
+	}
+?>
   </body>
 </html>
