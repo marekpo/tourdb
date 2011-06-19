@@ -17,7 +17,6 @@ body		{ margin: 0; padding: 0; font-family: Helvetica, sans-serif; font-size: 10
 .inner	{ margin: 0 10px 10px; }
 
 /* drag drop widget */
-
 .dd-container				{ margin: 10px; }
 .dd-all						{ float: left; }
 .dd-assoc					{ float: right; }
@@ -28,3 +27,22 @@ body		{ margin: 0; padding: 0; font-family: Helvetica, sans-serif; font-size: 10
 
 .ui-draggable.privilege		{ background: #ffffff url(../img/lock.png) no-repeat 4px center; }
 .ui-draggable.role			{ background: #ffffff url(../img/role.png) no-repeat 4px center; }
+
+/* forms */
+.input				{ clear: left; margin-bottom: 10px; }
+.input.text label, .input.textarea label, .input.select > label, .input.datetime label
+	{ width: 150px; display: block; float: left; }
+
+.input.text.error, .input.textarea.error
+	{ background: #fff9c4; }
+
+.input.text input, .input.textarea textarea
+	{ width: 500px; }
+
+.input.checkbox		{ margin-left: 150px; }
+.input.select		{ min-height: 20px; }
+.input.select .checkbox	{ float: left; }
+
+.submit	{ text-align: right; }
+
+.error-message	{ margin-left: 150px; background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 0 24px; }
