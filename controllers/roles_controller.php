@@ -3,9 +3,7 @@ class RolesController extends AppController
 {
 	var $name = 'Roles';
 
-	var $helpers = array('Js');
-
-	var $scaffold;
+	var $helpers = array('Widget', 'Js');
 
 	function initRoles()
 	{
@@ -27,15 +25,19 @@ class RolesController extends AppController
 	{
 		if(!empty($this->data))
 		{
-			
+			$this->Role->save($this->data);
+			$this->Session->setFlash(__('Gespeichert', true));
+			$this->redirect(array('action' => 'index'));
 		}
 		else
 		{
 			$this->data = $this->Role->find('first', array(
-				'conditions' => array('Role.id' => $id)
+				'conditions' => array('Role.id' => $id),
 			));
 		}
 
-		
+		$this->set(array(
+			'privileges' => $this->Role->Privilege->find('list')
+		));
 	}
 }

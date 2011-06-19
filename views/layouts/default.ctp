@@ -15,12 +15,13 @@
     <div id="page">
       <div id="container">
         <div id="header">
-          header
+          <div class="inner">header</div>
         </div>
   
         <div id="topnav">
-          topnav
-          <div id="login_box">
+          <div class="inner">
+            topnav
+            <div id="login_box">
 <?php
 	if($this->Session->check('Auth.User'))
 	{
@@ -34,20 +35,24 @@
 		echo $this->Html->link(__('Anmelden', true), array('controller' => 'users', 'action' => 'login'));
 	}
 ?>
+            </div>
           </div>
         </div>
 
         <div id="leftnav">
-          leftnav
+          <div class="inner">leftnav</div>
         </div>
 
         <div id="content">
-          <?php echo $this->Session->flash(); ?>
-          <?php echo $content_for_layout; ?>
+          <div class="inner">
+            <?php echo $this->Session->flash('auth'); ?>
+            <?php echo $this->Session->flash(); ?>
+            <?php echo $content_for_layout; ?>
+          </div>
         </div>
 
         <div id="footer">
-          footer
+          <div class="inner">footer</div>
         </div>
       </div>
     </div>

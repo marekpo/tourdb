@@ -7,9 +7,24 @@ body		{ margin: 0; padding: 0; font-family: Helvetica, sans-serif; font-size: 10
 #header		{ background: #cccccc; height: 80px; }
 #topnav		{ background: #bbbbbb; height: 40px; position: relative; }
 
-#login_box				{ position: absolute; top: 0; right: 0; }
+#login_box				{ float: right }
 #login_box .username	{ font-weight: bold; }
 
 #leftnav	{ background: #aaaaaa; width: 200px; float: left; }
 #content	{ background: #999999; width: 800px; float: left; }
 #footer		{ background: #888888; height: 80px; clear: left; }
+
+.inner	{ margin: 0 10px 10px; }
+
+/* drag drop widget */
+
+.dd-container				{ margin: 10px; }
+.dd-all						{ float: left; }
+.dd-assoc					{ float: right; }
+.dd-container .ui-droppable	{ width: 350px; height: 350px; overflow: auto; border: 2px solid #808080; }
+.dd-container .ui-draggable	{ padding: 6px 6px 6px 24px; margin: 2px; border: 1px solid #808080; background: #ffffff; width: 290px; }
+.dd-container .active		{ border: 2px solid #80bfff; }
+.dd-container .hover		{ background: #eeeeee; border: 2px solid #80bfff; }
+
+.ui-draggable.privilege		{ background: #ffffff url(../img/lock.png) no-repeat 4px center; }
+.ui-draggable.role			{ background: #ffffff url(../img/role.png) no-repeat 4px center; }

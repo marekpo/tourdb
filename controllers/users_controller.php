@@ -5,13 +5,15 @@ class UsersController extends AppController
 
 	var $components = array('Session', 'Email', 'Cookie');
 
+	var $helpers = array('Widget');
+
 	var $scaffold;
 
 	function beforeFilter()
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('createAccount', 'activateAccount', 'login'));
+		$this->Auth->allow(array('createAccount', 'activateAccount', 'login', 'logout'));
 	}
 
 	function createAccount()
@@ -95,5 +97,27 @@ class UsersController extends AppController
 		$this->Session->delete('Privileges');
 		$this->Cookie->delete('User.Auth');
 		$this->redirect($this->Auth->logout());
+	}
+
+	function edit($id)
+	{
+		if(!empty($this->data))
+		{
+			if($this->User->save($this->data))
+			{
+				$this->Session->setFlash(__('Gespeichert', true));
+				$this->redirect(array('action' => 'index'));			
+			}
+		}
+		else
+		{
+			$this->data = $this->User->find('first', array(
+				'conditions' => array('User.id' => $id)
+			));
+		}
+
+		$this->set(array(
+			'roles' => $this->User->Role->find('list')
+		));
 	}
 }

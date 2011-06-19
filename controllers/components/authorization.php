@@ -21,6 +21,7 @@ class AuthorizationComponent extends Object
 	function check($controller, $action)
 	{
 		$privileges = null;
+		$controller = Inflector::underscore($controller);
 
 		if(!$this->Session->check('Privileges'))
 		{
@@ -45,6 +46,6 @@ class AuthorizationComponent extends Object
 			}
 		}
 
-		return true;
+		return false;
 	}
 }
