@@ -1,7 +1,7 @@
 <?php
 class WidgetHelper extends AppHelper
 {
-	var $helpers = array('Html', 'Js');
+	var $helpers = array('Html', 'Form', 'Js');
 
 	function dragDrop($name, $options = array())
 	{
@@ -78,6 +78,23 @@ class WidgetHelper extends AppHelper
 		$this->Js->drag(array('revert' => 'invalid', 'helper' => 'clone'));
 		
 		return $ddWidget;
+	}
+
+	function dateTime($name, $options = array())
+	{
+		$options = array_merge($options, array(
+			'type' => 'text',
+			'class' => 'dateTime'
+		));
+
+		$inputAttributes = $this->_initInputField($name);
+
+		$this->Html->script('jquery.ui.datepicker-de', array('inline' => false));
+		$this->Js->buffer("$('#{$inputAttributes['id']}').datepicker({
+			showButtonPanel: true
+		});");
+
+		return $this->Form->input($name, $options);
 	}
 
 	function __createItem($key, $label, $itemClass)

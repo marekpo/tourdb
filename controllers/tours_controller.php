@@ -3,13 +3,17 @@ class ToursController extends AppController
 {
 	var $name = 'Tours';
 
+	var $components = array('RequestHandler');
+
+	var $helpers = array('Widget');
+
 	var $scaffold;
 
 	function beforeFilter()
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('index', 'view', 'delete');
+		$this->Auth->allow('index', 'view', 'delete', 'getAdjacentTours');
 	}
 
 	function add()
@@ -18,7 +22,16 @@ class ToursController extends AppController
 		{
 			$this->data['Tour']['tour_guide_id'] = $this->Auth->user('id');
 
-			$this->Tour->save($this->data);
+			$this->Tour->create($this->data);
+			if($this->Tour->validates())
+			{
+				$this->data['Tour']['startdate'] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
+				$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
+	
+				$this->Tour->save($this->data, false);
+
+				$this->redirect(array('action' => 'index'));
+			}
 		}
 
 		$this->set(array(
@@ -54,5 +67,24 @@ class ToursController extends AppController
 				'order' => array('rank' => 'ASC'),
 			))
 		));
+	}
+
+	function getAdjacentTours($startDate, $endDate)
+	{
+		$smallestEndDate = date('Y-m-d', strtotime('-1 week', strtotime($startDate)));
+		$biggestStartDate = date('Y-m-d', strtotime('+1 week', strtotime($endDate)));
+
+		$this->set(array(
+			'adjacentTours' => $this->Tour->find('all', array(
+				'conditions' => array(
+					'OR' => array(
+						array('enddate >=' => $smallestEndDate, 'enddate <=' => $endDate),
+						array('startdate <=' => $biggestStartDate, 'startdate >=' => $startDate)
+					)
+				),
+				'order' => array('startdate' => 'ASC'),
+				'contain' => array()
+			))
+		)); 
 	}
 }

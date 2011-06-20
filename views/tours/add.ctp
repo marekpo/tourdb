@@ -51,10 +51,24 @@ echo $this->Html->div('no-label-select',
 	))
 );
 
-echo $this->Form->input('startdate', array('label' => __('Startdatum', true), 'type' => 'text', 'class' => 'date'));
-echo $this->Form->input('enddate', array('label' => __('Enddatum', true), 'type' => 'text', 'class' => 'date'));
+echo $this->Widget->dateTime('startdate', array(
+	'label' => __('Startdatum', true),
+	'error' => array(
+		'notEmpty' => __('Das Startdatum der Tour darf nicht leer sein.', true)
+	)
+));
+echo $this->Widget->dateTime('enddate', array(
+	'label' => __('Enddatum', true),
+	'error' => array(
+		'notEmpty' => __('Das Enddatum der Tour darf nicht leer sein.', true)
+	)
+));
 ?>
 </div>
+<div id="adjacentTours"></div>
 <?php
+$this->Html->script('widgets/adjacenttours', array('inline' => false));
+$this->Js->buffer(sprintf("$('#adjacentTours').adjacentTours({startDate: $('#TourStartdate'), endDate: $('#TourEnddate'), url: '%s'});", $this->Html->url(array('action' => 'getAdjacentTours'), true)));
+
 echo $this->Form->end(__('Speichern', true));
 ?>

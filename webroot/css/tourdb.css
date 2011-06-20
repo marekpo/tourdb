@@ -47,7 +47,7 @@ body		{ margin: 0; padding: 0; font-family: Helvetica, sans-serif; font-size: 10
 .no-label-select		{ margin: 0 0 10px 130px; }
 .no-label-select .input	{ margin: 0; }
 
-.input.text input.date	{ width: 150px; background: url(../img/calendar.png) no-repeat 2px center; padding-left: 24px; }
+.input.text input.dateTime	{ width: 150px; background: #ffffff url(../img/calendar.png) no-repeat 2px center; padding-left: 24px; }
 
 .submit	{ text-align: right; }
 

@@ -8,6 +8,16 @@ class Tour extends AppModel
 			'notEmpty' => array(
 				'rule' => 'notEmpty' 
 			)
+		),
+		'startdate' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
+		'enddate' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
 		)
 	);
 
