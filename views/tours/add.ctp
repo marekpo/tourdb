@@ -13,7 +13,7 @@ echo $this->Form->input('title', array(
 
 echo $this->Form->input('description', array('label' => __('Beschreibung', true)));
 ?>
-<div>
+<div class="form">
 <?php
 echo $this->Form->input('tourweek', array('label' => __('Tourenwoche', true)));
 echo $this->Form->input('withmountainguide', array('label' => __('Mit dipl. Bergführer', true)));
@@ -29,26 +29,26 @@ echo $this->Html->div('input select first-row-select',
 );
 
 echo $this->Html->div('no-label-select',
-	$this->Form->input('Difficulty', array(
+	preg_replace('/<input.*?type="hidden".*?>/', '', $this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesHike,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'hidden' => false
-	))
-	. $this->Form->input('Difficulty', array(
+		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
+	)))
+	. preg_replace('/<input.*?type="hidden".*?>/', '', $this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesSnowshowTour,
 		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
-	))
-	. $this->Form->input('Difficulty', array(
+	)))
+	. preg_replace('/<input.*?type="hidden".*?>/', '', $this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesViaFerrata,
 		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
-	))
-	. $this->Form->input('Difficulty', array(
+	)))
+	. preg_replace('/<input.*?type="hidden".*?>/', '', $this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing1,
 		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
-	))
-	. $this->Form->input('Difficulty', array(
+	)))
+	. preg_replace('/<input.*?type="hidden".*?>/', '', $this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing2,
 		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
-	))
+	)))
 );
 
 echo $this->Widget->dateTime('startdate', array(
@@ -65,10 +65,14 @@ echo $this->Widget->dateTime('enddate', array(
 ));
 ?>
 </div>
-<div id="adjacentTours"></div>
+<div>
+  <div><?php __('Angrenzende Touren'); ?></div>
+  <div id="adjacent-tours" class="adjacent-tours"></div>
+</div>
+<div style="clear: left"></div>
 <?php
 $this->Html->script('widgets/adjacenttours', array('inline' => false));
-$this->Js->buffer(sprintf("$('#adjacentTours').adjacentTours({startDate: $('#TourStartdate'), endDate: $('#TourEnddate'), url: '%s'});", $this->Html->url(array('action' => 'getAdjacentTours'), true)));
+$this->Js->buffer(sprintf("$('#adjacent-tours').adjacentTours({startDate: $('#TourStartdate'), endDate: $('#TourEnddate'), url: '%s'});", $this->Html->url(array('action' => 'getAdjacentTours'), true)));
 
 echo $this->Form->end(__('Speichern', true));
 ?>

@@ -44,7 +44,11 @@
           <div class="inner">leftnav</div>
         </div>
 
-        <div id="content">
+<?php
+	$contentClass = Inflector::underscore($this->name);
+	$contentClass .= (!empty($this->action) ? ' ' . Inflector::underscore($this->action) : '');
+?>
+        <div id="content" class="<?php echo $contentClass; ?>">
           <div class="inner">
             <?php echo $this->Session->flash('auth'); ?>
             <?php echo $this->Session->flash(); ?>

@@ -5,7 +5,7 @@ class ToursController extends AppController
 
 	var $components = array('RequestHandler');
 
-	var $helpers = array('Widget');
+	var $helpers = array('Widget', 'Time');
 
 	var $scaffold;
 
@@ -13,7 +13,7 @@ class ToursController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('index', 'view', 'delete', 'getAdjacentTours');
+		$this->Auth->allow('index', 'view', 'delete');
 	}
 
 	function add()
@@ -76,6 +76,7 @@ class ToursController extends AppController
 
 		$this->set(array(
 			'adjacentTours' => $this->Tour->find('all', array(
+				'fields' => array('title', 'startdate', 'enddate'),
 				'conditions' => array(
 					'OR' => array(
 						array('enddate >=' => $smallestEndDate, 'enddate <=' => $endDate),
@@ -83,7 +84,7 @@ class ToursController extends AppController
 					)
 				),
 				'order' => array('startdate' => 'ASC'),
-				'contain' => array()
+				'contain' => array('TourGuide.id', 'TourGuide.username')
 			))
 		)); 
 	}

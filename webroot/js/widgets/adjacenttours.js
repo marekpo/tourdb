@@ -21,6 +21,8 @@
 
 					$(this).data('adjacentTours', settings);
 				}
+
+				methods.valueChanged.bind(this)();
 			});
 		},
 		valueChanged: function() {

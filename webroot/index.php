@@ -50,7 +50,7 @@
  *
  */
 	if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-		define('CAKE_CORE_INCLUDE_PATH', 'D:' . DS . 'Libraries' . DS . 'cake1.3');
+		define('CAKE_CORE_INCLUDE_PATH', 'D:' . DS . 'Libraries' . DS . 'cakephp-1.3.10');
 	}
 
 /**

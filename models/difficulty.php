@@ -9,6 +9,8 @@ class Difficulty extends AppModel
 
 	var $name = 'Difficulty';
 
+	var $hasAndBelongsToMany = array('Tour');
+
 	function init()
 	{
 		$difficulties = array(
