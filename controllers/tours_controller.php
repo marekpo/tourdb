@@ -27,8 +27,17 @@ class ToursController extends AppController
 			{
 				$this->data['Tour']['startdate'] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
 				$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
-	
-				$this->Tour->save($this->data, false);
+
+				$this->data['TourType'] = $this->data['Tour']['TourType'];
+				$this->data['ConditionalRequisite'] = $this->data['Tour']['ConditionalRequisite'];
+				$this->data['Difficulty'] = $this->data['Tour']['Difficulty'];
+				unset(
+					$this->data['Tour']['TourType'],
+					$this->data['Tour']['ConditionalRequisite'],
+					$this->data['Tour']['Difficulty']
+				);
+
+				$this->Tour->save($this->data, array('validate' => false));
 
 				$this->redirect(array('action' => 'index'));
 			}
@@ -59,11 +68,19 @@ class ToursController extends AppController
 				'order' => array('rank' => 'ASC'),
 			)),
 			'difficultiesRockClimbing1' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank <=' => 10),
+				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank <=' => 6),
 				'order' => array('rank' => 'ASC'),
 			)),
 			'difficultiesRockClimbing2' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank >' => 10),
+				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank >' => 6, 'rank <=' => 11),
+				'order' => array('rank' => 'ASC'),
+			)),
+			'difficultiesRockClimbing3' => $this->Tour->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank >' => 11, 'rank <=' => 16),
+				'order' => array('rank' => 'ASC'),
+			)),
+			'difficultiesRockClimbing4' => $this->Tour->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank >' => 16, 'rank <=' => 18),
 				'order' => array('rank' => 'ASC'),
 			))
 		));

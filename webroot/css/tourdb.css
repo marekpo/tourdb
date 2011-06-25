@@ -33,7 +33,7 @@ body		{ margin: 0; padding: 0; font-family: Helvetica, sans-serif; font-size: 10
 .input.text label, .input.textarea label, .input.select > label, .input.datetime label
 	{ width: 130px; float: left; }
 
-.input.text.error, .input.textarea.error
+form .error
 	{ background: #fff9c4; }
 
 .input.text input, .input.textarea textarea
@@ -41,11 +41,12 @@ body		{ margin: 0; padding: 0; font-family: Helvetica, sans-serif; font-size: 10
 
 .input.textarea textarea	{ height: 150px; }
 
-.input.checkbox		{ margin-left: 130px; }
-.input.select .checkbox	{ float: left; margin-right: 4px; }
-.first-row-select		{ margin: 0; }
-.no-label-select		{ margin: 0 0 10px 130px; }
-.no-label-select .input	{ margin: 0; }
+.input.checkbox					{ margin-left: 130px; }
+.input.select .checkbox			{ float: left; margin-right: 4px; }
+.first-row-select				{ margin: 0; }
+.no-label-select				{ margin: 0 0 10px 130px; }
+.no-label-select .input			{ margin: 0; }
+.no-label-select .error-message	{ margin: 0; }
 
 .input.text input.dateTime	{ width: 150px; background: #ffffff url(../img/calendar.png) no-repeat 2px center; padding-left: 24px; }
 

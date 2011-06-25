@@ -9,6 +9,21 @@ class Tour extends AppModel
 				'rule' => 'notEmpty' 
 			)
 		),
+		'TourType' => array(
+			'atLeastOne' => array(
+				'rule' => array('multiple', array('min' => 1))
+			)
+		),
+		'ConditionalRequisite' => array(
+			'atLeastOne' => array(
+				'rule' => array('multiple', array('min' => 1))
+			)
+		),
+		'Difficulty' => array(
+			'atLeastOne' => array(
+				'rule' => array('multiple', array('min' => 1))
+			)
+		),
 		'startdate' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty'

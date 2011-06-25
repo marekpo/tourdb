@@ -97,6 +97,11 @@ class WidgetHelper extends AppHelper
 		return $this->Form->input($name, $options);
 	}
 
+	function stripHidden($text)
+	{
+		return preg_replace('/<input.*?type="hidden".*?>/', '', $text);
+	}
+
 	function __createItem($key, $label, $itemClass)
 	{
 		return $this->Html->div(sprintf('item %s', $itemClass), $label, array('id' => sprintf('item-%s', $key)));

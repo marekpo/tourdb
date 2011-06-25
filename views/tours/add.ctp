@@ -18,38 +18,76 @@ echo $this->Form->input('description', array('label' => __('Beschreibung', true)
 echo $this->Form->input('tourweek', array('label' => __('Tourenwoche', true)));
 echo $this->Form->input('withmountainguide', array('label' => __('Mit dipl. Bergführer', true)));
 
-echo $this->Form->input('TourType', array('label' => __('Tourentyp', true), 'multiple' => 'checkbox', 'after' => $this->Html->div('', '', array('style' => 'clear: left'))));
+echo $this->Form->input('Tour.TourType', array(
+	'label' => __('Tourentyp', true), 'multiple' => 'checkbox',
+	'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+	'error' => array(
+		'atLeastOne' => __('Es muss mindestens ein Tourentyp gewählt werden.', true)
+	)
+));
 
-echo $this->Form->input('ConditionalRequisite', array('label' => __('Anforderung', true), 'multiple' => 'checkbox', 'after' => $this->Html->div('', '', array('style' => 'clear: left'))));
+echo $this->Form->input('Tour.ConditionalRequisite', array(
+	'label' => __('Anforderung', true), 'multiple' => 'checkbox',
+	'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+	'error' => array(
+		'atLeastOne' => __('Es muss mindestens eine Anforderung gewählt werden.', true)
+	)
+));
 
-echo $this->Html->div('input select first-row-select',
-	$this->Form->input('Difficulty', array(
+$difficultySelect = $this->Html->div('input select first-row-select',
+	$this->Form->input('Tour.Difficulty', array(
 		'label' => __('Schwierigkeit', true), 'multiple' => 'checkbox', 'options' => $difficultiesSkiAndAlpineTour,
-		'div' => false, 'after' => $this->Html->div('', '', array('style' => 'clear: left'))))
+		'div' => false, 'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+		'error' => false
+	))
 );
 
-echo $this->Html->div('no-label-select',
-	preg_replace('/<input.*?type="hidden".*?>/', '', $this->Form->input('Difficulty', array(
+$difficultySelect .= $this->Html->div('no-label-select',
+	$this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesHike,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
+		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
 	)))
-	. preg_replace('/<input.*?type="hidden".*?>/', '', $this->Form->input('Difficulty', array(
+	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesSnowshowTour,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
+		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
 	)))
-	. preg_replace('/<input.*?type="hidden".*?>/', '', $this->Form->input('Difficulty', array(
+	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesViaFerrata,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
+		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
 	)))
-	. preg_replace('/<input.*?type="hidden".*?>/', '', $this->Form->input('Difficulty', array(
+	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing1,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
+		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
 	)))
-	. preg_replace('/<input.*?type="hidden".*?>/', '', $this->Form->input('Difficulty', array(
+	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing2,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
+		'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+		'error' => array(
+			'atLeastOne' => __('Es muss mindestens eine Schwierigkeit gewählt werden.', true)
+		)
+	)))
+	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing3,
+		'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+		'error' => array(
+			'atLeastOne' => __('Es muss mindestens eine Schwierigkeit gewählt werden.', true)
+		)
+	)))
+	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing4,
+		'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+		'error' => array(
+			'atLeastOne' => __('Es muss mindestens eine Schwierigkeit gewählt werden.', true)
+		)
 	)))
 );
+
+if(isset($this->validationErrors['Tour']['Difficulty']))
+{
+	$difficultySelect = $this->Html->div('error', $difficultySelect);
+}
+
+echo $difficultySelect;
 
 echo $this->Widget->dateTime('startdate', array(
 	'label' => __('Startdatum', true),
