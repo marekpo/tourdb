@@ -86,7 +86,7 @@ class ToursController extends AppController
 		));
 	}
 
-	function getAdjacentTours($startDate, $endDate)
+	function addGetAdjacentTours($startDate, $endDate)
 	{
 		$smallestEndDate = date('Y-m-d', strtotime('-1 week', strtotime($startDate)));
 		$biggestStartDate = date('Y-m-d', strtotime('+1 week', strtotime($endDate)));
@@ -104,5 +104,26 @@ class ToursController extends AppController
 				'contain' => array('TourGuide.id', 'TourGuide.username')
 			))
 		)); 
+	}
+
+	function addGetTourCalendar($year, $month)
+	{
+		$this->set(array(
+			'tours' => $this->Tour->getCalendarData($year, $month, array(
+				'contain' => array()
+			))
+		));
+//		$this->set(array(
+//			'tours' => $this->Tour->find('all', array(
+//				'conditions' => array(
+//					'OR' => array(
+//						array('YEAR(startdate)' => (int)$year, 'MONTH(startdate)' => (int)$month),
+//						array('YEAR(enddate)' => (int)$year, 'MONTH(enddate)' => (int)$month)
+//					)
+//				),
+//				'contain' => array(),
+//				'order' => array('startdate' => 'ASC')
+//			))
+//		));
 	}
 }

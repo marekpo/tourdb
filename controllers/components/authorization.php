@@ -46,6 +46,10 @@ class AuthorizationComponent extends Object
 			}
 		}
 
+		CakeLog::write('authorization', sprintf('Access denied for user %s (%s) to action %s:%s',
+			$this->controller->Auth->user('username'), $this->controller->Auth->user('id'),
+			$controller, $action
+		));
 		return false;
 	}
 }

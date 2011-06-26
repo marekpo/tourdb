@@ -3,6 +3,8 @@ class Tour extends AppModel
 {
 	var $name = 'Tour';
 
+	var $actsAs = array('Calendar');
+
 	var $validate = array(
 		'title' => array(
 			'notEmpty' => array(

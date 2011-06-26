@@ -28,10 +28,29 @@ body		{ margin: 0; padding: 0; font-family: Helvetica, sans-serif; font-size: 10
 .ui-draggable.privilege		{ background: #ffffff url(../img/lock.png) no-repeat 4px center; }
 .ui-draggable.role			{ background: #ffffff url(../img/role.png) no-repeat 4px center; }
 
+/* calendar widget */
+.calendar					{ width: 770px; margin: 10px 5px; }
+.calendar .title			{ text-align: center; font-weight: bold; font-size: 11pt; padding: 3px; background: #dddddd; border: 1px solid #808080; }
+.calendar .day				{ border: solid #808080; border-width: 0 1px 1px 0; width: 109px; height: 130px; float: left; position: relative; }
+.calendar .day .calendarDay	{ font-size: 9pt; padding: 2px; font-weight: bold; }
+.calendar .day.monday		{ border-left-width: 1px; width: 108px; }
+.calendar .day.sunday .calendarDay	{ color: #b40000; }
+.calendar .day.previousMonth .calendarDay, .calendar .day.nextMonth .calendarDay
+	{ font-weight: normal; }
+.calendar .slot				{ white-space: nowrap; overflow: hidden; position: absolute; width: 110px; background: #dddddd; }
+.calendar .slot.start		{ margin-left: 5px; width: 105px; }
+.calendar .slot.end			{ margin-right: 5px; width: 104px; }
+.calendar .slot.slot0		{ top: 20px; }
+.calendar .slot.slot1		{ top: 40px; }
+.calendar .slot.slot2		{ top: 60px; }
+.calendar .slot.slot3		{ top: 80px; }
+.calendar .slot.slot4		{ top: 100px; }
+.calendar .slot.slot5		{ top: 120px; }
+
 /* forms */
 .input				{ clear: left; margin-bottom: 10px; padding: 4px; }
 .input.text label, .input.textarea label, .input.select > label, .input.datetime label
-	{ width: 130px; float: left; }
+	{ width: 130px; float: left; font-weight: bold; }
 
 form .error
 	{ background: #fff9c4; }
@@ -55,9 +74,10 @@ form .error
 .error-message	{ margin-left: 130px; background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 0 24px; }
 
 /* tours */
-.tours.add .form					{ width: 550px; float: left; }
-.tours.add .adjacent-tours			{ width: 200px; float: left; border: 1px solid #808080; margin-top: 4px; height: 300px; overflow: auto; }
-.tours.add .adjacent-tour			{ margin: 2px; padding: 5px; border: 1px solid #808080; }
-.tours.add .adjacent-tour .title	{ font-weight: bold; overflow: hidden; white-space: nowrap; }
+.tours.add .form						{ width: 550px; float: left; }
+.tours.add .adjacent-tours-container	{ float: left; margin-left: 10px; }
+.tours.add .adjacent-tours				{ width: 218px; float: left; border: 1px solid #808080; margin-top: 4px; height: 400px; overflow: auto; }
+.tours.add .adjacent-tour				{ margin: 2px; padding: 5px; border: 1px solid #808080; }
+.tours.add .adjacent-tour .title		{ font-weight: bold; overflow: hidden; white-space: nowrap; }
 .tours.add .adjacent-tour .date, .tours.add .adjacent-tour .tourguide
 	{ font-size: 8pt; }

@@ -97,6 +97,70 @@ class WidgetHelper extends AppHelper
 		return $this->Form->input($name, $options);
 	}
 
+	function calendar($events, $options = array())
+	{
+		$options = array_merge(array('month' => date('m'), 'year' => date('Y')), $options);
+		$calendar = array();
+
+		$calendar[] = $this->Html->div('title', date('F Y', strtotime(sprintf('%d-%02d-%02d', $options['year'], $options['month'], 1))));
+
+		$weekDayOfFirstDayInMonth = date('N', strtotime(sprintf('%d-%02d-%02d', $options['year'], $options['month'], 1)));
+		$daysInMonth = cal_days_in_month(CAL_GREGORIAN, $options['month'], $options['year']);
+
+		$appointments = $this->__buildAppointmentTree($events);
+
+		if($weekDayOfFirstDayInMonth != 1)
+		{
+			$previousMonth = $options['month'] - 1;
+			$previousMonthYear = $options['year'];
+
+			if($previousMonth < 1)
+			{
+				$previousMonth = 12;
+				$previousMonthYear--;
+			}
+
+			$daysInPreviousMonth = cal_days_in_month(CAL_GREGORIAN, $previousMonth, $previousMonthYear);
+			$firstDayOfPreviousMonthInCalendar = $daysInPreviousMonth - $weekDayOfFirstDayInMonth + 2;
+
+			if($firstDayOfPreviousMonthInCalendar < $daysInPreviousMonth)
+			{
+				for($calendarDay = $firstDayOfPreviousMonthInCalendar; $calendarDay <= $daysInPreviousMonth; $calendarDay++)
+				{
+					$calendar[] = $this->__createDayElement($calendarDay, $previousMonth, $previousMonthYear, $appointments, 'previousMonth');
+				}
+			}
+		}
+
+		for($calendarDay = 1; $calendarDay <= $daysInMonth; $calendarDay++)
+		{
+			$calendar[] = $this->__createDayElement($calendarDay, $options['month'], $options['year'], $appointments);
+		}
+
+		$weekDayOfLastDayInMonth = date('N', strtotime(sprintf('%d-%02d-%02d', $options['year'], $options['month'], $daysInMonth)));
+
+		if($weekDayOfLastDayInMonth != 7)
+		{
+			$nextMonth = $options['month'] + 1;
+			$nextMonthYear = $options['year'];
+
+			if($nextMonth > 12)
+			{
+				$nextMonth = 1;
+				$nextMonthYear++;
+			}
+
+			for($calendarDay = 1; $weekDayOfLastDayInMonth + $calendarDay <= 7; $calendarDay++)
+			{
+				$calendar[] = $this->__createDayElement($calendarDay, $nextMonth, $nextMonthYear, $appointments, 'nextMonth');
+			}
+		}
+
+		$calendar[] = $this->Html->div('', '', array('style' => 'clear: left'));
+
+		return $this->Html->div('calendar', implode("\n", $calendar));
+	}
+
 	function stripHidden($text)
 	{
 		return preg_replace('/<input.*?type="hidden".*?>/', '', $text);
@@ -105,5 +169,144 @@ class WidgetHelper extends AppHelper
 	function __createItem($key, $label, $itemClass)
 	{
 		return $this->Html->div(sprintf('item %s', $itemClass), $label, array('id' => sprintf('item-%s', $key)));
+	}
+
+	function __createDayElement($day, $month, $year, $appointments, $additionalClass = '')
+	{
+		$content = array();
+		if(isset($appointments[(int)$year][(int)$month][(int)$day]))
+		{
+			foreach($appointments[(int)$year][(int)$month][(int)$day] as $slot => $slotInfo)
+			{
+				$slotClass = array(
+					'slot', sprintf('slot%d', $slot)
+				);
+
+				if($slotInfo['start'])
+				{
+					$slotClass[] = 'start';
+				}
+
+				if($slotInfo['end'])
+				{
+					$slotClass[] = 'end';
+				}
+
+				$content[] = $this->Html->div(implode(' ', $slotClass), ($slotInfo['start'] ? $slotInfo['title'] : '&nbsp;'), array('title' => $slotInfo['title']));
+			}
+		}
+		
+		$elementClass = implode(' ', array('day %s', $additionalClass));
+		return $this->Html->div(
+			sprintf($elementClass, strtolower(date('l',
+				strtotime(sprintf('%d-%02d-%02d', $year, $month, $day))
+			))),
+			$this->Html->div('calendarDay', $day) . implode("\n", $content)
+		);
+	}
+
+	function __buildAppointmentTree($events)
+	{
+		if(count($events) == 0)
+		{
+			return array();
+		}
+
+		$appointments = array();
+
+		$appointmentModel = array_pop(array_keys($events[0]));
+
+		foreach($events as $event)
+		{
+			list($startYear, $startMonth, $startDay) = preg_split('/-/', date('Y-m-d', strtotime($event[$appointmentModel]['startdate'])));
+			list($endYear, $endMonth, $endDay) = preg_split('/-/', date('Y-m-d', strtotime($event[$appointmentModel]['enddate'])));
+
+			$year = (int)$startYear;
+			$month = (int)$startMonth;
+			$day = (int)$startDay;
+			$slot = 0;
+			$slotFound = false;
+
+			while(!$slotFound)
+			{
+				$endIteration = false;
+
+				while(true)
+				{
+					if(isset($appointments[$year][$month][$day][$slot]))
+					{
+						break;
+					}
+
+					if($endIteration == true)
+					{
+						break;
+					}
+	
+					$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+					$day++;
+	
+					if($day > $daysInCurrentMonth)
+					{
+						$month++;
+						$day = 1;
+					}
+	
+					if($month > 12)
+					{
+						$year++;
+						$month = 1;
+					}
+	
+					$endIteration = ($year == $endYear && $month == $endMonth && $day == $endDay);
+				}
+
+				if($endIteration)
+				{
+					$slotFound = true;
+					break;
+				}
+
+				$slot++;
+			}
+
+			$year = (int)$startYear;
+			$month = (int)$startMonth;
+			$day = (int)$startDay;
+			$endIteration = false;
+
+			while(true)
+			{
+				$appointments[$year][$month][$day][$slot] = array(
+					'start' => ($year == $startYear && $month == $startMonth && $day == $startDay),
+					'end' => ($year == $endYear && $month == $endMonth && $day == $endDay),
+					'title' => $event[$appointmentModel]['title']
+				);
+
+				if($endIteration == true)
+				{
+					break;
+				}
+
+				$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+				$day++;
+
+				if($day > $daysInCurrentMonth)
+				{
+					$month++;
+					$day = 1;
+				}
+
+				if($month > 12)
+				{
+					$year++;
+					$month = 1;
+				}
+
+				$endIteration = ($year == $endYear && $month == $endMonth && $day == $endDay);
+			}
+		}
+
+		return $appointments;
 	}
 }
