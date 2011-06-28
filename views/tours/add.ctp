@@ -15,6 +15,19 @@ echo $this->Form->input('description', array('label' => __('Beschreibung', true)
 ?>
 <div class="form">
 <?php
+echo $this->Widget->dateTime('startdate', array(
+	'label' => __('Startdatum', true),
+	'error' => array(
+		'notEmpty' => __('Das Startdatum der Tour darf nicht leer sein.', true)
+	)
+));
+echo $this->Widget->dateTime('enddate', array(
+	'label' => __('Enddatum', true),
+	'error' => array(
+		'notEmpty' => __('Das Enddatum der Tour darf nicht leer sein.', true)
+	)
+));
+
 echo $this->Form->input('tourweek', array('label' => __('Tourenwoche', true)));
 echo $this->Form->input('withmountainguide', array('label' => __('Mit dipl. Bergführer', true)));
 
@@ -35,7 +48,7 @@ echo $this->Form->input('Tour.ConditionalRequisite', array(
 ));
 
 $difficultySelect = $this->Html->div('input select first-row-select',
-	$this->Form->input('Tour.Difficulty', array(
+	$this->Form->input('Difficulty', array(
 		'label' => __('Schwierigkeit', true), 'multiple' => 'checkbox', 'options' => $difficultiesSkiAndAlpineTour,
 		'div' => false, 'after' => $this->Html->div('', '', array('style' => 'clear: left')),
 		'error' => false
@@ -43,36 +56,33 @@ $difficultySelect = $this->Html->div('input select first-row-select',
 );
 
 $difficultySelect .= $this->Html->div('no-label-select',
-	$this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+	$this->Widget->stripHidden($this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesHike,
 		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
 	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+	. $this->Widget->stripHidden($this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesSnowshowTour,
 		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
 	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+	. $this->Widget->stripHidden($this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesViaFerrata,
 		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
 	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+	. $this->Widget->stripHidden($this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing1,
 		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
 	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+	. $this->Widget->stripHidden($this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing2,
 		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
 	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+	. $this->Widget->stripHidden($this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing3,
 		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
 	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+	. $this->Widget->stripHidden($this->Form->input('Difficulty', array(
 		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing4,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left')),
-		'error' => array(
-			'atLeastOne' => __('Es muss mindestens eine Schwierigkeit gewählt werden.', true)
-		)
+		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
 	)))
 );
 
@@ -82,25 +92,12 @@ if(isset($this->validationErrors['Tour']['Difficulty']))
 }
 
 echo $difficultySelect;
-
-echo $this->Widget->dateTime('startdate', array(
-	'label' => __('Startdatum', true),
-	'error' => array(
-		'notEmpty' => __('Das Startdatum der Tour darf nicht leer sein.', true)
-	)
-));
-echo $this->Widget->dateTime('enddate', array(
-	'label' => __('Enddatum', true),
-	'error' => array(
-		'notEmpty' => __('Das Enddatum der Tour darf nicht leer sein.', true)
-	)
-));
 ?>
 </div>
 <div class="adjacent-tours-container">
   <div>
     <?php __('Angrenzende Touren'); ?>
-    <div><?php echo $this->Html->link(__('Tourenkalender', true), array('action' => 'addGetTourCalendar', 2011, 6), array('id' => 'openTourCalendar')); ?></div>
+    <div class="open-calendar"><?php echo $this->Html->link(__('Kalender', true), array('action' => 'addGetTourCalendar', 2011, 6), array('id' => 'openTourCalendar')); ?></div>
   </div>
   <div id="adjacent-tours" class="adjacent-tours"></div>
 </div>

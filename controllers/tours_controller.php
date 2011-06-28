@@ -30,11 +30,9 @@ class ToursController extends AppController
 
 				$this->data['TourType'] = $this->data['Tour']['TourType'];
 				$this->data['ConditionalRequisite'] = $this->data['Tour']['ConditionalRequisite'];
-				$this->data['Difficulty'] = $this->data['Tour']['Difficulty'];
 				unset(
 					$this->data['Tour']['TourType'],
-					$this->data['Tour']['ConditionalRequisite'],
-					$this->data['Tour']['Difficulty']
+					$this->data['Tour']['ConditionalRequisite']
 				);
 
 				$this->Tour->save($this->data, array('validate' => false));
@@ -111,19 +109,9 @@ class ToursController extends AppController
 		$this->set(array(
 			'tours' => $this->Tour->getCalendarData($year, $month, array(
 				'contain' => array()
-			))
+			)),
+			'month' => $month,
+			'year' => $year
 		));
-//		$this->set(array(
-//			'tours' => $this->Tour->find('all', array(
-//				'conditions' => array(
-//					'OR' => array(
-//						array('YEAR(startdate)' => (int)$year, 'MONTH(startdate)' => (int)$month),
-//						array('YEAR(enddate)' => (int)$year, 'MONTH(enddate)' => (int)$month)
-//					)
-//				),
-//				'contain' => array(),
-//				'order' => array('startdate' => 'ASC')
-//			))
-//		));
 	}
 }

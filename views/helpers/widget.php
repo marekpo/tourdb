@@ -100,30 +100,47 @@ class WidgetHelper extends AppHelper
 	function calendar($events, $options = array())
 	{
 		$options = array_merge(array('month' => date('m'), 'year' => date('Y')), $options);
+		$options['month'] = (int)$options['month'];
+		$options['year'] = (int)$options['year'];
 		$calendar = array();
-
-		$calendar[] = $this->Html->div('title', date('F Y', strtotime(sprintf('%d-%02d-%02d', $options['year'], $options['month'], 1))));
 
 		$weekDayOfFirstDayInMonth = date('N', strtotime(sprintf('%d-%02d-%02d', $options['year'], $options['month'], 1)));
 		$daysInMonth = cal_days_in_month(CAL_GREGORIAN, $options['month'], $options['year']);
 
 		$appointments = $this->__buildAppointmentTree($events);
 
+		$previousMonth = $options['month'] - 1;
+		$previousMonthYear = $options['year'];
+
+		if($previousMonth < 1)
+		{
+			$previousMonth = 12;
+			$previousMonthYear--;
+		}
+
+		$weekDayOfLastDayInMonth = date('N', strtotime(sprintf('%d-%02d-%02d', $options['year'], $options['month'], $daysInMonth)));
+
+		$nextMonth = $options['month'] + 1;
+		$nextMonthYear = $options['year'];
+
+		if($nextMonth > 12)
+		{
+			$nextMonth = 1;
+			$nextMonthYear++;
+		}
+
+		$calendar[] = $this->Html->div('title',
+			$this->Html->div('previous', $this->Html->link(__('vorheriger', true), Router::url(array('action' => $this->action, $previousMonthYear, $previousMonth))))
+			. $this->Html->div('next', $this->Html->link(__('nächster', true), Router::url(array('action' => $this->action, $nextMonthYear, $nextMonth))))
+			. date('F Y', strtotime(sprintf('%d-%02d-%02d', $options['year'], $options['month'], 1)))
+		);
+
 		if($weekDayOfFirstDayInMonth != 1)
 		{
-			$previousMonth = $options['month'] - 1;
-			$previousMonthYear = $options['year'];
-
-			if($previousMonth < 1)
-			{
-				$previousMonth = 12;
-				$previousMonthYear--;
-			}
-
 			$daysInPreviousMonth = cal_days_in_month(CAL_GREGORIAN, $previousMonth, $previousMonthYear);
 			$firstDayOfPreviousMonthInCalendar = $daysInPreviousMonth - $weekDayOfFirstDayInMonth + 2;
 
-			if($firstDayOfPreviousMonthInCalendar < $daysInPreviousMonth)
+			if($firstDayOfPreviousMonthInCalendar <= $daysInPreviousMonth)
 			{
 				for($calendarDay = $firstDayOfPreviousMonthInCalendar; $calendarDay <= $daysInPreviousMonth; $calendarDay++)
 				{
@@ -137,19 +154,8 @@ class WidgetHelper extends AppHelper
 			$calendar[] = $this->__createDayElement($calendarDay, $options['month'], $options['year'], $appointments);
 		}
 
-		$weekDayOfLastDayInMonth = date('N', strtotime(sprintf('%d-%02d-%02d', $options['year'], $options['month'], $daysInMonth)));
-
 		if($weekDayOfLastDayInMonth != 7)
 		{
-			$nextMonth = $options['month'] + 1;
-			$nextMonthYear = $options['year'];
-
-			if($nextMonth > 12)
-			{
-				$nextMonth = 1;
-				$nextMonthYear++;
-			}
-
 			for($calendarDay = 1; $weekDayOfLastDayInMonth + $calendarDay <= 7; $calendarDay++)
 			{
 				$calendar[] = $this->__createDayElement($calendarDay, $nextMonth, $nextMonthYear, $appointments, 'nextMonth');
@@ -158,7 +164,21 @@ class WidgetHelper extends AppHelper
 
 		$calendar[] = $this->Html->div('', '', array('style' => 'clear: left'));
 
-		return $this->Html->div('calendar', implode("\n", $calendar));
+		$calendarId = 'calendar' . String::uuid();
+
+		$calendar[] = $this->Html->scriptBlock(sprintf('
+			$(\'#%1$s .title .previous a\').click(function() {
+				$(\'#%1$s\').parent().load(this.href);
+				return false;
+			});
+
+			$(\'#%1$s .title .next a\').click(function() {
+				$(\'#%1$s\').parent().load(this.href);
+				return false;
+			});
+		', $calendarId));
+
+		return $this->Html->div('calendar', implode("\n", $calendar), array('id' => $calendarId));
 	}
 
 	function stripHidden($text)
@@ -174,9 +194,9 @@ class WidgetHelper extends AppHelper
 	function __createDayElement($day, $month, $year, $appointments, $additionalClass = '')
 	{
 		$content = array();
-		if(isset($appointments[(int)$year][(int)$month][(int)$day]))
+		if(isset($appointments[$year][$month][$day]))
 		{
-			foreach($appointments[(int)$year][(int)$month][(int)$day] as $slot => $slotInfo)
+			foreach($appointments[$year][$month][$day] as $slot => $slotInfo)
 			{
 				$slotClass = array(
 					'slot', sprintf('slot%d', $slot)
@@ -192,7 +212,7 @@ class WidgetHelper extends AppHelper
 					$slotClass[] = 'end';
 				}
 
-				$content[] = $this->Html->div(implode(' ', $slotClass), ($slotInfo['start'] ? $slotInfo['title'] : '&nbsp;'), array('title' => $slotInfo['title']));
+				$content[] = $this->Html->div(implode(' ', $slotClass), ($slotInfo['start'] ? $slotInfo['title'] : ''), array('title' => $slotInfo['title']));
 			}
 		}
 		
