@@ -5,7 +5,7 @@ class ToursController extends AppController
 
 	var $components = array('RequestHandler');
 
-	var $helpers = array('Widget', 'Time');
+	var $helpers = array('Widget', 'Time', 'TourDisplay', 'Display');
 
 	var $scaffold;
 
@@ -28,19 +28,84 @@ class ToursController extends AppController
 				$this->data['Tour']['startdate'] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
 				$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
 
-				$this->data['TourType'] = $this->data['Tour']['TourType'];
-				$this->data['ConditionalRequisite'] = $this->data['Tour']['ConditionalRequisite'];
-				unset(
-					$this->data['Tour']['TourType'],
-					$this->data['Tour']['ConditionalRequisite']
-				);
-
 				$this->Tour->save($this->data, array('validate' => false));
 
 				$this->redirect(array('action' => 'index'));
 			}
 		}
 
+		$this->__setFormContent();
+	}
+
+	function formGetAdjacentTours($startDate, $endDate)
+	{
+		$smallestEndDate = date('Y-m-d', strtotime('-1 week', strtotime($startDate)));
+		$biggestStartDate = date('Y-m-d', strtotime('+1 week', strtotime($endDate)));
+
+		$this->set(array(
+			'adjacentTours' => $this->Tour->find('all', array(
+				'fields' => array('title', 'startdate', 'enddate'),
+				'conditions' => array(
+					'OR' => array(
+						array('enddate >=' => $smallestEndDate, 'enddate <=' => $endDate),
+						array('startdate <=' => $biggestStartDate, 'startdate >=' => $startDate)
+					)
+				),
+				'order' => array('startdate' => 'ASC'),
+				'contain' => array('TourGuide.id', 'TourGuide.username')
+			))
+		));
+	}
+
+	function formGetTourCalendar($year, $month)
+	{
+		$this->set(array(
+			'tours' => $this->Tour->getCalendarData($year, $month, array(
+				'contain' => array()
+			)),
+			'month' => $month,
+			'year' => $year
+		));
+	}
+
+	function edit($id)
+	{
+		if(!empty($this->data))
+		{
+			$this->Tour->create($this->data);
+
+			if($this->Tour->validates())
+			{
+				$this->data['Tour']['startdate'] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
+				$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
+
+				if($this->Tour->save($this->data, array('validate' => false)))
+				{
+					$this->redirect(array('action' => 'index'));
+				}
+			}
+		}
+		else
+		{
+			$this->data = $this->Tour->findById($id);
+			$this->data['Tour']['startdate'] = date('d.m.Y', strtotime($this->data['Tour']['startdate']));
+			$this->data['Tour']['enddate'] = date('d.m.Y', strtotime($this->data['Tour']['enddate']));
+		}
+
+		$this->__setFormContent();
+	}
+
+	function listMine()
+	{
+		$this->set(array(
+			'tours' => $this->Tour->find('all', array(
+				'conditions' => array('tour_guide_id' => $this->Auth->user('id'))
+			))
+		));
+	}
+
+	function __setFormContent()
+	{
 		$this->set(array(
 			'tourTypes' => $this->Tour->TourType->find('list', array(
 				'fields' => array('acronym')
@@ -81,37 +146,6 @@ class ToursController extends AppController
 				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank >' => 16, 'rank <=' => 18),
 				'order' => array('rank' => 'ASC'),
 			))
-		));
-	}
-
-	function addGetAdjacentTours($startDate, $endDate)
-	{
-		$smallestEndDate = date('Y-m-d', strtotime('-1 week', strtotime($startDate)));
-		$biggestStartDate = date('Y-m-d', strtotime('+1 week', strtotime($endDate)));
-
-		$this->set(array(
-			'adjacentTours' => $this->Tour->find('all', array(
-				'fields' => array('title', 'startdate', 'enddate'),
-				'conditions' => array(
-					'OR' => array(
-						array('enddate >=' => $smallestEndDate, 'enddate <=' => $endDate),
-						array('startdate <=' => $biggestStartDate, 'startdate >=' => $startDate)
-					)
-				),
-				'order' => array('startdate' => 'ASC'),
-				'contain' => array('TourGuide.id', 'TourGuide.username')
-			))
-		)); 
-	}
-
-	function addGetTourCalendar($year, $month)
-	{
-		$this->set(array(
-			'tours' => $this->Tour->getCalendarData($year, $month, array(
-				'contain' => array()
-			)),
-			'month' => $month,
-			'year' => $year
 		));
 	}
 }

@@ -246,39 +246,36 @@ class WidgetHelper extends AppHelper
 			$day = (int)$startDay;
 			$slot = 0;
 			$slotFound = false;
+			$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
 			while(!$slotFound)
 			{
 				$endIteration = false;
 
-				while(true)
+				while(!$endIteration)
 				{
 					if(isset($appointments[$year][$month][$day][$slot]))
 					{
 						break;
 					}
 
-					if($endIteration == true)
-					{
-						break;
-					}
-	
-					$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+					$endIteration = ($year == $endYear && $month == $endMonth && $day == $endDay);
+
 					$day++;
-	
+
 					if($day > $daysInCurrentMonth)
 					{
 						$month++;
+
+						if($month > 12)
+						{
+							$year++;
+							$month = 1;
+						}
+
 						$day = 1;
+						$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 					}
-	
-					if($month > 12)
-					{
-						$year++;
-						$month = 1;
-					}
-	
-					$endIteration = ($year == $endYear && $month == $endMonth && $day == $endDay);
 				}
 
 				if($endIteration)
@@ -294,8 +291,9 @@ class WidgetHelper extends AppHelper
 			$month = (int)$startMonth;
 			$day = (int)$startDay;
 			$endIteration = false;
+			$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
-			while(true)
+			while(!$endIteration)
 			{
 				$appointments[$year][$month][$day][$slot] = array(
 					'start' => ($year == $startYear && $month == $startMonth && $day == $startDay),
@@ -303,27 +301,24 @@ class WidgetHelper extends AppHelper
 					'title' => $event[$appointmentModel]['title']
 				);
 
-				if($endIteration == true)
-				{
-					break;
-				}
+				$endIteration = ($year == $endYear && $month == $endMonth && $day == $endDay);
 
-				$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 				$day++;
 
 				if($day > $daysInCurrentMonth)
 				{
 					$month++;
+
+					if($month > 12)
+					{
+						$year++;
+						$month = 1;
+					}
+
 					$day = 1;
+					$daysInCurrentMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 				}
 
-				if($month > 12)
-				{
-					$year++;
-					$month = 1;
-				}
-
-				$endIteration = ($year == $endYear && $month == $endMonth && $day == $endDay);
 			}
 		}
 

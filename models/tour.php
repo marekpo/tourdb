@@ -12,13 +12,19 @@ class Tour extends AppModel
 			)
 		),
 		'TourType' => array(
-			'atLeastOne' => array(
-				'rule' => array('multiple', array('min' => 1))
+			'rightQuanitity' => array(
+				'rule' => array('multiple', array('min' => 1, 'max' => 2))
 			)
 		),
 		'ConditionalRequisite' => array(
-			'atLeastOne' => array(
-				'rule' => array('multiple', array('min' => 1))
+			'rightQuanitity' => array(
+				'rule' => array('multiple', array('min' => 1, 'max' => 2))
+			)
+		),
+		'Difficulty' => array(
+			'atMostTwo' => array(
+				'rule' => array('multiple', array('min' => 1, 'max' => 2)),
+				'allowEmpty' => true
 			)
 		),
 		'startdate' => array(
@@ -48,4 +54,19 @@ class Tour extends AppModel
 		'ConditionalRequisite',
 		'Difficulty'
 	);
+
+	function beforeSave()
+	{
+		$this->data['TourType'] = $this->data['Tour']['TourType'];
+		$this->data['ConditionalRequisite'] = $this->data['Tour']['ConditionalRequisite'];
+		$this->data['Difficulty'] = $this->data['Tour']['Difficulty'];
+
+		unset(
+			$this->data['Tour']['TourType'],
+			$this->data['Tour']['ConditionalRequisite'],
+			$this->data['Tour']['Difficulty']
+		);
+
+		return true;
+	}
 }
