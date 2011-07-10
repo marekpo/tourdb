@@ -41,7 +41,12 @@
         </div>
 
         <div id="leftnav">
-          <div class="inner">leftnav</div>
+          <div class="inner">
+<?php
+	echo $this->Html->tag('div', $this->Html->link(__('Neue Tour', true), array('controller' => 'tours', 'action' => 'add')));
+	echo $this->Html->tag('div', $this->Html->link(__('Meine Touren', true), array('controller' => 'tours', 'action' => 'listMine')));
+?>
+          </div>
         </div>
 
 <?php
