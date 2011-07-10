@@ -3,7 +3,12 @@ $this->set('title_for_layout', __('Meine Touren', true));
 echo $this->Html->tag('h1', __('Meine Touren', true));
 
 $tableHeaders = $this->Html->tableHeaders(array(
-	__('Titel', true), __('Klassifikation', true), __('Tourenwoche', true), __('Bergführer', true), __('Beginn', true), __('Ende', true)
+	$this->Paginator->sort(__('Titel', true), 'title'),
+	__('Klassifikation', true),
+	$this->Paginator->sort(__('Tourenwoche', true), 'tourweek'),
+	$this->Paginator->sort(__('Bergführer', true), 'withmountainguide'),
+	$this->Paginator->sort(__('Beginn', true), 'startdate'),
+	$this->Paginator->sort(__('Ende', true), 'enddate')
 ));
 
 $tableCells = array();
@@ -38,4 +43,8 @@ foreach($tours as $tour)
 	);
 }
 
-echo $this->Html->tag('table', $tableHeaders . $this->Html->tableCells($tableCells, array(), array('class' => 'even'), false, false), array('class' => 'tours'));
+echo $this->Html->tag('table',
+	$tableHeaders . $this->Html->tableCells($tableCells, array(), array('class' => 'even'), false, false),
+	array('class' => 'tours list'));
+
+echo $this->element('paginator');

@@ -14,6 +14,11 @@ class ToursController extends AppController
 		parent::beforeFilter();
 
 		$this->Auth->allow('index', 'view', 'delete');
+
+		$this->paginate = array(
+			'limit' => 25,
+			'order' => array('Tour.startdate' => 'ASC')
+		);
 	}
 
 	function add()
@@ -81,6 +86,13 @@ class ToursController extends AppController
 
 				if($this->Tour->save($this->data, array('validate' => false)))
 				{
+					if($this->Session->check('referer.tours.edit'))
+					{
+						$redirect = $this->Session->read('referer.tours.edit');
+						$this->Session->delete('referer.tours.edit');
+						$this->redirect($redirect);
+					}
+
 					$this->redirect(array('action' => 'index'));
 				}
 			}
@@ -90,6 +102,8 @@ class ToursController extends AppController
 			$this->data = $this->Tour->findById($id);
 			$this->data['Tour']['startdate'] = date('d.m.Y', strtotime($this->data['Tour']['startdate']));
 			$this->data['Tour']['enddate'] = date('d.m.Y', strtotime($this->data['Tour']['enddate']));
+
+			$this->Session->write('referer.tours.edit', $this->referer(null, true));
 		}
 
 		$this->__setFormContent();
@@ -97,10 +111,12 @@ class ToursController extends AppController
 
 	function listMine()
 	{
+		$this->paginate = array_merge($this->paginate, array(
+			'conditions' => array('tour_guide_id' => $this->Auth->user('id'))
+		));
+
 		$this->set(array(
-			'tours' => $this->Tour->find('all', array(
-				'conditions' => array('tour_guide_id' => $this->Auth->user('id'))
-			))
+			'tours' => $this->paginate('Tour')
 		));
 	}
 
