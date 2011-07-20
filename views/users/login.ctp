@@ -1,4 +1,10 @@
 <?php
+$this->set('title_for_layout', __('Anmelden', true));
+echo $this->Html->tag('h1', __('Anmelden', true));
+
+echo $this->Html->para(null, __('Hier kannst du dich mit deinem Benutzernamen und deinem Passwort einloggen.', true));
+echo $this->Html->para(null, __('Falls du noch nicht über ein persönliches Benutzerkonto verfügst, kann du dir hier eines anlegen.', true));
+
 echo $this->Session->flash('auth');
 
 echo $this->Form->create('User', array('action' => 'login'));
