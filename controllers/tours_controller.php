@@ -7,13 +7,9 @@ class ToursController extends AppController
 
 	var $helpers = array('Widget', 'Time', 'TourDisplay', 'Display');
 
-	var $scaffold;
-
 	function beforeFilter()
 	{
 		parent::beforeFilter();
-
-		$this->Auth->allow('index', 'view', 'delete');
 
 		$this->paginate = array(
 			'limit' => 25,

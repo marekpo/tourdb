@@ -23,7 +23,7 @@ a:HOVER		{ color: #ff9900; text-decoration: underline; }
 #content	{ background: #ffffff; width: 800px; float: left; }
 #footer		{ background: #888888; height: 80px; clear: left; }
 
-.inner	{ margin: 0 10px 10px; }
+.inner	{ margin: 0 10px; }
 
 /* paginator */
 .paginator			{ margin-top: 10px; }
@@ -33,6 +33,12 @@ a:HOVER		{ color: #ff9900; text-decoration: underline; }
 	{ float: right; margin-left: 10px; }
 .paginator .numbers	{ text-align: center; margin: 0 60px; }
 .paginator .numbers .current	{ font-weight: bold; }
+
+/* menu */
+ul.menu				{ margin: 10px 0 0; padding: 0; list-style: none; }
+ul.menu ul			{ margin: 5px 0 10px; padding-left: 15px; }
+ul.menu li			{ list-style: none; }
+ul.menu .caption	{ font-weight: bold; }
 
 /* drag drop widget */
 .dd-container				{ margin: 10px; }

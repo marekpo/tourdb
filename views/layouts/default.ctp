@@ -41,7 +41,16 @@
         </div>
 
         <div id="leftnav">
-          <div class="inner">leftnav</div>
+          <div class="inner">
+<?php
+	echo $this->element('menu', array(
+		'cache' => array(
+			'key' => ($this->Session->read('Auth.User.id') != null ? $this->Session->read('Auth.User.id') : 'anonymous'),
+			'time' => '+1 hour'
+		)
+	));
+?>
+          </div>
         </div>
 
 <?php

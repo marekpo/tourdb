@@ -13,9 +13,13 @@ class AuthorizationComponent extends Object
 		$this->controller = $controller;
 	}
 
-	function startup(&$controller)
+	function init()
 	{
-		
+		App::import('Model', 'User');
+		$User = new User();
+
+		$privileges = $User->getPrivileges($this->Auth->user('id'));
+		$this->Session->write('Privileges', $privileges);
 	}
 
 	function check($controller, $action)
@@ -23,18 +27,7 @@ class AuthorizationComponent extends Object
 		$privileges = null;
 		$controller = Inflector::underscore($controller);
 
-		if(!$this->Session->check('Privileges'))
-		{
-			App::import('Model', 'User');
-			$User = new User();
-
-			$privileges = $User->getPrivileges($this->Auth->user('id'));
-			$this->Session->write('Privileges', $privileges);
-		}
-		else
-		{
-			$privileges = $this->Session->read('Privileges');
-		}
+		$privileges = $this->Session->read('Privileges');
 
 		foreach($privileges as $privilege)
 		{
@@ -50,6 +43,7 @@ class AuthorizationComponent extends Object
 			$this->controller->Auth->user('username'), $this->controller->Auth->user('id'),
 			$controller, $action
 		));
+
 		return false;
 	}
 }

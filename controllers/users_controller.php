@@ -88,6 +88,7 @@ class UsersController extends AppController
 				unset($this->data['User']['cookie']);
 			}
 
+			$this->Authorization->init();
 			$this->redirect($this->Auth->redirect());
 		}
 	}
