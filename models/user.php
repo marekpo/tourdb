@@ -129,6 +129,12 @@ class User extends AppModel
 		));
 	}
 
+	function updateLastLoginTime($id)
+	{
+		$this->id = $id;
+		$this->saveField('last_login', date('Y-m-d H:i:s'));
+	}
+
 	function isActive($id = null)
 	{
 		if($id == null)

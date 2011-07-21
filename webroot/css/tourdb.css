@@ -20,10 +20,17 @@ a:HOVER		{ color: #ff9900; text-decoration: underline; }
 #login_box .username	{ font-weight: bold; }
 
 #leftnav	{ background: #aaaaaa; width: 200px; float: left; }
-#content	{ background: #ffffff; width: 800px; float: left; }
+#content	{ background: #ffffff; width: 800px; float: left; padding-bottom: 20px;}
 #footer		{ background: #888888; height: 80px; clear: left; }
 
-.inner	{ margin: 0 10px; }
+.inner			{ margin: 0 10px; }
+.half			{ width: 390px; float: left; }
+.quarter		{ width: 195px; float: left; }
+.third			{ width: 260px; float: left; }
+.twothirds		{ width: 520px; float: left; }
+.threequarters	{ width: 585px; float: left; }
+
+.message		{ margin: 10px 0; padding: 5px; background: #ffe873; }
 
 /* paginator */
 .paginator			{ margin-top: 10px; }
@@ -80,10 +87,10 @@ ul.menu .caption	{ font-weight: bold; }
 	{ width: 130px; float: left; font-weight: bold; }
 
 form .error
-	{ background: #fff9c4; }
+	{ background: #ffe873; }
 
 .input.text input, .input.password input, .input.textarea textarea
-	{ width: 500px; border: 1px solid #808080; padding: 2px; }
+	{ width: 300px; border: 1px solid #808080; padding: 2px; }
 
 .input.textarea textarea	{ height: 150px; }
 
@@ -119,4 +126,11 @@ table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
 .tours .adjacent-tour .title		{ font-weight: bold; overflow: hidden; white-space: nowrap; }
 .tours .adjacent-tour .date, .tours .adjacent-tour .tourguide
 	{ font-size: 8pt; }
+.tours .input.text input, .tours .input.textarea textarea
+	{ width: 500px; }
 table.tours .tourweek, table.tours .withmountainguide	{ text-align: center; }
+
+/* users */
+.users.login .input.text input, .users.login .input.password input
+	{ width: 200px; }
+.users.activate_account .input label	{ width: 230px; }

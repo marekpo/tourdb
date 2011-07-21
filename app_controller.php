@@ -56,6 +56,8 @@ class AppController extends Controller
 		{
 			if($this->Auth->login($loginCookie))
 			{
+				$this->loadModel('User');
+				$this->User->updateLastLoginTime($this->Auth->user('id'));
 				$this->Authorization->init();
 				$this->Session->delete('Message.auth');
 			}

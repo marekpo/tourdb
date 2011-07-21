@@ -1,6 +1,10 @@
 <?php
+$this->set('title_for_layout', __('Benutzerkonto aktivieren', true));
+echo $this->Html->tag('h1', __('Benutzerkonto aktivieren', true));
 
-printf(__('Hallo %s! Hier kannst du dein Benutzerkonto aktivieren.', true), $username);
+echo $this->Html->para(null, __('Zur Aktivierung deines Benutzerkontos hast du eine E-Mail von uns bekommen.', true));
+echo $this->Html->para(null, __('Gib bitte in das untenstehende Feld das in der E-Mail stehende, temporäre Passwort ein.', true));
+echo $this->Html->para(null, __('Ausserdem musst du dir ein neues persönliches Passwort ausdenken welches du in die darunterliegenden Felder eingegeben musst.', true));
 
 echo $this->Form->create('User', array('url' => array($username)));
 

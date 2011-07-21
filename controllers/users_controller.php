@@ -38,7 +38,7 @@ class UsersController extends AppController
 				$this->Email->template = 'account_created';
 				$this->Email->send();
 
-				$this->redirect('/');
+				$this->redirect(array('action' => 'activateAccount', $this->data['User']['username']));
 			}
 		}
 	}
@@ -50,7 +50,6 @@ class UsersController extends AppController
 		if($this->User->isActive($id))
 		{
 			$this->Session->setFlash(__('Dein Benutzerkonto ist bereits aktiviert. Du kannst dich mit deinem Benutzernamen und deinem Passwort einloggen.', true));
-
 			$this->redirect(array('action' => 'login'));
 		}
 
@@ -60,6 +59,15 @@ class UsersController extends AppController
 
 			if($accountActivated)
 			{
+				$this->Auth->login(array(
+					'username' => $username,
+					'password' => $this->User->field('password')
+				));
+				$this->User->updateLastLoginTime($id);
+				$this->Authorization->init();
+
+				$this->Session->setFlash(__('Dein Benutzerkonto ist jetzt aktiviert und du wurdest automatisch eingeloggt.', true));
+
 				$this->redirect('/');
 			}
 		}
@@ -73,8 +81,7 @@ class UsersController extends AppController
 		{
 			if(!empty($this->data))
 			{
-				$this->User->id = $this->Auth->user('id');
-				$this->User->saveField('last_login', date('Y-m-d H:i:s'));
+				$this->User->updateLastLoginTime($this->Auth->user('id'));
 			}
 
 			if(!empty($this->data['User']['cookie']))
