@@ -1,3 +1,4 @@
+<div class="twothirds">
 <?php
 echo $this->Form->create('Tour');
 
@@ -14,9 +15,6 @@ echo $this->Form->input('title', array(
 ));
 
 echo $this->Form->input('description', array('label' => __('Beschreibung', true)));
-?>
-<div class="form">
-<?php
 echo $this->Widget->dateTime('startdate', array(
 	'label' => __('Startdatum', true),
 	'error' => array(
@@ -49,46 +47,35 @@ echo $this->Form->input('Tour.ConditionalRequisite', array(
 	)
 ));
 
-$difficultySelect = $this->Html->div('input select first-row-select',
-	$this->Form->input('Tour.Difficulty', array(
-		'label' => __('Schwierigkeit', true), 'multiple' => 'checkbox', 'options' => $difficultiesSkiAndAlpineTour,
-		'div' => false, 'after' => $this->Html->div('', '', array('style' => 'clear: left')),
-		'error' => false
-	))
-);
-
-$difficultySelect .= $this->Html->div('no-label-select',
-	$this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
-		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesHike,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
-	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
-		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesSnowshowTour,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
-	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
-		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesViaFerrata,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
-	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
-		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing1,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
-	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
-		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing2,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
-	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
-		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing3,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
-	)))
-	. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
-		'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing4,
-		'after' => $this->Html->div('', '', array('style' => 'clear: left')),
-		'error' => array(
-			'atMostTwo' => __('Es dürfen maximal zwei Schwierigkeiten gewählt werden.', true)
-		)
-	)))
+$difficultySelect = $this->Html->div('input select',
+	$this->Form->label(__('Schwierigkeit', true))
+	. $this->Html->div('difficulty-select',
+		$this->Form->input('Tour.Difficulty', array(
+			'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesSkiAndAlpineTour,
+			'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+			'error' => false
+		))
+		. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+			'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesHike,
+			'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
+		)))
+		. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+			'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesSnowshowTour,
+			'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
+		)))
+		. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+			'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesViaFerrata,
+			'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => false
+		)))
+		. $this->Widget->stripHidden($this->Form->input('Tour.Difficulty', array(
+			'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing,
+			'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+			'error' => array(
+				'atMostTwo' => __('Es dürfen maximal zwei Schwierigkeiten gewählt werden.', true)
+			)
+		)))
+	)
+	. $this->Html->div('', '', array('style' => 'clear: left'))
 );
 
 if(isset($this->validationErrors['Tour']['Difficulty']))
@@ -99,12 +86,12 @@ if(isset($this->validationErrors['Tour']['Difficulty']))
 echo $difficultySelect;
 ?>
 </div>
-<div class="adjacent-tours-container">
-  <div>
+<div class="third">
+  <div class="adjacent-tours-container inner">
     <?php __('Angrenzende Touren'); ?>
     <div class="open-calendar"><?php echo $this->Html->link(__('Kalender', true), array('action' => 'formGetTourCalendar', date('Y'), date('m')), array('id' => 'openTourCalendar')); ?></div>
+    <div id="adjacent-tours" class="adjacent-tours"></div>
   </div>
-  <div id="adjacent-tours" class="adjacent-tours"></div>
 </div>
 <div style="clear: left"></div>
 <?php

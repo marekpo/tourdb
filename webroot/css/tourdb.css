@@ -82,12 +82,12 @@ ul.menu .caption	{ font-weight: bold; }
 .calendar .slot.slot6		{ top: 140px; }
 
 /* forms */
-.input				{ clear: left; margin-bottom: 10px; padding: 4px 0; }
+.input				{ clear: left; margin-bottom: 15px; }
 .input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label
 	{ width: 130px; float: left; font-weight: bold; }
 
 form .error
-	{ background: #ffe873; }
+	{ background: #ffe873; padding-top: 4px; }
 
 .input.text input, .input.password input, .input.textarea textarea
 	{ width: 300px; border: 1px solid #808080; padding: 2px; }
@@ -96,10 +96,6 @@ form .error
 
 .input.checkbox					{ margin-left: 130px; }
 .input.select .checkbox			{ float: left; margin-right: 4px; }
-.first-row-select				{ margin: 0; }
-.no-label-select				{ margin: 0 0 10px 130px; }
-.no-label-select .input			{ margin: 0; }
-.no-label-select .error-message	{ margin: 0; }
 
 .input.text input.dateTime	{ width: 150px; background: #ffffff url(../img/calendar.png) no-repeat 2px center; padding-left: 24px; }
 
@@ -118,16 +114,16 @@ table.list th a.asc		{ background-image: url(../img/table_sort_asc.png); }
 table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
 
 /* tours */
-.tours .form						{ width: 550px; float: left; }
-.tours .adjacent-tours-container	{ float: left; margin-left: 10px; }
 .tours .adjacent-tours-container .open-calendar	{ float: right; background: url(../img/calendar.png) no-repeat 0 center; padding-left: 18px; }
-.tours .adjacent-tours				{ width: 218px; float: left; border: 1px solid #808080; margin-top: 4px; height: 400px; overflow: auto; }
+.tours .adjacent-tours				{ border: 1px solid #808080; margin-top: 4px; height: 500px; overflow: auto; }
 .tours .adjacent-tour				{ margin: 2px; padding: 5px; border: 1px solid #808080; }
 .tours .adjacent-tour .title		{ font-weight: bold; overflow: hidden; white-space: nowrap; }
 .tours .adjacent-tour .date, .tours .adjacent-tour .tourguide
 	{ font-size: 8pt; }
 .tours .input.text input, .tours .input.textarea textarea
-	{ width: 500px; }
+	{ width: 384px; }
+.tours .input.text input.dateTime	{ width: 150px; }
+.tours .difficulty-select	{ width: 390px; float: left; }
 table.tours .tourweek, table.tours .withmountainguide	{ text-align: center; }
 
 /* users */

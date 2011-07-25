@@ -142,20 +142,8 @@ class ToursController extends AppController
 				'conditions' => array('group' => Difficulty::VIA_FERRATA),
 				'order' => array('rank' => 'ASC'),
 			)),
-			'difficultiesRockClimbing1' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank <=' => 6),
-				'order' => array('rank' => 'ASC'),
-			)),
-			'difficultiesRockClimbing2' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank >' => 6, 'rank <=' => 11),
-				'order' => array('rank' => 'ASC'),
-			)),
-			'difficultiesRockClimbing3' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank >' => 11, 'rank <=' => 16),
-				'order' => array('rank' => 'ASC'),
-			)),
-			'difficultiesRockClimbing4' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::ROCK_CLIMBING, 'rank >' => 16, 'rank <=' => 18),
+			'difficultiesRockClimbing' => $this->Tour->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::ROCK_CLIMBING),
 				'order' => array('rank' => 'ASC'),
 			))
 		));
