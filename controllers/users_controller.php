@@ -5,7 +5,7 @@ class UsersController extends AppController
 
 	var $components = array('Session', 'Email', 'Cookie');
 
-	var $helpers = array('Widget');
+	var $helpers = array('Widget', 'Display');
 
 	var $scaffold;
 
@@ -14,6 +14,11 @@ class UsersController extends AppController
 		parent::beforeFilter();
 
 		$this->Auth->allow(array('createAccount', 'activateAccount', 'login', 'logout', 'requestNewPassword'));
+
+		$this->paginate = array(
+			'limit' => 25,
+			'order' => array('User.username' => 'ASC')
+		);
 	}
 
 	function createAccount()
@@ -159,6 +164,13 @@ class UsersController extends AppController
 			$this->Session->setFlash(__('Dein neues Passwort wurde dir per E-Mail zugeschickt.', true));
 			$this->redirect(array('action' => 'login'));
 		}
+	}
+
+	function index()
+	{
+		$this->set(array(
+			'users' => $this->paginate('User')
+		));
 	}
 
 	function edit($id)

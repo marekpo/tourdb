@@ -1,6 +1,6 @@
 <?php
 $this->set('title_for_layout', __('Benutzerkonto aktivieren', true));
-echo $this->Html->tag('h1', __('Benutzerkonto aktivieren', true));
+$this->Html->addCrumb(__('Benutzerkonto aktivieren', true));
 
 echo $this->Html->para(null, __('Zur Aktivierung deines Benutzerkontos hast du eine E-Mail von uns bekommen.', true));
 echo $this->Html->para(null, __('Gib bitte in das untenstehende Feld das in der E-Mail stehende, temporäre Passwort ein.', true));

@@ -108,9 +108,9 @@ echo $difficultySelect;
 ?>
 </div>
 <div class="third">
-  <div class="adjacent-tours-container inner">
-    <?php __('Angrenzende Touren'); ?>
+  <div class="adjacent-tours-container">
     <div class="open-calendar"><?php echo $this->Html->link(__('Kalender', true), array('action' => 'formGetTourCalendar', date('Y'), date('m')), array('id' => 'openTourCalendar')); ?></div>
+    <?php __('Angrenzende Touren'); ?>
     <div id="adjacent-tours" class="adjacent-tours"></div>
   </div>
 </div>

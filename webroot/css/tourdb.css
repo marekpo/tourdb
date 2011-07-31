@@ -4,24 +4,27 @@
 
 body		{ margin: 0; padding: 0; font-family: Helvetica, sans-serif; font-size: 10pt; }
 
-h1			{ font-weight: bold; font-size: 18pt; }
-h2			{ font-weight: bold; font-size: 15pt; }
-h3			{ font-weight: bold; font-size: 12pt; }
+h1			{ font-weight: bold; font-size: 18pt; margin: 10px 0; }
+h2			{ font-weight: bold; font-size: 15pt; margin: 8px 0; }
+h3			{ font-weight: bold; font-size: 12pt; margin: 6px 0; }
 
 a			{ color: #4188d3; text-decoration: none; }
 a:HOVER		{ color: #ff9900; text-decoration: underline; }
 
 #page		{ background: #eeeeee; }
-#container	{ background: #dddddd; width: 1000px; margin: 0 auto; }
+#container	{ background: #dddddd; width: 1002px; margin: 0 auto; }
 #header		{ background: #cccccc; height: 80px; }
 #topnav		{ background: #bbbbbb; height: 40px; position: relative; }
 
 #login_box				{ float: right }
 #login_box .username	{ font-weight: bold; }
 
-#leftnav	{ background: #aaaaaa; width: 200px; float: left; }
-#content	{ background: #ffffff; width: 800px; float: left; padding-bottom: 20px;}
-#footer		{ background: #888888; height: 80px; clear: left; }
+#breadcrumbs	{ margin: 10px 0; font-weight: bold; }
+#breadcrumbs a	{ color: #04376C; }
+#leftnav		{ width: 200px; float: left; }
+#contentheader	{ margin-left: 200px; border: 1px solid #000000; background: #689CD3; }
+#content		{ background: #ffffff; width: 800px; float: left; margin-bottom: 20px; padding: 10px 0 0; border: solid #000000; border-width: 0 1px 1px; }
+#footer			{ background: #888888; height: 80px; clear: left; }
 
 .inner			{ margin: 0 10px; }
 .half			{ width: 390px; float: left; }
@@ -30,7 +33,7 @@ a:HOVER		{ color: #ff9900; text-decoration: underline; }
 .twothirds		{ width: 520px; float: left; }
 .threequarters	{ width: 585px; float: left; }
 
-.message		{ margin: 10px 0; padding: 5px; background: #ffe873; }
+.message		{ margin-bottom: 10px; padding: 5px; background: #ffe873; }
 
 /* paginator */
 .paginator			{ margin-top: 10px; }
@@ -99,7 +102,7 @@ form .error
 
 .input.text input.dateTime	{ width: 150px; background: #ffffff url(../img/calendar.png) no-repeat 2px center; padding-left: 24px; }
 
-.submit	{ margin-top: 20px; text-align: right; }
+.submit	{ margin: 20px 0; text-align: right; }
 
 .error-message	{ margin-left: 130px; background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 0 24px; }
 
@@ -114,6 +117,7 @@ table.list th a.asc		{ background-image: url(../img/table_sort_asc.png); }
 table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
 
 /* tours */
+.tours .adjacent-tours-container	{ margin-left: 10px; }
 .tours .adjacent-tours-container .open-calendar	{ float: right; background: url(../img/calendar.png) no-repeat 0 center; padding-left: 18px; }
 .tours .adjacent-tours				{ border: 1px solid #808080; margin-top: 4px; height: 500px; overflow: auto; }
 .tours .adjacent-tour				{ margin: 2px; padding: 5px; border: 1px solid #808080; }

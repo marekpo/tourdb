@@ -1,3 +1,5 @@
+<?php $this->set('title_for_layout', __('TourDB', true)); ?>
+
 <h2>Sweet, "Tourdb" got Baked by CakePHP!</h2>
 
 <?php

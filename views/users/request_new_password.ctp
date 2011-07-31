@@ -1,6 +1,6 @@
 <?php
 $this->set('title_for_layout', __('Neues Passwort anfordern', true));
-echo $this->Html->tag('h1', __('Neues Passwort anfordern', true));
+$this->Html->addCrumb(__('Neues Passwort anfordern', true));
 
 echo $this->Html->para('', __('Hier kannst du dir ein neues Passwort generieren lassen, falls du dein Passwort vergessen haben solltest. Dazu musst du in das untestehende Formular deine E-Mail-Adresse eingeben.', true));
 

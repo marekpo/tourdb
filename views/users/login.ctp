@@ -1,6 +1,6 @@
 <?php
 $this->set('title_for_layout', __('Anmelden', true));
-echo $this->Html->tag('h1', __('Anmelden', true));
+$this->Html->addCrumb(__('Anmelden', true));
 ?>
 <div class="half"><div class="inner">
 <?php

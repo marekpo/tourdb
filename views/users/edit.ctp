@@ -1,7 +1,7 @@
 <?php
-$this->set('title_for_layout', sprintf(__('Benutzerkonto "%s" bearbeiten', true), $this->data['User']['username']));
-
-echo $this->Html->tag('h1', sprintf(__('Benutzerkonto "%s" bearbeiten', true), $this->data['User']['username']));
+$pageTitle = sprintf(__('Benutzerkonto "%s" bearbeiten', true), $this->data['User']['username']);
+$this->set('title_for_layout', $pageTitle);
+$this->Html->addCrumb($pageTitle);
 
 echo $this->Form->create('User');
 echo $this->Form->hidden('id');

@@ -1,7 +1,7 @@
 <?php
-$this->set('title_for_layout', sprintf(__('Rolle "%s" bearbeiten', true), $this->data['Role']['rolename']));
-
-echo $this->Html->tag('h1', sprintf(__('Rolle "%s" bearbeiten', true), $this->data['Role']['rolename']));
+$pageTitle = sprintf(__('Rolle "%s" bearbeiten', true), $this->data['Role']['rolename']);
+$this->set('title_for_layout', $pageTitle);
+$this->Html->addCrumb($pageTitle);
 
 echo $this->Form->create('Role');
 echo $this->Form->hidden('id');

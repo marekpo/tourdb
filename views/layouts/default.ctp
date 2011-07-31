@@ -40,6 +40,12 @@
           </div>
         </div>
 
+        <div id="contentheader">
+          <div class="inner">
+            <div id="breadcrumbs"><?php echo $this->Html->getCrumbs(' » ', __('TourDB', true)); ?></div>
+            <h1><?php echo $title_for_layout; ?></h1>
+          </div>
+        </div>
         <div id="leftnav">
           <div class="inner">
 <?php
