@@ -8,7 +8,7 @@
     <?php echo $this->Html->css('jquery-ui-1.8.13.custom'); ?>
     <?php echo $this->Html->script('jquery-1.6.1.min'); ?>
     <?php echo $this->Html->script('jquery-ui-1.8.13.custom.min'); ?>
-    <?php echo $this->Html->script('common'); ?>
+    <?php echo $this->Html->script('tourdb'); ?>
     <?php echo $scripts_for_layout; ?>
   </head>
 
@@ -45,7 +45,7 @@
 <?php
 	echo $this->element('menu', array(
 		'cache' => array(
-			'key' => ($this->Session->read('Auth.User.id') != null ? $this->Session->read('Auth.User.id') : 'anonymous'),
+			'key' => ($this->Session->check('Auth._SessionId') ? $this->Session->read('Auth._SessionId') : 'anonymous'),
 			'time' => '+1 hour'
 		)
 	));

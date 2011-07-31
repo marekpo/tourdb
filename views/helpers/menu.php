@@ -54,7 +54,7 @@ class MenuHelper extends AppHelper
 			if(!empty($childMenuItems))
 			{
 				$renderedMenu .= $this->Html->tag('li',
-					$this->Html->tag('span', $menuEntry['Menu']['caption'], array('class' => 'caption'))
+					$this->Html->div('caption', $menuEntry['Menu']['caption'])
 					. $this->Html->tag('ul', $childMenuItems)
 				);
 			}

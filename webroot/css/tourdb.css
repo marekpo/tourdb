@@ -44,8 +44,8 @@ a:HOVER		{ color: #ff9900; text-decoration: underline; }
 /* menu */
 ul.menu				{ margin: 10px 0 0; padding: 0; list-style: none; }
 ul.menu ul			{ margin: 5px 0 10px; padding-left: 15px; }
-ul.menu li			{ list-style: none; }
-ul.menu .caption	{ font-weight: bold; }
+ul.menu li			{ list-style: none; text-align: right; }
+ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #000000; }
 
 /* drag drop widget */
 .dd-container				{ margin: 10px; }
@@ -99,7 +99,7 @@ form .error
 
 .input.text input.dateTime	{ width: 150px; background: #ffffff url(../img/calendar.png) no-repeat 2px center; padding-left: 24px; }
 
-.submit	{ text-align: right; }
+.submit	{ margin-top: 20px; text-align: right; }
 
 .error-message	{ margin-left: 130px; background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 0 24px; }
 
@@ -122,8 +122,11 @@ table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
 	{ font-size: 8pt; }
 .tours .input.text input, .tours .input.textarea textarea
 	{ width: 384px; }
+.tours .input.textarea textarea	{ height: 250px; }
 .tours .input.text input.dateTime	{ width: 150px; }
-.tours .difficulty-select	{ width: 390px; float: left; }
+.tours .difficulty-select			{ width: 390px; float: left; }
+.tours .difficulty-select > div		{ float: left; }
+.tours .difficulty-select .error-message	{ margin: 0; }
 table.tours .tourweek, table.tours .withmountainguide	{ text-align: center; }
 
 /* users */

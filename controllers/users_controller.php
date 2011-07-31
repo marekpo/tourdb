@@ -102,7 +102,7 @@ class UsersController extends AppController
 
 	function logout()
 	{
-		$this->Session->delete('Privileges');
+		$this->Authorization->endUserSession();
 		$this->Cookie->delete('User.Auth');
 		$this->redirect($this->Auth->logout());
 	}
