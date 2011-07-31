@@ -1,4 +1,9 @@
 <?php
+$this->set('title_for_layout', __('Benutzerkonto anlegen', true));
+echo $this->Html->tag('h1', __('Benutzerkonto anlegen', true));
+
+echo $this->Html->para(null, __('Hier kannst du dir ein persönliches Benutzerkonto anlegen.', true));
+echo $this->Html->para(null, __('Der von dir gewählte Benutzername darf nur Buchstaben und Zahlen enthalten und muss zwischen 5 und 15 Zeichen lang sein.', true));
 
 echo $this->Form->create();
 

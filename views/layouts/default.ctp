@@ -8,7 +8,7 @@
     <?php echo $this->Html->css('jquery-ui-1.8.13.custom'); ?>
     <?php echo $this->Html->script('jquery-1.6.1.min'); ?>
     <?php echo $this->Html->script('jquery-ui-1.8.13.custom.min'); ?>
-    <?php echo $this->Html->script('common'); ?>
+    <?php echo $this->Html->script('tourdb'); ?>
     <?php echo $scripts_for_layout; ?>
   </head>
 
@@ -43,8 +43,12 @@
         <div id="leftnav">
           <div class="inner">
 <?php
-	echo $this->Html->tag('div', $this->Html->link(__('Neue Tour', true), array('controller' => 'tours', 'action' => 'add')));
-	echo $this->Html->tag('div', $this->Html->link(__('Meine Touren', true), array('controller' => 'tours', 'action' => 'listMine')));
+	echo $this->element('menu', array(
+		'cache' => array(
+			'key' => ($this->Session->check('Auth._SessionId') ? $this->Session->read('Auth._SessionId') : 'anonymous'),
+			'time' => '+1 hour'
+		)
+	));
 ?>
           </div>
         </div>

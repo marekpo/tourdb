@@ -129,6 +129,31 @@ class User extends AppModel
 		));
 	}
 
+	function generateNewPassword($id)
+	{
+		$this->id = $id;
+
+		$salt = SecurityTools::generateRandomString();
+		$password = SecurityTools::generateRandomString(8);
+
+		$this->data['User']['salt'] = $salt;
+		$this->data['User']['password'] = Security::hash($salt . $password, 'sha1', false);
+		$this->data['User']['new_password_token'] = null;
+
+		if($this->save())
+		{
+			return $password;
+		}
+
+		return false;
+	}
+
+	function updateLastLoginTime($id)
+	{
+		$this->id = $id;
+		$this->saveField('last_login', date('Y-m-d H:i:s'));
+	}
+
 	function isActive($id = null)
 	{
 		if($id == null)

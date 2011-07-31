@@ -13,7 +13,7 @@ class UsersController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('createAccount', 'activateAccount', 'login', 'logout'));
+		$this->Auth->allow(array('createAccount', 'activateAccount', 'login', 'logout', 'requestNewPassword'));
 	}
 
 	function createAccount()
@@ -32,13 +32,9 @@ class UsersController extends AppController
 					'password' => $password
 				));
 
-				$this->Email->to = $this->data['User']['email'];
-				$this->Email->subject = __('Dein Benutzerkonto bei TourDB', true);
-				$this->Email->lineLength = 998;
-				$this->Email->template = 'account_created';
-				$this->Email->send();
+				$this->_sendEmail($this->data['User']['email'], __('Dein Benutzerkonto bei TourDB', true), 'account_created');
 
-				$this->redirect('/');
+				$this->redirect(array('action' => 'activateAccount', $this->data['User']['username']));
 			}
 		}
 	}
@@ -50,7 +46,6 @@ class UsersController extends AppController
 		if($this->User->isActive($id))
 		{
 			$this->Session->setFlash(__('Dein Benutzerkonto ist bereits aktiviert. Du kannst dich mit deinem Benutzernamen und deinem Passwort einloggen.', true));
-
 			$this->redirect(array('action' => 'login'));
 		}
 
@@ -60,6 +55,15 @@ class UsersController extends AppController
 
 			if($accountActivated)
 			{
+				$this->Auth->login(array(
+					'username' => $username,
+					'password' => $this->User->field('password')
+				));
+				$this->User->updateLastLoginTime($id);
+				$this->Authorization->init();
+
+				$this->Session->setFlash(__('Dein Benutzerkonto ist jetzt aktiviert und du wurdest automatisch eingeloggt.', true));
+
 				$this->redirect('/');
 			}
 		}
@@ -73,8 +77,7 @@ class UsersController extends AppController
 		{
 			if(!empty($this->data))
 			{
-				$this->User->id = $this->Auth->user('id');
-				$this->User->saveField('last_login', date('Y-m-d H:i:s'));
+				$this->User->updateLastLoginTime($this->Auth->user('id'));
 			}
 
 			if(!empty($this->data['User']['cookie']))
@@ -88,15 +91,74 @@ class UsersController extends AppController
 				unset($this->data['User']['cookie']);
 			}
 
+			$this->Authorization->init();
 			$this->redirect($this->Auth->redirect());
 		}
 	}
 
 	function logout()
 	{
-		$this->Session->delete('Privileges');
+		$this->Authorization->endUserSession();
 		$this->Cookie->delete('User.Auth');
 		$this->redirect($this->Auth->logout());
+	}
+
+	function requestNewPassword($id = null, $newPasswordToken = null)
+	{
+		if(!empty($this->data))
+		{
+			$this->User->recursive = -1;
+			$user = $this->User->findByEmail($this->data['User']['email'], array('id', 'username'));
+
+			if(empty($user))
+			{
+				$this->Session->setFlash(__('Zur eingegebenen E-Mail-Adresse wurde kein Benutzer gefunden.', true));
+				return;
+			}
+
+			$generatedNewPasswordToken = String::uuid();
+
+			$this->User->id = $user['User']['id'];
+			$this->User->saveField('new_password_token', $generatedNewPasswordToken);
+
+			$this->set(array(
+				'requestUrl' => Router::url(array(
+					'controller' => 'users', 'action' => 'requestNewPassword',
+					$user['User']['id'], $generatedNewPasswordToken
+				), true),
+				'username' => $user['User']['username']
+			));
+
+			$this->_sendEmail($this->data['User']['email'], __('Neues Passwort anfordern für TourDB', true), 'request_new_password');
+
+			$this->Session->setFlash(__('Dir wurde ein Link zum Generieren eines neuen Passworts per E-Mail zugeschickt.', true));
+			$this->redirect(array('action' => 'login'));
+		}
+		elseif($id != null && $newPasswordToken != null)
+		{
+			$user = $this->User->find('first', array(
+				'conditions' => array('id' => $id, 'new_password_token' => $newPasswordToken),
+				'contain' => array()
+			));
+
+			if(empty($user))
+			{
+				$this->Session->setFlash(__('Fehler beim Generieren des neuen Passworts.', true));
+				return;
+			}
+
+			$generatedPassword = $this->User->generateNewPassword($id);
+
+			$this->set(array(
+				'newPassword' => $generatedPassword,
+				'username' => $this->User->data['User']['username']
+			));
+
+			$this->_sendEmail($user['User']['email'], __('Dein neues Passwort für TourDB', true), 'new_password');
+
+			$this->Session->setFlash(__('Dein neues Passwort wurde dir per E-Mail zugeschickt.', true));
+			$this->redirect(array('action' => 'login'));
+		}
 	}
 
 	function edit($id)

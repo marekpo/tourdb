@@ -20,10 +20,17 @@ a:HOVER		{ color: #ff9900; text-decoration: underline; }
 #login_box .username	{ font-weight: bold; }
 
 #leftnav	{ background: #aaaaaa; width: 200px; float: left; }
-#content	{ background: #ffffff; width: 800px; float: left; }
+#content	{ background: #ffffff; width: 800px; float: left; padding-bottom: 20px;}
 #footer		{ background: #888888; height: 80px; clear: left; }
 
-.inner	{ margin: 0 10px 10px; }
+.inner			{ margin: 0 10px; }
+.half			{ width: 390px; float: left; }
+.quarter		{ width: 195px; float: left; }
+.third			{ width: 260px; float: left; }
+.twothirds		{ width: 520px; float: left; }
+.threequarters	{ width: 585px; float: left; }
+
+.message		{ margin: 10px 0; padding: 5px; background: #ffe873; }
 
 /* paginator */
 .paginator			{ margin-top: 10px; }
@@ -33,6 +40,12 @@ a:HOVER		{ color: #ff9900; text-decoration: underline; }
 	{ float: right; margin-left: 10px; }
 .paginator .numbers	{ text-align: center; margin: 0 60px; }
 .paginator .numbers .current	{ font-weight: bold; }
+
+/* menu */
+ul.menu				{ margin: 10px 0 0; padding: 0; list-style: none; }
+ul.menu ul			{ margin: 5px 0 10px; padding-left: 15px; }
+ul.menu li			{ list-style: none; text-align: right; }
+ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #000000; }
 
 /* drag drop widget */
 .dd-container				{ margin: 10px; }
@@ -69,28 +82,24 @@ a:HOVER		{ color: #ff9900; text-decoration: underline; }
 .calendar .slot.slot6		{ top: 140px; }
 
 /* forms */
-.input				{ clear: left; margin-bottom: 10px; padding: 4px; }
+.input				{ clear: left; margin-bottom: 15px; }
 .input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label
 	{ width: 130px; float: left; font-weight: bold; }
 
 form .error
-	{ background: #fff9c4; }
+	{ background: #ffe873; padding-top: 4px; }
 
 .input.text input, .input.password input, .input.textarea textarea
-	{ width: 500px; border: 1px solid #808080; padding: 2px; }
+	{ width: 300px; border: 1px solid #808080; padding: 2px; }
 
 .input.textarea textarea	{ height: 150px; }
 
 .input.checkbox					{ margin-left: 130px; }
 .input.select .checkbox			{ float: left; margin-right: 4px; }
-.first-row-select				{ margin: 0; }
-.no-label-select				{ margin: 0 0 10px 130px; }
-.no-label-select .input			{ margin: 0; }
-.no-label-select .error-message	{ margin: 0; }
 
 .input.text input.dateTime	{ width: 150px; background: #ffffff url(../img/calendar.png) no-repeat 2px center; padding-left: 24px; }
 
-.submit	{ text-align: right; }
+.submit	{ margin-top: 20px; text-align: right; }
 
 .error-message	{ margin-left: 130px; background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 0 24px; }
 
@@ -105,12 +114,23 @@ table.list th a.asc		{ background-image: url(../img/table_sort_asc.png); }
 table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
 
 /* tours */
-.tours .form						{ width: 550px; float: left; }
-.tours .adjacent-tours-container	{ float: left; margin-left: 10px; }
 .tours .adjacent-tours-container .open-calendar	{ float: right; background: url(../img/calendar.png) no-repeat 0 center; padding-left: 18px; }
-.tours .adjacent-tours				{ width: 218px; float: left; border: 1px solid #808080; margin-top: 4px; height: 400px; overflow: auto; }
+.tours .adjacent-tours				{ border: 1px solid #808080; margin-top: 4px; height: 500px; overflow: auto; }
 .tours .adjacent-tour				{ margin: 2px; padding: 5px; border: 1px solid #808080; }
 .tours .adjacent-tour .title		{ font-weight: bold; overflow: hidden; white-space: nowrap; }
 .tours .adjacent-tour .date, .tours .adjacent-tour .tourguide
 	{ font-size: 8pt; }
+.tours .input.text input, .tours .input.textarea textarea
+	{ width: 384px; }
+.tours .input.textarea textarea	{ height: 250px; }
+.tours .input.text input.dateTime	{ width: 150px; }
+.tours .difficulty-select			{ width: 390px; float: left; }
+.tours .difficulty-select > div		{ float: left; }
+.tours .difficulty-select .error-message	{ margin: 0; }
 table.tours .tourweek, table.tours .withmountainguide	{ text-align: center; }
+
+/* users */
+.users.login .input.text input, .users.login .input.password input
+	{ width: 200px; }
+.users.login .requestNewPassword	{ margin-left: 130px; }
+.users.activate_account .input label	{ width: 230px; }

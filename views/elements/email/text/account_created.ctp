@@ -1,6 +1,6 @@
 Hallo <?php echo $username; ?> und Willkommen auf TourDB!
 
-du hast soeben dein persönliches Benutzerkonto erstellt. Bevor du dich einloggen
+Du hast soeben dein persönliches Benutzerkonto erstellt. Bevor du dich einloggen
 kannst musst du das Benutzerkonto jedoch zunächst aktivieren.
 
 Rufe dazu folgende URL in deinem Browser auf und gib dein temporäres
