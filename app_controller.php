@@ -18,6 +18,15 @@ class AppController extends Controller
 		return $this->Authorization->check($this->name, $this->action);
 	}
 
+	function _sendEmail($recipient, $subject, $template)
+	{
+		$this->Email->to = $recipient;
+		$this->Email->subject = $subject;
+		$this->Email->template = $template;
+
+		$this->Email->send();
+	}
+
 	function __setupAuth()
 	{
 		$this->Auth->userScope = array('User.active' => 1);
@@ -40,6 +49,7 @@ class AppController extends Controller
 			$this->Email->from = 'TourDB <tourdb@localhost.ch>';
 			$this->Email->sendAs = 'text';
 			$this->Email->delivery = 'smtp';
+			$this->Email->lineLength = 998;
 			$this->Email->smtpOptions = array(
 				'port' => 25,
 				'timeout' => 30,

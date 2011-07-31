@@ -132,4 +132,5 @@ table.tours .tourweek, table.tours .withmountainguide	{ text-align: center; }
 /* users */
 .users.login .input.text input, .users.login .input.password input
 	{ width: 200px; }
+.users.login .requestNewPassword	{ margin-left: 130px; }
 .users.activate_account .input label	{ width: 230px; }
