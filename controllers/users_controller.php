@@ -1,4 +1,6 @@
 <?php
+App::import('Lib', 'SecurityTools');
+
 class UsersController extends AppController
 {
 	var $name = 'Users';
@@ -193,5 +195,45 @@ class UsersController extends AppController
 		$this->set(array(
 			'roles' => $this->User->Role->find('list')
 		));
+	}
+
+	function editAccount()
+	{
+		if(!empty($this->data))
+		{
+			$this->data['User']['id'] = $this->Auth->user('id');
+			$this->User->create($this->data);
+			if($this->User->validates())
+			{
+				if(!empty($this->data['User']['changedPassword']))
+				{
+					$this->User->id = $this->Auth->user('id');
+					$salt = SecurityTools::generateRandomString();
+					$this->data['User']['salt'] = $salt;
+					$this->data['User']['password'] = $this->User->hashPassword($salt, $this->data['User']['changedPassword']);
+				}
+
+				unset($this->data['User']['changedPassword'], $this->data['User']['changedPasswordRepeat']);
+
+				$this->User->save($this->data, true, array('email', 'salt', 'password'));
+
+				$this->Session->setFlash(__('Benutzerkonto wurde gespeichert.', true));
+				$this->redirect(array('action' => 'editAccount'));
+			}
+			else
+			{
+				unset($this->data['User']['id']);
+				unset($this->data['User']['changedPassword']);
+				unset($this->data['User']['changedPasswordRepeat']);
+			}
+		}
+		else
+		{
+			$this->data = $this->User->find('first', array(
+				'fields' => array('email'),
+				'conditions' => array('id' => $this->Auth->user('id')),
+				'contain' => array()
+			));
+		}
 	}
 }

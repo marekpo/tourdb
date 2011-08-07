@@ -49,6 +49,11 @@ class User extends AppModel
 			'mismatch' => array(
 				'rule' => array('identicalFields', 'newPassword')
 			)
+		),
+		'changedPasswordRepeat' => array(
+			'mismatch' => array(
+				'rule' => array('identicalFields', 'changedPassword')
+			)
 		)
 	);
 
@@ -60,7 +65,7 @@ class User extends AppModel
 
 		$passwordData = $this->findById($this->data['User']['id'], array('User.salt', 'User.password'));
 
-		return Security::hash($passwordData['User']['salt'] . $value, 'sha1', false) == $passwordData['User']['password'];
+		return $this->hashPassword($passwordData['User']['salt'], $value) == $passwordData['User']['password'];
 	}
 
 	function identicalFields($field, $compareField)
@@ -75,7 +80,7 @@ class User extends AppModel
 		if(isset($data['User']['username']) && isset($data['User']['password']))
 		{
 			$salt = $this->field('salt', array('User.username' => $data['User']['username']));
-			$data['User']['password'] = Security::hash($salt . $data['User']['password'], 'sha1', false);
+			$data['User']['password'] = $this->hashPassword($salt, $data['User']['password']);
 
 			return $data;
 		}
@@ -96,7 +101,7 @@ class User extends AppModel
 		$password = SecurityTools::generateRandomString(8);
 
 		$this->data['User']['salt'] = $salt;
-		$this->data['User']['password'] = Security::hash($salt . $password, 'sha1', false);
+		$this->data['User']['password'] = $this->hashPassword($salt, $password);
 
 		return $this->save();
 	}
@@ -123,7 +128,7 @@ class User extends AppModel
 			'User' => array(
 				'id' => $id,
 				'salt' => $salt,
-				'password' => Security::hash($salt . $newPassword, 'sha1', false),
+				'password' => $this->hashPassword($salt, $newPassword),
 				'active' => 1
 			)
 		));
@@ -137,7 +142,7 @@ class User extends AppModel
 		$password = SecurityTools::generateRandomString(8);
 
 		$this->data['User']['salt'] = $salt;
-		$this->data['User']['password'] = Security::hash($salt . $password, 'sha1', false);
+		$this->data['User']['password'] = $this->hashPassword($salt, $password);
 		$this->data['User']['new_password_token'] = null;
 
 		if($this->save())
@@ -146,6 +151,11 @@ class User extends AppModel
 		}
 
 		return false;
+	}
+
+	function hashPassword($salt, $password)
+	{
+		return Security::hash($salt . $password, 'sha1', false);
 	}
 
 	function updateLastLoginTime($id)
