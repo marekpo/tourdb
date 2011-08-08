@@ -12,7 +12,7 @@ class ToursController extends AppController
 		parent::beforeFilter();
 
 		$this->paginate = array(
-			'limit' => 25,
+			'limit' => 20,
 			'order' => array('Tour.startdate' => 'ASC')
 		);
 	}
