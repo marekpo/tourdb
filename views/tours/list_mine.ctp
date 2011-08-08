@@ -3,12 +3,10 @@ $this->set('title_for_layout', __('Meine Touren', true));
 $this->Html->addCrumb(__('Meine Touren', true));
 
 $tableHeaders = $this->Html->tableHeaders(array(
-	$this->Paginator->sort(__('Titel', true), 'title'),
-	__('Klassifikation', true),
-	$this->Paginator->sort(__('Tourenwoche', true), 'tourweek'),
-	$this->Paginator->sort(__('Bergführer', true), 'withmountainguide'),
-	$this->Paginator->sort(__('Beginn', true), 'startdate'),
-	$this->Paginator->sort(__('Ende', true), 'enddate')
+	$this->Paginator->sort(__('Tourbezeichnung', true), 'title'),
+	$this->Paginator->sort(__('Datum von', true), 'startdate'),
+	$this->Paginator->sort(__('Datum bis', true), 'enddate'),
+	__('Code', true)
 ));
 
 $tableCells = array();
@@ -21,24 +19,16 @@ foreach($tours as $tour)
 			array('class' => 'title')
 		),
 		array(
-			$this->TourDisplay->getClassification($tour),
-			array('class' => 'classification')
-		),
-		array(
-			$this->Display->displayFlag($tour['Tour']['tourweek']),
-			array('class' => 'tourweek')
-		),
-		array(
-			$this->Display->displayFlag($tour['Tour']['withmountainguide']),
-			array('class' => 'withmountainguide')
-		),
-		array(
 			$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
 			array('class' => 'startdate')
 		),
 		array(
 			$this->Time->format('d.m.Y', $tour['Tour']['enddate']),
 			array('class' => 'enddate')
+		),
+		array(
+			$this->TourDisplay->getClassification($tour),
+			array('class' => 'classification')
 		)
 	);
 }
