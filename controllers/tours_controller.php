@@ -31,7 +31,7 @@ class ToursController extends AppController
 
 				$this->Tour->save($this->data, array('validate' => false));
 
-				$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'listMine'));
 			}
 		}
 
