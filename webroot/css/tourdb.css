@@ -112,7 +112,8 @@ table.list th			{ background: #dddddd; padding: 4px; }
 table.list td			{ padding: 4px; }
 table.list tr.even td	{ background: #eeeeee; }
 table.list tr:HOVER td	{ background: #04376c; color: #ffffff; }
-table.list th a			{ padding-right: 24px; background: transparent url(../img/table_sort.png) no-repeat right center; }
+table.list th			{ text-align: left; }
+table.list th a			{ padding-right: 16px; background: transparent no-repeat right center; }
 table.list th a.asc		{ background-image: url(../img/table_sort_asc.png); }
 table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
 
