@@ -124,14 +124,33 @@ class User extends AppModel
 
 		$salt = SecurityTools::generateRandomString();
 
-		return $this->save(array(
+		$userData = array(
 			'User' => array(
 				'id' => $id,
 				'salt' => $salt,
 				'password' => $this->hashPassword($salt, $newPassword),
 				'active' => 1
 			)
-		));
+		);
+		
+		$roles = $this->getRoles($id);
+		$userRole = Set::extract(sprintf('/Role[key=%s]', Role::USER), $roles);
+
+		if(count($userRole) == 0)
+		{
+			$userRole = $this->Role->find('first', array(
+				'conditions' => array('Role.key' => Role::USER),
+				'fields' => array('Role.id')
+			));
+
+			$userData = array_merge($userData, array(
+				'Role' => array_merge(Set::extract('/Role/id', $roles), array(
+					$userRole['Role']['id']
+				))
+			));
+		}
+
+		return $this->save($userData);
 	}
 
 	function generateNewPassword($id)
@@ -174,6 +193,38 @@ class User extends AppModel
 		return $this->field('active', array('User.id' => $id)) == 1;
 	}
 
+	function getRoles($id = null)
+	{
+		if($id == null)
+		{
+			$id = $this->id;
+		}
+
+		$this->recursive = -1;
+		$dbo = $this->getDataSource();
+
+		$roles = $this->find('all', array(
+			'conditions' => array('User.id' => $id),
+			'fields' => array('Role.id', 'Role.rolename', 'Role.key', 'Role.rank'),
+			'joins' => array(
+				array(
+					'table' => $dbo->fullTableName('roles_users'),
+					'alias' => 'UsersRoles',
+					'type' => 'inner',
+					'conditions' => array('User.id = UsersRoles.user_id')
+				),
+				array(
+					'table' => $dbo->fullTableName('roles'),
+					'alias' => 'Role',
+					'type' => 'left',
+					'conditions' => array('Role.id = UsersRoles.role_id')
+				)
+			)
+		));
+
+		return $roles;
+	}
+
 	function getPrivileges($id = null)
 	{
 		if($id == null)
@@ -191,7 +242,7 @@ class User extends AppModel
 				array(
 					'table' => $dbo->fullTableName('roles_users'),
 					'alias' => 'UsersRoles',
-					'type' => 'left',
+					'type' => 'inner',
 					'conditions' => array('User.id = UsersRoles.user_id')
 				),
 				array(
