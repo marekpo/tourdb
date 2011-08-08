@@ -234,43 +234,36 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 		$Role = $this->generateModel('Role');
 		$roles = array(
 			array(
-// 				'id' => '4dcafc83-fe44-4643-9b20-08b41b2c2a9b',
 				'id' => '4dcafc83-fe44-4643-9b20-08b41b2c2a9b',
 				'rolename' => 'Systemadmin',
 				'rank' => '0'
 			),
 			array(
-// 				'id' => '4dcafc83-8c90-4205-bcfd-08b41b2c2a9b',
 				'id' => '4dcafc83-8c90-4205-bcfd-08b41b2c2a9b',
 				'rolename' => 'Administrator Sektion',
 				'rank' => '1'
 			),
 			array(
-// 				'id' => '4dcafc83-23a4-446c-b974-08b41b2c2a9b',
 				'id' => '4dcafc83-23a4-446c-b974-08b41b2c2a9b',
 				'rolename' => 'Tourenchef',
 				'rank' => '2'
 			),
 			array(
-// 				'id' => '4dcafc83-fd30-4786-a214-08b41b2c2a9b',
 				'id' => '4dcafc83-fd30-4786-a214-08b41b2c2a9b',
 				'rolename' => 'Tourenleiter',
 				'rank' => '3'
 			),
 			array(
-// 				'id' => '4dcafc83-73a8-496a-9fe1-08b41b2c2a9b',
 				'id' => '4dcafc83-73a8-496a-9fe1-08b41b2c2a9b',
 				'rolename' => 'Redakteur',
 				'rank' => '4'
 			),
 			array(
-// 				'id' => '4dcafc83-39d0-4030-b602-08b41b2c2a9b',
 				'id' => '4dcafc83-39d0-4030-b602-08b41b2c2a9b',
 				'rolename' => 'SAC-Mitglied',
 				'rank' => '5'
 			),
 			array(
-// 				'id' => '4dcafc83-8744-4e1c-983f-08b41b2c2a9b',
 				'id' => '4dcafc83-8744-4e1c-983f-08b41b2c2a9b',
 				'rolename' => 'Benutzer',
 				'rank' => '6'
@@ -307,6 +300,11 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 				'id' => '4dfe0681-ea4c-48d3-ad78-12201b2c2a9b',
 				'key' => 'users:edit',
 				'label' => 'System: Benutzer bearbeiten'
+			),
+			array(
+				'id' => '4e4020f3-5234-425b-8c6b-12f41b2c2a9b',
+				'key' => 'users:editAccount',
+				'label' => 'Benutzer: Benutzerkonto bearbeiten'
 			),
 			array(
 				'id' => '4e00ffca-57d4-471f-bd46-10781b2c2a9b',
@@ -705,7 +703,7 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 				'caption' => 'Benutzerkonto bearbeiten',
 				'controller' => 'users',
 				'action' => 'editAccount',
-				'protected' => '0',
+				'protected' => '1',
 				'parent_id' => '4e3e8ce5-b67c-41b8-b6ff-12001b2c2a9b',
 				'lft' => '13',
 				'rght' => '16'
@@ -734,7 +732,7 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 					'4dfe066d-f32c-42fa-b2cf-12201b2c2a9b', '4dfe0681-ea4c-48d3-ad78-12201b2c2a9b',
 				)
 			),
-			// Tourenchef
+			// Tourchief
 			array(
 				'Role' => array(
 					'id' => '4dcafc83-23a4-446c-b974-08b41b2c2a9b'
@@ -743,7 +741,7 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 					'4e271b48-1940-4c81-be78-14e41b2c2a9b'
 				)
 			),
-			// Tourenleiter
+			// Tourleader
 			array(
 				'Role' => array(
 					'id' => '4dcafc83-fd30-4786-a214-08b41b2c2a9b'
@@ -753,6 +751,15 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 					'4e05e696-a1e0-4e43-8e95-13781b2c2a9b', '4e0a48d6-200c-4ff4-b597-03dc1b2c2a9b',
 					'4e1097a1-b92c-4d2b-ac3a-134c1b2c2a9b'
 					
+				)
+			),
+			// User
+			array(
+				'Role' => array(
+					'id' => '4dcafc83-8744-4e1c-983f-08b41b2c2a9b'
+				),
+				'Privilege' => array(
+					'4e4020f3-5234-425b-8c6b-12f41b2c2a9b'
 				)
 			)
 		);
@@ -792,7 +799,8 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 				'active' => 1
 			),
 			'Role' => array(
-				'4dcafc83-fe44-4643-9b20-08b41b2c2a9b'
+				'4dcafc83-fe44-4643-9b20-08b41b2c2a9b',	// Systemadmin
+				'4dcafc83-8744-4e1c-983f-08b41b2c2a9b'	// User
 			)
 		);
 		$User->save($user);
