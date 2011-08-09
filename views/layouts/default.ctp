@@ -16,12 +16,11 @@
     <div id="page">
       <div id="container">
         <div id="header">
-          <div class="inner">header</div>
+          <div class="inner"></div>
         </div>
   
         <div id="topnav">
           <div class="inner">
-            topnav
             <div id="login_box">
 <?php
 	if($this->Session->check('Auth.User'))
@@ -72,7 +71,7 @@
         </div>
 
         <div id="footer">
-          <div class="inner">footer</div>
+          <div class="inner"></div>
         </div>
       </div>
     </div>

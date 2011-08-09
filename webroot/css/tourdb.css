@@ -11,10 +11,10 @@ h3			{ font-weight: bold; font-size: 12pt; margin: 6px 0; }
 a			{ color: #4188d3; text-decoration: none; }
 a:HOVER		{ text-decoration: underline; }
 
-#page		{ background: #eeeeee; }
-#container	{ background: #dddddd; width: 1002px; margin: 0 auto; }
-#header		{ background: #cccccc; height: 80px; }
-#topnav		{ background: #bbbbbb; height: 40px; position: relative; }
+#page		{  }
+#container	{ width: 1000px; margin: 0 auto; }
+#header		{ height: 80px; }
+#topnav		{ height: 40px; position: relative; }
 
 #login_box				{ float: right }
 #login_box .username	{ font-weight: bold; }
@@ -22,9 +22,9 @@ a:HOVER		{ text-decoration: underline; }
 #breadcrumbs	{ margin: 10px 0; font-weight: bold; }
 #breadcrumbs a	{ color: #04376C; }
 #leftnav		{ width: 200px; float: left; }
-#contentheader	{ margin-left: 200px; border: 1px solid #000000; background: #689CD3; }
-#content		{ background: #ffffff; width: 800px; float: left; margin-bottom: 20px; padding: 10px 0 0; border: solid #000000; border-width: 0 1px 1px; }
-#footer			{ background: #888888; height: 80px; clear: left; }
+#contentheader	{ margin-left: 200px; border: 1px solid #689CD3; background: #689CD3; }
+#content		{ width: 800px; float: left; margin-bottom: 20px; padding: 10px 0 0; }
+#footer			{ height: 80px; clear: left; }
 
 .inner			{ margin: 0 10px; }
 .half			{ width: 390px; float: left; }
