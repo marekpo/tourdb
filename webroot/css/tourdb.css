@@ -36,13 +36,10 @@ a:HOVER		{ text-decoration: underline; }
 .message		{ margin-bottom: 10px; padding: 5px; background: #ffe873; }
 
 /* paginator */
-.paginator			{ margin-top: 10px; }
-.paginator div.first, .paginator div.prev
-	{ float: left; margin-right: 10px; }
-.paginator div.last, .paginator div.next
-	{ float: right; margin-left: 10px; }
-.paginator .numbers	{ text-align: center; margin: 0 60px; }
-.paginator .numbers .current	{ font-weight: bold; }
+.paginator			{ margin-top: 10px; text-align: center; margin-bottom: 10px; }
+.paginator div		{ display: inline; }
+.paginator div.prev	{ margin-right: 10px; }
+.paginator div.next	{ margin-left: 10px; }
 
 /* menu */
 ul.menu				{ margin: 10px 0 0; padding: 0; list-style: none; }
