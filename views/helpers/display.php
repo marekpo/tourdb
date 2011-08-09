@@ -5,6 +5,6 @@ class DisplayHelper extends AppHelper
 
 	function displayFlag($flag)
 	{
-		return $flag == 1 ? $this->Html->image('accept.png') : $this->Html->image('delete.png');
+		return $flag == 1 ? $this->Html->image('checkbox_checked.png') : $this->Html->image('checkbox_checked.png');
 	}
 }

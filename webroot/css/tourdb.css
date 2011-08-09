@@ -9,7 +9,7 @@ h2			{ font-weight: bold; font-size: 15pt; margin: 8px 0; }
 h3			{ font-weight: bold; font-size: 12pt; margin: 6px 0; }
 
 a			{ color: #4188d3; text-decoration: none; }
-a:HOVER		{ color: #ff9900; text-decoration: underline; }
+a:HOVER		{ text-decoration: underline; }
 
 #page		{ background: #eeeeee; }
 #container	{ background: #dddddd; width: 1002px; margin: 0 auto; }
@@ -36,13 +36,10 @@ a:HOVER		{ color: #ff9900; text-decoration: underline; }
 .message		{ margin-bottom: 10px; padding: 5px; background: #ffe873; }
 
 /* paginator */
-.paginator			{ margin-top: 10px; }
-.paginator div.first, .paginator div.prev
-	{ float: left; margin-right: 10px; }
-.paginator div.last, .paginator div.next
-	{ float: right; margin-left: 10px; }
-.paginator .numbers	{ text-align: center; margin: 0 60px; }
-.paginator .numbers .current	{ font-weight: bold; }
+.paginator			{ margin-top: 10px; text-align: center; margin-bottom: 10px; }
+.paginator div		{ display: inline; }
+.paginator div.prev	{ margin-right: 10px; }
+.paginator div.next	{ margin-left: 10px; }
 
 /* menu */
 ul.menu				{ margin: 10px 0 0; padding: 0; list-style: none; }
@@ -111,7 +108,7 @@ table.list				{ width: 100%; border-collapse: collapse; }
 table.list th			{ background: #dddddd; padding: 4px; }
 table.list td			{ padding: 4px; }
 table.list tr.even td	{ background: #eeeeee; }
-table.list tr:HOVER td	{ background: #04376c; color: #ffffff; }
+table.list tr:HOVER td	{ background: #ffffdd; }
 table.list th			{ text-align: left; white-space: nowrap; }
 table.list th a			{ padding-right: 16px; background: transparent no-repeat right center; }
 table.list th a.asc		{ background-image: url(../img/table_sort_asc.png); }
