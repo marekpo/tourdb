@@ -1,4 +1,4 @@
-<?php $this->set('title_for_layout', __('TourDB', true)); ?>
+<?php $this->set('title_for_layout', __('Tourenangebot', true)); ?>
 
 <h2>Wilkommen in Tourenangebot der SAC Sektion Am Albis!</h2>
 
