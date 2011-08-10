@@ -60,8 +60,7 @@ class M4e42c4d6b6504f13b53616541b2c2a9b extends CakeMigration {
 					'protected' => '1'
 				)
 			);
-			var_dump($Menu->save($menuEntry));
-			var_dump($Menu->validationErrors);
+			$Menu->save($menuEntry);
 
 			$Menu->id = '4e42c672-e10c-4896-abe8-12241b2c2a9b';
 			$Menu->save(array(

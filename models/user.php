@@ -150,6 +150,7 @@ class User extends AppModel
 			));
 		}
 
+		$this->create();
 		return $this->save($userData);
 	}
 
