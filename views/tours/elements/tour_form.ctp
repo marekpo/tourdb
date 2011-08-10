@@ -24,7 +24,8 @@ echo $this->Widget->dateTime('startdate', array(
 echo $this->Widget->dateTime('enddate', array(
 	'label' => __('Enddatum', true),
 	'error' => array(
-		'notEmpty' => __('Das Enddatum der Tour darf nicht leer sein.', true)
+		'notEmpty' => __('Das Enddatum der Tour darf nicht leer sein.', true),
+		'greaterOrEqualStartDate' => __('Das Enddatum muss größer oder gleich dem Startdatum sein.', true)
 	)
 ));
 

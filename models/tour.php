@@ -35,6 +35,9 @@ class Tour extends AppModel
 		'enddate' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty'
+			),
+			'greaterOrEqualStartDate' => array(
+				'rule' => array('compareToDateField', '>=', 'startdate')
 			)
 		)
 	);
