@@ -116,6 +116,16 @@ class ToursController extends AppController
 		));
 	}
 
+	function index()
+	{
+		$this->paginate = array_merge($this->paginate, array(
+		));
+
+		$this->set(array(
+			'tours' => $this->paginate('Tour')
+		));
+	}
+
 	function __setFormContent()
 	{
 		$this->set(array(

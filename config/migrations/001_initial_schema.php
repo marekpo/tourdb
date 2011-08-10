@@ -309,12 +309,12 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 			array(
 				'id' => '4e00ffca-57d4-471f-bd46-10781b2c2a9b',
 				'key' => 'tours:formGetAdjacentTours',
-				'label' => 'Touren: Neu - Angrenzende anzeigen'
+				'label' => 'Touren: Formular - Angrenzende anzeigen'
 			),
 			array(
 				'id' => '4e05e696-a1e0-4e43-8e95-13781b2c2a9b',
 				'key' => 'tours:formGetTourCalendar',
-				'label' => 'Touren: Neu - Tourenkalender'
+				'label' => 'Touren: Formular - Tourenkalender'
 			),
 			array(
 				'id' => '4e0a48d6-200c-4ff4-b597-03dc1b2c2a9b',
@@ -705,8 +705,8 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 				'action' => 'editAccount',
 				'protected' => '1',
 				'parent_id' => '4e3e8ce5-b67c-41b8-b6ff-12001b2c2a9b',
-				'lft' => '13',
-				'rght' => '16'
+				'lft' => '14',
+				'rght' => '15'
 			)
 		);
 		$Menu->saveAll($menus);

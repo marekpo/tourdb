@@ -1,6 +1,6 @@
 <?php
-$this->set('title_for_layout', __('Meine Touren', true));
-$this->Html->addCrumb(__('Meine Touren', true));
+$this->set('title_for_layout', __('Alle Touren', true));
+$this->Html->addCrumb(__('Alle Touren', true));
 
 $tableHeaders = $this->Html->tableHeaders(array(
 	$this->Paginator->sort(__('Tourbezeichnung', true), 'title'),
