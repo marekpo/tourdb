@@ -1,4 +1,4 @@
-Hallo <?php echo $username; ?> und Willkommen auf TourDB!
+Hallo <?php echo $username; ?> und Willkommen auf Tourenangebot!
 
 Du hast soeben dein persönliches Benutzerkonto erstellt. Bevor du dich einloggen
 kannst musst du das Benutzerkonto jedoch zunächst aktivieren.
@@ -18,4 +18,4 @@ Zusätzlich wirst du gebeten dir ein neues Passwort zu überlegen.
 
 Berg Heil!
 
-Dein TourDB Team
+Dein Tourenangebot Team

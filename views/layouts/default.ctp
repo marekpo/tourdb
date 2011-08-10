@@ -2,7 +2,7 @@
 <html>
   <head>
     <?php echo $this->Html->charset(); ?>
-    <title><?php __('TourDB'); ?> :: <?php echo $title_for_layout; ?></title>
+    <title><?php __('Tourenangebot'); ?> :: <?php echo $title_for_layout; ?></title>
     <?php echo $this->Html->meta('icon'); ?>
     <?php echo $this->Html->css('tourdb'); ?>
     <?php echo $this->Html->css('jquery-ui-1.8.13.custom'); ?>
@@ -41,7 +41,7 @@
 
         <div id="contentheader">
           <div class="inner">
-            <div id="breadcrumbs"><?php echo $this->Html->getCrumbs(' » ', __('TourDB', true)); ?></div>
+            <div id="breadcrumbs"><?php echo $this->Html->getCrumbs(' › ', __('Tourenangebot', true)); ?></div>
             <h1><?php echo $title_for_layout; ?></h1>
           </div>
         </div>

@@ -39,7 +39,7 @@ class UsersController extends AppController
 					'password' => $password
 				));
 
-				$this->_sendEmail($this->data['User']['email'], __('Dein Benutzerkonto bei TourDB', true), 'account_created');
+				$this->_sendEmail($this->data['User']['email'], __('Dein Benutzerkonto bei Tourenangebot', true), 'account_created');
 
 				$this->redirect(array('action' => 'activateAccount', $this->data['User']['username']));
 			}
@@ -136,7 +136,7 @@ class UsersController extends AppController
 				'username' => $user['User']['username']
 			));
 
-			$this->_sendEmail($this->data['User']['email'], __('Neues Passwort anfordern für TourDB', true), 'request_new_password');
+			$this->_sendEmail($this->data['User']['email'], __('Neues Passwort anfordern für Tourenangebot', true), 'request_new_password');
 
 			$this->Session->setFlash(__('Dir wurde ein Link zum Generieren eines neuen Passworts per E-Mail zugeschickt.', true));
 			$this->redirect(array('action' => 'login'));
@@ -161,7 +161,7 @@ class UsersController extends AppController
 				'username' => $this->User->data['User']['username']
 			));
 
-			$this->_sendEmail($user['User']['email'], __('Dein neues Passwort für TourDB', true), 'new_password');
+			$this->_sendEmail($user['User']['email'], __('Dein neues Passwort für Tourenangebot', true), 'new_password');
 
 			$this->Session->setFlash(__('Dein neues Passwort wurde dir per E-Mail zugeschickt.', true));
 			$this->redirect(array('action' => 'login'));
