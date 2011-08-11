@@ -2,4 +2,9 @@
 
 <h2>Wilkommen in Tourenangebot der SAC Sektion Am Albis!</h2>
 
-<p>Um weiterzumachen logge dich bitte ein.</p>
+<?php
+
+if(!$this->Session->check('Auth.User'))
+{
+	echo $this->Html->para('', 'Um weiterzumachen logge dich bitte ein.');
+}
