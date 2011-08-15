@@ -127,7 +127,7 @@ table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
 .tours .input.textarea textarea	{ height: 250px; }
 .tours .input.text input.dateTime	{ width: 150px; }
 .tours .difficulty-select			{ width: 390px; float: left; }
-.tours .difficulty-select > div		{ float: left; }
+.tours .difficulty-select > div		{ float: left; clear: left; }
 .tours .difficulty-select .error-message	{ margin: 0; }
 table.tours .tourweek, table.tours .withmountainguide	{ text-align: center; }
 
