@@ -6,7 +6,8 @@ $tableHeaders = $this->Html->tableHeaders(array(
 	$this->Paginator->sort(__('Tourbezeichnung', true), 'title'),
 	$this->Paginator->sort(__('Datum von', true), 'startdate'),
 	$this->Paginator->sort(__('Datum bis', true), 'enddate'),
-	__('Code', true)
+	__('Code', true),
+	$this->Paginator->sort(__('Tourenleiter', true), 'TourGuide.username'),
 ));
 
 $tableCells = array();
@@ -29,6 +30,10 @@ foreach($tours as $tour)
 		array(
 			$this->TourDisplay->getClassification($tour),
 			array('class' => 'classification')
+		),
+		array(
+			$tour['TourGuide']['username'],
+			array('class' => 'tourguide')
 		)
 	);
 }
