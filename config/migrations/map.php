@@ -6,5 +6,7 @@ $map = array(
 		'002_add_key_column_to_role_table' => 'M4e402452ce1844988b9003d41b2c2a9b'),
 	3 => array(
 		'003_add_tour_index_to_menu' => 'M4e42c4d6b6504f13b53616541b2c2a9b'),
+	4 => array(
+		'004_adding_two_difficulties_for_alpine_tours' => 'M4e496c54fb9845cea3ba04581b2c2a9b'),
 );
 ?>

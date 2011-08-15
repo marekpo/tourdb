@@ -140,6 +140,10 @@ class ToursController extends AppController
 				'conditions' => array('group' => Difficulty::SKI_AND_ALPINE_TOUR),
 				'order' => array('rank' => 'ASC'),
 			)),
+			'difficultiesAlpineTour' => $this->Tour->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::ALPINE_TOUR),
+				'order' => array('rank' => 'ASC')
+			)),
 			'difficultiesHike' => $this->Tour->Difficulty->find('list', array(
 				'conditions' => array('group' => Difficulty::HIKE),
 				'order' => array('rank' => 'ASC'),

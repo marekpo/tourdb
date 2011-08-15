@@ -60,6 +60,15 @@ $difficultySelect = $this->Html->div('input select',
 				)
 			))
 		)
+		. $this->Html->div('diff-h', $this->Widget->stripHidden(
+			$this->Form->input('Tour.Difficulty', array(
+				'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesAlpineTour,
+				'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+				'error' => array(
+					'atMostTwo' => __('Es dürfen maximal zwei Schwierigkeiten gewählt werden.', true)
+				)
+			))
+		))
 		. $this->Html->div('diff-w', $this->Widget->stripHidden(
 			$this->Form->input('Tour.Difficulty', array(
 				'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesHike,
