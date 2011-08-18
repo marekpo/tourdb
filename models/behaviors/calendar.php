@@ -10,52 +10,16 @@ class CalendarBehavior extends ModelBehavior
 
 	function getCalendarData(&$model, $year, $month, $findOptions = array())
 	{
-		$firstDayInCalendar = sprintf('%4d-%02d-%02d', $year, $month, 1);
-
-		$firstWeekdayInMonth = (int)date('N', strtotime($firstDayInCalendar));
-
-		if($firstWeekdayInMonth != 1)
-		{
-			$previousMonth = $month - 1;
-			$previousMonthYear = $year;
-
-			if($previousMonth < 1)
-			{
-				$previousMonthYear--;
-				$previousMonth = 12;
-			}
-
-			$daysInPreviousMonth = cal_days_in_month(CAL_GREGORIAN, $previousMonth, $previousMonthYear);
-
-			$firstDayInCalendar = sprintf('%4d-%02d-%02d', $previousMonthYear, $previousMonth, $daysInPreviousMonth - $firstWeekdayInMonth + 2);
-		}
-
-		$daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-		$lastDayInCalendar = sprintf('%4d-%02d-%02d', $year, $month, $daysInMonth);
-		
-		$lastWeekdayInMonth = (int)date('N', strtotime($lastDayInCalendar));
-
-		if($lastWeekdayInMonth != 7)
-		{
-			$nextMonth = $month + 1;
-			$nextMonthYear = $year;
-
-			if($nextMonth > 12)
-			{
-				$nextMonthYear++;
-				$nextMonth = 1;
-			}
-
-			$lastDayInCalendar = sprintf('%4d-%02d-%02d', $nextMonthYear, $nextMonth, 7 - $lastWeekdayInMonth);
-		}
+		$firstDayInCalendar = date('Y-m-d', strtotime('monday', mktime(0, 0, 0, $month, 1, $year)));
+		$lastDayInCalendar = date('Y-m-d', strtotime('sunday', mktime(0, 0, 0, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year)));
 
 		return $model->find('all', array_merge($findOptions, array(
 			'conditions' => array(
-				'OR' => array(
-					array($this->settings[$model->alias]['startdate'] . ' >=' => $firstDayInCalendar),
-					array($this->settings[$model->alias]['enddate'] . ' >=' => $firstDayInCalendar),
-					array($this->settings[$model->alias]['startdate'] . ' <=' => $lastDayInCalendar),
-					array($this->settings[$model->alias]['enddate'] . ' <=' => $lastDayInCalendar)
+				'NOT' => array(
+					'AND' => array(
+						array($this->settings[$model->alias]['startdate'] . ' >' => $lastDayInCalendar),
+						array($this->settings[$model->alias]['enddate'] . ' <' => $firstDayInCalendar)
+					)
 				)
 			),
 			'order' => array($this->settings[$model->alias]['startdate'] => 'ASC')
