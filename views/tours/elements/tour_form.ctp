@@ -32,13 +32,27 @@ echo $this->Widget->dateTime('enddate', array(
 echo $this->Form->input('tourweek', array('label' => __('Tourenwoche', true)));
 echo $this->Form->input('withmountainguide', array('label' => __('Mit dipl. Bergführer', true)));
 
-echo $this->Html->div('', $this->Form->input('Tour.TourType', array(
-	'label' => __('Tourentyp', true), 'multiple' => 'checkbox',
-	'after' => $this->Html->div('', '', array('style' => 'clear: left')),
-	'error' => array(
-		'rightQuanitity' => __('Es müssen mindestens ein und maximal zwei Tourentypen gewählt werden.', true)
+$tourTypeSelect = $this->Html->div('input select',
+	$this->Form->label(__('Tourentyp', true))
+	. $this->Html->div('checkbox-container',
+		$this->Form->input('Tour.TourType', array(
+			'label' => false, 'multiple' => 'checkbox',
+			'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+			'error' => array(
+				'rightQuanitity' => __('Es müssen mindestens ein und maximal zwei Tourentypen gewählt werden.', true)
+			)
+		)),
+		array('id' => 'tourtypes')
 	)
-)), array('id' => 'tourtypes'));
+	. $this->Html->div('', '', array('style' => 'clear: left'))
+);
+
+if(isset($this->validationErrors['Tour']['TourType']))
+{
+	$tourTypeSelect = $this->Html->div('error', $tourTypeSelect);
+}
+
+echo $tourTypeSelect;
 
 echo $this->Form->input('Tour.ConditionalRequisite', array(
 	'label' => __('Anforderung', true), 'multiple' => 'checkbox',
@@ -50,7 +64,7 @@ echo $this->Form->input('Tour.ConditionalRequisite', array(
 
 $difficultySelect = $this->Html->div('input select',
 	$this->Form->label(__('Schwierigkeit', true))
-	. $this->Html->div('difficulty-select',
+	. $this->Html->div('difficulty-select checkbox-container',
 		$this->Html->div('diff-s diff-h', 
 			$this->Form->input('Tour.Difficulty', array(
 				'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesSkiAndAlpineTour,
