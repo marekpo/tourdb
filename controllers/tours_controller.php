@@ -5,7 +5,7 @@ class ToursController extends AppController
 
 	var $components = array('RequestHandler');
 
-	var $helpers = array('Widget', 'Time', 'TourDisplay', 'Display');
+	var $helpers = array('Widget', 'Time', 'TourDisplay', 'Display', 'Csv');
 
 	function beforeFilter()
 	{
@@ -124,6 +124,38 @@ class ToursController extends AppController
 		$this->set(array(
 			'tours' => $this->paginate('Tour')
 		));
+	}
+
+	function export()
+	{
+		if(!empty($this->data))
+		{
+			$this->Tour->set($this->data);
+			if($this->Tour->validates())
+			{
+				$dateRangeStart = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
+				$dateRangeEnd= date('Y-m-d', strtotime($this->data['Tour']['enddate']));
+
+				$tours = $this->Tour->find('all', array(
+					'conditions' => array(
+						'AND' => array(
+							'startdate >=' => $dateRangeStart,
+							'startdate <=' => $dateRangeEnd
+						)
+					)
+				));
+
+				if(empty($tours))
+				{
+					$this->Session->setFlash(__('Für die angegebenen Kriterien wurden keine Touren gefunden.', true));
+				}
+				else
+				{
+					$this->viewPath = Inflector::underscore($this->name) . DS . 'csv';
+					$this->set(compact('tours'));
+				}
+			}
+		}
 	}
 
 	function __setFormContent()
