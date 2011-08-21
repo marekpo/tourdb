@@ -200,40 +200,6 @@ class WidgetHelper extends AppHelper
 		return $this->Html->div(sprintf('item %s', $itemClass), $label, array('id' => sprintf('item-%s', $key)));
 	}
 
-	function __createDayElement($day, $month, $year, $appointments, $additionalClass = '')
-	{
-		$content = array();
-		if(isset($appointments[$year][$month][$day]))
-		{
-			foreach($appointments[$year][$month][$day] as $slot => $slotInfo)
-			{
-				$slotClass = array(
-					'slot', sprintf('slot%d', $slot)
-				);
-
-				if($slotInfo['start'])
-				{
-					$slotClass[] = 'start';
-				}
-
-				if($slotInfo['end'])
-				{
-					$slotClass[] = 'end';
-				}
-
-				$content[] = $this->Html->div(implode(' ', $slotClass), ($slotInfo['start'] ? $slotInfo['title'] : ''), array('title' => $slotInfo['title']));
-			}
-		}
-		
-		$elementClass = implode(' ', array('day %s', $additionalClass));
-		return $this->Html->div(
-			sprintf($elementClass, strtolower(date('l',
-				strtotime(sprintf('%d-%02d-%02d', $year, $month, $day))
-			))),
-			$this->Html->div('calendarDay', $day) . implode("\n", $content)
-		);
-	}
-
 	function __buildAppointmentTree($events)
 	{
 		if(count($events) == 0)
