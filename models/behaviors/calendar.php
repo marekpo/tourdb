@@ -10,7 +10,7 @@ class CalendarBehavior extends ModelBehavior
 
 	function getCalendarData(&$model, $year, $month, $findOptions = array())
 	{
-		$firstDayInCalendar = date('Y-m-d', strtotime('monday', mktime(0, 0, 0, $month, 1, $year)));
+		$firstDayInCalendar = date('Y-m-d', strtotime(date('o-\WW', mktime(0, 0, 0, $month, 1, $year))));
 		$lastDayInCalendar = date('Y-m-d', strtotime('sunday', mktime(0, 0, 0, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year)));
 
 		return $model->find('all', array_merge($findOptions, array(

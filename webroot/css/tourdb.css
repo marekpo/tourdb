@@ -60,26 +60,44 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 .ui-draggable.role			{ background: #ffffff url(../img/role.png) no-repeat 4px center; }
 
 /* calendar widget */
-.calendar						{ width: 770px; margin: 10px 5px; }
-.calendar .title				{ text-align: center; font-weight: bold; font-size: 11pt; padding: 3px; background: #dddddd; border: 1px solid #808080; }
-.calendar .title .previous a	{ float: left; }
-.calendar .title .next a		{ float: right; }
-.calendar .day					{ border: solid #808080; border-width: 0 1px 1px 0; width: 109px; height: 130px; float: left; position: relative; }
-.calendar .day .calendarDay		{ font-size: 9pt; padding: 2px; font-weight: bold; }
-.calendar .day.monday			{ border-left-width: 1px; width: 108px; }
-.calendar .day.sunday .calendarDay	{ color: #b40000; }
-.calendar .day.previousMonth .calendarDay, .calendar .day.nextMonth .calendarDay
-	{ font-weight: normal; }
-.calendar .slot				{ white-space: nowrap; overflow: hidden; position: absolute; height: 17px; width: 110px; background: #dddddd; }
-.calendar .slot.start		{ margin-left: 5px; width: 105px; }
-.calendar .slot.end			{ margin-right: 5px; width: 104px; }
-.calendar .slot.slot0		{ top: 20px; }
-.calendar .slot.slot1		{ top: 40px; }
-.calendar .slot.slot2		{ top: 60px; }
-.calendar .slot.slot3		{ top: 80px; }
-.calendar .slot.slot4		{ top: 100px; }
-.calendar .slot.slot5		{ top: 120px; }
-.calendar .slot.slot6		{ top: 140px; }
+.calendar								{ margin: 10px auto; width: 770px }
+.calendar .title						{ background: #dddddd; border: 1px solid #808080; font-size: 11pt; font-weight: bold; padding: 3px; text-align: center; }
+.calendar .title .previous				{ float: left; }
+.calendar .title .next					{ float: right; }
+.calendar .week							{ position: relative; height: 131px; }
+.calendar .day							{ float: left; width: 107px; background: #eeeeee; height: 130px; border: solid #808080; border-width: 0 1px 1px 0; padding-left: 2px; }
+.calendar .day.monday					{ border-left-width: 1px; width: 106px; }
+.calendar .day.sunday					{ color: #aa0000; font-weight: bold; }
+.calendar .slotcontainer				{ /*background: none repeat scroll 0 0 #DD00FF;*/ overflow: hidden; height: 110px; position: absolute; top: 20px; width: 100%; }
+.calendar .slotscroller					{ position: absolute; top: 0; }
+.calendar .slot							{ position: absolute; width: 100% }
+.calendar .slot.slot1					{ top: 20px; }
+.calendar .slot.slot2					{ top: 40px; }
+.calendar .slot.slot3					{ top: 60px; }
+.calendar .slot.slot4					{ top: 80px; }
+.calendar .slot.slot5					{ top: 100px; }
+.calendar .slot.slot6					{ top: 120px; }
+.calendar .slot.slot7					{ top: 140px; }
+.calendar .slot.slot8					{ top: 160px; }
+.calendar .slot.slot9					{ top: 180px; }
+.calendar .slot.slot10					{ top: 200px; }
+.calendar .appointment					{ position: absolute; }
+.calendar .appointment.offset2			{ left: 110px; }
+.calendar .appointment.offset3			{ left: 220px; }
+.calendar .appointment.offset4			{ left: 330px; }
+.calendar .appointment.offset5			{ left: 440px; }
+.calendar .appointment.offset6			{ left: 550px; }
+.calendar .appointment.offset7			{ left: 660px; }
+.calendar .appointment.width1			{ width: 110px; }
+.calendar .appointment.width2			{ width: 220px; }
+.calendar .appointment.width3			{ width: 330px; }
+.calendar .appointment.width4			{ width: 440px; }
+.calendar .appointment.width5			{ width: 550px; }
+.calendar .appointment.width6			{ width: 660px; }
+.calendar .appointment.width7			{ width: 770px; }
+.calendar .appointment .label			{ background: #cccccc; font-size: 10pt; padding: 0 4px; overflow: hidden; white-space: nowrap; margin: 0 10px; border-radius: 2px; }
+.calendar .appointment.wrapstart .label	{ padding-right: 20px; }
+.calendar .appointment.wrapend .label	{ padding-right: 20px; }
 
 /* forms */
 .input				{ clear: left; margin-bottom: 15px; }
