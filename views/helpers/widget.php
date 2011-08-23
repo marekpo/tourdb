@@ -175,17 +175,7 @@ class WidgetHelper extends AppHelper
 
 		$calendarId = 'calendar' . String::uuid();
 
-		$calendar[] = $this->Html->scriptBlock(sprintf('
-			$(\'#%1$s .title .previous a\').click(function() {
-				$(\'#%1$s\').parent().load(this.href);
-				return false;
-			});
-
-			$(\'#%1$s .title .next a\').click(function() {
-				$(\'#%1$s\').parent().load(this.href);
-				return false;
-			});
-		', $calendarId));
+		$calendar[] = $this->Html->scriptBlock(sprintf('$(\'#%s\').calendar();', $calendarId));
 
 		return $this->Html->div('calendar', implode("\n", $calendar), array('id' => $calendarId));
 	}
