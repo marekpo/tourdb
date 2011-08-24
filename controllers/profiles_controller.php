@@ -30,7 +30,10 @@ class ProfilesController extends AppController
 				'contain' => array()
 			));
 
-			unset($this->data['Profile']['id']);
+			if(is_array($this->data))
+			{
+				unset($this->data['Profile']['id']);
+			}
 		}
 	}
 }
