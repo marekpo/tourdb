@@ -157,7 +157,7 @@ class WidgetHelper extends AppHelper
 
 						foreach($slotContent as $appointment)
 						{
-							$slotAppointments[] = $this->Html->div(sprintf('appointment offset%d width%d', $appointment['offset'], $appointment['length']), 
+							$slotAppointments[] = $this->Html->div(sprintf('appointment appointment%s offset%d width%d', $appointment['id'], $appointment['offset'], $appointment['length']), 
 								$this->Html->div('label', $appointment['title'])
 							);
 						}

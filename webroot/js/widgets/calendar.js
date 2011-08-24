@@ -27,6 +27,12 @@
 							}));
 					}
 				});
+
+				$this.find('.appointment').mouseover(function() {
+					$this.find('.' + $(this).attr('class').replace(/.*(appointment[0-9a-z\-]{36}).*/i, '$1')).addClass('highlight');
+				}).mouseout(function() {
+					$this.find('.appointment').removeClass('highlight');
+				});
 			});
 		}
 	};
