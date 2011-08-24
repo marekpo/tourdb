@@ -57,6 +57,8 @@ class User extends AppModel
 		)
 	);
 
+	var $hasOne = array('Profile');
+
 	var $hasAndBelongsToMany = array('Role');
 
 	function correctTempPassword($field)

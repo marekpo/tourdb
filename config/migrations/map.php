@@ -10,5 +10,7 @@ $map = array(
 		'004_adding_two_difficulties_for_alpine_tours' => 'M4e496c54fb9845cea3ba04581b2c2a9b'),
 	5 => array(
 		'005_adding_difficulties_for_alpine_tours_and_course_tour_type' => 'M4e4eb38ed56048c98b6c12ec1b2c2a9b'),
+	6 => array(
+		'007_add_profile' => 'M4e554d18f3804380bebf0efc1b2c2a9b'),
 );
 ?>
