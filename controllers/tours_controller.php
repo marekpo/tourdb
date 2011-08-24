@@ -142,7 +142,8 @@ class ToursController extends AppController
 							'startdate >=' => $dateRangeStart,
 							'startdate <=' => $dateRangeEnd
 						)
-					)
+					),
+					'order' => array('startdate' => 'ASC')
 				));
 
 				if(empty($tours))
