@@ -55,7 +55,7 @@ foreach($tours as $tour)
 		$this->TourDisplay->getClassification($tour)
 	);
 
-	if(!isset($tour['TourGuide']['Profile']))
+	if(!isset($tour['TourGuide']['Profile']) && !empty($tour['TourGuide']['Profile']))
 	{
 		$row[] = $tour['TourGuide']['username'];
 	}
