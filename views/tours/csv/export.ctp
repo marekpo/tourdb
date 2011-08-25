@@ -37,7 +37,7 @@ foreach($tours as $tour)
 	$dayColumn = $this->Time->format($startTime, '%a');
 	$duration = $endTime - $startTime;
 
-	if($duration > 0 && $duration <= 86400) // duration one day
+	if($duration > 0 && $duration <= 86400)
 	{
 		$dateColumn = sprintf('%s/%s', $dateColumn, $this->Time->format($endTime, '%#d.'));
 		$dayColumn = sprintf('%s/%s', $dayColumn, $this->Time->format($endTime, '%a'));
@@ -48,12 +48,23 @@ foreach($tours as $tour)
 		$dayColumn = sprintf('%s-%s', $dayColumn, $this->Time->format($endTime, '%a'));
 	}
 
-	$this->Csv->addRow(array(
+	$row = array(
 		$dateColumn, $dayColumn, $tour['Tour']['title'], $tour['Tour']['description'],
 		($tour['Tour']['tourweek'] == true ? 'TW' : ''),
 		($tour['Tour']['withmountainguide'] == true ? 'Ja' : ''),
-		$this->TourDisplay->getClassification($tour), $tour['TourGuide']['username']
-	));
+		$this->TourDisplay->getClassification($tour)
+	);
+
+	if(!isset($tour['TourGuide']['Profile']))
+	{
+		$row[] = $tour['TourGuide']['username'];
+	}
+	else
+	{
+		$row[] = sprintf('%s %s', $tour['TourGuide']['Profile']['firstname'], $tour['TourGuide']['Profile']['lastname']);
+	}
+
+	$this->Csv->addRow($row);
 }
 
 echo $this->Csv->render('touren', 'ISO-8859-15');

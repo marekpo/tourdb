@@ -137,13 +137,15 @@ class ToursController extends AppController
 				$dateRangeEnd= date('Y-m-d', strtotime($this->data['Tour']['enddate']));
 
 				$tours = $this->Tour->find('all', array(
+					'recursive' => 2,
 					'conditions' => array(
 						'AND' => array(
 							'startdate >=' => $dateRangeStart,
 							'startdate <=' => $dateRangeEnd
 						)
 					),
-					'order' => array('startdate' => 'ASC')
+					'order' => array('startdate' => 'ASC'),
+					'contain' => array('TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty')
 				));
 
 				if(empty($tours))
