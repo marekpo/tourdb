@@ -206,8 +206,6 @@ class M4e58c8b65a484965a9040dbc1b2c2a9b extends CakeMigration {
 		);
 		$Difficulty->saveAll($difficulties);
 
-		file_put_contents('d:\temp\test.txt', print_r($Difficulty, true));
-
 		$Difficulty->updateAll(array('rank' => 5), array('name' => 'ZS', 'group' => Difficulty::SKI_AND_ALPINE_TOUR));
 		$Difficulty->updateAll(array('rank' => 8), array('name' => 'S', 'group' => Difficulty::SKI_AND_ALPINE_TOUR));
 		$Difficulty->updateAll(array('rank' => 11), array('name' => 'SS', 'group' => Difficulty::SKI_AND_ALPINE_TOUR));
