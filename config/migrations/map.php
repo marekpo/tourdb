@@ -8,5 +8,9 @@ $map = array(
 		'003_add_tour_index_to_menu' => 'M4e42c4d6b6504f13b53616541b2c2a9b'),
 	4 => array(
 		'004_adding_two_difficulties_for_alpine_tours' => 'M4e496c54fb9845cea3ba04581b2c2a9b'),
+	5 => array(
+		'005_adding_difficulties_for_alpine_tours_and_course_tour_type' => 'M4e4eb38ed56048c98b6c12ec1b2c2a9b'),
+	6 => array(
+		'006_adding_ice_climbing_tourtype_and_changing_some_difficulties' => 'M4e58c8b65a484965a9040dbc1b2c2a9b'),
 );
 ?>
