@@ -16,15 +16,20 @@
 				$this.find('.slotcontainer').css({overflow: 'hidden'}).each(function() {
 					var slotContainer = $(this);
 					var slotScroller = slotContainer.find('.slotscroller');
-					if(slotScroller.outerHeight(true) > $(this).outerHeight(true))
+					if(slotScroller.outerHeight(true) > slotContainer.outerHeight(true))
 					{
-						$(this).addClass('scrolls').addClass('scrolls')
-							.before($('<div />').addClass('scrollup').click(function() {
-								slotScroller.css({top: Math.min(0, parseInt(slotScroller.css('top').replace(/[^-\d\.]/g, '')) + 10) + 'px'});
-							}))
-							.after($('<div />').addClass('scrolldown').click(function() {
-								slotScroller.css({top: Math.max(slotContainer.innerHeight() - slotScroller.outerHeight(true), parseInt(slotScroller.css('top').replace(/[^-\d\.]/g, '')) - 10) + 'px'});
-							}));
+						slotContainer.before($('<div />').addClass('scrollbar').slider({
+							orientation: 'vertical',
+							value: 100,
+							change: function(event, widget) {
+								var maxScroll = slotContainer.prop('scrollHeight') - slotContainer.height();
+								slotContainer.prop({scrollTop: Math.abs(widget.value - 100) * (maxScroll / 100) }, 1000);
+							},
+							slide: function(event, widget) {
+								var maxScroll = slotContainer.prop('scrollHeight') - slotContainer.height();
+								slotContainer.prop({scrollTop: Math.abs(widget.value - 100) * (maxScroll / 100) });
+							}
+						}));
 					}
 				});
 

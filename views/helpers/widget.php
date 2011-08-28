@@ -1,7 +1,7 @@
 <?php
 class WidgetHelper extends AppHelper
 {
-	var $helpers = array('Html', 'Form', 'Js');
+	var $helpers = array('Html', 'Form', 'Js', 'Time');
 
 	function dragDrop($name, $options = array())
 	{
@@ -112,7 +112,7 @@ class WidgetHelper extends AppHelper
 		$calendar[] = $this->Html->div('title',
 			$this->Html->div('previous', $this->Html->link(__('vorheriger', true), Router::url(array('action' => $this->action, $previousMonthYear, $previousMonth))))
 			. $this->Html->div('next', $this->Html->link(__('nächster', true), Router::url(array('action' => $this->action, $nextMonthYear, $nextMonth))))
-			. date('F Y', strtotime(sprintf('%d-%02d-%02d', $options['year'], $options['month'], 1)))
+			. $this->Time->format(strtotime(sprintf('%d-%02d-%02d', $options['year'], $options['month'], 1)), '%B %Y')
 		);
 
 		$daysInMonth = cal_days_in_month(CAL_GREGORIAN, $options['month'], $options['year']);
