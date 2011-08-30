@@ -7,7 +7,6 @@ $this->Csv->addRow(array(
 ));
 
 $previousMonth = null;
-$previousYear = null;
 
 foreach($tours as $tour)
 {
@@ -15,34 +14,20 @@ foreach($tours as $tour)
 	$endTime = strtotime($tour['Tour']['enddate']);
 
 	$currentMonth = $this->Time->format($startTime, '%B');
-	$currentYear = $this->Time->format($startTime, '%Y');
 
 	if($previousMonth != $currentMonth)
 	{
-		$sectionHeader = $currentMonth;
-
-		if($currentYear != $previousYear)
-		{
-			$sectionHeader = sprintf('%s %s', $sectionHeader, $currentYear);
-		}
-
 		$this->Csv->addRow(array());
-		$this->Csv->addRow(array($sectionHeader));
+		$this->Csv->addRow(array($currentMonth));
 
 		$previousMonth = $currentMonth;
-		$previousYear = $currentYear;
 	}
 
 	$dateColumn = $this->Time->format($startTime, '%#d.');
 	$dayColumn = $this->Time->format($startTime, '%a');
 	$duration = $endTime - $startTime;
 
-	if($duration > 0 && $duration <= 86400)
-	{
-		$dateColumn = sprintf('%s/%s', $dateColumn, $this->Time->format($endTime, '%#d.'));
-		$dayColumn = sprintf('%s/%s', $dayColumn, $this->Time->format($endTime, '%a'));
-	}
-	elseif($duration > 86400)
+	if($duration > 0)
 	{
 		$dateColumn = sprintf('%s-%s', $dateColumn, $this->Time->format($endTime, '%#d.'));
 		$dayColumn = sprintf('%s-%s', $dayColumn, $this->Time->format($endTime, '%a'));
