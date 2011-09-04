@@ -158,7 +158,7 @@ class UsersController extends AppController
 
 			$this->set(array(
 				'newPassword' => $generatedPassword,
-				'username' => $this->User->data['User']['username']
+				'username' => $user['User']['username']
 			));
 
 			$this->_sendEmail($user['User']['email'], __('Dein neues Passwort für Tourenangebot', true), 'new_password');
