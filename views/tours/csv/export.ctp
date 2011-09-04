@@ -40,14 +40,7 @@ foreach($tours as $tour)
 		$this->TourDisplay->getClassification($tour)
 	);
 
-	if(!isset($tour['TourGuide']['Profile']) || empty($tour['TourGuide']['Profile']))
-	{
-		$row[] = $tour['TourGuide']['username'];
-	}
-	else
-	{
-		$row[] = sprintf('%s %s', $tour['TourGuide']['Profile']['firstname'], $tour['TourGuide']['Profile']['lastname']);
-	}
+	$row[] = $this->TourDisplay->getTourGuide($tour);
 
 	$this->Csv->addRow($row);
 }

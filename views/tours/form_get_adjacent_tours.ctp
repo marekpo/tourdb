@@ -8,7 +8,7 @@ foreach($adjacentTours as $adjacentTour)
 			$this->Time->format('d.m.Y', $adjacentTour['Tour']['enddate'])
 		))
 		. $this->Html->div('tourguide', sprintf(__('Geführt von %s', true), $this->Html->link(
-			$adjacentTour['TourGuide']['username'],
+			$this->TourDisplay->getTourGuide($adjacentTour),
 			array('controller' => 'users', 'action' => 'showProfile', $adjacentTour['TourGuide']['id'])
 		)))
 	);

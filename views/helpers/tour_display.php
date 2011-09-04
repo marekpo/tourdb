@@ -3,6 +3,21 @@ class TourDisplayHelper extends AppHelper
 {
 	var $helpers = array('Html');
 
+	function getTourGuide($tour)
+	{
+		if(!isset($tour['TourGuide']['Profile'])
+			|| !isset($tour['TourGuide']['Profile']['firstname'])
+			|| empty($tour['TourGuide']['Profile']['firstname'])
+			|| !isset($tour['TourGuide']['Profile']['lastname'])
+			|| empty($tour['TourGuide']['Profile']['lastname'])
+			)
+		{
+			return $tour['TourGuide']['username'];
+		}
+
+		return sprintf('%s %s', $tour['TourGuide']['Profile']['firstname'], $tour['TourGuide']['Profile']['lastname']);
+	}
+
 	function getClassification($tour)
 	{
 		$tourClassification = array();

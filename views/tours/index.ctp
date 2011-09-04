@@ -32,7 +32,7 @@ foreach($tours as $tour)
 			array('class' => 'classification')
 		),
 		array(
-			$tour['TourGuide']['username'],
+			$this->TourDisplay->getTourGuide($tour),
 			array('class' => 'tourguide')
 		)
 	);

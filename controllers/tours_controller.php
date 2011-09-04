@@ -45,7 +45,6 @@ class ToursController extends AppController
 
 		$this->set(array(
 			'adjacentTours' => $this->Tour->find('all', array(
-				'fields' => array('title', 'startdate', 'enddate'),
 				'conditions' => array(
 					'OR' => array(
 						array('enddate >=' => $smallestEndDate, 'enddate <=' => $endDate),
@@ -53,7 +52,14 @@ class ToursController extends AppController
 					)
 				),
 				'order' => array('startdate' => 'ASC'),
-				'contain' => array('TourGuide.id', 'TourGuide.username')
+				'contain' => array(
+					'TourGuide' => array(
+						'fields' => array('username'),
+						'Profile' => array(
+							'fields' => array('firstname', 'lastname')
+						)
+					)
+				)
 			))
 		));
 	}
@@ -62,7 +68,7 @@ class ToursController extends AppController
 	{
 		$this->set(array(
 			'tours' => $this->Tour->getCalendarData($year, $month, array(
-				'contain' => array('TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty')
+				'contain' => array('TourGuide', 'TourGuide.Profile', 'TourType', 'ConditionalRequisite', 'Difficulty')
 			)),
 			'month' => $month,
 			'year' => $year
@@ -119,6 +125,7 @@ class ToursController extends AppController
 	function index()
 	{
 		$this->paginate = array_merge($this->paginate, array(
+			'contain' => array('TourGuide', 'TourGuide.Profile')
 		));
 
 		$this->set(array(

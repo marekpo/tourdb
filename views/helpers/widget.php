@@ -298,6 +298,9 @@ class WidgetHelper extends AppHelper
 
 	function __renderTourPopup($appointment)
 	{
-		return $this->Html->div('title', $appointment['title']) . $this->Html->div('', $appointment['event']['TourGuide']['username']) . $this->Html->div('', $this->TourDisplay->getClassification($appointment['event']));
+		return $this->Html->div('title', $appointment['title'])
+			. $this->Html->div('', $this->TourDisplay->getTourGuide($appointment['event']))
+			. $this->Html->div('', sprintf('%s-%s', strftime('%d.%m.%Y', strtotime($appointment['event']['Tour']['startdate'])), strftime('%d.%m.%Y', strtotime($appointment['event']['Tour']['enddate']))))
+			. $this->Html->div('', $this->TourDisplay->getClassification($appointment['event']));
 	}
 }
