@@ -116,6 +116,9 @@ form .error
 
 .error-message	{ margin-left: 130px; background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 0 24px; }
 
+fieldset	{ border: 1px solid #dddddd; padding: 8px; margin: 0; }
+fieldset .half	{ width: 381px; }
+
 /* tables */
 table.list				{ width: 100%; border-collapse: collapse; }
 table.list th			{ background: #dddddd; padding: 4px; }
@@ -150,3 +153,7 @@ table.tours .tourweek, table.tours .withmountainguide
 	{ width: 200px; }
 .users.login .requestNewPassword	{ margin-left: 130px; }
 .users.activate_account .input label	{ width: 230px; }
+
+/* profiles */
+.profiles .text label	{ width: 75px; }
+.profiles .text input	{ width: 250px; }

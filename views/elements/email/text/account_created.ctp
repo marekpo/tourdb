@@ -6,7 +6,7 @@ kannst musst du das Benutzerkonto jedoch zunächst aktivieren.
 Rufe dazu folgende URL in deinem Browser auf und gib dein temporäres
 Zugangspasswort ein.
 
-Akvivierungslink:
+Aktivierungslink:
 <?php echo $url; ?>
 
 
@@ -15,7 +15,5 @@ Temporäres Passwort:
 
 
 Zusätzlich wirst du gebeten dir ein neues Passwort zu überlegen.
-
-Berg Heil!
 
 Dein Tourenangebot Team
