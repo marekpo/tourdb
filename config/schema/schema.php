@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2011-08-24 21:13:14 : 1314213194*/
+/* Tourdb schema generated on: 2011-09-04 19:32:39 : 1315157559*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
@@ -74,7 +74,8 @@ class TourdbSchema extends CakeSchema {
 	var $profiles = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'firstname' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'lastname' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
