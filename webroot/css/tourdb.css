@@ -86,7 +86,7 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 .calendar .appointment.width5			{ width: 550px; }
 .calendar .appointment.width6			{ width: 660px; }
 .calendar .appointment.width7			{ width: 770px; }
-.calendar .appointment .label			{ background: #cccccc; font-size: 10pt; padding: 0 4px; overflow: hidden; white-space: nowrap; margin: 0 10px; border-radius: 2px; }
+.calendar .appointment .label			{ background: #cccccc; font-size: 10pt; padding: 0 4px; overflow: hidden; white-space: nowrap; margin: 0 10px; border-radius: 2px; cursor: default; }
 .calendar .appointment.highlight .label	{ background: #ffffdd; }
 .calendar .appointment.wrapstart .label	{ padding-right: 20px; }
 .calendar .appointment.wrapend .label	{ padding-right: 20px; }
