@@ -62,7 +62,7 @@ class ToursController extends AppController
 	{
 		$this->set(array(
 			'tours' => $this->Tour->getCalendarData($year, $month, array(
-				'contain' => array()
+				'contain' => array('TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty')
 			)),
 			'month' => $month,
 			'year' => $year

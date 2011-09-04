@@ -91,6 +91,9 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 .calendar .appointment.wrapstart .label	{ padding-right: 20px; }
 .calendar .appointment.wrapend .label	{ padding-right: 20px; }
 
+.popup			{ position: absolute; display: none; z-index: 6000; padding: 3px; border-radius: 2px; box-shadow: 3px 3px 3px #dddddd, -3px 3px 3px #dddddd, 3px -3px 3px #dddddd, -3px -3px 3px #dddddd;}
+.popup .title	{ font-weight: bold; margin-bottom: 4px; }
+
 /* forms */
 .input				{ clear: left; margin-bottom: 15px; }
 .input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label

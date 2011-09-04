@@ -1,7 +1,7 @@
 <?php
 class WidgetHelper extends AppHelper
 {
-	var $helpers = array('Html', 'Form', 'Js', 'Time');
+	var $helpers = array('Html', 'Form', 'Js', 'Time', 'TourDisplay');
 
 	function dragDrop($name, $options = array())
 	{
@@ -157,9 +157,7 @@ class WidgetHelper extends AppHelper
 
 						foreach($slotContent as $appointment)
 						{
-							$slotAppointments[] = $this->Html->div(sprintf('appointment appointment%s offset%d width%d', $appointment['id'], $appointment['offset'], $appointment['length']), 
-								$this->Html->div('label', $appointment['title'])
-							);
+							$slotAppointments[] = $this->__renderAppointment($appointment);
 						}
 
 						$slots[] = $this->Html->div(sprintf('slot slot%d', $slot), implode("\n", $slotAppointments));
@@ -199,10 +197,10 @@ class WidgetHelper extends AppHelper
 
 		$appointments = $slotMap = array();
 
-		$appointmentModel = array_pop(array_keys($events[0]));
-
 		foreach($events as $event)
 		{
+			$appointmentModel = $this->__getAppointmentModel($event);
+
 			$startTimestamp = strtotime($event[$appointmentModel]['startdate']);
 			$endTimestamp = strtotime($event[$appointmentModel]['enddate']);
 
@@ -259,7 +257,8 @@ class WidgetHelper extends AppHelper
 								'id' => $event[$appointmentModel]['id'],
 								'title' => $event[$appointmentModel]['title'],
 								'offset' => (int)date('w', $currentTimestamp),
-								'length' => $length
+								'length' => $length,
+								'event' => $event
 							);
 						}
 
@@ -278,5 +277,27 @@ class WidgetHelper extends AppHelper
 		}
 
 		return $appointments;
+	}
+
+	function __getAppointmentModel($data)
+	{
+		return array_shift(array_keys($data));
+	}
+
+	function __renderAppointment($appointment)
+	{
+		$appointmentModel = $this->__getAppointmentModel($appointment['event']);
+
+		$popupRenderFunction = sprintf('__render%sPopup', $appointmentModel);
+
+		return $this->Html->div(sprintf('appointment appointment%s offset%d width%d', $appointment['id'], $appointment['offset'], $appointment['length']),
+			$this->Html->div('popup', $this->{$popupRenderFunction}($appointment))
+			. $this->Html->div('label', $appointment['title'])
+		);
+	}
+
+	function __renderTourPopup($appointment)
+	{
+		return $this->Html->div('title', $appointment['title']) . $this->Html->div('', $appointment['event']['TourGuide']['username']) . $this->Html->div('', $this->TourDisplay->getClassification($appointment['event']));
 	}
 }

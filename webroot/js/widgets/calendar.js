@@ -23,7 +23,7 @@
 							value: 100,
 							change: function(event, widget) {
 								var maxScroll = slotContainer.prop('scrollHeight') - slotContainer.height();
-								slotContainer.prop({scrollTop: Math.abs(widget.value - 100) * (maxScroll / 100) }, 1000);
+								slotContainer.prop({scrollTop: Math.abs(widget.value - 100) * (maxScroll / 100) });
 							},
 							slide: function(event, widget) {
 								var maxScroll = slotContainer.prop('scrollHeight') - slotContainer.height();
@@ -34,9 +34,24 @@
 				});
 
 				$this.find('.appointment').mouseover(function() {
-					$this.find('.' + $(this).attr('class').replace(/.*(appointment[0-9a-z\-]{36}).*/i, '$1')).addClass('highlight');
+					var appointmentId = $(this).attr('class').replace(/.*appointment([0-9a-z\-]{36}).*/i, '$1');
+					$this.find('.appointment' + appointmentId).addClass('highlight');
+
+					var popup = $('body .popup' + appointmentId);
+
+					if(popup.length == 0)
+					{
+						popup = $('.popup', this).detach()
+							.addClass('popup' + appointmentId)
+							.addClass('ui-widget-content')
+							.appendTo('body');
+					}
+
+					popup.css({display: 'block'})
+						.offset({top: $(this).offset().top + 20, left: $(this).offset().left + ($(this).width() / 2 - popup.width() / 2)});
 				}).mouseout(function() {
 					$this.find('.appointment').removeClass('highlight');
+					$('.popup').css({display: 'none'});
 				});
 			});
 		}
