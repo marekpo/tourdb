@@ -9,7 +9,7 @@ class MenuHelper extends AppHelper
 		$Menu = new Menu();
 		$menu = $Menu->find('threaded');
 
-		$privileges = $this->Session->read('Privileges');
+		$privileges = $this->Session->read('Auth.Privileges');
 
 		$renderedMenu = '';
 

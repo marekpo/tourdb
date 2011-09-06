@@ -45,7 +45,8 @@ class Tour extends AppModel
 	var $belongsTo = array(
 		'TourGuide' => array(
 			'className' => 'User'
-		)
+		),
+		'TourStatus'
 	);
 
 	var $hasMany = array(

@@ -14,6 +14,13 @@ echo $this->Form->input('title', array(
 	)
 ));
 
+if(!empty($this->data['Tour']['id']))
+{
+	echo $this->Form->input('tour_status_id', array(
+		'label' => __('Tourstatus', true), 'disabled' => !$this->Authorization->hasRole(array(Role::TOURCHIEF, Role::EDITOR))
+	));
+}
+
 echo $this->Form->input('description', array('label' => __('Beschreibung', true)));
 echo $this->Widget->dateTime('startdate', array(
 	'label' => __('Startdatum', true),

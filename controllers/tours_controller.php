@@ -73,6 +73,11 @@ class ToursController extends AppController
 	{
 		if(!empty($this->data))
 		{
+			if(!$this->Authorization->hasRole(array(Role::TOURCHIEF, Role::EDITOR)))
+			{
+				unset($this->data['Tour']['status']);
+			}
+
 			$this->Tour->create($this->data);
 
 			if($this->Tour->validates())
@@ -164,6 +169,9 @@ class ToursController extends AppController
 	function __setFormContent()
 	{
 		$this->set(array(
+			'tourStatuses' => $this->Tour->TourStatus->find('list', array(
+				'order' => array('rank' => 'ASC')
+			)),
 			'tourTypes' => $this->Tour->TourType->find('list', array(
 				'fields' => array('acronym')
 			)),
