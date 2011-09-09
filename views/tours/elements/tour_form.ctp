@@ -14,13 +14,6 @@ echo $this->Form->input('title', array(
 	)
 ));
 
-if(!empty($this->data['Tour']['id']))
-{
-	echo $this->Form->input('tour_status_id', array(
-		'label' => __('Tourstatus', true), 'disabled' => !$this->Authorization->hasRole(array(Role::TOURCHIEF, Role::EDITOR))
-	));
-}
-
 echo $this->Form->input('description', array('label' => __('Beschreibung', true)));
 echo $this->Widget->dateTime('startdate', array(
 	'label' => __('Startdatum', true),
@@ -146,9 +139,38 @@ echo $difficultySelect;
 </div>
 <div style="clear: left"></div>
 <?php
+
+if(!empty($this->data['Tour']['id']))
+{
+	if($this->Authorization->hasRole(Role::TOURCHIEF) && $this->Authorization->hasRole(Role::EDITOR))
+	{
+		echo $this->Form->input('change_status', array(
+			'type' => 'radio', 'options' => array(
+				TourStatus::FIXED => __('Als fixiert markieren', true),
+				TourStatus::PUBLISHED => __('Als veröffentlicht markieren', true)
+			), 'legend' => false, 'hiddenField' => false
+		));
+	}
+	elseif($this->Authorization->hasRole(Role::TOURCHIEF))
+	{
+		echo $this->Form->input('change_status', array(
+			'label' => __('Als fixiert markieren', true), 'type' => 'checkbox',
+			'value' => TourStatus::FIXED, 'hiddenField' => false
+		));
+	}
+	elseif($this->Authorization->hasRole(Role::EDITOR))
+	{
+		echo $this->Form->input('change_status', array(
+			'label' => __('Als veröffentlicht markieren', true), 'type' => 'checkbox',
+			'value' => TourStatus::PUBLISHED, 'hiddenField' => false
+		));
+	}
+}
+
+echo $this->Form->end(__('Speichern', true));
+
 $this->Html->script('widgets/adjacenttours', array('inline' => false));
 $this->Js->buffer(sprintf("$('#tourtypes input[type=checkbox]').click(TourDB.Tours.Form.switchDifficulty); TourDB.Tours.Form.switchDifficulty();"));
 $this->Js->buffer(sprintf("$('#adjacent-tours').adjacentTours({startDate: $('#TourStartdate'), endDate: $('#TourEnddate'), url: '%s'});", $this->Html->url(array('action' => 'formGetAdjacentTours'), true)));
 $this->Js->buffer(sprintf("$('#openTourCalendar').click({ title: '%s' }, TourDB.Tours.Form.openTourCalendar);", __('Tourenkalender', true)
 ));
-echo $this->Form->end(__('Speichern', true));

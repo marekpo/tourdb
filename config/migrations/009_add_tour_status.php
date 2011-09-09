@@ -82,10 +82,18 @@ class M4e667dfaf18444e19a8914541b2c2a9b extends CakeMigration {
 				),
 				array(
 					'TourStatus' => array(
+						'id' => '4e6a6af8-1334-4252-819f-13f41b2c2a9b',
+						'statusname' => 'Fixiert',
+						'key' => 'fixed',
+						'rank' => 1
+					)
+				),
+				array(
+					'TourStatus' => array(
 						'id' => '4e6686d7-c2f8-46de-ac3d-120c1b2c2a9b',
 						'statusname' => 'Veröffentlicht',
 						'key' => 'published',
-						'rank' => 1
+						'rank' => 2
 					)
 				),
 				array(
@@ -93,7 +101,7 @@ class M4e667dfaf18444e19a8914541b2c2a9b extends CakeMigration {
 						'id' => '4e6686ea-fdb8-492a-8cd6-120c1b2c2a9b',
 						'statusname' => 'Abgesagt',
 						'key' => 'canceled',
-						'rank' => 2
+						'rank' => 3
 					)
 				),
 				array(
@@ -101,7 +109,7 @@ class M4e667dfaf18444e19a8914541b2c2a9b extends CakeMigration {
 						'id' => '4e668740-e7d4-4cfe-8230-120c1b2c2a9b',
 						'statusname' => 'Anmeldung geschlossen',
 						'key' => 'registration_closed',
-						'rank' => 3
+						'rank' => 4
 					)
 				),
 				array(
@@ -109,7 +117,7 @@ class M4e667dfaf18444e19a8914541b2c2a9b extends CakeMigration {
 						'id' => '4e6688e2-0084-4f23-9e29-120c1b2c2a9b',
 						'statusname' => 'Durchgeführt',
 						'key' => 'carried_out',
-						'rank' => 4
+						'rank' => 5
 					)
 				),
 			);

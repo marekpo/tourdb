@@ -71,6 +71,11 @@ class Tour extends AppModel
 			$this->data['Tour']['Difficulty']
 		);
 
+		if(empty($this->id) && empty($this->data['Tour']['id']) && empty($this->data['Tour']['tour_status_id']))
+		{
+			$this->data['Tour']['tour_status_id'] = $this->TourStatus->field('id', array('key' => TourStatus::NEW_));
+		}
+
 		return true;
 	}
 }

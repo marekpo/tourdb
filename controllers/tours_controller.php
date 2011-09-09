@@ -29,9 +29,12 @@ class ToursController extends AppController
 				$this->data['Tour']['startdate'] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
 				$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
 
-				$this->Tour->save($this->data, array('validate' => false));
+				if($this->Tour->save($this->data, array('validate' => false)))
+				{
+					$this->redirect(array('action' => 'listMine'));
+				}
 
-				$this->redirect(array('action' => 'listMine'));
+				$this->Session->setFlash(__('Die Tour konnte nicht gespeichert werden.', true));
 			}
 		}
 
@@ -73,9 +76,16 @@ class ToursController extends AppController
 	{
 		if(!empty($this->data))
 		{
-			if(!$this->Authorization->hasRole(array(Role::TOURCHIEF, Role::EDITOR)))
+			if(isset($this->data['Tour']['change_status']))
 			{
-				unset($this->data['Tour']['status']);
+				if(($this->data['Tour']['change_status'] == TourStatus::FIXED && $this->Authorization->hasRole(Role::TOURCHIEF))
+					|| ($this->data['Tour']['change_status'] == TourStatus::PUBLISHED && $this->Authorization->hasRole(Role::EDITOR)))
+				{
+					$this->data['Tour']['tour_status_id'] = $this->Tour->TourStatus->field('id', array(
+						'key' => $this->data['Tour']['change_status']
+					));
+					unset($this->data['Tour']['status']);
+				}
 			}
 
 			$this->Tour->create($this->data);
@@ -169,9 +179,6 @@ class ToursController extends AppController
 	function __setFormContent()
 	{
 		$this->set(array(
-			'tourStatuses' => $this->Tour->TourStatus->find('list', array(
-				'order' => array('rank' => 'ASC')
-			)),
 			'tourTypes' => $this->Tour->TourType->find('list', array(
 				'fields' => array('acronym')
 			)),
