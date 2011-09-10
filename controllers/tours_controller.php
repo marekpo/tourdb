@@ -19,6 +19,8 @@ class ToursController extends AppController
 
 	function add()
 	{
+		$whitelist = $this->Tour->getEditWhitelist();
+
 		if(!empty($this->data))
 		{
 			$this->data['Tour']['tour_guide_id'] = $this->Auth->user('id');
@@ -29,7 +31,7 @@ class ToursController extends AppController
 				$this->data['Tour']['startdate'] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
 				$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
 
-				if($this->Tour->save($this->data, array('validate' => false)))
+				if($this->Tour->save($this->data, array('validate' => false, 'fieldList' => $whitelist)))
 				{
 					$this->redirect(array('action' => 'listMine'));
 				}
@@ -38,6 +40,7 @@ class ToursController extends AppController
 			}
 		}
 
+		$this->set(compact('whitelist'));
 		$this->__setFormContent();
 	}
 

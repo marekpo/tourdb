@@ -104,6 +104,20 @@ class Tour extends AppModel
 			$id = $this->id;
 		}
 
+		$editEverythingWhitelist = array_merge(
+			array_keys($this->schema()),
+			array(
+				'TourType',
+				'ConditionalRequisite',
+				'Difficulty'
+			)
+		);
+
+		if($id == null)
+		{
+			return $editEverythingWhitelist;
+		}
+
 		$tourStatus = $this->find('first', array(
 			'fields' => array('TourStatus.rank'),
 			'conditions' => array('Tour.id' => $id),
@@ -112,24 +126,17 @@ class Tour extends AppModel
 
 		$fixedTourStatus = $this->TourStatus->findByKey(TourStatus::FIXED);
 
-		$whitelist = null;
-
 		if($tourStatus['TourStatus']['rank'] < $fixedTourStatus['TourStatus']['rank'])
 		{
-			$whitelist = array_keys($this->schema());
-			$whitelist[] = 'TourType';
-			$whitelist[] = 'ConditionalRequisite';
-			$whitelist[] = 'Difficulty';
+			return $editEverythingWhitelist;
 		}
 		elseif($tourStatus['TourStatus']['rank'] == $fixedTourStatus['TourStatus']['rank'])
 		{
-			$whitelist = array('description', 'tour_status_id');
+			return array('description', 'tour_status_id');
 		}
 		else
 		{
-			$whitelist = array();
+			return array();
 		}
-
-		return $whitelist;
 	}
 }
