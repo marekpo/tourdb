@@ -11,7 +11,7 @@ if(!class_exists('Security'))
 
 class TourDBShell extends Shell
 {
-	var $uses = array('User');
+	var $uses = array('User', 'Tour', 'TourStatus');
 
 	function main()
 	{
@@ -96,5 +96,56 @@ class TourDBShell extends Shell
 
 		fclose($importFile);
 		fclose($errorFile);
+	}
+
+	function settourstatus()
+	{
+		$this->out('This will update the status of all tours to the status you specified.');
+		$response = $this->in(sprintf('Are you sure, you want to continue?'), array('y', 'n'), 'n');
+
+		if($response == 'n')
+		{
+			$this->_stop();
+		}
+
+		$newStatusKey = $this->in('Enter the new status for all tours:', array('fixed', 'published'), 'fixed');
+
+		$newStatus = $this->TourStatus->find('first', array(
+			'conditions' => array('key' => $newStatusKey)
+		));
+
+		if(empty($newStatus))
+		{
+			$this->out(sprintf('No TourStatus record was found for key "%s".', $newStatusKey));
+			$this->_stop();
+		}
+
+		$response = $this->in(sprintf('This will set the status of all Tours to "%s". Continue?', $newStatus['TourStatus']['statusname']), array('y', 'n'), 'n');
+
+		if($response == 'n')
+		{
+			$this->_stop();
+		}
+
+		$superuser = $this->User->find('first', array(
+			'conditions' => array('username' => 'superadmin')
+		));
+
+		$allTours = $this->Tour->find('all', array(
+			'fields' => array('id'),
+			'contain' => array()
+		));
+
+		foreach($allTours as $tour)
+		{
+			$this->Tour->create();
+			$this->Tour->setChangeDetail($superuser['User']['id'], 'Batch change via command line');
+			$this->Tour->save(array(
+				'Tour' => array(
+					'id' => $tour['Tour']['id'],
+					'tour_status_id' => $newStatus['TourStatus']['id']
+				)
+			));
+		}
 	}
 }
