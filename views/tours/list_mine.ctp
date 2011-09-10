@@ -4,6 +4,7 @@ $this->Html->addCrumb(__('Meine Touren', true));
 
 $tableHeaders = $this->Html->tableHeaders(array(
 	$this->Paginator->sort(__('Tourbezeichnung', true), 'title'),
+	$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
 	$this->Paginator->sort(__('Datum von', true), 'startdate'),
 	$this->Paginator->sort(__('Datum bis', true), 'enddate'),
 	__('Code', true)
@@ -17,6 +18,10 @@ foreach($tours as $tour)
 		array(
 			$this->Html->link($tour['Tour']['title'], array('action' => 'edit', $tour['Tour']['id'])),
 			array('class' => 'title')
+		),
+		array(
+			$tour['TourStatus']['statusname'],
+			array('class' => 'status')
 		),
 		array(
 			$this->Time->format('d.m.Y', $tour['Tour']['startdate']),

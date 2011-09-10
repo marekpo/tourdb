@@ -19,6 +19,8 @@ class ToursController extends AppController
 
 	function add()
 	{
+		$whitelist = $this->Tour->getEditWhitelist();
+
 		if(!empty($this->data))
 		{
 			$this->data['Tour']['tour_guide_id'] = $this->Auth->user('id');
@@ -29,12 +31,16 @@ class ToursController extends AppController
 				$this->data['Tour']['startdate'] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
 				$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
 
-				$this->Tour->save($this->data, array('validate' => false));
+				if($this->Tour->save($this->data, array('validate' => false, 'fieldList' => $whitelist)))
+				{
+					$this->redirect(array('action' => 'listMine'));
+				}
 
-				$this->redirect(array('action' => 'listMine'));
+				$this->Session->setFlash(__('Die Tour konnte nicht gespeichert werden.', true));
 			}
 		}
 
+		$this->set(compact('whitelist'));
 		$this->__setFormContent();
 	}
 
@@ -77,16 +83,29 @@ class ToursController extends AppController
 
 	function edit($id)
 	{
+		$whitelist = $this->Tour->getEditWhitelist($id);
+
 		if(!empty($this->data))
 		{
+			if(isset($this->data['Tour']['change_status']))
+			{
+				if(($this->data['Tour']['change_status'] == TourStatus::FIXED && $this->Authorization->hasRole(Role::TOURCHIEF))
+					|| ($this->data['Tour']['change_status'] == TourStatus::PUBLISHED && $this->Authorization->hasRole(Role::EDITOR)))
+				{
+					$this->data['Tour']['tour_status_id'] = $this->Tour->TourStatus->field('id', array(
+						'key' => $this->data['Tour']['change_status']
+					));
+					unset($this->data['Tour']['change_status']);
+				}
+			}
+
 			$this->Tour->create($this->data);
 
 			if($this->Tour->validates())
 			{
-				$this->data['Tour']['startdate'] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
-				$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
+				$this->Tour->setChangeDetail($this->Auth->user('id'), sprintf('%s:%s', Inflector::underscore($this->name), Inflector::underscore($this->action)));
 
-				if($this->Tour->save($this->data, array('validate' => false)))
+				if(empty($whitelist) || $this->Tour->save($this->data, array('validate' => false, 'fieldList' => $whitelist)))
 				{
 					if($this->Session->check('referer.tours.edit'))
 					{
@@ -108,6 +127,7 @@ class ToursController extends AppController
 			$this->Session->write('referer.tours.edit', $this->referer(null, true));
 		}
 
+		$this->set(compact('whitelist'));
 		$this->__setFormContent();
 	}
 
@@ -148,11 +168,12 @@ class ToursController extends AppController
 					'conditions' => array(
 						'AND' => array(
 							'startdate >=' => $dateRangeStart,
-							'startdate <=' => $dateRangeEnd
+							'startdate <=' => $dateRangeEnd,
+							'TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED)
 						)
 					),
 					'order' => array('startdate' => 'ASC'),
-					'contain' => array('TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty')
+					'contain' => array('TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty', 'TourStatus')
 				));
 
 				if(empty($tours))

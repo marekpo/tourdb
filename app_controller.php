@@ -3,7 +3,7 @@ class AppController extends Controller
 {
 	var $components = array('Auth', 'Session', 'Cookie', 'Authorization', 'DebugKit.Toolbar');
 
-	var $helpers = array('Menu');
+	var $helpers = array('Authorization', 'Menu');
 
 	function beforeFilter()
 	{
@@ -15,7 +15,7 @@ class AppController extends Controller
 
 	function isAuthorized()
 	{
-		return $this->Authorization->check($this->name, $this->action);
+		return $this->Authorization->hasPrivilege($this->name, $this->action);
 	}
 
 	function _sendEmail($recipient, $subject, $template)

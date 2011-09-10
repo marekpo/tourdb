@@ -1,8 +1,11 @@
 <?php
-class AuthorizationComponent extends Object
+if (!class_exists('TourDBAuthorization'))
 {
-	var $components = array('Auth', 'Session');
+	App::import('Lib', 'TourDBAuthorization');
+}
 
+class AuthorizationComponent extends TourDBAuthorization
+{
 	/**
 	 * @var Controller
 	 */
@@ -18,24 +21,28 @@ class AuthorizationComponent extends Object
 		App::import('Model', 'User');
 		$User = new User();
 
-		$this->Session->write('Auth._SessionId', String::uuid());
+		$this->write('Auth._SessionId', String::uuid());
+
+		$roles = $User->getRoles($this->Auth->user('id'));
+		$this->write('Auth.Roles', $roles);
 
 		$privileges = $User->getPrivileges($this->Auth->user('id'));
-		$this->Session->write('Privileges', $privileges);
+		$this->write('Auth.Privileges', $privileges);
 	}
 
 	function endUserSession()
 	{
-		$this->Session->delete('Auth._SessionId');
-		$this->Session->delete('Privileges');
+		$this->delete('Auth._SessionId');
+		$this->delete('Auth.Roles');
+		$this->delete('Auth.Privileges');
 	}
 
-	function check($controller, $action)
+	function hasPrivilege($controller, $action)
 	{
 		$privileges = null;
 		$controller = Inflector::underscore($controller);
 
-		$privileges = $this->Session->read('Privileges');
+		$privileges = $this->read('Auth.Privileges');
 
 		foreach($privileges as $privilege)
 		{
