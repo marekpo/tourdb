@@ -156,11 +156,12 @@ class ToursController extends AppController
 					'conditions' => array(
 						'AND' => array(
 							'startdate >=' => $dateRangeStart,
-							'startdate <=' => $dateRangeEnd
+							'startdate <=' => $dateRangeEnd,
+							'TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED)
 						)
 					),
 					'order' => array('startdate' => 'ASC'),
-					'contain' => array('TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty')
+					'contain' => array('TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty', 'TourStatus')
 				));
 
 				if(empty($tours))
