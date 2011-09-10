@@ -97,6 +97,8 @@ class ToursController extends AppController
 
 			if($this->Tour->validates())
 			{
+				$this->Tour->setChangeDetail($this->Auth->user('id'), sprintf('%s:%s', Inflector::underscore($this->name), Inflector::underscore($this->action)));
+
 				if(empty($whitelist) || $this->Tour->save($this->data, array('validate' => false, 'fieldList' => $whitelist)))
 				{
 					if($this->Session->check('referer.tours.edit'))

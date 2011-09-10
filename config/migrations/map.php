@@ -18,5 +18,7 @@ $map = array(
 		'008_add_profile' => 'M4e554d18f3804380bebf0efc1b2c2a9b'),
 	9 => array(
 		'009_add_tour_status' => 'M4e667dfaf18444e19a8914541b2c2a9b'),
+	10 => array(
+		'010_add_tables_for_model_change_behavior' => 'M4e6b50c2276041f988a017841b2c2a9b'),
 );
 ?>
