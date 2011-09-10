@@ -145,6 +145,31 @@ if(!in_array('Difficulty', $whitelist))
 {
 	$this->Js->buffer("$('[id^=TourDifficulty]').attr('disabled', true)");
 }
+
+if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist))
+{
+	$newStatusOptions = array();
+
+	if($this->Authorization->hasRole(Role::TOURCHIEF))
+	{
+		$newStatusOptions[TourStatus::FIXED] = __('fixieren', true);
+	}
+
+	if($this->Authorization->hasRole(Role::EDITOR))
+	{
+		$newStatusOptions[TourStatus::PUBLISHED] = __('veröffentlichen', true);
+	}
+
+	if(!empty($newStatusOptions))
+	{
+		echo $this->Form->input('change_status', array(
+			'label' => __('Tourstatus ändern', true), 'options' => array_merge(
+				array('' => __('nicht ändern', true)), $newStatusOptions
+			)
+		));
+	}
+
+}
 ?>
 </div>
 <div class="third">
@@ -156,34 +181,6 @@ if(!in_array('Difficulty', $whitelist))
 </div>
 <div style="clear: left"></div>
 <?php
-
-if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist))
-{
-	if($this->Authorization->hasRole(Role::TOURCHIEF) && $this->Authorization->hasRole(Role::EDITOR))
-	{
-		echo $this->Form->input('change_status', array(
-			'type' => 'radio', 'options' => array(
-				TourStatus::FIXED => __('Als fixiert markieren', true),
-				TourStatus::PUBLISHED => __('Als veröffentlicht markieren', true)
-			), 'legend' => false, 'hiddenField' => false
-		));
-	}
-	elseif($this->Authorization->hasRole(Role::TOURCHIEF))
-	{
-		echo $this->Form->input('change_status', array(
-			'label' => __('Als fixiert markieren', true), 'type' => 'checkbox',
-			'value' => TourStatus::FIXED, 'hiddenField' => false
-		));
-	}
-	elseif($this->Authorization->hasRole(Role::EDITOR))
-	{
-		echo $this->Form->input('change_status', array(
-			'label' => __('Als veröffentlicht markieren', true), 'type' => 'checkbox',
-			'value' => TourStatus::PUBLISHED, 'hiddenField' => false
-		));
-	}
-}
-
 $saveButtonText = empty($whitelist) ? __('Zurück', true) : __('Speichern', true);
 echo $this->Form->end($saveButtonText);
 
