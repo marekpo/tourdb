@@ -74,6 +74,8 @@ class ToursController extends AppController
 
 	function edit($id)
 	{
+		$whitelist = $this->Tour->getEditWhitelist($id);
+
 		if(!empty($this->data))
 		{
 			if(isset($this->data['Tour']['change_status']))
@@ -84,7 +86,7 @@ class ToursController extends AppController
 					$this->data['Tour']['tour_status_id'] = $this->Tour->TourStatus->field('id', array(
 						'key' => $this->data['Tour']['change_status']
 					));
-					unset($this->data['Tour']['status']);
+					unset($this->data['Tour']['change_status']);
 				}
 			}
 
@@ -92,10 +94,7 @@ class ToursController extends AppController
 
 			if($this->Tour->validates())
 			{
-				$this->data['Tour']['startdate'] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
-				$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
-
-				if($this->Tour->save($this->data, array('validate' => false)))
+				if(empty($whitelist) || $this->Tour->save($this->data, array('validate' => false, 'fieldList' => $whitelist)))
 				{
 					if($this->Session->check('referer.tours.edit'))
 					{
@@ -117,6 +116,7 @@ class ToursController extends AppController
 			$this->Session->write('referer.tours.edit', $this->referer(null, true));
 		}
 
+		$this->set(compact('whitelist'));
 		$this->__setFormContent();
 	}
 

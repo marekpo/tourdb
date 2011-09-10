@@ -8,31 +8,37 @@ if(!empty($this->data['Tour']['id']))
 }
 
 echo $this->Form->input('title', array(
-	'label' => __('Tourbezeichnung', true),
+	'label' => __('Tourbezeichnung', true), 'disabled' => !in_array('title', $whitelist),
 	'error' => array(
 		'notEmpty' => __('Die Tourbezeichnung darf nicht leer sein.', true)
 	)
 ));
+echo $this->Form->input('description', array(
+	'label' => __('Beschreibung', true), 'disabled' => !in_array('description', $whitelist),
+));
 
-echo $this->Form->input('description', array('label' => __('Beschreibung', true)));
 echo $this->Widget->dateTime('startdate', array(
-	'label' => __('Startdatum', true),
+	'label' => __('Startdatum', true), 'disabled' => !in_array('startdate', $whitelist),
 	'error' => array(
 		'notEmpty' => __('Das Startdatum der Tour darf nicht leer sein.', true)
 	)
 ));
 echo $this->Widget->dateTime('enddate', array(
-	'label' => __('Enddatum', true),
+	'label' => __('Enddatum', true), 'disabled' => !in_array('enddate', $whitelist),
 	'error' => array(
 		'notEmpty' => __('Das Enddatum der Tour darf nicht leer sein.', true),
 		'greaterOrEqualStartDate' => __('Das Enddatum muss größer oder gleich dem Startdatum sein.', true)
 	)
 ));
 
-echo $this->Form->input('tourweek', array('label' => __('Tourenwoche', true)));
-echo $this->Form->input('withmountainguide', array('label' => __('Mit dipl. Bergführer', true)));
+echo $this->Form->input('tourweek', array(
+	'label' => __('Tourenwoche', true), 'disabled' => !in_array('tourweek', $whitelist),
+));
+echo $this->Form->input('withmountainguide', array(
+	'label' => __('Mit dipl. Bergführer', true), 'disabled' => !in_array('withmountainguide', $whitelist),
+));
 
-$tourTypeSelect = $this->Html->div('input select',
+$tourTypeSelect = $this->Html->div('input select' . (isset($this->validationErrors['Tour']['TourType']) ? ' error' : ''),
 	$this->Form->label(__('Tourentyp', true))
 	. $this->Html->div('checkbox-container',
 		$this->Form->input('Tour.TourType', array(
@@ -47,12 +53,12 @@ $tourTypeSelect = $this->Html->div('input select',
 	. $this->Html->div('', '', array('style' => 'clear: left'))
 );
 
-if(isset($this->validationErrors['Tour']['TourType']))
-{
-	$tourTypeSelect = $this->Html->div('error', $tourTypeSelect);
-}
-
 echo $tourTypeSelect;
+
+if(!in_array('TourType', $whitelist))
+{
+	$this->Js->buffer("$('[id^=TourTourType]').attr('disabled', true)");
+}
 
 echo $this->Form->input('Tour.ConditionalRequisite', array(
 	'label' => __('Anforderung', true), 'multiple' => 'checkbox',
@@ -61,6 +67,12 @@ echo $this->Form->input('Tour.ConditionalRequisite', array(
 		'rightQuanitity' => __('Es müssen mindestens ein und maximal zwei Anforderungen gewählt werden.', true)
 	)
 ));
+
+if(!in_array('ConditionalRequisite', $whitelist))
+{
+	$this->Js->buffer("$('[id^=TourConditionalRequisite]').attr('disabled', true)");
+}
+
 
 $difficultyErrorMessages =  array(
 	'atMostTwo' => __('Es dürfen maximal zwei Schwierigkeiten gewählt werden.', true)
@@ -128,6 +140,11 @@ if(isset($this->validationErrors['Tour']['Difficulty']))
 }
 
 echo $difficultySelect;
+
+if(!in_array('Difficulty', $whitelist))
+{
+	$this->Js->buffer("$('[id^=TourDifficulty]').attr('disabled', true)");
+}
 ?>
 </div>
 <div class="third">
@@ -140,7 +157,7 @@ echo $difficultySelect;
 <div style="clear: left"></div>
 <?php
 
-if(!empty($this->data['Tour']['id']))
+if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist))
 {
 	if($this->Authorization->hasRole(Role::TOURCHIEF) && $this->Authorization->hasRole(Role::EDITOR))
 	{
@@ -167,7 +184,8 @@ if(!empty($this->data['Tour']['id']))
 	}
 }
 
-echo $this->Form->end(__('Speichern', true));
+$saveButtonText = empty($whitelist) ? __('Zurück', true) : __('Speichern', true);
+echo $this->Form->end($saveButtonText);
 
 $this->Html->script('widgets/adjacenttours', array('inline' => false));
 $this->Js->buffer(sprintf("$('#tourtypes input[type=checkbox]').click(TourDB.Tours.Form.switchDifficulty); TourDB.Tours.Form.switchDifficulty();"));
