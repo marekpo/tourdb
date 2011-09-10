@@ -22,42 +22,65 @@ class TourDisplayHelper extends AppHelper
 	{
 		$tourClassification = array();
 
-		if(!empty($tour['TourType']))
+		$tourTypes = array();
+
+		foreach($tour['TourType'] as $tourType)
 		{
-			$tourTypes = array();
-
-			foreach($tour['TourType'] as $tourType)
-			{
-				$tourTypes[] = $tourType['acronym'];
-			}
-
-			$tourClassification[] = implode(', ', $tourTypes);
+			$tourTypes[] = $tourType['acronym'];
 		}
 
-		if(!empty($tour['ConditionalRequisite']))
-		{
-			$conditionalRequisites = array();
+		$tourType = implode(', ', $tourTypes);
 
-			foreach($tour['ConditionalRequisite'] as $conditionalRequisite)
+		if($tourType == 'Exk')
+		{
+			return $tourType;
+		}
+		else
+		{
+			$tourClassification = array($tourType);
+
+			if(!empty($tour['ConditionalRequisite']))
 			{
-				$conditionalRequisites[] = $conditionalRequisite['acronym'];
+				$conditionalRequisites = array();
+
+				foreach($tour['ConditionalRequisite'] as $conditionalRequisite)
+				{
+					$conditionalRequisites[] = $conditionalRequisite['acronym'];
+				}
+
+				$tourClassification[] = in_array('A', $conditionalRequisites) && in_array('C', $conditionalRequisites)
+					? 'ABC' : implode('', $conditionalRequisites);
 			}
 
-			$tourClassification[] = implode('-', $conditionalRequisites);
-		}
-
-		if(!empty($tour['Difficulty']))
-		{
-			$difficulties = array();
-
-			foreach($tour['Difficulty'] as $difficulty)
+			if(!empty($tour['Difficulty']))
 			{
-				$difficulties[] = $difficulty['name'];
+				$difficulties = array();
+				$climbingDifficulties = array();
+
+				foreach($tour['Difficulty'] as $difficulty)
+				{
+					if($tourType == 'H' && $difficulty['group'] == Difficulty::ALPINE_TOUR)
+					{
+						$climbingDifficulties[] = $difficulty['name'];
+						continue;
+					}
+
+					$difficulties[] = $difficulty['name'];
+				}
+
+
+				if(!empty($climbingDifficulties))
+				{
+					$tourClassification[] = implode(', ', array(implode(' - ', $difficulties), implode(' - ', $climbingDifficulties)));
+				}
+				else
+				{
+					$tourClassification[] = implode(' - ', $difficulties);
+				}
+
 			}
 
-			$tourClassification[] = implode('-', $difficulties);
+			return $this->Html->tag('span', implode('/', $tourClassification), array('class' => 'tourClassification'));
 		}
-
-		return implode('/', $tourClassification);
 	}
 }

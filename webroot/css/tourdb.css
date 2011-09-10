@@ -132,6 +132,7 @@ table.list th a.asc		{ background-image: url(../img/table_sort_asc.png); }
 table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
 
 /* tours */
+.tourClassification					{ white-space: nowrap; }
 .tours .adjacent-tours-container	{ margin-left: 10px; }
 .tours .adjacent-tours-container .open-calendar	{ float: right; background: url(../img/calendar.png) no-repeat 0 center; padding-left: 18px; }
 .tours .adjacent-tours				{ border: 1px solid #808080; margin-top: 4px; height: 500px; overflow: auto; }

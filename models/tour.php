@@ -60,8 +60,12 @@ class Tour extends AppModel
 
 	var $hasAndBelongsToMany = array(
 		'TourType',
-		'ConditionalRequisite',
-		'Difficulty'
+		'ConditionalRequisite' => array(
+			'order' => array('acronym' => 'ASC')
+		),
+		'Difficulty' => array(
+			'order' => array('group' => 'ASC', 'rank' => 'ASC')
+		)
 	);
 
 	function beforeSave($options = array())

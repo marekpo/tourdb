@@ -20,5 +20,7 @@ $map = array(
 		'009_add_tour_status' => 'M4e667dfaf18444e19a8914541b2c2a9b'),
 	10 => array(
 		'010_add_tables_for_model_change_behavior' => 'M4e6b50c2276041f988a017841b2c2a9b'),
+	11 => array(
+		'011_change_difficulties_for_climbing_tours' => 'M4e6b8e70690845cdae141cb81b2c2a9b'),
 );
 ?>
