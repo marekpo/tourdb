@@ -145,7 +145,6 @@ class ToursController extends AppController
 	function index()
 	{
 		$this->paginate = array_merge($this->paginate, array(
-			'contain' => array('TourGuide', 'TourGuide.Profile')
 		));
 
 		$this->set(array(
