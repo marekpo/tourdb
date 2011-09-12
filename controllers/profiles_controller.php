@@ -3,6 +3,8 @@ class ProfilesController extends AppController
 {
 	var $name = 'Profiles';
 
+	var $helpers = array('Html', 'Form');
+
 	function edit()
 	{
 		if(!empty($this->data))
