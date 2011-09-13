@@ -11,6 +11,8 @@ class ToursController extends AppController
 	{
 		parent::beforeFilter();
 
+		$this->Auth->allow('view');
+
 		$this->paginate = array(
 			'limit' => 20,
 			'order' => array('Tour.startdate' => 'ASC')
@@ -186,6 +188,24 @@ class ToursController extends AppController
 				}
 			}
 		}
+	}
+
+	function view($id)
+	{
+		$tour = $this->Tour->find('first', array(
+			'conditions' => array('Tour.id' => $id),
+			'recursive' => 2
+		));
+
+		$publishedTourStatus = $this->Tour->TourStatus->findByKey(TourStatus::PUBLISHED);
+
+		if(empty($tour) || $tour['TourStatus']['rank'] < $publishedTourStatus['TourStatus']['rank'])
+		{
+			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
+			$this->redirect('/');
+		}
+
+		$this->set(compact('tour'));
 	}
 
 	function __setFormContent()
