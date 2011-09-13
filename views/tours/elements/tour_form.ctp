@@ -146,29 +146,13 @@ if(!in_array('Difficulty', $whitelist))
 	$this->Js->buffer("$('[id^=TourDifficulty]').attr('disabled', true)");
 }
 
-if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist))
+if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist) && !empty($newStatusOptions))
 {
-	$newStatusOptions = array();
-
-	if($this->Authorization->hasRole(Role::TOURCHIEF))
-	{
-		$newStatusOptions[TourStatus::FIXED] = __('fixieren', true);
-	}
-
-	if($this->Authorization->hasRole(Role::EDITOR))
-	{
-		$newStatusOptions[TourStatus::PUBLISHED] = __('veröffentlichen', true);
-	}
-
-	if(!empty($newStatusOptions))
-	{
-		echo $this->Form->input('change_status', array(
-			'label' => __('Tourstatus ändern', true), 'options' => array_merge(
-				array('' => __('nicht ändern', true)), $newStatusOptions
-			)
-		));
-	}
-
+	echo $this->Form->input('change_status', array(
+		'label' => __('Tourstatus ändern', true), 'options' => array_merge(
+			array('' => __('nicht ändern', true)), $newStatusOptions
+		)
+	));
 }
 ?>
 </div>

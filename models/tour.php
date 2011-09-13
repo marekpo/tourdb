@@ -144,4 +144,27 @@ class Tour extends AppModel
 			return array();
 		}
 	}
+
+	function getNewStatusOptions($roles = array())
+	{
+		if(!is_array($roles))
+		{
+			$roles = array($roles);
+		}
+
+		$newStatusOptions = array();
+
+		if(in_array(Role::TOURCHIEF, $roles))
+		{
+			$newStatusOptions[TourStatus::NEW_] = __('neu', true);
+			$newStatusOptions[TourStatus::FIXED] = __('fixiert', true);
+		}
+
+		if(in_array(Role::EDITOR, $roles))
+		{
+			$newStatusOptions[TourStatus::PUBLISHED] = __('veröffentlicht', true);
+		}
+
+		return $newStatusOptions;
+	}
 }

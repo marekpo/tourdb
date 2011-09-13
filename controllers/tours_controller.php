@@ -78,19 +78,19 @@ class ToursController extends AppController
 	function edit($id)
 	{
 		$whitelist = $this->Tour->getEditWhitelist($id);
+		$newStatusOptions = $this->Tour->getNewStatusOptions($this->Authorization->getRoles());
 
 		if(!empty($this->data))
 		{
 			if(isset($this->data['Tour']['change_status']))
 			{
-				if(($this->data['Tour']['change_status'] == TourStatus::FIXED && $this->Authorization->hasRole(Role::TOURCHIEF))
-					|| ($this->data['Tour']['change_status'] == TourStatus::PUBLISHED && $this->Authorization->hasRole(Role::EDITOR)))
+				if(in_array($this->data['Tour']['change_status'], array_keys($newStatusOptions)))
 				{
 					$this->data['Tour']['tour_status_id'] = $this->Tour->TourStatus->field('id', array(
 						'key' => $this->data['Tour']['change_status']
 					));
-					unset($this->data['Tour']['change_status']);
 				}
+				unset($this->data['Tour']['change_status']);
 			}
 
 			$this->Tour->create($this->data);
@@ -121,7 +121,7 @@ class ToursController extends AppController
 			$this->Session->write('referer.tours.edit', $this->referer(null, true));
 		}
 
-		$this->set(compact('whitelist'));
+		$this->set(compact('whitelist', 'newStatusOptions'));
 		$this->__setFormContent();
 	}
 
