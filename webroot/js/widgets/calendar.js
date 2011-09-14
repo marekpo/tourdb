@@ -1,9 +1,6 @@
 (function($) {
 	var methods = {
 		init: function(options) {
-			var settings = {
-			};
-
 			return this.each(function(index, calendarElement) {
 	
 				var $this = $(this);
@@ -47,8 +44,17 @@
 							.appendTo('body');
 					}
 
-					popup.css({display: 'block'})
-						.offset({top: $(this).offset().top + 20, left: $(this).offset().left + ($(this).width() / 2 - popup.width() / 2)});
+					var offset = {
+						top: $(this).offset().top + 20,
+						left: $(this).offset().left + ($(this).width() / 2 - popup.width() / 2)
+					};
+
+					if(offset.top + popup.height() > window.innerHeight)
+					{
+						offset.top = $(this).offset().top - 13 - popup.height();
+					}
+
+					popup.css({display: 'block'}).offset(offset);
 				}).mouseout(function() {
 					$this.find('.appointment').removeClass('highlight');
 					$('.popup').css({display: 'none'});
