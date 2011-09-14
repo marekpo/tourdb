@@ -124,14 +124,13 @@ fieldset .half	{ width: 381px; }
 
 /* tables */
 table.list				{ width: 100%; border-collapse: collapse; }
-table.list th			{ background: #dddddd; padding: 4px; }
-table.list td			{ padding: 4px; }
-table.list tr.even td	{ background: #eeeeee; }
-table.list tr:HOVER td	{ background: #ffffdd; }
-table.list th			{ text-align: left; white-space: nowrap; }
+table.list th			{ background: #dddddd; padding: 4px; text-align: left; white-space: nowrap; }
 table.list th a			{ padding-right: 16px; background: transparent no-repeat right center; }
 table.list th a.asc		{ background-image: url(../img/table_sort_asc.png); }
 table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
+table.list td			{ padding: 4px; }
+table.list tr.even td	{ background: #eeeeee; }
+table.list tr:HOVER td	{ background: #ffffdd; }
 
 /* tours */
 .tourClassification					{ white-space: nowrap; }
