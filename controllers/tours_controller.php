@@ -192,14 +192,19 @@ class ToursController extends AppController
 
 	function search()
 	{
+		$tourIds = $this->Tour->searchTours($this->params['url']);
+
 		$this->paginate = array_merge($this->paginate, array(
-			'conditions' => array('TourStatus.key' => array(TourStatus::FIXED, TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED)),
-			'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile')
+			'conditions' => array('Tour.id' => Set::extract('/Tour/id', $tourIds)),
+			'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile'),
 		));
 
 		$this->set(array(
-			'tours' => $this->paginate('Tour')
+			'tours' => $this->paginate('Tour'),
 		));
+
+		$this->data['Tour'] = $this->params['url'];
+		$this->__setFormContent();
 	}
 
 	function __setFormContent()

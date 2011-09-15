@@ -106,6 +106,85 @@ class Tour extends AppModel
 		return true;
 	}
 
+	function searchTours($searchFilters = array())
+	{
+		$searchConditions = array();
+
+		$this->unbindModel(array(
+			'belongsTo' => array('TourGuide'),
+			'hasMany' => array('TourParticipation'),
+			'hasAndBelongsToMany' => array('TourType', 'ConditionalRequisite', 'Difficulty')
+		));
+
+		if(isset($searchFilters['query']) && !empty($searchFilters['query']))
+		{
+			$searchConditions['Tour.title LIKE'] = sprintf('%%%s%%', $searchFilters['query']);
+		}
+
+		if(isset($searchFilters['startdate']) && !empty($searchFilters['startdate']))
+		{
+			$searchConditions['Tour.startdate >='] = date('Y-m-d', strtotime($searchFilters['startdate']));
+		}
+
+		if(isset($searchFilters['enddate']) && !empty($searchFilters['enddate']))
+		{
+			$searchConditions['Tour.enddate <='] = date('Y-m-d', strtotime($searchFilters['enddate']));
+		}
+
+		if(isset($searchFilters['TourType']) && !empty($searchFilters['TourType']))
+		{
+			$this->bindModel(array(
+				'hasOne' => array(
+					'TourTypesTour' => array(
+						'foreignKey' => false,
+						'type' => 'INNER',
+						'conditions' => array(
+							'TourTypesTour.tour_id = Tour.id',
+							array('TourTypesTour.tour_type_id' => $searchFilters['TourType'])
+						)
+					)
+				)
+			));
+		}
+
+		if(isset($searchFilters['ConditionalRequisite']) && !empty($searchFilters['ConditionalRequisite']))
+		{
+			$this->bindModel(array(
+				'hasOne' => array(
+					'ConditionalRequisitesTour' => array(
+						'foreignKey' => false,
+						'type' => 'INNER',
+						'conditions' => array(
+							'ConditionalRequisitesTour.tour_id = Tour.id',
+							array('ConditionalRequisitesTour.conditional_requisite_id' => $searchFilters['ConditionalRequisite'])
+						)
+					)
+				)
+			));
+		}
+
+		if(isset($searchFilters['Difficulty']) && !empty($searchFilters['Difficulty']))
+		{
+			$this->bindModel(array(
+				'hasOne' => array(
+					'DifficultiesTour' => array(
+						'foreignKey' => false,
+						'type' => 'INNER',
+						'conditions' => array(
+							'DifficultiesTour.tour_id = Tour.id',
+							array('DifficultiesTour.difficulty_id' => $searchFilters['Difficulty'])
+						)
+					)
+				)
+			));
+		}
+
+		return $this->find('all', array(
+			'fields' => array('Tour.id'),
+			'conditions' => array_merge($searchConditions, array('TourStatus.key' => array(TourStatus::FIXED, TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED))),
+		));
+	}
+
 	function getEditWhitelist($id = null)
 	{
 		if($id == null)
