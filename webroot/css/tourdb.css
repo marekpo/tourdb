@@ -13,10 +13,10 @@ a:HOVER		{ text-decoration: underline; }
 
 #page		{  }
 #container	{ width: 1002px; margin: 0 auto; }
-#header		{ height: 80px; }
-#topnav		{ height: 40px; position: relative; }
+#header		{ background: transparent url(../img/sitelogo.png) no-repeat left center; height: 80px; }
+#topnav		{ position: relative; overflow: hidden; }
 
-#login_box				{ float: right }
+#login_box				{ float: right; margin-bottom: 5px; }
 #login_box .username	{ font-weight: bold; }
 
 #breadcrumbs	{ margin: 10px 0; font-weight: bold; }
