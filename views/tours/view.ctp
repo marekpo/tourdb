@@ -8,19 +8,14 @@ echo $this->Html->div('infoitem',
 	. $this->Html->div('content', $this->TourDisplay->getTourGuide($tour))
 );
 
-echo $this->Html->div('infoitem',
-	$this->Html->div('label', __('Beschreibung', true))
-	. $this->Html->div('content', $this->Display->formatText($tour['Tour']['description']))
-);
-
 echo $this->Html->div('half',
 	$this->Html->div('infoitem',
-		$this->Html->div('label', __('Startdatum', true))
-		. $this->Html->div('content', $this->Time->format('d.m.Y', $tour['Tour']['startdate']))
-	)
-	. $this->Html->div('infoitem',
-		$this->Html->div('label', __('Enddatum', true))
-		. $this->Html->div('content', $this->Time->format('d.m.Y', $tour['Tour']['enddate']))
+		$this->Html->div('label', __('Datum', true))
+		. $this->Html->div('content', 
+			($tour['Tour']['startdate'] == $tour['Tour']['enddate']
+				? $this->Time->format('d.m.Y', $tour['Tour']['startdate'])
+				: sprintf('%s - %s', $this->Time->format('d.m.Y', $tour['Tour']['startdate']), $this->Time->format('d.m.Y', $tour['Tour']['enddate'])))
+		)
 	)
 	. $this->Html->div('infoitem',
 		$this->Html->div('label', __('Anmeldeschluss', true))
@@ -42,3 +37,5 @@ echo $this->Html->div('half',
 		. $this->Html->div('content', $this->Display->displayFlag($tour['Tour']['withmountainguide']))
 	)
 );
+
+echo $this->Html->div('infoitem', $this->Display->formatText($tour['Tour']['description']));
