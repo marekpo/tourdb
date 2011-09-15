@@ -37,7 +37,7 @@ foreach($tours as $tour)
 		$dateColumn, $dayColumn, $tour['Tour']['title'], $tour['Tour']['description'],
 		($tour['Tour']['tourweek'] == true ? 'TW' : ''),
 		($tour['Tour']['withmountainguide'] == true ? 'Ja' : ''),
-		$this->TourDisplay->getClassification($tour)
+		$this->TourDisplay->getClassification($tour, array('span' => false))
 	);
 
 	$row[] = $this->TourDisplay->getTourGuide($tour);

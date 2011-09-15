@@ -18,8 +18,12 @@ class TourDisplayHelper extends AppHelper
 		return sprintf('%s %s', $tour['TourGuide']['Profile']['firstname'], $tour['TourGuide']['Profile']['lastname']);
 	}
 
-	function getClassification($tour)
+	function getClassification($tour, $options = array())
 	{
+		$options = array_merge(array(
+			'span' => true
+		), $options);
+
 		$tourClassification = array();
 
 		$tourTypes = array();
@@ -80,7 +84,14 @@ class TourDisplayHelper extends AppHelper
 
 			}
 
-			return $this->Html->tag('span', implode('/', $tourClassification), array('class' => 'tourClassification'));
+			$result = implode('/', $tourClassification);
+
+			if($options['span'] == true)
+			{
+				return $this->Html->tag('span', $result, array('class' => 'tourClassification'));
+			}
+
+			return $result;
 		}
 	}
 }
