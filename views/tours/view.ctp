@@ -3,6 +3,8 @@
 $this->set('title_for_layout', $tour['Tour']['title']);
 $this->Html->addCrumb($tour['Tour']['title']);
 
+echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
+
 echo $this->Html->div('infoitem',
 	$this->Html->div('label', __('Tourenleiter', true))
 	. $this->Html->div('content', $this->TourDisplay->getTourGuide($tour))
@@ -38,4 +40,8 @@ echo $this->Html->div('half',
 	)
 );
 
+echo $this->Html->tag('hr', '');
+
 echo $this->Html->div('infoitem', $this->Display->formatText($tour['Tour']['description']));
+
+echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));

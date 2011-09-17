@@ -208,6 +208,50 @@ class ToursController extends AppController
 		$this->set(compact('tour'));
 	}
 
+	function closeRegistration($id)
+	{
+		$tour = $this->Tour->find('first', array(
+			'conditions' => array('Tour.id' => $id),
+			'contain' => array()
+		));
+
+		if(empty($tour))
+		{
+			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
+			$this->redirect('/');
+		}
+
+		if($tour['Tour']['tour_guide_id'] != $this->Auth->user('id'))
+		{
+			$this->Session->setFlash(__('Nur der Tourleiter darf diese Aktion durchführen.', true));
+			$this->redirect($this->referer(null, true));
+		}
+
+		$registrationClosedStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::REGISTRATION_CLOSED));
+
+		$this->Tour->setChangeDetail($this->Auth->user('id'), sprintf('%s:%s', Inflector::underscore($this->name), Inflector::underscore($this->action)));
+		if(!$this->Tour->save(array('Tour' => array('id' => $id, 'tour_status_id' => $registrationClosedStatusId))))
+		{
+			$this->Session->setFlash(__('Beim Ändern des Tourstatus ist ein Fehler aufgetreten.', true));
+			$this->redirect($this->referer(null, true));
+		}
+
+		$this->Session->setFlash(__('Die Anmeldung für diese Tour wurde geschlossen.', true));
+		$this->redirect($this->referer(null, true));
+	}
+
+	function cancel($id)
+	{
+		$this->Session->setFlash(__('Diese Funktion ist noch nicht integriert', true));
+		$this->redirect($this->referer(null, true));
+	}
+
+	function carriedOut($id)
+	{
+		$this->Session->setFlash(__('Diese Funktion ist noch nicht integriert', true));
+		$this->redirect($this->referer(null, true));
+	}
+
 	function __setFormContent()
 	{
 		$this->set(array(
