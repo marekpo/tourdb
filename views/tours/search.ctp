@@ -80,7 +80,7 @@ $this->Js->buffer(sprintf("$('#tourtypes input[type=checkbox]').click(TourDB.Tou
 echo $this->Form->end(__('Suchen', true));
 
 $tableHeaders = array(
-	$this->Paginator->sort(__('Status', true), 'TourStatus.statusname'),
+	$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
 	$this->Paginator->sort(__('Tourbezeichnung', true), 'title'),
 	$this->Paginator->sort(__('Datum von', true), 'startdate'),
 	$this->Paginator->sort(__('Datum bis', true), 'enddate'),

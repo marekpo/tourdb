@@ -181,7 +181,7 @@ class Tour extends AppModel
 
 		return $this->find('all', array(
 			'fields' => array('Tour.id'),
-			'conditions' => array_merge($searchConditions, array('TourStatus.key' => array(TourStatus::FIXED, TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED))),
+			'conditions' => array_merge($searchConditions, array('TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT))),
 		));
 	}
 
