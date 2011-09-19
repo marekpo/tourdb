@@ -11,6 +11,8 @@ class ToursController extends AppController
 	{
 		parent::beforeFilter();
 
+		$this->Auth->allow('search');
+
 		$this->paginate = array(
 			'limit' => 20,
 			'order' => array('Tour.startdate' => 'ASC')
@@ -186,6 +188,23 @@ class ToursController extends AppController
 				}
 			}
 		}
+	}
+
+	function search()
+	{
+		$tourIds = $this->Tour->searchTours($this->params['url']);
+
+		$this->paginate = array_merge($this->paginate, array(
+			'conditions' => array('Tour.id' => Set::extract('/Tour/id', $tourIds)),
+			'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile'),
+		));
+
+		$this->set(array(
+			'tours' => $this->paginate('Tour'),
+		));
+
+		$this->data['Tour'] = $this->params['url'];
+		$this->__setFormContent();
 	}
 
 	function __setFormContent()
