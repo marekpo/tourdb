@@ -70,9 +70,7 @@
           </div>
         </div>
 
-        <div id="footer">
-          <div class="inner"></div>
-        </div>
+        <div id="footer"><?php __('Tourenangebot für SAC © 2011'); ?></div>
       </div>
     </div>
 <?php
