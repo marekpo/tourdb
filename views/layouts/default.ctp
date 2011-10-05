@@ -28,11 +28,11 @@
 		echo sprintf(__('Angemeldet als %s', true), $this->Html->tag('span',
 			$this->Session->read('Auth.User.username'), array('class' => 'username')));
 		echo '&nbsp;|&nbsp;';
-		echo $this->Html->link(__('Abmelden', true), array('controller' => 'users', 'action' => 'logout'));
+		echo $this->Html->link(__('Logout', true), array('controller' => 'users', 'action' => 'logout'));
 	}
 	else
 	{
-		echo $this->Html->link(__('Anmelden', true), array('controller' => 'users', 'action' => 'login'));
+		echo $this->Html->link(__('Login', true), array('controller' => 'users', 'action' => 'login'));
 	}
 ?>
             </div>
