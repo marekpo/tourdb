@@ -80,6 +80,11 @@ class Tour extends AppModel
 			$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
 		}
 
+		if(isset($this->data['Tour']['deadline']))
+		{
+			$this->data['Tour']['deadline'] = empty($this->data['Tour']['deadline']) ? null : date('Y-m-d', strtotime($this->data['Tour']['deadline']));
+		}
+
 		if(in_array('TourType', $options['fieldList']) && isset($this->data['Tour']['TourType']))
 		{
 			$this->data['TourType'] = $this->data['Tour']['TourType'];
@@ -104,6 +109,35 @@ class Tour extends AppModel
 		}
 
 		return true;
+	}
+
+	function afterFind($results, $primary = false)
+	{
+		foreach($results as $key => $val)
+		{
+			$tour = array_key_exists('Tour', $val) ? $val['Tour'] : $val;
+
+			if(array_key_exists('deadline', $tour))
+			{
+				$results[$key]['Tour']['deadline_calculated'] = $tour['deadline'];
+
+				if($tour['deadline'] == null)
+				{
+					$startdate = isset($tour['startdate']) ? $tour['startdate'] : $this->field('id', array('id' => $tour['id']));
+
+					if(array_key_exists('Tour', $val))
+					{
+						$results[$key]['Tour']['deadline_calculated'] = date('Y-m-d', strtotime('-1 day', strtotime($startdate)));
+					}
+					else
+					{
+						$results[$key]['deadline_calculated'] = date('Y-m-d', strtotime('-1 day', strtotime($startdate)));
+					}
+				}
+			}
+		}
+
+		return $results;
 	}
 
 	function searchTours($searchFilters = array())

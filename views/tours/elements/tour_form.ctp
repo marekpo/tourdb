@@ -14,7 +14,7 @@ echo $this->Form->input('title', array(
 	)
 ));
 echo $this->Form->input('description', array(
-	'label' => __('Beschreibung', true), 'disabled' => !in_array('description', $whitelist),
+	'label' => __('Beschreibung', true), 'disabled' => !in_array('description', $whitelist)
 ));
 
 echo $this->Widget->dateTime('startdate', array(
@@ -31,11 +31,15 @@ echo $this->Widget->dateTime('enddate', array(
 	)
 ));
 
+echo $this->Widget->dateTime('deadline', array(
+	'label' => __('Anmeldeschluss', true), 'disabled' => !in_array('deadline', $whitelist)
+));
+
 echo $this->Form->input('tourweek', array(
-	'label' => __('Tourenwoche', true), 'disabled' => !in_array('tourweek', $whitelist),
+	'label' => __('Tourenwoche', true), 'disabled' => !in_array('tourweek', $whitelist)
 ));
 echo $this->Form->input('withmountainguide', array(
-	'label' => __('Mit dipl. Bergführer', true), 'disabled' => !in_array('withmountainguide', $whitelist),
+	'label' => __('Mit dipl. Bergführer', true), 'disabled' => !in_array('withmountainguide', $whitelist)
 ));
 
 $tourTypeSelect = $this->Html->div('input select' . (isset($this->validationErrors['Tour']['TourType']) ? ' error' : ''),

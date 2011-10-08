@@ -126,6 +126,11 @@ class ToursController extends AppController
 			$this->data['Tour']['startdate'] = date('d.m.Y', strtotime($this->data['Tour']['startdate']));
 			$this->data['Tour']['enddate'] = date('d.m.Y', strtotime($this->data['Tour']['enddate']));
 
+			if($this->data['Tour']['deadline'] != null)
+			{
+				$this->data['Tour']['deadline'] = date('d.m.Y', strtotime($this->data['Tour']['deadline']));
+			}
+
 			$this->Session->write('referer.tours.edit', $this->referer(null, true));
 		}
 
