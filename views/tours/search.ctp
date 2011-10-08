@@ -10,7 +10,7 @@ echo $this->Form->create(false, array('type' => 'GET', 'url' => $this->passedArg
 
 echo $this->Widget->stripHidden($this->Html->div('input radio',
 	$this->Form->label(__('Anmeldeschluss', true))
-	. $this->Form->input('Tour.minimumDeadline', array(
+	. $this->Form->input('Tour.deadline', array(
 		'type' => 'radio', 'default' => '', 'legend' => false, 'div' => false,
 		'options' => array(
 			'' => __('Alle', true),
@@ -101,31 +101,38 @@ $this->Js->buffer(sprintf("$('#tourtypes input[type=checkbox]').click(TourDB.Tou
 
 echo $this->Form->end(__('Suchen', true));
 
-$tableHeaders = array(
-	$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
-	$this->Paginator->sort(__('Tourbezeichnung', true), 'title'),
-	$this->Paginator->sort(__('Datum von', true), 'startdate'),
-	$this->Paginator->sort(__('Datum bis', true), 'enddate'),
-	__('Code', true),
-	$this->Paginator->sort(__('Tourenleiter', true), 'TourGuide.username')
-);
-
-$tableRows = array();
-
-foreach($tours as $tour)
+if(count($tours))
 {
-	$tableRows[] = array(
-		$tour['TourStatus']['statusname'],
-		$this->Html->link($this->Text->truncate($tour['Tour']['title'], 40), array(
-			'action' => 'view', $tour['Tour']['id']
-		)),
-		$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
-		$this->Time->format('d.m.Y', $tour['Tour']['enddate']),
-		$this->TourDisplay->getClassification($tour),
-		$this->TourDisplay->getTourGuide($tour)
+	$tableHeaders = array(
+		$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
+		$this->Paginator->sort(__('Tourbezeichnung', true), 'title'),
+		$this->Paginator->sort(__('Datum von', true), 'startdate'),
+		$this->Paginator->sort(__('Datum bis', true), 'enddate'),
+		__('Code', true),
+		$this->Paginator->sort(__('Tourenleiter', true), 'TourGuide.username')
 	);
+	
+	$tableRows = array();
+	
+	foreach($tours as $tour)
+	{
+		$tableRows[] = array(
+			$tour['TourStatus']['statusname'],
+			$this->Html->link($this->Text->truncate($tour['Tour']['title'], 40), array(
+				'action' => 'view', $tour['Tour']['id']
+			)),
+			$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
+			$this->Time->format('d.m.Y', $tour['Tour']['enddate']),
+			$this->TourDisplay->getClassification($tour),
+			$this->TourDisplay->getTourGuide($tour)
+		);
+	}
+	
+	echo $this->Html->tag('table', $this->Html->tableHeaders($tableHeaders) . $this->Html->tableCells($tableRows), array('class' => 'list'));
 }
-
-echo $this->Html->tag('table', $this->Html->tableHeaders($tableHeaders) . $this->Html->tableCells($tableRows), array('class' => 'list'));
+else
+{
+	echo $this->Html->para('', __('Zu den gewählten Suchkriterien wurden keine Touren gefunden.', true));
+}
 
 echo $this->element('paginator');

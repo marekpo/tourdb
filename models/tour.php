@@ -150,6 +150,16 @@ class Tour extends AppModel
 			'hasAndBelongsToMany' => array('TourType', 'ConditionalRequisite', 'Difficulty')
 		));
 
+		if(isset($searchFilters['deadline']) && !empty($searchFilters['deadline']))
+		{
+			$searchConditions[] = array(
+				'OR' => array(
+					array('Tour.deadline' => null, 'Tour.startdate >=' => date('Y-m-d', strtotime('+1 day'))),
+					array('Tour.deadline >=' => $searchFilters['deadline'])
+				)
+			);
+		}
+
 		if(isset($searchFilters['title']) && !empty($searchFilters['title']))
 		{
 			$searchConditions['Tour.title LIKE'] = sprintf('%%%s%%', $searchFilters['title']);
