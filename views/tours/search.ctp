@@ -8,10 +8,32 @@ $this->Paginator->options(array('url' => array('?' => $urlSearchParameters)));
 
 echo $this->Form->create(false, array('type' => 'GET', 'url' => $this->passedArgs));
 
-echo $this->Form->input('Tour.query', array('label' => __('Text', true)));
+echo $this->Widget->stripHidden($this->Html->div('input radio',
+	$this->Form->label(__('Anmeldeschluss', true))
+	. $this->Form->input('Tour.minimumDeadline', array(
+		'type' => 'radio', 'default' => '', 'legend' => false, 'div' => false,
+		'options' => array(
+			'' => __('Alle', true),
+			$this->Time->format('Y-m-d', time()) => __('Nur mit offener Anmeldung', true)
+		),
+	))
+));
+
+echo $this->Form->input('Tour.title', array('label' => __('Tourbezeichnung', true)));
 
 echo $this->Widget->dateTime('Tour.startdate', array('label' => __('Datum von', true)));
 echo $this->Widget->dateTime('Tour.enddate', array('label' => __('bis', true)));
+
+$tourGuideOptions = array('' => '');
+
+foreach($tourGuides as $tourGuide)
+{
+	$tourGuideOptions[$tourGuide['TourGuide']['id']] = $this->TourDisplay->getTourGuide($tourGuide);
+}
+
+echo $this->Form->input('Tour.TourGuide', array(
+	'type' => 'select', 'options' => $tourGuideOptions, 'label' => __('Tourenleiter', true)
+));
 
 echo $this->Html->div('input select',
 	$this->Form->label(__('Tourentypen', true))

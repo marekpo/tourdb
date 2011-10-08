@@ -116,9 +116,9 @@ class Tour extends AppModel
 			'hasAndBelongsToMany' => array('TourType', 'ConditionalRequisite', 'Difficulty')
 		));
 
-		if(isset($searchFilters['query']) && !empty($searchFilters['query']))
+		if(isset($searchFilters['title']) && !empty($searchFilters['title']))
 		{
-			$searchConditions['Tour.title LIKE'] = sprintf('%%%s%%', $searchFilters['query']);
+			$searchConditions['Tour.title LIKE'] = sprintf('%%%s%%', $searchFilters['title']);
 		}
 
 		if(isset($searchFilters['startdate']) && !empty($searchFilters['startdate']))
@@ -129,6 +129,11 @@ class Tour extends AppModel
 		if(isset($searchFilters['enddate']) && !empty($searchFilters['enddate']))
 		{
 			$searchConditions['Tour.enddate <='] = date('Y-m-d', strtotime($searchFilters['enddate']));
+		}
+
+		if(isset($searchFilters['TourGuide']) && !empty($searchFilters['TourGuide']))
+		{
+			$searchConditions['Tour.tour_guide_id'] = $searchFilters['TourGuide'];
 		}
 
 		if(isset($searchFilters['TourType']) && !empty($searchFilters['TourType']))

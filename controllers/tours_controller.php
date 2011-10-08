@@ -204,6 +204,13 @@ class ToursController extends AppController
 		));
 
 		$this->data['Tour'] = $this->params['url'];
+
+		$this->set(array(
+			'tourGuides' => $this->Tour->TourGuide->getUsersByRole(Role::TOURLEADER, array(
+				'contain' => array('Profile')
+			))
+		));
+
 		$this->__setFormContent();
 	}
 
