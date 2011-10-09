@@ -30,7 +30,6 @@ class AppController extends Controller
 	function __setupAuth()
 	{
 		$this->Auth->userScope = array('User.active' => 1);
-		$this->Auth->loginRedirect = '/';
 		$this->Auth->logoutRedirect = '/';
 		$this->Auth->autoRedirect = false;
 		$this->Auth->authenticate = ClassRegistry::init('User');
