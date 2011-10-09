@@ -119,10 +119,22 @@ select	{ border: 1px solid #808080; }
 
 .submit	{ margin: 20px 0; text-align: right; }
 
+input[type=submit].action	{ padding: 10px; background-color: #689cd3; border: 0; border-radius: 5px; font-weight: bold; }
+
+.daterange > div.input						{ float: left; clear: none; }
+.daterange > div.input label				{ width: auto; margin: 0 10px; }
+.daterange > div.input:FIRST-CHILD label	{ width: 130px; margin: 0; }
+
 .error-message	{ margin-left: 130px; background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 0 24px; }
 
-fieldset		{ border: 1px solid #dddddd; padding: 8px; margin: 0; }
-fieldset .half	{ width: 381px; }
+fieldset								{ border: 1px solid #dddddd; padding: 8px; margin: 0; }
+fieldset.collapsible					{ border-width: 1px 0 0; }
+fieldset.collapsible legend				{ cursor: pointer; padding-left: 20px; background: #ffffff no-repeat 4px center; }
+fieldset.collapsible.collapsed legend	{ background-image: url(../img/fieldset_collapsed.png); }
+fieldset.collapsible.expanded legend	{ background-image: url(../img/fieldset_expanded.png); }
+fieldset.collapsible.collapsed > div	{ display: none; }
+
+fieldset .half			{ width: 381px; }
 
 /* tables */
 table.list				{ width: 100%; border-collapse: collapse; }
@@ -152,6 +164,8 @@ table.list tr:HOVER td	{ background: #ffffdd; }
 .tours .checkbox-container .error-message	{ margin: 0; }
 table.tours .tourweek, table.tours .withmountainguide
 	{ text-align: center; }
+
+.tours.search .submit	{ margin: 20px 0; text-align: left; }
 
 /* users */
 .users.login .input.text input, .users.login .input.password input

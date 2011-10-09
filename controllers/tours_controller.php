@@ -213,7 +213,13 @@ class ToursController extends AppController
 		$this->set(array(
 			'tourGuides' => $this->Tour->TourGuide->getUsersByRole(Role::TOURLEADER, array(
 				'contain' => array('Profile')
-			))
+			)),
+			'filtersCollapsed' => empty($this->data['Tour']['startdate'])
+				&& empty($this->data['Tour']['enddate'])
+				&& empty($this->data['Tour']['TourGuide'])
+				&& empty($this->data['Tour']['TourType'])
+				&& empty($this->data['Tour']['ConditionalRequisite'])
+				&& empty($this->data['Tour']['Difficulty'])
 		));
 
 		$this->__setFormContent();

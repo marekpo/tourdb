@@ -21,8 +21,10 @@ echo $this->Widget->stripHidden($this->Html->div('input radio',
 
 echo $this->Form->input('Tour.title', array('label' => __('Tourbezeichnung', true)));
 
-echo $this->Widget->dateTime('Tour.startdate', array('label' => __('Datum von', true)));
-echo $this->Widget->dateTime('Tour.enddate', array('label' => __('bis', true)));
+$searchFilters = $this->Html->div('daterange',
+	$this->Widget->dateTime('Tour.startdate', array('label' => __('Datum von', true)))
+	. $this->Widget->dateTime('Tour.enddate', array('label' => __('bis', true)))
+);
 
 $tourGuideOptions = array('' => '');
 
@@ -31,11 +33,11 @@ foreach($tourGuides as $tourGuide)
 	$tourGuideOptions[$tourGuide['TourGuide']['id']] = $this->TourDisplay->getTourGuide($tourGuide);
 }
 
-echo $this->Form->input('Tour.TourGuide', array(
+$searchFilters .= $this->Form->input('Tour.TourGuide', array(
 	'type' => 'select', 'options' => $tourGuideOptions, 'label' => __('Tourenleiter', true)
 ));
 
-echo $this->Html->div('input select',
+$searchFilters .= $this->Html->div('input select',
 	$this->Form->label(__('Tourentypen', true))
 	. $this->Form->input('Tour.TourType', array(
 		'label' => false, 'div' => false, 'multiple' => 'checkbox',
@@ -44,12 +46,12 @@ echo $this->Html->div('input select',
 	array('id' => 'tourtypes')
 );
 
-echo $this->Form->input('Tour.ConditionalRequisite', array(
+$searchFilters .= $this->Form->input('Tour.ConditionalRequisite', array(
 	'label' => __('Anforderungen', true), 'multiple' => 'checkbox',
 	'after' => $this->Html->div('', '', array('style' => 'clear: left'))
 ));
 
-echo $this->Html->div('input select',
+$searchFilters .= $this->Html->div('input select',
 	$this->Form->label(__('Schwierigkeit', true))
 	. $this->Html->div('difficulty-select checkbox-container',
 		$this->Html->div('diff-s diff-h',
@@ -99,7 +101,13 @@ echo $this->Html->div('input select',
 );
 $this->Js->buffer(sprintf("$('#tourtypes input[type=checkbox]').click(TourDB.Tours.Form.switchDifficulty); TourDB.Tours.Form.switchDifficulty();"));
 
-echo $this->Form->end(__('Suchen', true));
+echo $this->Widget->collapsibleFieldset(__('Suchfilter', true), $searchFilters, $filtersCollapsed);
+
+echo $this->Html->div('submit',
+	$this->Form->submit(__('Suchen', true), array('div' => false, 'class' => 'action'))
+);
+
+echo $this->Form->end();
 
 if(count($tours))
 {
