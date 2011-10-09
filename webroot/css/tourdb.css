@@ -175,7 +175,8 @@ table.list tr:HOVER td	{ background: #ffffdd; }
 table.tours .tourweek, table.tours .withmountainguide
 	{ text-align: center; }
 
-.tours.search .submit	{ margin: 20px 0; text-align: left; }
+.tours.search .submit		{ margin: 20px 0; text-align: left; }
+.tours.search .submit > div	{ float: right; }
 
 .toureditbar	{ text-align: right; margin-bottom: 10px; font-size: 8pt; }
 .toureditbar a	{ margin-left: 10px; }

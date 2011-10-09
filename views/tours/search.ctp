@@ -105,6 +105,9 @@ echo $this->Widget->collapsibleFieldset(__('Suchfilter', true), $searchFilters, 
 
 echo $this->Html->div('submit',
 	$this->Form->submit(__('Suchen', true), array('div' => false, 'class' => 'action'))
+	. $this->Html->div('',
+		$this->Html->link(__('Suchfilter zurücksetzen', true), array('controller' => 'tours', 'action' => 'search'))
+	)
 );
 
 echo $this->Form->end();
