@@ -265,4 +265,32 @@ class User extends AppModel
 
 		return $privileges;
 	}
+
+	function getUsersByRole($roleKey, $options = array())
+	{
+		$this->bindModel(array(
+			'hasOne' => array(
+				'RolesUser',
+				'FilterRole' => array(
+					'className' => 'Role',
+					'foreignKey' => false,
+					'conditions' => array('FilterRole.id = RolesUser.role_id')
+				)
+			)
+		));
+
+		$options['contain'][] = 'RolesUser';
+		$options['contain'][] = 'FilterRole';
+
+		$users = $this->find('all', array_merge($options, array(
+			'conditions' => array('FilterRole.key' => $roleKey)
+		)));
+
+		foreach($users as $index => $user)
+		{
+			unset($users[$index]['RolesUser'], $users[$index]['FilterRole']);
+		}
+
+		return $users;
+	}
 }

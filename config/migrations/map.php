@@ -24,5 +24,7 @@ $map = array(
 		'011_change_difficulties_for_climbing_tours' => 'M4e6b8e70690845cdae141cb81b2c2a9b'),
 	12 => array(
 		'012_add_privileges_for_tour_detail_actions' => 'M4e7345863dd04a90b9fb156c1b2c2a9b'),
+	13 => array(
+		'013_add_tour_deadline' => 'M4e906b786c344896bde702501b2c2a9b'),
 );
 ?>

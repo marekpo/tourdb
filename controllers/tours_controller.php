@@ -126,6 +126,11 @@ class ToursController extends AppController
 			$this->data['Tour']['startdate'] = date('d.m.Y', strtotime($this->data['Tour']['startdate']));
 			$this->data['Tour']['enddate'] = date('d.m.Y', strtotime($this->data['Tour']['enddate']));
 
+			if($this->data['Tour']['deadline'] != null)
+			{
+				$this->data['Tour']['deadline'] = date('d.m.Y', strtotime($this->data['Tour']['deadline']));
+			}
+
 			$this->Session->write('referer.tours.edit', $this->referer(null, true));
 		}
 
@@ -204,6 +209,19 @@ class ToursController extends AppController
 		));
 
 		$this->data['Tour'] = $this->params['url'];
+
+		$this->set(array(
+			'tourGuides' => $this->Tour->TourGuide->getUsersByRole(Role::TOURLEADER, array(
+				'contain' => array('Profile')
+			)),
+			'filtersCollapsed' => empty($this->data['Tour']['startdate'])
+				&& empty($this->data['Tour']['enddate'])
+				&& empty($this->data['Tour']['TourGuide'])
+				&& empty($this->data['Tour']['TourType'])
+				&& empty($this->data['Tour']['ConditionalRequisite'])
+				&& empty($this->data['Tour']['Difficulty'])
+		));
+
 		$this->__setFormContent();
 	}
 

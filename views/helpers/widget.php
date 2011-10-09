@@ -183,6 +183,20 @@ class WidgetHelper extends AppHelper
 		return preg_replace('/<input.*?type="hidden".*?>/', '', $text);
 	}
 
+	function collapsibleFieldset($legend, $content, $collapsed = false)
+	{
+		$fieldsetId = 'fieldset' . String::uuid();
+
+		$this->Html->script('widgets/collapsible_fieldset', array('inline' => false));
+		$this->Js->buffer(sprintf("$('#%s').collapsibleFieldset({ collapsed: %s });", $fieldsetId, ($collapsed ? 'true' : 'false')));
+
+		return $this->Html->tag('fieldset',
+			$this->Html->tag('legend', $legend)
+			. $this->Html->div('', $content),
+			array('id' => $fieldsetId)
+		);
+	}
+
 	function __createItem($key, $label, $itemClass)
 	{
 		return $this->Html->div(sprintf('item %s', $itemClass), $label, array('id' => sprintf('item-%s', $key)));
