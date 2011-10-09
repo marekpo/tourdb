@@ -80,6 +80,11 @@ class Tour extends AppModel
 			$this->data['Tour']['enddate'] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
 		}
 
+		if(isset($this->data['Tour']['deadline']))
+		{
+			$this->data['Tour']['deadline'] = empty($this->data['Tour']['deadline']) ? null : date('Y-m-d', strtotime($this->data['Tour']['deadline']));
+		}
+
 		if(in_array('TourType', $options['fieldList']) && isset($this->data['Tour']['TourType']))
 		{
 			$this->data['TourType'] = $this->data['Tour']['TourType'];
@@ -104,6 +109,129 @@ class Tour extends AppModel
 		}
 
 		return true;
+	}
+
+	function afterFind($results, $primary = false)
+	{
+		foreach($results as $key => $val)
+		{
+			$tour = array_key_exists('Tour', $val) ? $val['Tour'] : $val;
+
+			if(array_key_exists('deadline', $tour))
+			{
+				$results[$key]['Tour']['deadline_calculated'] = $tour['deadline'];
+
+				if($tour['deadline'] == null)
+				{
+					$startdate = isset($tour['startdate']) ? $tour['startdate'] : $this->field('id', array('id' => $tour['id']));
+
+					if(array_key_exists('Tour', $val))
+					{
+						$results[$key]['Tour']['deadline_calculated'] = date('Y-m-d', strtotime('-1 day', strtotime($startdate)));
+					}
+					else
+					{
+						$results[$key]['deadline_calculated'] = date('Y-m-d', strtotime('-1 day', strtotime($startdate)));
+					}
+				}
+			}
+		}
+
+		return $results;
+	}
+
+	function searchTours($searchFilters = array())
+	{
+		$searchConditions = array();
+
+		$this->unbindModel(array(
+			'belongsTo' => array('TourGuide'),
+			'hasMany' => array('TourParticipation'),
+			'hasAndBelongsToMany' => array('TourType', 'ConditionalRequisite', 'Difficulty')
+		));
+
+		if(isset($searchFilters['deadline']) && !empty($searchFilters['deadline']))
+		{
+			$searchConditions[] = array(
+				'OR' => array(
+					array('Tour.deadline' => null, 'Tour.startdate >=' => date('Y-m-d', strtotime('+1 day'))),
+					array('Tour.deadline >=' => $searchFilters['deadline'])
+				)
+			);
+		}
+
+		if(isset($searchFilters['title']) && !empty($searchFilters['title']))
+		{
+			$searchConditions['Tour.title LIKE'] = sprintf('%%%s%%', $searchFilters['title']);
+		}
+
+		if(isset($searchFilters['startdate']) && !empty($searchFilters['startdate']))
+		{
+			$searchConditions['Tour.startdate >='] = date('Y-m-d', strtotime($searchFilters['startdate']));
+		}
+
+		if(isset($searchFilters['enddate']) && !empty($searchFilters['enddate']))
+		{
+			$searchConditions['Tour.enddate <='] = date('Y-m-d', strtotime($searchFilters['enddate']));
+		}
+
+		if(isset($searchFilters['TourGuide']) && !empty($searchFilters['TourGuide']))
+		{
+			$searchConditions['Tour.tour_guide_id'] = $searchFilters['TourGuide'];
+		}
+
+		if(isset($searchFilters['TourType']) && !empty($searchFilters['TourType']))
+		{
+			$this->bindModel(array(
+				'hasOne' => array(
+					'TourTypesTour' => array(
+						'foreignKey' => false,
+						'type' => 'INNER',
+						'conditions' => array(
+							'TourTypesTour.tour_id = Tour.id',
+							array('TourTypesTour.tour_type_id' => $searchFilters['TourType'])
+						)
+					)
+				)
+			));
+		}
+
+		if(isset($searchFilters['ConditionalRequisite']) && !empty($searchFilters['ConditionalRequisite']))
+		{
+			$this->bindModel(array(
+				'hasOne' => array(
+					'ConditionalRequisitesTour' => array(
+						'foreignKey' => false,
+						'type' => 'INNER',
+						'conditions' => array(
+							'ConditionalRequisitesTour.tour_id = Tour.id',
+							array('ConditionalRequisitesTour.conditional_requisite_id' => $searchFilters['ConditionalRequisite'])
+						)
+					)
+				)
+			));
+		}
+
+		if(isset($searchFilters['Difficulty']) && !empty($searchFilters['Difficulty']))
+		{
+			$this->bindModel(array(
+				'hasOne' => array(
+					'DifficultiesTour' => array(
+						'foreignKey' => false,
+						'type' => 'INNER',
+						'conditions' => array(
+							'DifficultiesTour.tour_id = Tour.id',
+							array('DifficultiesTour.difficulty_id' => $searchFilters['Difficulty'])
+						)
+					)
+				)
+			));
+		}
+
+		return $this->find('all', array(
+			'fields' => array('Tour.id'),
+			'conditions' => array_merge($searchConditions, array('TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT))),
+		));
 	}
 
 	function getEditWhitelist($id = null)
@@ -147,5 +275,28 @@ class Tour extends AppModel
 		{
 			return array();
 		}
+	}
+
+	function getNewStatusOptions($roles = array())
+	{
+		if(!is_array($roles))
+		{
+			$roles = array($roles);
+		}
+
+		$newStatusOptions = array();
+
+		if(in_array(Role::TOURCHIEF, $roles))
+		{
+			$newStatusOptions[TourStatus::NEW_] = __('neu', true);
+			$newStatusOptions[TourStatus::FIXED] = __('fixiert', true);
+		}
+
+		if(in_array(Role::EDITOR, $roles))
+		{
+			$newStatusOptions[TourStatus::PUBLISHED] = __('veröffentlicht', true);
+		}
+
+		return $newStatusOptions;
 	}
 }

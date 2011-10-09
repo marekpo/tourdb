@@ -11,7 +11,7 @@ class ToursController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('view');
+		$this->Auth->allow('search', 'view');
 
 		$this->paginate = array(
 			'limit' => 20,
@@ -76,7 +76,7 @@ class ToursController extends AppController
 	{
 		$this->set(array(
 			'tours' => $this->Tour->getCalendarData($year, $month, array(
-				'contain' => array('TourGuide', 'TourGuide.Profile', 'TourType', 'ConditionalRequisite', 'Difficulty')
+				'contain' => array('TourGuide', 'TourGuide.Profile', 'TourType', 'ConditionalRequisite', 'Difficulty', 'TourStatus')
 			)),
 			'month' => $month,
 			'year' => $year
@@ -86,19 +86,19 @@ class ToursController extends AppController
 	function edit($id)
 	{
 		$whitelist = $this->Tour->getEditWhitelist($id);
+		$newStatusOptions = $this->Tour->getNewStatusOptions($this->Authorization->getRoles());
 
 		if(!empty($this->data))
 		{
 			if(isset($this->data['Tour']['change_status']))
 			{
-				if(($this->data['Tour']['change_status'] == TourStatus::FIXED && $this->Authorization->hasRole(Role::TOURCHIEF))
-					|| ($this->data['Tour']['change_status'] == TourStatus::PUBLISHED && $this->Authorization->hasRole(Role::EDITOR)))
+				if(in_array($this->data['Tour']['change_status'], array_keys($newStatusOptions)))
 				{
 					$this->data['Tour']['tour_status_id'] = $this->Tour->TourStatus->field('id', array(
 						'key' => $this->data['Tour']['change_status']
 					));
-					unset($this->data['Tour']['change_status']);
 				}
+				unset($this->data['Tour']['change_status']);
 			}
 
 			$this->Tour->create($this->data);
@@ -126,10 +126,15 @@ class ToursController extends AppController
 			$this->data['Tour']['startdate'] = date('d.m.Y', strtotime($this->data['Tour']['startdate']));
 			$this->data['Tour']['enddate'] = date('d.m.Y', strtotime($this->data['Tour']['enddate']));
 
+			if($this->data['Tour']['deadline'] != null)
+			{
+				$this->data['Tour']['deadline'] = date('d.m.Y', strtotime($this->data['Tour']['deadline']));
+			}
+
 			$this->Session->write('referer.tours.edit', $this->referer(null, true));
 		}
 
-		$this->set(compact('whitelist'));
+		$this->set(compact('whitelist', 'newStatusOptions'));
 		$this->__setFormContent();
 	}
 
@@ -188,6 +193,36 @@ class ToursController extends AppController
 				}
 			}
 		}
+	}
+
+	function search()
+	{
+		$tourIds = $this->Tour->searchTours($this->params['url']);
+
+		$this->paginate = array_merge($this->paginate, array(
+			'conditions' => array('Tour.id' => Set::extract('/Tour/id', $tourIds)),
+			'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile'),
+		));
+
+		$this->set(array(
+			'tours' => $this->paginate('Tour'),
+		));
+
+		$this->data['Tour'] = $this->params['url'];
+
+		$this->set(array(
+			'tourGuides' => $this->Tour->TourGuide->getUsersByRole(Role::TOURLEADER, array(
+				'contain' => array('Profile')
+			)),
+			'filtersCollapsed' => empty($this->data['Tour']['startdate'])
+				&& empty($this->data['Tour']['enddate'])
+				&& empty($this->data['Tour']['TourGuide'])
+				&& empty($this->data['Tour']['TourType'])
+				&& empty($this->data['Tour']['ConditionalRequisite'])
+				&& empty($this->data['Tour']['Difficulty'])
+		));
+
+		$this->__setFormContent();
 	}
 
 	function view($id)

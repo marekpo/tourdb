@@ -17,18 +17,18 @@ a:HOVER		{ text-decoration: underline; }
 
 #page		{  }
 #container	{ width: 1002px; margin: 0 auto; }
-#header		{ height: 80px; }
-#topnav		{ height: 40px; position: relative; }
+#header		{ background: transparent url(../img/sitelogo.png) no-repeat left center; height: 80px; }
+#topnav		{ position: relative; overflow: hidden; }
 
-#login_box				{ float: right }
+#login_box				{ float: right; margin-bottom: 5px; }
 #login_box .username	{ font-weight: bold; }
 
 #breadcrumbs	{ margin: 10px 0; font-weight: bold; }
 #breadcrumbs a	{ color: #04376c; }
 #leftnav		{ width: 200px; float: left; }
 #contentheader	{ margin-left: 200px; border: 1px solid #689cd3; background: #689cd3; }
-#content		{ width: 800px; border: solid #dddddd; border-width: 0 1px; float: left; margin-bottom: 20px; padding: 10px 0 0; }
-#footer			{ height: 80px; clear: left; }
+#content		{ width: 800px; border: solid #dddddd; border-width: 0 1px 1px; float: left; margin-bottom: 5px; padding: 10px 0 0; min-height: 400px; }
+#footer			{ clear: left; margin-left: 200px; font-size: 8pt; }
 
 .inner				{ margin: 0 10px; }
 .half				{ width: 390px; float: left; }
@@ -101,13 +101,15 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 .calendar .appointment.wrapstart .label	{ padding-right: 20px; }
 .calendar .appointment.wrapend .label	{ padding-right: 20px; }
 
-.popup			{ position: absolute; display: none; z-index: 6000; padding: 3px; border-radius: 2px; box-shadow: 3px 3px 3px #dddddd, -3px 3px 3px #dddddd, 3px -3px 3px #dddddd, -3px -3px 3px #dddddd;}
-.popup > div	{ font-size: 8pt; }
-.popup .title	{ font-weight: bold; margin-bottom: 4px; font-size: 10pt; }
+.popup				{ position: absolute; display: none; z-index: 6000; padding: 3px; border-radius: 2px; box-shadow: 3px 3px 3px #dddddd, -3px 3px 3px #dddddd, 3px -3px 3px #dddddd, -3px -3px 3px #dddddd;}
+.popup > div		{ font-size: 8pt; }
+.popup .title		{ font-weight: bold; margin-bottom: 4px; font-size: 10pt; }
+.popup table td		{ white-space: nowrap; }
+.popup table .label	{ font-weight: bold; text-align: right; }
 
 /* forms */
 .input				{ clear: left; margin-bottom: 15px; }
-.input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label
+.input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label, .input.radio label:FIRST-CHILD
 	{ width: 130px; float: left; font-weight: bold; }
 
 form .error
@@ -123,23 +125,36 @@ form .error
 
 .input.text input.dateTime	{ width: 150px; background: #ffffff url(../img/calendar.png) no-repeat 2px center; padding-left: 24px; }
 
+select	{ border: 1px solid #808080; }
+
 .submit	{ margin: 20px 0; text-align: right; }
+
+input[type=submit].action	{ padding: 10px; background-color: #689cd3; border: 0; border-radius: 5px; font-weight: bold; }
+
+.daterange > div.input						{ float: left; clear: none; }
+.daterange > div.input label				{ width: auto; margin: 0 10px; }
+.daterange > div.input:FIRST-CHILD label	{ width: 130px; margin: 0; }
 
 .error-message	{ margin-left: 130px; background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 0 24px; }
 
-fieldset	{ border: 1px solid #dddddd; padding: 8px; margin: 0; }
-fieldset .half	{ width: 381px; }
+fieldset								{ border: 1px solid #dddddd; padding: 8px; margin: 0; }
+fieldset.collapsible					{ border-width: 1px 0 0; }
+fieldset.collapsible legend				{ cursor: pointer; padding-left: 20px; background: #ffffff no-repeat 4px center; }
+fieldset.collapsible.collapsed legend	{ background-image: url(../img/fieldset_collapsed.png); }
+fieldset.collapsible.expanded legend	{ background-image: url(../img/fieldset_expanded.png); }
+fieldset.collapsible.collapsed > div	{ display: none; }
+
+fieldset .half			{ width: 381px; }
 
 /* tables */
 table.list				{ width: 100%; border-collapse: collapse; }
-table.list th			{ background: #dddddd; padding: 4px; }
-table.list td			{ padding: 4px; }
-table.list tr.even td	{ background: #eeeeee; }
-table.list tr:HOVER td	{ background: #ffffdd; }
-table.list th			{ text-align: left; white-space: nowrap; }
+table.list th			{ background: #dddddd; padding: 4px; text-align: left; white-space: nowrap; }
 table.list th a			{ padding-right: 16px; background: transparent no-repeat right center; }
 table.list th a.asc		{ background-image: url(../img/table_sort_asc.png); }
 table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
+table.list td			{ padding: 4px; }
+table.list tr.even td	{ background: #eeeeee; }
+table.list tr:HOVER td	{ background: #ffffdd; }
 
 /* tours */
 .tourClassification					{ white-space: nowrap; }
@@ -159,6 +174,8 @@ table.list th a.desc	{ background-image: url(../img/table_sort_desc.png); }
 .tours .checkbox-container .error-message	{ margin: 0; }
 table.tours .tourweek, table.tours .withmountainguide
 	{ text-align: center; }
+
+.tours.search .submit	{ margin: 20px 0; text-align: left; }
 
 .toureditbar	{ text-align: right; margin-bottom: 10px; font-size: 8pt; }
 .toureditbar a	{ margin-left: 10px; }

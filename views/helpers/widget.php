@@ -1,7 +1,7 @@
 <?php
 class WidgetHelper extends AppHelper
 {
-	var $helpers = array('Html', 'Form', 'Js', 'Time', 'TourDisplay');
+	var $helpers = array('Html', 'Form', 'Js', 'Time', 'TourDisplay', 'Text');
 
 	function dragDrop($name, $options = array())
 	{
@@ -183,6 +183,20 @@ class WidgetHelper extends AppHelper
 		return preg_replace('/<input.*?type="hidden".*?>/', '', $text);
 	}
 
+	function collapsibleFieldset($legend, $content, $collapsed = false)
+	{
+		$fieldsetId = 'fieldset' . String::uuid();
+
+		$this->Html->script('widgets/collapsible_fieldset', array('inline' => false));
+		$this->Js->buffer(sprintf("$('#%s').collapsibleFieldset({ collapsed: %s });", $fieldsetId, ($collapsed ? 'true' : 'false')));
+
+		return $this->Html->tag('fieldset',
+			$this->Html->tag('legend', $legend)
+			. $this->Html->div('', $content),
+			array('id' => $fieldsetId)
+		);
+	}
+
 	function __createItem($key, $label, $itemClass)
 	{
 		return $this->Html->div(sprintf('item %s', $itemClass), $label, array('id' => sprintf('item-%s', $key)));
@@ -298,9 +312,47 @@ class WidgetHelper extends AppHelper
 
 	function __renderTourPopup($appointment)
 	{
+		$rows = array(
+			array(
+				array(
+					__('Tourenleiter', true),
+					array('class' => 'label')
+				),
+				$this->TourDisplay->getTourGuide($appointment['event'])
+			),
+			array(
+				array(
+					__('Tourstatus', true),
+					array('class' => 'label')
+				),
+				$appointment['event']['TourStatus']['statusname']
+			),
+			array(
+				array(
+					__('Tourencode', true),
+					array('class' => 'label')
+				),
+				$this->TourDisplay->getClassification($appointment['event'])
+			),
+			array(
+				array(
+					__('Datum', true),
+					array('class' => 'label')
+				),
+				sprintf('%s - %s',
+					strftime('%d.%m.%Y', strtotime($appointment['event']['Tour']['startdate'])),
+					strftime('%d.%m.%Y', strtotime($appointment['event']['Tour']['enddate'])))
+			),
+			array(
+				array(
+					__('Beschreibung', true),
+					array('class' => 'label')
+				),
+				$this->Text->truncate($appointment['event']['Tour']['description'])
+			)
+		);
+		
 		return $this->Html->div('title', $appointment['title'])
-			. $this->Html->div('', $this->TourDisplay->getTourGuide($appointment['event']))
-			. $this->Html->div('', sprintf('%s-%s', strftime('%d.%m.%Y', strtotime($appointment['event']['Tour']['startdate'])), strftime('%d.%m.%Y', strtotime($appointment['event']['Tour']['enddate']))))
-			. $this->Html->div('', $this->TourDisplay->getClassification($appointment['event']));
+			. $this->Html->div('body', $this->Html->tag('table', $this->Html->tableCells($rows)));
 	}
 }

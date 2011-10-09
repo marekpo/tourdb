@@ -5,21 +5,36 @@ class TourDisplayHelper extends AppHelper
 
 	function getTourGuide($tour)
 	{
-		if(!isset($tour['TourGuide']['Profile'])
-			|| !isset($tour['TourGuide']['Profile']['firstname'])
-			|| empty($tour['TourGuide']['Profile']['firstname'])
-			|| !isset($tour['TourGuide']['Profile']['lastname'])
-			|| empty($tour['TourGuide']['Profile']['lastname'])
+		$tourGuideProfile = null;
+
+		if(isset($tour['Profile']))
+		{
+			$tourGuideProfile = $tour['Profile'];
+		}
+		elseif(isset($tour['TourGuide']['Profile']))
+		{
+			$tourGuideProfile = $tour['TourGuide']['Profile'];
+		}
+
+		if(empty($tourGuideProfile)
+			|| !isset($tourGuideProfile['firstname'])
+			|| empty($tourGuideProfile['firstname'])
+			|| !isset($tourGuideProfile['lastname'])
+			|| empty($tourGuideProfile['lastname'])
 			)
 		{
 			return $tour['TourGuide']['username'];
 		}
 
-		return sprintf('%s %s', $tour['TourGuide']['Profile']['firstname'], $tour['TourGuide']['Profile']['lastname']);
+		return sprintf('%s %s', $tourGuideProfile['firstname'], $tourGuideProfile['lastname']);
 	}
 
-	function getClassification($tour)
+	function getClassification($tour, $options = array())
 	{
+		$options = array_merge(array(
+			'span' => true
+		), $options);
+
 		$tourClassification = array();
 
 		$tourTypes = array();
@@ -80,7 +95,14 @@ class TourDisplayHelper extends AppHelper
 
 			}
 
-			return $this->Html->tag('span', implode('/', $tourClassification), array('class' => 'tourClassification'));
+			$result = implode('/', $tourClassification);
+
+			if($options['span'] == true)
+			{
+				return $this->Html->tag('span', $result, array('class' => 'tourClassification'));
+			}
+
+			return $result;
 		}
 	}
 }

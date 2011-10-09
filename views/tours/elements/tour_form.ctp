@@ -14,7 +14,7 @@ echo $this->Form->input('title', array(
 	)
 ));
 echo $this->Form->input('description', array(
-	'label' => __('Beschreibung', true), 'disabled' => !in_array('description', $whitelist),
+	'label' => __('Beschreibung', true), 'disabled' => !in_array('description', $whitelist)
 ));
 
 echo $this->Widget->dateTime('startdate', array(
@@ -31,11 +31,15 @@ echo $this->Widget->dateTime('enddate', array(
 	)
 ));
 
+echo $this->Widget->dateTime('deadline', array(
+	'label' => __('Anmeldeschluss', true), 'disabled' => !in_array('deadline', $whitelist)
+));
+
 echo $this->Form->input('tourweek', array(
-	'label' => __('Tourenwoche', true), 'disabled' => !in_array('tourweek', $whitelist),
+	'label' => __('Tourenwoche', true), 'disabled' => !in_array('tourweek', $whitelist)
 ));
 echo $this->Form->input('withmountainguide', array(
-	'label' => __('Mit dipl. Bergführer', true), 'disabled' => !in_array('withmountainguide', $whitelist),
+	'label' => __('Mit dipl. Bergführer', true), 'disabled' => !in_array('withmountainguide', $whitelist)
 ));
 
 $tourTypeSelect = $this->Html->div('input select' . (isset($this->validationErrors['Tour']['TourType']) ? ' error' : ''),
@@ -146,29 +150,13 @@ if(!in_array('Difficulty', $whitelist))
 	$this->Js->buffer("$('[id^=TourDifficulty]').attr('disabled', true)");
 }
 
-if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist))
+if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist) && !empty($newStatusOptions))
 {
-	$newStatusOptions = array();
-
-	if($this->Authorization->hasRole(Role::TOURCHIEF))
-	{
-		$newStatusOptions[TourStatus::FIXED] = __('fixieren', true);
-	}
-
-	if($this->Authorization->hasRole(Role::EDITOR))
-	{
-		$newStatusOptions[TourStatus::PUBLISHED] = __('veröffentlichen', true);
-	}
-
-	if(!empty($newStatusOptions))
-	{
-		echo $this->Form->input('change_status', array(
-			'label' => __('Tourstatus ändern', true), 'options' => array_merge(
-				array('' => __('nicht ändern', true)), $newStatusOptions
-			)
-		));
-	}
-
+	echo $this->Form->input('change_status', array(
+		'label' => __('Tourstatus ändern', true), 'options' => array_merge(
+			array('' => __('nicht ändern', true)), $newStatusOptions
+		)
+	));
 }
 ?>
 </div>

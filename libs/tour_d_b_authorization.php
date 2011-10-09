@@ -3,6 +3,11 @@ class TourDBAuthorization extends CakeSession
 {
 	var $components = array('Auth');
 
+	function getRoles()
+	{
+		return Set::extract('/Role/key', $this->read('Auth.Roles'));
+	}
+
 	function hasRole($requiredRoles = array())
 	{
 		if(!$this->check('Auth.User'))

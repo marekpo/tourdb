@@ -9,10 +9,18 @@ TourDB.Tours = {
 				activeTourTypes.push('.diff-' + $(this).next().text().toLowerCase());
 			});
 
+			var activeDifficulties = $('.difficulty-select > div').filter(activeTourTypes.join());
+
+			if(activeDifficulties.length == 0) {
+				$('.difficulty-select').parent().children('label').hide();
+			} else {
+				$('.difficulty-select').parent().children('label').show();
+			}
+
 			$('.difficulty-select > div').hide()
-				.filter(activeTourTypes.join()).show()
-				.end().filter(function(index) { return !$(this).is(activeTourTypes.join()); })
-					.find('input[type=checkbox]').attr('checked', false);
+				.filter(function(index) { return !$(this).is(activeTourTypes.join()); })
+				.find('input[type=checkbox]').attr('checked', false);
+			activeDifficulties.show();
 		},
 
 		openTourCalendar: function(event) {

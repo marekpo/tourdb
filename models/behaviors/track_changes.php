@@ -57,13 +57,13 @@ class TrackChangesBehavior extends ModelBehavior
 		{
 			$recordAfterChange = $this->__getTrackedFieldValues($model);
 
-			$modelChangeDetails = array('ModelChangeDetail' => array());
+			$modelChangeDetails = array();
 
 			foreach($fields as $field)
 			{
 				if($recordAfterChange[$model->alias][$field] != $valuesBeforeSave[$field])
 				{
-					$modelChangeDetails['ModelChangeDetail'][] = array(
+					$modelChangeDetails[] = array(
 						'fieldname' => $field,
 						'oldvalue' => $valuesBeforeSave[$field],
 						'newvalue' => $recordAfterChange[$model->alias][$field]
@@ -73,14 +73,15 @@ class TrackChangesBehavior extends ModelBehavior
 
 			if(!empty($modelChangeDetails))
 			{
-				$modelChange = array_merge(array(
+				$modelChange = array(
 					'ModelChange' => array(
 						'record_id' => $model->id,
 						'modelname' => $model->alias,
 						'user_id' => $model->changingUserId,
 						'context' => $model->changeContext
-					)
-				), $modelChangeDetails);
+					),
+					'ModelChangeDetail' => $modelChangeDetails
+				);
 
 				$model->ModelChange->create();
 				$model->ModelChange->saveAll($modelChange);
