@@ -7,59 +7,62 @@ class MenuHelper extends AppHelper
 	{
 		App::import('Model', 'Menu');
 		$Menu = new Menu();
-		$menu = $Menu->find('threaded');
+		$allMenuEntries = $Menu->find('all', array(
+			'order' => array('rank' => 'ASC')
+		));
 
 		$privileges = $this->Session->read('Auth.Privileges');
 
-		$renderedMenu = '';
+		$menuEntries = array();
+		$insertSeparator = false;
 
-		foreach($menu as $menuEntry)
+		foreach($allMenuEntries as $menuEntry)
 		{
-			$childMenuItems = '';
+			$allowedAction = false;
 
-			foreach($menuEntry['children'] as $child)
+			if(!$menuEntry['Menu']['protected'] || $menuEntry['Menu']['separator'])
 			{
-				$allowedAction = false;
-
-				if($child['Menu']['protected'] == 0)
+				$allowedAction = true;
+			}
+			elseif($menuEntry['Menu']['protected'] && !empty($privileges))
+			{
+				foreach($privileges as $privilege)
 				{
-					$allowedAction = true;
-				}
-				elseif($child['Menu']['protected'] == 1 && !empty($privileges))
-				{
-					foreach($privileges as $privilege)
+					list($privilegeController, $privilegeAction) = explode(':', $privilege['Privilege']['key']);
+		
+					if($privilegeController == $menuEntry['Menu']['controller']
+						&& ($privilegeAction == $menuEntry['Menu']['action'] || $privilegeAction == '*'))
 					{
-						list($privilegeController, $privilegeAction) = explode(':', $privilege['Privilege']['key']);
-			
-						if($privilegeController == $child['Menu']['controller']
-							&& ($privilegeAction == $child['Menu']['action'] || $privilegeAction == '*'))
-						{
-							$allowedAction = true;
-							break;
-						}
+						$allowedAction = true;
+						break;
 					}
 				}
+			}
 
-				if($allowedAction)
+			if($allowedAction)
+			{
+				if($menuEntry['Menu']['separator'])
 				{
-					$childMenuItems .= $this->Html->tag('li', $this->Html->link(
-						$child['Menu']['caption'], array(
-							'controller' => $child['Menu']['controller'],
-							'action' => $child['Menu']['action']
+					$insertSeparator = true;
+				}
+				else
+				{
+					if($insertSeparator)
+					{
+						$insertSeparator = false;
+						$menuEntries[] = $this->Html->tag('li', $this->Html->tag('hr', ''));
+					}
+
+					$menuEntries[] = $this->Html->tag('li', $this->Html->link(
+						$menuEntry['Menu']['caption'], array(
+							'controller' => $menuEntry['Menu']['controller'],
+							'action' => $menuEntry['Menu']['action']
 						)
 					));
 				}
 			}
-
-			if(!empty($childMenuItems))
-			{
-				$renderedMenu .= $this->Html->tag('li',
-					$this->Html->div('caption', $menuEntry['Menu']['caption'])
-					. $this->Html->tag('ul', $childMenuItems)
-				);
-			}
 		}
 
-		return $this->Html->tag('ul', $renderedMenu, array('class' => 'menu'));
+		return $this->Html->tag('ul', implode("\n", $menuEntries), array('class' => 'menu'));
 	}
 }
