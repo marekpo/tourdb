@@ -19,13 +19,13 @@ class M4e906b786c344896bde702501b2c2a9b extends CakeMigration {
 		'up' => array(
 			'create_field' => array(
 				'tours' => array(
-					'deadline' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'deadline' => array('type' => 'datetime', 'null' => true, 'default' => NULL, 'after' => 'enddate'),
 				),
 			),
 		),
 		'down' => array(
 			'drop_field' => array(
-				'tours' => array('deadline',),
+				'tours' => array('deadline'),
 			),
 		),
 	);
