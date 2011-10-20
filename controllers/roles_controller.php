@@ -5,12 +5,6 @@ class RolesController extends AppController
 
 	var $helpers = array('Widget', 'Js');
 
-	function initRoles()
-	{
-		$this->Role->init();
-		die;
-	}
-
 	function index()
 	{
 		$this->set(array(
