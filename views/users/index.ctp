@@ -2,13 +2,13 @@
 $this->set('title_for_layout', __('Benutzer', true));
 $this->Html->addCrumb(__('Benutzer', true));
 
-$tableHeaders = $this->Html->tableHeaders(array(
+$tableHeaders = array(
 	$this->Paginator->sort(__('Aktiv', true), 'active'),
 	$this->Paginator->sort(__('Benutzername', true), 'username'),
 	$this->Paginator->sort(__('E-Mail-Adresse', true), 'email'),
 	$this->Paginator->sort(__('Letzter Login', true), 'last_login'),
 	__('Aktionen', true)
-));
+);
 
 $userCells = array();
 foreach($users as $user)
@@ -22,6 +22,6 @@ foreach($users as $user)
 	);
 }
 
-echo $this->Html->tag('table', $tableHeaders . $this->Html->tableCells($userCells), array('class' => 'users list'));
+echo $this->Widget->table($tableHeaders, $userCells);
 
 echo $this->element('paginator');

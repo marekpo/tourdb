@@ -139,7 +139,7 @@ if(count($tours))
 		);
 	}
 	
-	echo $this->Html->tag('table', $this->Html->tableHeaders($tableHeaders) . $this->Html->tableCells($tableRows), array('class' => 'list'));
+	echo $this->Widget->table($tableHeaders, $tableRows);
 }
 else
 {

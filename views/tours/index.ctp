@@ -2,14 +2,14 @@
 $this->set('title_for_layout', __('Alle Touren', true));
 $this->Html->addCrumb(__('Alle Touren', true));
 
-$tableHeaders = $this->Html->tableHeaders(array(
+$tableHeaders = array(
 	$this->Paginator->sort(__('Tourbezeichnung', true), 'title'),
 	$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
 	$this->Paginator->sort(__('Datum von', true), 'startdate'),
 	$this->Paginator->sort(__('Datum bis', true), 'enddate'),
 	__('Code', true),
 	$this->Paginator->sort(__('Tourenleiter', true), 'TourGuide.username'),
-));
+);
 
 $tableCells = array();
 
@@ -43,9 +43,6 @@ foreach($tours as $tour)
 	);
 }
 
-echo $this->Html->tag('table',
-	$tableHeaders . $this->Html->tableCells($tableCells, array(), array('class' => 'even'), false, false),
-	array('class' => 'tours list')
-);
+echo $this->Widget->table($tableHeaders, $tableCells);
 
 echo $this->element('paginator');

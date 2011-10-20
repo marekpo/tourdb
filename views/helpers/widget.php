@@ -197,6 +197,14 @@ class WidgetHelper extends AppHelper
 		);
 	}
 
+	function table($tableHeaders, $tableCells)
+	{
+		return $this->Html->tag('table',
+			$this->Html->tableHeaders($tableHeaders) . $this->Html->tableCells($tableCells, array(), array('class' => 'even'), false, false),
+			array('class' => 'list')
+		);
+	} 
+
 	function __createItem($key, $label, $itemClass)
 	{
 		return $this->Html->div(sprintf('item %s', $itemClass), $label, array('id' => sprintf('item-%s', $key)));
