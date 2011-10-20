@@ -27,7 +27,7 @@ a:HOVER		{ text-decoration: underline; }
 #breadcrumbs a	{ color: #04376c; }
 #leftnav		{ width: 200px; float: left; }
 #contentheader	{ margin-left: 200px; border: 1px solid #689cd3; background: #689cd3; }
-#content		{ width: 800px; border: solid #dddddd; border-width: 0 1px 1px; float: left; margin-bottom: 5px; padding: 10px 0 0; min-height: 400px; }
+#content		{ width: 800px; border: solid #dddddd; border-width: 0 1px 1px; float: left; margin-bottom: 5px; padding: 10px 0 10px; min-height: 400px; }
 #footer			{ clear: left; margin-left: 200px; font-size: 8pt; }
 
 .inner				{ margin: 0 10px; }
@@ -41,7 +41,7 @@ a:HOVER		{ text-decoration: underline; }
 .message		{ margin-bottom: 10px; padding: 5px; background: #ffe873; }
 
 /* paginator */
-.paginator			{ margin-top: 10px; text-align: center; margin-bottom: 10px; }
+.paginator			{ margin-top: 10px; text-align: center; }
 .paginator div		{ display: inline; }
 .paginator div.prev	{ margin-right: 10px; }
 .paginator div.next	{ margin-left: 10px; }
