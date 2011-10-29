@@ -10,6 +10,12 @@ class ProfilesController extends AppController
 		if(!empty($this->data))
 		{
 			$this->data['Profile']['user_id'] = $this->Auth->user('id');
+			$profileId = $this->Profile->field('id', array('user_id' => $this->Auth->user('id')));
+
+			if($profileId)
+			{
+				$this->data['Profile']['id'] = $profileId;
+			}
 
 			if($this->Profile->save($this->data))
 			{

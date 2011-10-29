@@ -29,6 +29,18 @@ class M4ea09da0da184b50bc6407181b2c2a9b extends CakeMigration {
 						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 					),
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
+				),
+				'tour_participation_statuses' => array(
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'statusname' => array('type' => 'string', 'null' => 'false', 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'key' => array('type' => 'string', 'null' => 'false', 'default' => NULL, 'length' => 32, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'rank' => array('type' => 'integer', 'null' => 'false', 'default' => NULL),
+					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
+					),
+					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				)
 			),
 			'create_field' => array(
@@ -48,6 +60,14 @@ class M4ea09da0da184b50bc6407181b2c2a9b extends CakeMigration {
 					'emergencycontact2_address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 255, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'emergencycontact1_email'),
 					'emergencycontact2_phone' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 24, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'emergencycontact2_address'),
 					'emergencycontact2_email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 255, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'emergencycontact2_phone')
+				),
+				'tour_participations' => array(
+					'tour_participation_status_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'tour_participant_id')
+				)
+			),
+			'rename_field' => array(
+				'tour_participations' => array(
+					'tour_participant_id' => 'user_id'
 				)
 			)
 		),
@@ -59,8 +79,13 @@ class M4ea09da0da184b50bc6407181b2c2a9b extends CakeMigration {
 				'profiles' => array(
 					'street', 'housenumber', 'extraaddressline', 'zip', 'city',
 					'country_id', 'phoneprivate', 'phonebusiness', 'cellphone',
-					'emergencycontact1', 'emergencyphone1', 'emergencyemail1',
-					'emergencycontact2', 'emergencyphone2', 'emergencyemail2'
+					'emergencycontact1_address', 'emergencycontact1_phone', 'emergencycontact1_email',
+					'emergencycontact2_address', 'emergencycontact2_phone', 'emergencycontact2_email'
+				)
+			),
+			'rename_field' => array(
+				'tour_participations' => array(
+					'user_id' => array('name' => 'tour_participant_id')
 				)
 			)
 		),
@@ -137,6 +162,52 @@ class M4ea09da0da184b50bc6407181b2c2a9b extends CakeMigration {
 			);
 
 			$Country->saveAll($countries);
+
+			$TourParticipationStatus = $this->generateModel('TourParticipationStatus');
+			$tourParticipationStatuses = array(
+				array(
+					'TourParticipationStatus' => array(
+						'id' => '4eac501c-92b0-4a21-96db-0ac41b2c2a9b',
+						'statusname' => 'Angemeldet',
+						'key' => 'registered',
+						'rank' => 1
+					),
+				),
+				array(
+					'TourParticipationStatus' => array(
+						'id' => '4eac5025-074c-4c1f-8eca-0ac41b2c2a9b',
+						'statusname' => 'Bestätigt',
+						'key' => 'affirmed',
+						'rank' => 2
+					),
+				),
+				array(
+					'TourParticipationStatus' => array(
+						'id' => '4eac502b-256c-4381-8cb7-0ac41b2c2a9b',
+						'statusname' => 'Warteliste',
+						'key' => 'waitinglist',
+						'rank' => 3
+					),
+				),
+				array(
+					'TourParticipationStatus' => array(
+						'id' => '4eac502f-ac6c-4c14-8cb5-0ac41b2c2a9b',
+						'statusname' => 'Storniert',
+						'key' => 'canceled',
+						'rank' => 4
+					),
+				),
+				array(
+					'TourParticipationStatus' => array(
+						'id' => '4eac5036-45a4-4ebd-a597-0ac41b2c2a9b',
+						'statusname' => 'Abgelehnt',
+						'key' => 'rejected',
+						'rank' => 5
+					)
+				)
+			);
+
+			$TourParticipationStatus->saveAll($tourParticipationStatuses);
 		}
 
 		if($direction == 'down')

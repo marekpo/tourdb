@@ -227,8 +227,10 @@ class ToursController extends AppController
 
 	function view($id)
 	{
-		$this->Tour->recursive = 2;
-		$tour = $this->Tour->read(null, $id);
+		$tour = $this->Tour->find('first', array(
+			'conditions' => array('Tour.id' => $id),
+			'contain' => array('TourStatus', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty')
+		));
 
 		$publishedTourStatus = $this->Tour->TourStatus->findByKey(TourStatus::PUBLISHED);
 
@@ -238,9 +240,10 @@ class ToursController extends AppController
 			$this->redirect('/');
 		}
 
-		$registrationOpen = $this->Tour->isRegistrationOpen();
+		$registrationOpen = $this->Tour->isRegistrationOpen($id);
+		$currentUserAlreadySignedUp = $this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id'));
 
-		$this->set(compact('tour', 'registrationOpen'));
+		$this->set(compact('tour', 'registrationOpen', 'currentUserAlreadySignedUp'));
 	}
 
 	function closeRegistration($id)
@@ -278,6 +281,12 @@ class ToursController extends AppController
 		$this->Tour->recursive = -1;
 		$tour = $this->Tour->read(null, $id);
 
+		if($this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id')))
+		{
+			$this->Session->setFlash(__('Du bist bereits für diese Tour angemeldet.', true));
+			$this->redirect(array('action' => 'view', $id));
+		}
+
 		if($tour === false)
 		{
 			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
@@ -289,12 +298,23 @@ class ToursController extends AppController
 		if(!empty($this->data))
 		{
 			$this->data['Profile']['user_id'] = $this->Auth->user('id');
+			$profileId = $this->Profile->field('id', array('user_id' => $this->Auth->user('id')));
 
-			$this->Profile->create($this->data);
-			if($this->Profile->validates($this->data))
+			if($profileId)
 			{
-				
+				$this->data['Profile']['id'] = $profileId;
 			}
+
+			if($this->Profile->save($this->data))
+			{
+				if($this->Tour->TourParticipation->createTourParticipation($id, $this->Auth->user('id')))
+				{
+					$this->Session->setFlash(__('Deine Anmeldung zu dieser Tour wurde gespeichert.', true));
+					$this->redirect(array('action' => 'view', $id));
+				}
+			}
+
+			$this->Session->setFlash(__('Beim Anmelden ist ein Fehler aufgetreten.', true));
 		}
 		else
 		{

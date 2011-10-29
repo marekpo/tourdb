@@ -1,12 +1,13 @@
 <?php
 class TourParticipationStatus extends AppModel
 {
-	const NEW_ = 'new';
-	const FIXED = 'fixed';
-	const PUBLISHED = 'published';
+	const REGISTERED = 'registered';
+	const AFFIRMED = 'affirmed';
+	const WAITINGLIST = 'waitinglist';
 	const CANCELED = 'canceled';
-	const REGISTRATION_CLOSED = 'registration_closed';
-	const CARRIED_OUT = 'carried_out';
+	const REJECTED = 'rejected';
 
 	var $name = 'TourParticipationStatus';
+
+	var $hasMany = array('TourParticipation');
 }

@@ -79,20 +79,4 @@ class Profile extends AppModel
 			)
 		)		
 	);
-
-	function beforeSave($options = array())
-	{
-		$profileId = $this->field('id', array('user_id' => $this->data['Profile']['user_id']));
-		
-		if(!empty($profileId))
-		{
-			$this->data['Profile']['id'] = $profileId;
-		}
-		else
-		{
-			unset($this->data['Profile']['id']);
-		}
-
-		return true;
-	}
 }
