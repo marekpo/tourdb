@@ -111,9 +111,12 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 .input				{ clear: left; margin-bottom: 15px; }
 .input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label, .input.radio label:FIRST-CHILD
 	{ width: 130px; float: left; font-weight: bold; }
+.input.required > label:after	{ content: ' *'; }
 
-form .error
-	{ background: #ffe873; padding-top: 4px; }
+.input.error
+	{ background: #ffe873; padding: 4px 0 0 4px; }
+.input.error.text label, .input.error.password label, .input.error.textarea label, .input.error.select > label, .input.error.datetime label, .input.error.radio label:FIRST-CHILD
+	{ width: 125px; }
 
 .input.text input, .input.password input, .input.textarea textarea
 	{ width: 300px; border: 1px solid #808080; padding: 2px; }
@@ -129,13 +132,14 @@ select	{ border: 1px solid #808080; }
 
 .submit	{ margin: 20px 0; text-align: right; }
 
-input[type=submit].action	{ padding: 10px; background-color: #689cd3; border: 0; border-radius: 5px; font-weight: bold; }
+input[type=submit].action		{ padding: 10px; background-color: #689cd3; border: 0; border-radius: 5px; font-weight: bold; }
+input[disabled=disabled].action	{ background-color: #dddddd; }
 
 .daterange > div.input						{ float: left; clear: none; }
 .daterange > div.input label				{ width: auto; margin: 0 10px; }
 .daterange > div.input:FIRST-CHILD label	{ width: 130px; margin: 0; }
 
-.error-message	{ margin-left: 130px; background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 0 24px; }
+.error-message	{ background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 4px 24px; }
 
 fieldset								{ border: 1px solid #dddddd; padding: 8px; margin: 0; }
 fieldset.collapsible					{ border-width: 1px 0 0; }
@@ -171,11 +175,11 @@ table.list tr:HOVER td	{ background: #ffffdd; }
 .tours .input.text input.dateTime			{ width: 150px; }
 .tours .checkbox-container					{ width: 390px; float: left; }
 .tours .checkbox-container > div			{ float: left; clear: left; }
-.tours .checkbox-container .error-message	{ margin: 0; }
 table.tours .tourweek, table.tours .withmountainguide
 	{ text-align: center; }
 
-.tours.search .submit		{ margin: 20px 0; text-align: left; }
+.tours.search .submit, .tours.view .submit
+	{ margin: 20px 0; text-align: left; }
 .tours.search .submit > div	{ float: right; }
 
 .toureditbar	{ text-align: right; margin-bottom: 10px; font-size: 8pt; }
@@ -188,5 +192,7 @@ table.tours .tourweek, table.tours .withmountainguide
 .users.activate_account .input label	{ width: 230px; }
 
 /* profiles */
-.profiles .text label	{ width: 75px; }
-.profiles .text input	{ width: 250px; }
+.profiles .input label		{ width: 125px; }
+.profiles .input.text input	{ width: 230px; }
+.profiles .input.text input#ProfileExtraaddressline, .profiles .input.text input#ProfileEmergencycontact1Address
+	{ width: 610px; }

@@ -299,4 +299,16 @@ class Tour extends AppModel
 
 		return $newStatusOptions;
 	}
+
+	function isRegistrationOpen($id = null)
+	{
+		if(empty($this->data) || $id != null)
+		{
+			$this->id = $id;
+			$this->read();
+		}
+
+		return strtotime($this->data['Tour']['deadline_calculated']) > time()
+			&& $this->data['TourStatus']['key'] == TourStatus::PUBLISHED;
+	}
 }

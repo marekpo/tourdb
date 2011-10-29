@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2011-09-04 19:32:39 : 1315157559*/
+/* Tourdb schema generated on: 2011-10-26 22:29:29 : 1319660969*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
@@ -44,13 +44,12 @@ class TourdbSchema extends CakeSchema {
 	);
 	var $menus = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'separator' => array('type' => 'boolean', 'null' => true, 'default' => NULL),
 		'caption' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'controller' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 64, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'action' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 64, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'protected' => array('type' => 'boolean', 'null' => true, 'default' => NULL),
-		'parent_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'lft' => array('type' => 'integer', 'null' => true, 'default' => NULL),
-		'rght' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'rank' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -163,6 +162,7 @@ class TourdbSchema extends CakeSchema {
 		'withmountainguide' => array('type' => 'boolean', 'null' => true, 'default' => NULL),
 		'startdate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'enddate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'deadline' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),

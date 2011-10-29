@@ -28,5 +28,7 @@ $map = array(
 		'013_add_tour_deadline' => 'M4e906b786c344896bde702501b2c2a9b'),
 	14 => array(
 		'014_change_menu_structure' => 'M4e9993942ff049219fe30e7c1b2c2a9b'),
+	15 => array(
+		'015_enhance_profile_and_add_permission_for_signup_action' => 'M4ea09da0da184b50bc6407181b2c2a9b'),
 );
 ?>

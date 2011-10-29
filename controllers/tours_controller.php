@@ -227,10 +227,8 @@ class ToursController extends AppController
 
 	function view($id)
 	{
-		$tour = $this->Tour->find('first', array(
-			'conditions' => array('Tour.id' => $id),
-			'recursive' => 2
-		));
+		$this->Tour->recursive = 2;
+		$tour = $this->Tour->read(null, $id);
 
 		$publishedTourStatus = $this->Tour->TourStatus->findByKey(TourStatus::PUBLISHED);
 
@@ -240,7 +238,9 @@ class ToursController extends AppController
 			$this->redirect('/');
 		}
 
-		$this->set(compact('tour'));
+		$registrationOpen = $this->Tour->isRegistrationOpen();
+
+		$this->set(compact('tour', 'registrationOpen'));
 	}
 
 	function closeRegistration($id)
@@ -271,6 +271,46 @@ class ToursController extends AppController
 
 		$this->Session->setFlash(__('Die Tour wurde als durchgeführt markiert.', true));
 		$this->redirect($this->referer(null, true));
+	}
+
+	function signUp($id)
+	{
+		$this->Tour->recursive = -1;
+		$tour = $this->Tour->read(null, $id);
+
+		if($tour === false)
+		{
+			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
+			$this->redirect('/');
+		}
+
+		$this->loadModel('Profile');
+
+		if(!empty($this->data))
+		{
+			$this->data['Profile']['user_id'] = $this->Auth->user('id');
+
+			$this->Profile->create($this->data);
+			if($this->Profile->validates($this->data))
+			{
+				
+			}
+		}
+		else
+		{
+			$this->data = $this->Profile->find('first', array(
+				'conditions' => array('user_id' => $this->Auth->user('id'))
+			));
+		}
+
+		$this->loadModel('Country');
+
+		$this->set(array(
+			'tour' => $tour,
+			'countries' => $this->Country->find('list', array(
+				'order' => array('name' => 'ASC')
+			))
+		));
 	}
 
 	function __setFormContent()

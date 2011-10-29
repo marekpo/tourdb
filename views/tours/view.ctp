@@ -1,5 +1,4 @@
 <?php
-
 $this->set('title_for_layout', $tour['Tour']['title']);
 $this->Html->addCrumb($tour['Tour']['title']);
 
@@ -44,5 +43,22 @@ echo $this->Html->div('columncontainer',
 echo $this->Html->tag('h2', __('Tourendetails', true));
 
 echo $this->Display->formatText($tour['Tour']['description']);
+
+if($registrationOpen)
+{
+	echo $this->Html->div('columncontainer',
+		$this->Html->div('third', 
+			$this->Form->create(false, array('type' => 'GET', 'url' => array('action' => 'signUp', $tour['Tour']['id'])))
+			. $this->Html->div('submit', $this->Form->submit(__('Zur Tour anmelden', true), array('div' => false, 'class' => 'action', 'disabled' => !$this->Session->check('Auth.User'))))
+			. $this->Form->end()
+		)
+		. (!$this->Session->check('Auth.User') ? $this->Html->div('twothirds',
+			sprintf(__('Um dich zur dieser Tour anmelden zu können, musst du dich %s. Wenn du noch kein Benutzerkonto hast, musst du dich zuerst %s.', true),
+				$this->Html->link(__('einloggen', true), array('controller' => 'users', 'action' => 'login')),
+				$this->Html->link(__('registrieren', true), array('controller' => 'users', 'action' => 'createAccount'))
+			)
+		) : '')
+	);
+}
 
 echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));

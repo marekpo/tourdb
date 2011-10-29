@@ -9,21 +9,15 @@ class ProfilesController extends AppController
 	{
 		if(!empty($this->data))
 		{
-			$profileId = $this->Profile->field('id', array('user_id' => $this->Auth->user('id')));
-
-			if(!empty($profileId))
-			{
-				$this->data['Profile']['id'] = $profileId;
-			}
-
 			$this->data['Profile']['user_id'] = $this->Auth->user('id');
 
 			if($this->Profile->save($this->data))
 			{
 				$this->Session->setFlash(__('Dein Profil wurde gespeichert.', true));
+				$this->redirect(array('action' => 'edit'));
 			}
 
-			$this->redirect(array('action' => 'edit'));
+			$this->Session->setFlash(__('Fehler beim Speichern deines Profils.', true));
 		}
 		else
 		{
@@ -37,5 +31,11 @@ class ProfilesController extends AppController
 				unset($this->data['Profile']['id']);
 			}
 		}
+
+		$this->set(array(
+			'countries' => $this->Profile->Country->find('list', array(
+				'order' => array('name' => 'ASC')
+			))
+		));
 	}
 }
