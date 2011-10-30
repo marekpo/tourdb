@@ -44,7 +44,9 @@ echo $this->Html->tag('h2', __('Tourendetails', true));
 
 echo $this->Display->formatText($tour['Tour']['description']);
 
-if($registrationOpen)
+echo $this->Html->tag('h2', __('Anmeldung', true));
+
+if($registrationOpen && !$currentUserAlreadySignedUp)
 {
 	echo $this->Html->div('columncontainer',
 		$this->Html->div('third', 
@@ -59,6 +61,11 @@ if($registrationOpen)
 			)
 		) : '')
 	);
+}
+
+if($currentUserAlreadySignedUp)
+{
+	echo $this->Html->para('', __('Du bist bereits zu dieser Tour angemeldet.', true));
 }
 
 echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));

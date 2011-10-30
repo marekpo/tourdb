@@ -31,4 +31,15 @@ class TourParticipation extends AppModel
 
 		return $count > 0;
 	}
+
+	function getTourParticipation($tourId, $userId)
+	{
+		return $this->find('first', array(
+			'conditions' => array(
+				'tour_id' => $tourId,
+				'user_id' => $userId
+			),
+			'contain' => array('TourParticipationStatus')
+		));
+	}
 }

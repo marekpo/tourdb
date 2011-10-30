@@ -3,7 +3,7 @@ class ToursController extends AppController
 {
 	var $name = 'Tours';
 
-	var $components = array('RequestHandler');
+	var $components = array('RequestHandler', 'Email');
 
 	var $helpers = array('Widget', 'Time', 'TourDisplay', 'Display', 'Csv');
 
@@ -229,7 +229,7 @@ class ToursController extends AppController
 	{
 		$tour = $this->Tour->find('first', array(
 			'conditions' => array('Tour.id' => $id),
-			'contain' => array('TourStatus', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty')
+			'contain' => array('TourStatus', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty', 'TourGuide.Profile')
 		));
 
 		$publishedTourStatus = $this->Tour->TourStatus->findByKey(TourStatus::PUBLISHED);
@@ -241,7 +241,14 @@ class ToursController extends AppController
 		}
 
 		$registrationOpen = $this->Tour->isRegistrationOpen($id);
-		$currentUserAlreadySignedUp = $this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id'));
+		$currentUserAlreadySignedUp = $this->Auth->user() ? $this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id')) : false;
+
+		if($currentUserAlreadySignedUp)
+		{
+			$this->set(array(
+				'currentUsersTourParticipation' => $this->Tour->TourParticipation->getTourParticipation($id, $this->Auth->user('id'))
+			));
+		}
 
 		$this->set(compact('tour', 'registrationOpen', 'currentUserAlreadySignedUp'));
 	}
@@ -278,16 +285,17 @@ class ToursController extends AppController
 
 	function signUp($id)
 	{
-		$this->Tour->recursive = -1;
-		$tour = $this->Tour->read(null, $id);
-
 		if($this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id')))
 		{
 			$this->Session->setFlash(__('Du bist bereits für diese Tour angemeldet.', true));
 			$this->redirect(array('action' => 'view', $id));
 		}
 
-		if($tour === false)
+		$count = $this->Tour->find('count', array(
+			'conditions' => array('Tour.id' => $id),
+		));
+
+		if(!$count)
 		{
 			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
 			$this->redirect('/');
@@ -309,6 +317,28 @@ class ToursController extends AppController
 			{
 				if($this->Tour->TourParticipation->createTourParticipation($id, $this->Auth->user('id')))
 				{
+					$tour = $this->Tour->find('first', array(
+						'conditions' => array('Tour.id' => $id),
+						'contain' => array('TourGuide', 'TourGuide.Profile', 'TourType')
+					));
+
+					$this->set(array(
+						'user' => $this->Auth->user(),
+						'tour' => $tour
+					));
+
+					$this->_sendEmail(
+						$this->Auth->user('email'),
+						sprintf(__('Deine Touranmeldung zu "%s"', true), $tour['Tour']['title']),
+						'tours/signup_participant'
+					);
+
+					$this->_sendEmail(
+						$tour['TourGuide']['email'],
+						sprintf(__('Neue Anmeldung zu "%s"', true), $tour['Tour']['title']),
+						'tours/signup_tourguide'
+					);
+
 					$this->Session->setFlash(__('Deine Anmeldung zu dieser Tour wurde gespeichert.', true));
 					$this->redirect(array('action' => 'view', $id));
 				}
@@ -326,7 +356,10 @@ class ToursController extends AppController
 		$this->loadModel('Country');
 
 		$this->set(array(
-			'tour' => $tour,
+			'tour' => $this->Tour->find('first', array(
+				'conditions' => array('Tour.id' => $id),
+				'contain' => array()
+			)),
 			'countries' => $this->Country->find('list', array(
 				'order' => array('name' => 'ASC')
 			))

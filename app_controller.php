@@ -8,7 +8,6 @@ class AppController extends Controller
 	function beforeFilter()
 	{
 		$this->__setupAuth();
-		$this->__setupEmail();
 
 		$this->__loginByCookie();
 	}
@@ -20,6 +19,18 @@ class AppController extends Controller
 
 	function _sendEmail($recipient, $subject, $template)
 	{
+		$this->Email->reset();
+
+		$this->Email->from = 'TourDB <tourdb@localhost.ch>';
+		$this->Email->sendAs = 'text';
+		$this->Email->delivery = 'smtp';
+		$this->Email->lineLength = 998;
+		$this->Email->smtpOptions = array(
+			'port' => 25,
+			'timeout' => 30,
+			'host' => 'localhost',
+		);
+
 		$this->Email->to = $recipient;
 		$this->Email->subject = $subject;
 		$this->Email->template = $template;
@@ -39,22 +50,6 @@ class AppController extends Controller
 		$this->Auth->authError = __('Du hast nicht genügten Rechte um diese Seite zu sehen.', true);
 
 		$this->Auth->deny('*');
-	}
-
-	function __setupEmail()
-	{
-		if(isset($this->Email))
-		{
-			$this->Email->from = 'TourDB <tourdb@localhost.ch>';
-			$this->Email->sendAs = 'text';
-			$this->Email->delivery = 'smtp';
-			$this->Email->lineLength = 998;
-			$this->Email->smtpOptions = array(
-				'port' => 25,
-				'timeout' => 30,
-				'host' => 'localhost',
-			);
-		}
 	}
 
 	function __loginByCookie()
