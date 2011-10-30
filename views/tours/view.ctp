@@ -44,7 +44,10 @@ echo $this->Html->tag('h2', __('Tourendetails', true));
 
 echo $this->Display->formatText($tour['Tour']['description']);
 
-echo $this->Html->tag('h2', __('Anmeldung', true));
+if($registrationOpen || $currentUserAlreadySignedUp)
+{
+	echo $this->Html->tag('h2', __('Anmeldung', true));
+}
 
 if($registrationOpen && !$currentUserAlreadySignedUp)
 {

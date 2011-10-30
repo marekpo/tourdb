@@ -317,13 +317,20 @@ class ToursController extends AppController
 			{
 				if($this->Tour->TourParticipation->createTourParticipation($id, $this->Auth->user('id')))
 				{
+					$this->loadModel('User');
+
 					$tour = $this->Tour->find('first', array(
 						'conditions' => array('Tour.id' => $id),
 						'contain' => array('TourGuide', 'TourGuide.Profile', 'TourType')
 					));
 
+					$user = $this->User->find('first', array(
+						'conditions' => array('User.id' => $this->Auth->user('id')),
+						'contain' => array('Profile', 'Profile.Country')
+					));
+
 					$this->set(array(
-						'user' => $this->Auth->user(),
+						'user' => $user,
 						'tour' => $tour
 					));
 
