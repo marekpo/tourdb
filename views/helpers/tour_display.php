@@ -15,6 +15,10 @@ class TourDisplayHelper extends AppHelper
 		{
 			$tourGuideProfile = $tour['TourGuide']['Profile'];
 		}
+		elseif(isset($tour['Tour']['TourGuide']['Profile']))
+		{
+			$tourGuideProfile = $tour['Tour']['TourGuide']['Profile'];
+		}
 
 		if(empty($tourGuideProfile)
 			|| !isset($tourGuideProfile['firstname'])
@@ -34,6 +38,16 @@ class TourDisplayHelper extends AppHelper
 		$options = array_merge(array(
 			'span' => true
 		), $options);
+
+		if(!isset($tour['TourType']))
+		{
+			if(!isset($tour['Tour']['TourType']))
+			{
+				return "";
+			}
+
+			$tour = $tour['Tour'];
+		}
 
 		$tourClassification = array();
 

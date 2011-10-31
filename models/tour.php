@@ -113,29 +113,22 @@ class Tour extends AppModel
 
 	function afterFind($results, $primary = false)
 	{
-		foreach($results as $key => $val)
+		if($primary)
 		{
-			$tour = array_key_exists('Tour', $val) ? $val['Tour'] : $val;
-
-			if(array_key_exists('deadline', $tour))
+			foreach($results as $index => $tour)
 			{
-				$results[$key]['Tour']['deadline_calculated'] = $tour['deadline'];
-
-				if($tour['deadline'] == null)
+				if(!isset($tour['Tour']))
 				{
-					$startdate = isset($tour['startdate']) ? $tour['startdate'] : $this->field('id', array('id' => $tour['id']));
-
-					if(array_key_exists('Tour', $val))
-					{
-						$results[$key]['Tour']['deadline_calculated'] = date('Y-m-d', strtotime('-1 day', strtotime($startdate)));
-					}
-					else
-					{
-						$results[$key]['deadline_calculated'] = date('Y-m-d', strtotime('-1 day', strtotime($startdate)));
-					}
+					continue;
 				}
+
+				$results[$index]['Tour']['deadline_calculated'] = $this->__calculateDeadline($tour['Tour']);
 			}
 		}
+		else
+		{
+			$results['deadline_calculated'] = $this->__calculateDeadline($results);
+		}	
 
 		return $results;
 	}
@@ -146,7 +139,7 @@ class Tour extends AppModel
 
 		$this->unbindModel(array(
 			'belongsTo' => array('TourGuide'),
-			'hasMany' => array('TourParticipation'),
+			'hasMany' => array('TourParticipation', 'ModelChange'),
 			'hasAndBelongsToMany' => array('TourType', 'ConditionalRequisite', 'Difficulty')
 		));
 
@@ -230,7 +223,7 @@ class Tour extends AppModel
 
 		return $this->find('all', array(
 			'fields' => array('Tour.id'),
-			'conditions' => array_merge($searchConditions, array('TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT))),
+			'conditions' => array_merge($searchConditions, array('TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT)))
 		));
 	}
 
@@ -310,5 +303,20 @@ class Tour extends AppModel
 
 		return strtotime($this->data['Tour']['deadline_calculated']) > time()
 			&& $this->data['TourStatus']['key'] == TourStatus::PUBLISHED;
+	}
+
+	function __calculateDeadline($tour)
+	{
+		if(array_key_exists('deadline', $tour))
+		{
+			if($tour['deadline'] != null)
+			{
+				return $tour['deadline'];
+			}
+
+			$startdate = isset($tour['startdate']) ? $tour['startdate'] : $this->field('startdate', array('id' => $tour['id']));
+
+			return date('Y-m-d', strtotime('-1 day', strtotime($startdate)));
+		}
 	}
 }
