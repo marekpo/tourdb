@@ -3,7 +3,7 @@ class TourParticipationsController extends AppController
 {
 	var $name = 'TourParticipations';
 
-	var $helpers = array('Widget');
+	var $helpers = array('Widget', 'Display');
 
 	function beforeFilter()
 	{

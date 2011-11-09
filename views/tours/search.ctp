@@ -13,6 +13,8 @@ if(count($tours))
 		$this->Paginator->sort(__('Tourbezeichnung', true), 'title'),
 		$this->Paginator->sort(__('Datum von', true), 'startdate'),
 		$this->Paginator->sort(__('Datum bis', true), 'enddate'),
+		$this->Paginator->sort(__('TW', true), 'tourweek', array('title' => __('Tourenwoche', true))),
+		$this->Paginator->sort(__('BGF', true), 'withmountainguide', array('title' => __('mit Bergführer durchgeführte/r Tour/Kurs', true))),
 		__('Code', true),
 		$this->Paginator->sort(__('Tourenleiter', true), 'TourGuide.username')
 	);
@@ -22,14 +24,40 @@ if(count($tours))
 	foreach($tours as $tour)
 	{
 		$tableRows[] = array(
-			$tour['TourStatus']['statusname'],
-			$this->Html->link($this->Text->truncate($tour['Tour']['title'], 40), array(
-				'action' => 'view', $tour['Tour']['id']
-			)),
-			$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
-			$this->Time->format('d.m.Y', $tour['Tour']['enddate']),
-			$this->TourDisplay->getClassification($tour),
-			$this->TourDisplay->getTourGuide($tour)
+			array(
+				$tour['TourStatus']['statusname'],
+				array('class' => 'tourstatus')
+			),
+			array(
+				$this->Html->link($this->Text->truncate($tour['Tour']['title'], 40), array(
+					'action' => 'view', $tour['Tour']['id']
+				)),
+				array('class' => 'title')
+			),
+			array(
+				$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
+				array('class' => 'startdate')
+			),
+			array(
+				$this->Time->format('d.m.Y', $tour['Tour']['enddate']),
+				array('class' => 'enddate')
+			),
+			array(
+				$this->Display->displayFlag($tour['Tour']['tourweek']),
+				array('class' => 'tourweek')
+			),
+			array(
+				$this->Display->displayFlag($tour['Tour']['withmountainguide']),
+				array('class' => 'withmountainguide')
+			),
+			array(
+				$this->TourDisplay->getClassification($tour),
+				array('class' => 'classification')
+			),
+			array(
+				$this->TourDisplay->getTourGuide($tour),
+				array('class' => 'tourguide')
+			)
 		);
 	}
 	

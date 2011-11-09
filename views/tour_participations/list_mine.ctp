@@ -13,6 +13,8 @@ if(count($tours))
 		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
 		$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
 		$this->Paginator->sort(__('Datum bis', true), 'Tour.enddate'),
+		$this->Paginator->sort(__('TW', true), 'tourweek', array('title' => __('Tourenwoche', true))),
+		$this->Paginator->sort(__('BGF', true), 'withmountainguide', array('title' => __('mit Bergführer durchgeführte/r Tour/Kurs', true))),
 		__('Code', true),
 		__('Tourenleiter', true)
 	);
@@ -22,14 +24,40 @@ if(count($tours))
 	foreach($tours as $tour)
 	{
 		$tableCells[] = array(
-			$tour['TourParticipationStatus']['statusname'],
-			$this->Html->link($this->Text->truncate($tour['Tour']['title'], 40), array(
-				'controller' => 'tours', 'action' => 'view', $tour['Tour']['id']
-			)),
-			$this->Time->format('d.m.Y', strtotime($tour['Tour']['startdate'])),
-			$this->Time->format('d.m.Y', strtotime($tour['Tour']['enddate'])),
-			$this->TourDisplay->getClassification($tour),
-			$this->TourDisplay->getTourGuide($tour)
+			array(
+				$tour['TourParticipationStatus']['statusname'],
+				array('class' => 'tourparticipationstatus')
+			),
+			array(
+				$this->Html->link($this->Text->truncate($tour['Tour']['title'], 40), array(
+					'controller' => 'tours', 'action' => 'view', $tour['Tour']['id']
+				)),
+				array('class' => 'title')
+			),
+			array(
+				$this->Time->format('d.m.Y', strtotime($tour['Tour']['startdate'])),
+				array('class' => 'startdate')
+			),
+			array(
+				$this->Time->format('d.m.Y', strtotime($tour['Tour']['enddate'])),
+				array('class' => 'enddate')
+			),
+			array(
+				$this->Display->displayFlag($tour['Tour']['tourweek']),
+				array('class' => 'tourweek')
+			),
+			array(
+				$this->Display->displayFlag($tour['Tour']['withmountainguide']),
+				array('class' => 'withmountainguide')
+			),
+			array(
+				$this->TourDisplay->getClassification($tour),
+				array('class' => 'classification')
+			),
+			array(
+				$this->TourDisplay->getTourGuide($tour),
+				array('class' => 'tourguide')
+			)
 		);
 	}	
 

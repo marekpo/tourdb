@@ -7,6 +7,8 @@ $tableHeaders = array(
 	$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
 	$this->Paginator->sort(__('Datum von', true), 'startdate'),
 	$this->Paginator->sort(__('Datum bis', true), 'enddate'),
+	$this->Paginator->sort(__('TW', true), 'tourweek', array('title' => __('Tourenwoche', true))),
+	$this->Paginator->sort(__('BGF', true), 'withmountainguide', array('title' => __('mit Bergführer durchgeführte/r Tour/Kurs', true))),
 	__('Code', true),
 	$this->Paginator->sort(__('Tourenleiter', true), 'TourGuide.username'),
 );
@@ -31,6 +33,14 @@ foreach($tours as $tour)
 		array(
 			$this->Time->format('d.m.Y', $tour['Tour']['enddate']),
 			array('class' => 'enddate')
+		),
+		array(
+			$this->Display->displayFlag($tour['Tour']['tourweek']),
+			array('class' => 'tourweek')
+		),
+		array(
+			$this->Display->displayFlag($tour['Tour']['withmountainguide']),
+			array('class' => 'withmountainguide')
 		),
 		array(
 			$this->TourDisplay->getClassification($tour),
