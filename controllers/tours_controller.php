@@ -277,7 +277,14 @@ class ToursController extends AppController
 			));
 		}
 
-		$this->set(compact('tour', 'registrationOpen', 'currentUserAlreadySignedUp'));
+		$tourParticipations = $tour['Tour']['tour_guide_id'] == $this->Auth->user('id')
+			? $this->Tour->TourParticipation->find('all', array(
+				'conditions' => array('TourParticipation.tour_id' => $tour['Tour']['id']),
+				'contain' => array('TourParticipationStatus', 'User', 'User.Profile')
+			))
+			: array();
+
+		$this->set(compact('tour', 'registrationOpen', 'currentUserAlreadySignedUp', 'tourParticipations'));
 	}
 
 	function closeRegistration($id)

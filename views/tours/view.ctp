@@ -71,4 +71,28 @@ if($currentUserAlreadySignedUp)
 	echo $this->Html->para('', __('Du bist bereits zu dieser Tour angemeldet.', true));
 }
 
+if($tourParticipations)
+{
+	echo $this->Html->tag('h2', __('Anmeldungen', true));
+
+	$tableHeaders = array(
+		__('Benutzer', true),
+		__('Anmeldestatus', true),
+		__('Aktionen', true)
+	);
+
+	$tableCells = array();
+
+	foreach($tourParticipations as $tourParticipation)
+	{
+		$tableCells[] = array(
+			$this->Display->displayUsersName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']),
+			$tourParticipation['TourParticipationStatus']['statusname'],
+			
+		);
+	}
+
+	echo $this->Widget->table($tableHeaders, $tableCells);
+}
+
 echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
