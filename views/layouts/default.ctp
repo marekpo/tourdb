@@ -70,7 +70,7 @@
           </div>
         </div>
 
-        <div id="footer"><?php __('Tourenangebot für SAC © 2011'); ?></div>
+        <div id="footer"><?php __('© 2011 Tourenangebot.ch, für SAC am Albis'); ?></div>
       </div>
     </div>
 <?php
