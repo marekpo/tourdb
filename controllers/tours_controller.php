@@ -145,13 +145,31 @@ class ToursController extends AppController
 
 	function listMine()
 	{
-		$this->paginate = array_merge($this->paginate, array(
-			'conditions' => array('tour_guide_id' => $this->Auth->user('id'))
+		$tourIds = $this->Tour->searchTours($this->params['url'], array(
+			'Tour.tour_guide_id' => $this->Auth->user('id')
 		));
 
-		$this->set(array(
-			'tours' => $this->paginate('Tour')
+		$this->paginate = array_merge($this->paginate, array(
+			'conditions' => array('Tour.id' => Set::extract('/Tour/id', $tourIds)),
+			'contain' => array('TourStatus', 'TourType', 'ConditionalRequisite', 'Difficulty')
 		));
+
+		$this->data['Tour'] = $this->params['url'];
+		unset($this->data['Tour']['url']);
+
+		$this->set(array(
+			'tours' => $this->paginate('Tour'),
+			'filtersCollapsed' => empty($this->data['Tour']['startdate'])
+				&& empty($this->data['Tour']['enddate'])
+				&& empty($this->data['Tour']['TourGuide'])
+				&& empty($this->data['Tour']['TourType'])
+				&& empty($this->data['Tour']['ConditionalRequisite'])
+				&& empty($this->data['Tour']['Difficulty'])
+		));
+
+		$this->set($this->Tour->getWidgetData(array(
+			Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+		)));
 	}
 
 	function index()

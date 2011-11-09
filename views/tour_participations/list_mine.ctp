@@ -6,17 +6,17 @@ echo $this->element('../tours/elements/tour_filters', array('activeFilters' => a
 	'title', 'date', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty'
 )));
 
-$tableHeaders = array(
-	$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.statusname'),
-	$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
-	$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
-	$this->Paginator->sort(__('Datum bis', true), 'Tour.enddate'),
-	__('Code', true),
-	__('Tourenleiter', true)
-);
-
 if(count($tours))
 {
+	$tableHeaders = array(
+		$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.statusname'),
+		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
+		$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
+		$this->Paginator->sort(__('Datum bis', true), 'Tour.enddate'),
+		__('Code', true),
+		__('Tourenleiter', true)
+	);
+
 	$tableCells = array();
 
 	foreach($tours as $tour)
