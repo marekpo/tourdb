@@ -43,7 +43,10 @@ class ToursController extends AppController
 		}
 
 		$this->set(compact('whitelist'));
-		$this->__setFormContent();
+
+		$this->set($this->Tour->getWidgetData(array(
+			Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+		)));
 	}
 
 	function formGetAdjacentTours($startDate, $endDate)
@@ -135,7 +138,9 @@ class ToursController extends AppController
 		}
 
 		$this->set(compact('whitelist', 'newStatusOptions'));
-		$this->__setFormContent();
+		$this->set($this->Tour->getWidgetData(array(
+			Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+		)));
 	}
 
 	function listMine()
@@ -197,20 +202,20 @@ class ToursController extends AppController
 
 	function search()
 	{
-		$tourIds = $this->Tour->searchTours($this->params['url']);
+		$tourIds = $this->Tour->searchTours($this->params['url'], array(
+			'TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT)
+		));
 
 		$this->paginate = array_merge($this->paginate, array(
 			'conditions' => array('Tour.id' => Set::extract('/Tour/id', $tourIds)),
 			'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile'),
 		));
 
+		$this->data['Tour'] = $this->params['url'];
+		unset($this->data['Tour']['url']);
+
 		$this->set(array(
 			'tours' => $this->paginate('Tour'),
-		));
-
-		$this->data['Tour'] = $this->params['url'];
-
-		$this->set(array(
 			'tourGuides' => $this->Tour->TourGuide->getUsersByRole(Role::TOURLEADER, array(
 				'contain' => array('Profile')
 			)),
@@ -222,7 +227,10 @@ class ToursController extends AppController
 				&& empty($this->data['Tour']['Difficulty'])
 		));
 
-		$this->__setFormContent();
+		$this->set($this->Tour->getWidgetData(array(
+			Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
+			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+		)));
 	}
 
 	function view($id)
@@ -369,47 +377,6 @@ class ToursController extends AppController
 			)),
 			'countries' => $this->Country->find('list', array(
 				'order' => array('name' => 'ASC')
-			))
-		));
-	}
-
-	function __setFormContent()
-	{
-		$this->set(array(
-			'tourTypes' => $this->Tour->TourType->find('list', array(
-				'fields' => array('acronym')
-			)),
-			'conditionalRequisites' => $this->Tour->ConditionalRequisite->find('list', array(
-				'fields' => array('acronym'),
-				'order' => array('acronym' => 'ASC')
-			)),
-			'difficultiesSkiAndAlpineTour' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::SKI_AND_ALPINE_TOUR),
-				'order' => array('rank' => 'ASC'),
-			)),
-			'difficultiesAlpineTour' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::ALPINE_TOUR),
-				'order' => array('rank' => 'ASC')
-			)),
-			'difficultiesHike' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::HIKE),
-				'order' => array('rank' => 'ASC'),
-			)),
-			'difficultiesSnowshowTour' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::SNOWSHOE_TOUR),
-				'order' => array('rank' => 'ASC'),
-			)),
-			'difficultiesViaFerrata' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::VIA_FERRATA),
-				'order' => array('rank' => 'ASC'),
-			)),
-			'difficultiesRockClimbing' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::ROCK_CLIMBING),
-				'order' => array('rank' => 'ASC'),
-			)),
-			'difficultiesIceClimbing' => $this->Tour->Difficulty->find('list', array(
-				'conditions' => array('group' => Difficulty::ICE_CLIMBING),
-				'order' => array('rank' => 'ASC')
 			))
 		));
 	}

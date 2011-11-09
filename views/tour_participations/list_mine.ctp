@@ -2,6 +2,10 @@
 $this->set('title_for_layout', __('Meine Tourenanmeldungen', true));
 $this->Html->addCrumb(__('Meine Tourenanmeldungen', true));
 
+echo $this->element('../tours/elements/tour_filters', array('activeFilters' => array(
+	'title', 'date', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty'
+)));
+
 $tableHeaders = array(
 	$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.statusname'),
 	$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),

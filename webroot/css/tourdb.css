@@ -173,8 +173,6 @@ table.list tr:HOVER td	{ background: #ffffdd; }
 	{ width: 384px; }
 .tours .input.textarea textarea				{ height: 250px; }
 .tours .input.text input.dateTime			{ width: 150px; }
-.tours .checkbox-container					{ width: 390px; float: left; }
-.tours .checkbox-container > div			{ float: left; clear: left; }
 table.tours .tourweek, table.tours .withmountainguide
 	{ text-align: center; }
 
@@ -184,6 +182,9 @@ table.tours .tourweek, table.tours .withmountainguide
 
 .toureditbar	{ text-align: right; margin-bottom: 10px; font-size: 8pt; }
 .toureditbar a	{ margin-left: 10px; }
+
+.tourFilter .checkbox-container			{ width: 390px; float: left; }
+.tourFilter .checkbox-container > div	{ float: left; clear: left; }
 
 /* users */
 .users.login .input.text input, .users.login .input.password input

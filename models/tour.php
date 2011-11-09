@@ -1,6 +1,11 @@
 <?php
 class Tour extends AppModel
 {
+	const WIDGET_TOUR_GUIDE = 'WIDGET_TOUR_GUIDE';
+	const WIDGET_TOUR_TYPE = 'WIDGET_TOUR_TYPE';
+	const WIDGET_CONDITIONAL_REQUISITE = 'WIDGET_CONDITIONAL_REQUISITE';
+	const WIDGET_DIFFICULTY = 'WIDGET_DIFFICULTY';
+
 	var $name = 'Tour';
 
 	var $actsAs = array(
@@ -133,7 +138,7 @@ class Tour extends AppModel
 		return $results;
 	}
 
-	function searchTours($searchFilters = array())
+	function searchTours($searchFilters = array(), $additionalConditions = array())
 	{
 		$searchConditions = array();
 
@@ -223,7 +228,7 @@ class Tour extends AppModel
 
 		return $this->find('all', array(
 			'fields' => array('Tour.id'),
-			'conditions' => array_merge($searchConditions, array('TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT)))
+			'conditions' => array_merge($searchConditions, $additionalConditions)
 		));
 	}
 
@@ -305,6 +310,23 @@ class Tour extends AppModel
 			&& $this->data['TourStatus']['key'] == TourStatus::PUBLISHED;
 	}
 
+	function getWidgetData($widgets = array())
+	{
+		$widgetData = array();
+
+		foreach($widgets as $widget)
+		{
+			$methodName = sprintf('__getDataFor%s', Inflector::camelize(strtolower($widget)));
+
+			if(method_exists($this, $methodName))
+			{
+				$widgetData = array_merge($widgetData, $this->{$methodName}());
+			}
+		}
+
+		return $widgetData;
+	}
+
 	function __calculateDeadline($tour)
 	{
 		if(array_key_exists('deadline', $tour))
@@ -318,5 +340,68 @@ class Tour extends AppModel
 
 			return date('Y-m-d', strtotime('-1 day', strtotime($startdate)));
 		}
+	}
+
+	function __getDataForWidgetTourGuide()
+	{
+		return array(
+			'tourGuides' => $this->TourGuide->getUsersByRole(Role::TOURLEADER, array(
+				'contain' => array('Profile'),
+				'order' => array('Profile.lastname' => 'ASC')
+			)),
+		);
+	}
+
+	function __getDataForWidgetTourType()
+	{
+		return array(
+			'tourTypes' => $this->TourType->find('list', array(
+				'fields' => array('acronym')
+			)),
+		);
+	}
+
+	function __getDataForWidgetConditionalRequisite()
+	{
+		return array(
+ 			'conditionalRequisites' => $this->ConditionalRequisite->find('list', array(
+				'fields' => array('acronym'),
+				'order' => array('acronym' => 'ASC')
+			))
+		);
+	}
+
+	function __getDataForWidgetDifficulty()
+	{
+		return array(
+			'difficultiesSkiAndAlpineTour' => $this->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::SKI_AND_ALPINE_TOUR),
+				'order' => array('rank' => 'ASC'),
+			)),
+			'difficultiesAlpineTour' => $this->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::ALPINE_TOUR),
+				'order' => array('rank' => 'ASC')
+			)),
+			'difficultiesHike' => $this->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::HIKE),
+				'order' => array('rank' => 'ASC'),
+			)),
+			'difficultiesSnowshowTour' => $this->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::SNOWSHOE_TOUR),
+				'order' => array('rank' => 'ASC'),
+			)),
+			'difficultiesViaFerrata' => $this->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::VIA_FERRATA),
+				'order' => array('rank' => 'ASC'),
+			)),
+			'difficultiesRockClimbing' => $this->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::ROCK_CLIMBING),
+				'order' => array('rank' => 'ASC'),
+			)),
+			'difficultiesIceClimbing' => $this->Difficulty->find('list', array(
+				'conditions' => array('group' => Difficulty::ICE_CLIMBING),
+				'order' => array('rank' => 'ASC')
+			))
+		);
 	}
 }
