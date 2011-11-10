@@ -9,5 +9,7 @@ class TourParticipationStatus extends AppModel
 
 	var $name = 'TourParticipationStatus';
 
+	var $displayField = 'statusname';
+
 	var $hasMany = array('TourParticipation');
 }

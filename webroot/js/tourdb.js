@@ -31,11 +31,25 @@ TourDB.Tours = {
 				calendar = $('<div id="formTourCalendar" style="display: hidden" />').appendTo('body');
 			}
 
-			calendar.load(url, {}, function(responseText, status, request) {
+			calendar.load(url, function(responseText, status, request) {
 				calendar.dialog({ width: 'auto', draggable: false, modal: true, resizable: false, title: event.data.title });
 			});
 
 			return false;
 		}
+	},
+	changeTourParticipationStatus: function(event) {
+		var url = this.href;
+		var changeStatusForm = $('#changeStatusForm');
+
+		if(changeStatusForm.length == 0) {
+			changeStatusForm = $('<div id="changeStatusForm" style="display: hidden" />').appendTo('body');
+		}
+
+		changeStatusForm.load(url, function(responseText, status, request) {
+			changeStatusForm.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title });
+		});
+
+		event.preventDefault();
 	}
 };

@@ -88,11 +88,16 @@ if($tourParticipations)
 		$tableCells[] = array(
 			$this->Display->displayUsersName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']),
 			$tourParticipation['TourParticipationStatus']['statusname'],
-			
+			$this->Html->link(__('Status ändern', true), array(
+				'controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']
+			), array(
+				'class' => 'changeStatus'
+			))
 		);
 	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);
+	$this->Js->buffer(sprintf("$('.changeStatus').click({ title: '%s' }, TourDB.Tours.changeTourParticipationStatus);", __('Anmeldestatus ändern', true)));
 }
 
 echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));

@@ -5,9 +5,13 @@ class TourParticipationsController extends AppController
 
 	var $helpers = array('Widget', 'Display');
 
+	var $components = array('RequestHandler', 'Email');
+
 	function beforeFilter()
 	{
 		parent::beforeFilter();
+
+		$this->Auth->allow('changeStatus');
 
 		$this->paginate = array(
 			'limit' => 20,
@@ -52,5 +56,46 @@ class TourParticipationsController extends AppController
 			Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
 			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
 		)));
+	}
+
+	function changeStatus($id)
+	{
+		if(!empty($this->data))
+		{
+// 			$this->TourParticipation->save($this->data);
+
+			$user = $this->TourParticipation->find('first', array(
+				'fields' => array('User.*'),
+				'conditions' => array('TourParticipation.id' => $id),
+				'contain' => array('User')
+			));
+
+			$this->set(array(
+				'user' => $user,
+				'message' => $this->data['TourParticipation']['message']
+			));
+
+			$this->_sendEmail($user['User']['email'], __('Statusänderung Anmeldung', true), 'tours/change_tour_participation_status_participant');
+		}
+		else
+		{
+			$this->data = $this->TourParticipation->find('first', array(
+				'conditions' => array('TourParticipation.id' => $id),
+				'contain' => array()
+			));
+		}
+
+		$currentTourParticipationStatus = $this->TourParticipation->find('first', array(
+			'fields' => array('TourParticipationStatus.*'),
+			'conditions' => array('TourParticipation.id' => $id),
+			'contain' => array('TourParticipationStatus')
+		));
+
+		$this->set(array(
+			'tourParticipationStatuses' => $this->TourParticipation->TourParticipationStatus->find('list', array(
+				'conditions' => array('NOT' => array('TourParticipationStatus.id' => $currentTourParticipationStatus['TourParticipationStatus']['id'])),
+				'order' => array('TourParticipationStatus.rank' => 'ASC')
+			))
+		));
 	}
 }
