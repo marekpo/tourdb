@@ -4,13 +4,12 @@ $this->Html->addCrumb($tour['Tour']['title']);
 
 echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
 
-echo $this->Html->div('infoitem',
-	$this->Html->div('label', __('Tourenleiter', true))
-	. $this->Html->div('content', $this->TourDisplay->getTourGuide($tour))
-);
-
 echo $this->Html->div('columncontainer',
 	$this->Html->div('half',
+		$this->Html->div('infoitem',
+			$this->Html->div('label', __('Tourenleiter', true))
+			. $this->Html->div('content', $this->TourDisplay->getTourGuide($tour))
+		).
 		$this->Html->div('infoitem',
 			$this->Html->div('label', __('Datum', true))
 			. $this->Html->div('content', 
@@ -30,6 +29,10 @@ echo $this->Html->div('columncontainer',
 	)
 	. $this->Html->div('half',
 		$this->Html->div('infoitem',
+			$this->Html->div('label', __('Tourenstatus', true))
+			. $this->Html->div('content', $tour['TourStatus']['statusname'])
+		)
+		. $this->Html->div('infoitem',
 			$this->Html->div('label', __('Tourenwoche', true))
 			. $this->Html->div('content', $this->Display->displayFlag($tour['Tour']['tourweek']))
 		)
