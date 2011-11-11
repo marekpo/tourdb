@@ -113,6 +113,8 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 	{ width: 130px; float: left; font-weight: bold; }
 .input.required > label:after	{ content: ' *'; }
 
+.input.radio input:FIRST-CHILD	{ margin-left: 130px; }
+
 .input.error
 	{ background: #ffe873; padding: 4px 0 0 4px; }
 .input.error.text label, .input.error.password label, .input.error.textarea label, .input.error.select > label, .input.error.datetime label, .input.error.radio label:FIRST-CHILD

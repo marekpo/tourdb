@@ -9,20 +9,6 @@ $this->Paginator->options(array('url' => array('?' => $this->data['Tour'])));
 
 echo $this->Form->create(false, array('type' => 'GET', 'url' => $this->passedArgs));
 
-if(in_array('deadline', $activeFilters))
-{
-	echo $this->Html->div('input radio',
-		$this->Form->label(__('Anmeldeschluss', true))
-		. $this->Form->input('Tour.deadline', array(
-			'type' => 'radio', 'default' => '', 'legend' => false, 'div' => false, 'hiddenField' => false,
-			'options' => array(
-				'' => __('Alle', true),
-				$this->Time->format('Y-m-d', time()) => __('Nur mit offener Anmeldung', true)
-			),
-		))
-	);
-}
-
 if(in_array('title', $activeFilters))
 {
 	echo $this->Form->input('Tour.title', array('label' => __('Tourbezeichnung', true)));
@@ -30,9 +16,20 @@ if(in_array('title', $activeFilters))
 
 $searchFilters = '';
 
+if(in_array('deadline', $activeFilters))
+{
+	$searchFilters .= $this->Form->input('Tour.deadline', array(
+		'type' => 'radio', 'default' => '', 'legend' => false, 'hiddenField' => false,
+		'options' => array(
+			'' => __('Alle', true),
+			$this->Time->format('Y-m-d', time()) => __('Aktuell', true)
+		),
+	));
+}
+
 if(in_array('date', $activeFilters))
 {
-	$searchFilters = $this->Html->div('daterange',
+	$searchFilters .= $this->Html->div('daterange',
 		$this->Widget->dateTime('Tour.startdate', array('label' => __('Datum von', true)))
 		. $this->Widget->dateTime('Tour.enddate', array('label' => __('bis', true)))
 	);
