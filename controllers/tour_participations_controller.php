@@ -11,8 +11,6 @@ class TourParticipationsController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('changeStatus');
-
 		$this->paginate = array(
 			'limit' => 20,
 			'order' => array('Tour.startdate' => 'ASC')
@@ -62,20 +60,30 @@ class TourParticipationsController extends AppController
 	{
 		if(!empty($this->data))
 		{
-// 			$this->TourParticipation->save($this->data);
+			$this->log($this->TourParticipation->save($this->data));
 
-			$user = $this->TourParticipation->find('first', array(
-				'fields' => array('User.*'),
+			$tourParticipationInfo = $this->TourParticipation->find('first', array(
+				'fields' => array('TourParticipation.tour_id', 'User.*', 'Tour.*', 'TourParticipationStatus.*'),
 				'conditions' => array('TourParticipation.id' => $id),
-				'contain' => array('User')
+				'contain' => array('User', 'Tour', 'TourParticipationStatus')
+			));
+
+			$tourGuide = $this->TourParticipation->Tour->find('first', array(
+				'conditions' => array('Tour.id' => $tourParticipationInfo['TourParticipation']['tour_id']),
+				'contain' => array('TourGuide', 'TourGuide.Profile')
 			));
 
 			$this->set(array(
-				'user' => $user,
+				'user' => array('User' => $tourParticipationInfo['User']),
+				'tour' => array('Tour' => $tourParticipationInfo['Tour']),
+				'tourParticipationStatus' => array('TourParticipationStatus' => $tourParticipationInfo['TourParticipationStatus']),
+				'tourGuide' => $tourGuide,
 				'message' => $this->data['TourParticipation']['message']
 			));
 
-			$this->_sendEmail($user['User']['email'], __('Statusänderung Anmeldung', true), 'tours/change_tour_participation_status_participant');
+			$this->_sendEmail($tourParticipationInfo['User']['email'], __('Statusänderung Anmeldung', true), 'tours/change_tour_participation_status_participant');
+
+			$this->redirect(array('controller' => 'tours', 'action' => 'view', $tourParticipationInfo['Tour']['id']));
 		}
 		else
 		{
@@ -93,7 +101,14 @@ class TourParticipationsController extends AppController
 
 		$this->set(array(
 			'tourParticipationStatuses' => $this->TourParticipation->TourParticipationStatus->find('list', array(
-				'conditions' => array('NOT' => array('TourParticipationStatus.id' => $currentTourParticipationStatus['TourParticipationStatus']['id'])),
+				'conditions' => array(
+					'NOT' => array(
+						'OR' => array(
+							'TourParticipationStatus.id' => $currentTourParticipationStatus['TourParticipationStatus']['id'],
+							'TourParticipationStatus.key' => TourParticipationStatus::REGISTERED
+						)
+					)
+				),
 				'order' => array('TourParticipationStatus.rank' => 'ASC')
 			))
 		));

@@ -280,7 +280,8 @@ class ToursController extends AppController
 		$tourParticipations = $tour['Tour']['tour_guide_id'] == $this->Auth->user('id')
 			? $this->Tour->TourParticipation->find('all', array(
 				'conditions' => array('TourParticipation.tour_id' => $tour['Tour']['id']),
-				'contain' => array('TourParticipationStatus', 'User', 'User.Profile')
+				'contain' => array('TourParticipationStatus', 'User', 'User.Profile'),
+				'order' => array('TourParticipationStatus.rank' => 'ASC')
 			))
 			: array();
 

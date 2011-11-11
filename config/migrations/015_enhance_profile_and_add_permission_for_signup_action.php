@@ -175,26 +175,18 @@ class M4ea09da0da184b50bc6407181b2c2a9b extends CakeMigration {
 				),
 				array(
 					'TourParticipationStatus' => array(
-						'id' => '4eac5025-074c-4c1f-8eca-0ac41b2c2a9b',
-						'statusname' => 'Bestätigt',
-						'key' => 'affirmed',
+						'id' => '4eac502b-256c-4381-8cb7-0ac41b2c2a9b',
+						'statusname' => 'Warteliste',
+						'key' => 'waitinglist',
 						'rank' => 2
 					),
 				),
 				array(
 					'TourParticipationStatus' => array(
-						'id' => '4eac502b-256c-4381-8cb7-0ac41b2c2a9b',
-						'statusname' => 'Warteliste',
-						'key' => 'waitinglist',
+						'id' => '4eac5025-074c-4c1f-8eca-0ac41b2c2a9b',
+						'statusname' => 'Bestätigt',
+						'key' => 'affirmed',
 						'rank' => 3
-					),
-				),
-				array(
-					'TourParticipationStatus' => array(
-						'id' => '4eac502f-ac6c-4c14-8cb5-0ac41b2c2a9b',
-						'statusname' => 'Storniert',
-						'key' => 'canceled',
-						'rank' => 4
 					),
 				),
 				array(
@@ -202,8 +194,16 @@ class M4ea09da0da184b50bc6407181b2c2a9b extends CakeMigration {
 						'id' => '4eac5036-45a4-4ebd-a597-0ac41b2c2a9b',
 						'statusname' => 'Abgelehnt',
 						'key' => 'rejected',
-						'rank' => 5
+						'rank' => 4
 					)
+				),
+				array(
+					'TourParticipationStatus' => array(
+						'id' => '4eac502f-ac6c-4c14-8cb5-0ac41b2c2a9b',
+						'statusname' => 'Storniert',
+						'key' => 'canceled',
+						'rank' => 5
+					),
 				)
 			);
 

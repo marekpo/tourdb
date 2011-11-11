@@ -32,5 +32,7 @@ $map = array(
 		'015_enhance_profile_and_add_permission_for_signup_action' => 'M4ea09da0da184b50bc6407181b2c2a9b'),
 	16 => array(
 		'016_add_my_tour_participations_to_menu' => 'M4eaef5c2588046c997fc0e001b2c2a9b'),
+	17 => array(
+		'017_add_privilege_for_tourparticipations_changeStatus' => 'M4ebd98395bc04e96991715541b2c2a9b'),
 );
 ?>
