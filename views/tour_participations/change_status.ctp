@@ -1,6 +1,4 @@
 <?php
-echo $this->Html->para('', __('', true));
-
 echo $this->Form->create();
 
 if(!empty($this->data['TourParticipation']['id']))
