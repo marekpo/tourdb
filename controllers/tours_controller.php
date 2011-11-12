@@ -159,6 +159,10 @@ class ToursController extends AppController
 
 		$this->set(array(
 			'tours' => $this->paginate('Tour'),
+			'unfilteredTourCount' => $this->Tour->find('count', array(
+				'conditions' => array('Tour.tour_guide_id' => $this->Auth->user('id')),
+				'contain' => array()
+			)),
 			'filtersCollapsed' => empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
 				&& empty($this->data['Tour']['TourGuide'])
