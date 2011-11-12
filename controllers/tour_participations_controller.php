@@ -42,6 +42,7 @@ class TourParticipationsController extends AppController
 
 		$this->set(array(
 			'tours' => $this->paginate('TourParticipation'),
+			'tourParticipationCount' => count($tourParticipationTourIds),
 			'filtersCollapsed' => empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
 				&& empty($this->data['Tour']['TourGuide'])

@@ -65,7 +65,14 @@ if(count($tours))
 }
 else
 {
-	echo $this->Html->para('', __('Für dich sind noch keine Tourenanmeldungen gespeichert.', true));
+	if($tourParticipationCount)
+	{
+		echo $this->Html->para('', __('Es gibt für dich keine Tourenanmeldungen, die den Suchkriterien entsprechen. Bitte setze den Suchfilter zurück.', true));
+	}
+	else
+	{
+		echo $this->Html->para('', __('Für dich sind noch keine Tourenanmeldungen gespeichert.', true));
+	}
 }
 
 echo $this->element('paginator');
