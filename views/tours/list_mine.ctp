@@ -48,7 +48,14 @@ if(count($tours))
 }
 else
 {
-	echo $this->Html->para('', __('Keine Touren gefunden.', true));
+	if($unfilteredTourCount)
+	{
+		echo $this->Html->para('', __('Du hast bisher noch keine Touren erfasst, die den Filterkriterien entsprechen. Bitte setze den Suchfilter zurück.', true));
+	}
+	else
+	{
+		echo $this->Html->para('', __('Du hast bisher noch keine Touren erfasst.', true));
+	}
 }
 
 echo $this->element('paginator');
