@@ -183,8 +183,8 @@ table.tours .tourweek, table.tours .withmountainguide
 .toureditbar	{ text-align: right; margin-bottom: 10px; font-size: 8pt; }
 .toureditbar a	{ margin-left: 10px; }
 
-.tourFilter .checkbox-container			{ width: 390px; float: left; }
-.tourFilter .checkbox-container > div	{ float: left; clear: left; }
+.checkbox-container			{ width: 390px; float: left; }
+.checkbox-container > div	{ float: left; clear: left; }
 
 /* users */
 .users.login .input.text input, .users.login .input.password input
