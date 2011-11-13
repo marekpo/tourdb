@@ -61,7 +61,7 @@ class TourParticipationsController extends AppController
 	{
 		if(!empty($this->data))
 		{
-			$this->log($this->TourParticipation->save($this->data));
+			$this->TourParticipation->save($this->data);
 
 			$tourParticipationInfo = $this->TourParticipation->find('first', array(
 				'fields' => array('TourParticipation.tour_id', 'User.*', 'Tour.*', 'TourParticipationStatus.*'),
@@ -111,6 +111,47 @@ class TourParticipationsController extends AppController
 					)
 				),
 				'order' => array('TourParticipationStatus.rank' => 'ASC')
+			))
+		));
+	}
+
+	function cancelTourParticipation($id)
+	{
+		if(!empty($this->data))
+		{
+			$this->data['TourParticipation']['tour_participation_status_id'] = $this->TourParticipation->TourParticipationStatus->field('id', array('TourParticipationStatus.key' => TourParticipationStatus::CANCELED));
+
+			$this->TourParticipation->save($this->data);
+
+			$tourParticipationInfo = $this->TourParticipation->find('first', array(
+				'conditions' => array('TourParticipation.id' => $id),
+				'contain' => array('User', 'User.Profile', 'Tour', 'Tour.TourGuide')
+			));
+
+			$this->set(array(
+				'tourParticipationInfo' => $tourParticipationInfo,
+				'message' => $this->data['TourParticipation']['message']
+			));
+
+			$this->_sendEmail($tourParticipationInfo['Tour']['TourGuide']['email'], __('Anmeldung storniert', true), 'tours/cancel_tour_participation_tourguide');
+
+			$this->Session->setFlash(__('Der Tourenleiter wurde über deine Absage informiert.', true));
+			$this->redirect(array('controller' => 'tours', 'action' => 'view', $tourParticipationInfo['Tour']['id']));
+		}
+		else
+		{
+			$this->data = $this->TourParticipation->find('first', array(
+				'fields' => array('TourParticipation.id'),
+				'conditions' => array('TourParticipation.id' => $id),
+				'contain' => array()
+			));
+		}
+
+		$this->set(array(
+			'tour' => $this->TourParticipation->find('first', array(
+				'fields' => array('Tour.id', 'Tour.title'),
+				'conditions' => array('TourParticipation.id' => $id),
+				'contain' => array('Tour')
 			))
 		));
 	}

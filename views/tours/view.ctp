@@ -47,32 +47,71 @@ echo $this->Html->tag('h2', __('Tourendetails', true));
 
 echo $this->Display->formatText($tour['Tour']['description']);
 
-if($registrationOpen || $currentUserAlreadySignedUp)
+if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 {
-	echo $this->Html->tag('h2', __('Anmeldung', true));
-}
-
-if($registrationOpen && !$currentUserAlreadySignedUp)
-{
-	echo $this->Html->div('columncontainer',
-		$this->Html->div('third', 
-			$this->Form->create(false, array('type' => 'GET', 'url' => array('action' => 'signUp', $tour['Tour']['id'])))
-			. $this->Html->div('submit', $this->Form->submit(__('Zur Tour anmelden', true), array('div' => false, 'class' => 'action', 'disabled' => !$this->Session->check('Auth.User'))))
-			. $this->Form->end()
-		)
-		. (!$this->Session->check('Auth.User') ? $this->Html->div('twothirds',
-			sprintf(__('Um dich zur dieser Tour anmelden zu können, musst du dich %s. Wenn du noch kein Benutzerkonto hast, musst du dich zuerst %s.', true),
-				$this->Html->link(__('einloggen', true), array('controller' => 'users', 'action' => 'login')),
-				$this->Html->link(__('registrieren', true), array('controller' => 'users', 'action' => 'createAccount'))
+	if($registrationOpen || $currentUserAlreadySignedUp)
+	{
+		echo $this->Html->tag('h2', __('Anmeldung', true));
+	}
+	
+	if($registrationOpen && !$currentUserAlreadySignedUp)
+	{
+		echo $this->Html->div('columncontainer',
+			$this->Html->div('third', 
+				$this->Form->create(false, array('type' => 'GET', 'url' => array('action' => 'signUp', $tour['Tour']['id'])))
+				. $this->Html->div('submit', $this->Form->submit(__('Zur Tour anmelden', true), array('div' => false, 'class' => 'action', 'disabled' => !$this->Session->check('Auth.User'))))
+				. $this->Form->end()
 			)
-		) : '')
-	);
+			. (!$this->Session->check('Auth.User') ? $this->Html->div('twothirds',
+				sprintf(__('Um dich zur dieser Tour anmelden zu können, musst du dich %s. Wenn du noch kein Benutzerkonto hast, musst du dich zuerst %s.', true),
+					$this->Html->link(__('einloggen', true), array('controller' => 'users', 'action' => 'login')),
+					$this->Html->link(__('registrieren', true), array('controller' => 'users', 'action' => 'createAccount'))
+				)
+			) : '')
+		);
+	}
+
+	if($currentUserAlreadySignedUp)
+	{
+		$tourParticipationStatuSentence = '';
+		switch($currentUsersTourParticipation['TourParticipationStatus']['key'])
+		{
+			case TourParticipationStatus::REGISTERED:
+				$tourParticipationStatuSentence = __('Du bist provisorisch zu dieser Tour angemeldet. Der Tourenleiter muss deine Anmeldung noch bearbeiten.', true);
+				break;
+			case TourParticipationStatus::WAITINGLIST:
+				$tourParticipationStatuSentence = __('Du bist bereits für diese Tour angemeldet. Der Tourenleiter hat dich auf die Warteliste gesetzt.', true);
+				break;
+			case TourParticipationStatus::AFFIRMED:
+				$tourParticipationStatuSentence = __('Du bist bereits für diese Tour angemeldet und der Tourleiter hat deine Teilnahme bestätigt.', true);
+				break;
+			case TourParticipationStatus::REJECTED:
+				$tourParticipationStatuSentence = __('Du hattest dich für diese Tour angemeldet, aber der Tourleiter hat deine Teilnahme abgelehnt.', true);
+				break;
+			case TourParticipationStatus::CANCELED:
+				$tourParticipationStatuSentence = __('Du hattest dich für diese Tour angemeldet aber deine Anmeldung wieder storniert.', true);
+				break;
+		}
+	
+		echo $this->Html->para('', $tourParticipationStatuSentence);
+	
+		if(in_array($currentUsersTourParticipation['TourParticipationStatus']['key'], array(TourParticipationStatus::REGISTERED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::AFFIRMED)))
+		{
+			if($mayBeCanceledByUser)
+			{
+				echo $this->Html->para('', sprintf(__('Falls du doch nicht an der Tour teilnehmen kannst, kannst du deine Anmeldung hier %s.', true), $this->Html->link(__('stornieren', true), array(
+					'controller' => 'tour_participations', 'action' => 'cancelTourParticipation', $currentUsersTourParticipation['TourParticipation']['id']
+				), array('class' => 'cancelTourParticipation'))));
+				$this->Js->buffer(sprintf("$('.cancelTourParticipation').click({ title: '%s'}, TourDB.Tours.cancelTourParticipation);", __('Touranmeldung stornieren', true)));
+			}
+			else
+			{
+				echo $this->Html->para('', __('Falls du doch nicht an der Tour teilnehmen kannst, wende dich bitte direkt an den Tourenleiter. Seine Kontaktdaten findest du in der E-Mail, die dir bei der Anmeldung zugegangen ist.', true));
+			}
+		}
+	}
 }
 
-if($currentUserAlreadySignedUp)
-{
-	echo $this->Html->para('', __('Du bist bereits zu dieser Tour angemeldet.', true));
-}
 
 if($tourParticipations)
 {

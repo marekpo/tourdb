@@ -276,8 +276,13 @@ class ToursController extends AppController
 
 		if($currentUserAlreadySignedUp)
 		{
+			$currentUsersTourParticipation = $this->Tour->TourParticipation->getTourParticipation($id, $this->Auth->user('id'));
+
+			$this->Tour->TourParticipation->set($currentUsersTourParticipation);
+
 			$this->set(array(
-				'currentUsersTourParticipation' => $this->Tour->TourParticipation->getTourParticipation($id, $this->Auth->user('id'))
+				'currentUsersTourParticipation' => $currentUsersTourParticipation,
+				'mayBeCanceledByUser' => $this->Tour->TourParticipation->mayBeCanceledByUser()
 			));
 		}
 

@@ -31,7 +31,7 @@ TourDB.Tours = {
 				calendar = $('<div id="formTourCalendar" style="display: hidden" />').appendTo('body');
 			}
 
-			calendar.load(url, function(responseText, status, request) {
+			calendar.load(url, {}, function(responseText, status, request) {
 				calendar.dialog({ width: 'auto', draggable: false, modal: true, resizable: false, title: event.data.title });
 			});
 
@@ -46,8 +46,22 @@ TourDB.Tours = {
 			changeStatusForm = $('<div id="changeStatusForm" style="display: hidden" />').appendTo('body');
 		}
 
-		changeStatusForm.load(url, function(responseText, status, request) {
+		changeStatusForm.load(url, {}, function(responseText, status, request) {
 			changeStatusForm.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title });
+		});
+
+		event.preventDefault();
+	},
+	cancelTourParticipation: function(event) {
+		var url = this.href;
+		var cancelTourParticipationForm = $('#cancelTourParticipationForm');
+
+		if(cancelTourParticipationForm.length == 0) {
+			cancelTourParticipationForm = $('<div id="cancelTourParticipationForm" style="display: hiddne" />').appendTo('body');
+		}
+
+		cancelTourParticipationForm.load(url, {}, function(responseText, status, request) {
+			cancelTourParticipationForm.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title });
 		});
 
 		event.preventDefault();

@@ -35,8 +35,8 @@ $map = array(
 	17 => array(
 		'017_add_privilege_for_tourparticipations_changeStatus' => 'M4ebd98395bc04e96991715541b2c2a9b'),
 	18 => array(
-		'018_add_termsandconditionsaccpted_field_to_user_table' => 'M4ebe80daa1244ab9887614401b2c2a9b'),
+		'018_add_privilege_for_cancelTourParticipation' => 'M4ebfda668c504f028cfd11381b2c2a9b'),
 	19 => array(
-		'018_add_termsandconditionsaccpted_field_to_user_table' => 'M4ebe8167f2784524ac6515fc1b2c2a9b'),
+		'019_add_dataprivacystatementaccpted_field_to_user_table' => 'M4ebe8167f2784524ac6515fc1b2c2a9b'),
 );
 ?>
