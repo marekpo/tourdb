@@ -31,7 +31,7 @@ class M4ebfda668c504f028cfd11381b2c2a9b extends CakeMigration {
  */
 	public function before($direction)
 	{
-			$Privilege = $this->generateModel('Privilege');
+		$Privilege = $this->generateModel('Privilege');
 
 		if($direction == 'up')
 		{

@@ -15,7 +15,7 @@ class UsersController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow(array('createAccount', 'activateAccount', 'login', 'logout', 'requestNewPassword'));
+		$this->Auth->allow(array('createAccount', 'activateAccount', 'login', 'logout', 'requestNewPassword', 'acceptDataPrivacyStatement'));
 
 		$this->paginate = array(
 			'limit' => 25,
@@ -170,6 +170,22 @@ class UsersController extends AppController
 
 			$this->Session->setFlash(__('Dein neues Passwort wurde dir per E-Mail zugeschickt.', true));
 			$this->redirect(array('action' => 'login'));
+		}
+	}
+
+	function acceptDataPrivacyStatement()
+	{
+		if(!empty($this->data))
+		{
+			$this->data['User']['id'] = $this->Auth->user('id');
+
+			if($this->User->save($this->data))
+			{
+				$this->Session->write('Auth.User.dataprivacystatementaccpted', '1');
+				$redirect = $this->Session->read('acceptDataPrivacyStatement.redirect');
+				$this->Session->delete('acceptDataPrivacyStatement');
+				$this->redirect($redirect);
+			}
 		}
 	}
 

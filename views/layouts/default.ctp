@@ -70,7 +70,12 @@
           </div>
         </div>
 
-        <div id="footer"><?php __('© 2011 Tourenangebot.ch, für SAC am Albis'); ?></div>
+        <div id="footer">
+          <div class="globallinks">
+		    <?php echo $this->Html->link(__('Datenschutzerklärung', true), array('controller' => 'pages', 'action' => 'display', 'data_privacy_statement')); ?>
+		  </div>
+          <?php __('© 2011 Tourenangebot.ch, für SAC am Albis'); ?>
+        </div>
       </div>
     </div>
 <?php

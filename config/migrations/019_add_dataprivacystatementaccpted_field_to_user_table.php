@@ -19,7 +19,7 @@ class M4ebe8167f2784524ac6515fc1b2c2a9b extends CakeMigration {
 		'up' => array(
 			'create_field' => array(
 				'users' => array(
-					'dataprivacystatementaccpted' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+					'dataprivacystatementaccpted' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'after' => 'active'),
 				),
 			),
 		),
@@ -37,7 +37,8 @@ class M4ebe8167f2784524ac6515fc1b2c2a9b extends CakeMigration {
  * @return boolean Should process continue
  * @access public
  */
-	public function before($direction) {
+	public function before($direction)
+	{
 		return true;
 	}
 
@@ -48,7 +49,8 @@ class M4ebe8167f2784524ac6515fc1b2c2a9b extends CakeMigration {
  * @return boolean Should process continue
  * @access public
  */
-	public function after($direction) {
+	public function after($direction)
+	{
 		return true;
 	}
 }

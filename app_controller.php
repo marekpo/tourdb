@@ -10,6 +10,8 @@ class AppController extends Controller
 		$this->__setupAuth();
 
 		$this->__loginByCookie();
+
+		$this->__checkDataPrivacyStatementAccepted();
 	}
 
 	function isAuthorized()
@@ -65,6 +67,16 @@ class AppController extends Controller
 				$this->Authorization->init();
 				$this->Session->delete('Message.auth');
 			}
+		}
+	}
+
+	function __checkDataPrivacyStatementAccepted()
+	{
+		if($this->Auth->user() && !$this->Auth->user('dataprivacystatementaccpted')
+			&& ($this->name != 'users' && $this->action != 'acceptDataPrivacyStatement'))
+		{
+			$this->Session->write('acceptDataPrivacyStatement.redirect', $this->here);
+			$this->redirect(array('controller' => 'users', 'action' => 'acceptDataPrivacyStatement'));
 		}
 	}
 }

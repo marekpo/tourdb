@@ -30,6 +30,8 @@ a:HOVER		{ text-decoration: underline; }
 #content		{ width: 800px; border: solid #dddddd; border-width: 0 1px 1px; float: left; margin-bottom: 5px; padding: 10px 0 10px; min-height: 400px; }
 #footer			{ clear: left; margin-left: 200px; font-size: 8pt; }
 
+#footer .globallinks	{ float: right; }
+
 .inner				{ margin: 0 10px; }
 .half				{ width: 390px; float: left; }
 .quarter			{ width: 195px; float: left; }
@@ -193,6 +195,7 @@ table.tours .tourweek, table.tours .withmountainguide
 	{ width: 200px; }
 .users.login .requestNewPassword	{ margin-left: 130px; }
 .users.activate_account .input label	{ width: 230px; }
+.users .dataPrivacyStatement	{ border: 1px solid #dddddd; height: 400px; overflow: auto; padding: 4px; margin-bottom: 10px;}
 
 /* profiles */
 .profiles .input label		{ width: 125px; }
