@@ -51,5 +51,19 @@ TourDB.Tours = {
 		});
 
 		event.preventDefault();
+	},
+	cancelTourParticipation: function(event) {
+		var url = this.href;
+		var cancelTourParticipationForm = $('#cancelTourParticipationForm');
+
+		if(cancelTourParticipationForm.length == 0) {
+			cancelTourParticipationForm = $('<div id="cancelTourParticipationForm" style="display: hiddne" />').appendTo('body');
+		}
+
+		cancelTourParticipationForm.load(url, {}, function(responseText, status, request) {
+			cancelTourParticipationForm.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title });
+		});
+
+		event.preventDefault();
 	}
 };

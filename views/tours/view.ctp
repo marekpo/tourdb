@@ -97,9 +97,17 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 	
 		if(in_array($currentUsersTourParticipation['TourParticipationStatus']['key'], array(TourParticipationStatus::REGISTERED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::AFFIRMED)))
 		{
-			echo $this->Form->create('TourParticipation', array('action' => 'cancelRegistration'));
-	
-			echo $this->Form->end(__('Anmeldung stornieren', true));
+			if($mayBeCanceledByUser)
+			{
+				echo $this->Html->para('', sprintf(__('Falls du doch nicht an der Tour teilnehmen kannst, kannst du deine Anmeldung hier %s.', true), $this->Html->link(__('stornieren', true), array(
+					'controller' => 'tour_participations', 'action' => 'cancelTourParticipation', $currentUsersTourParticipation['TourParticipation']['id']
+				), array('class' => 'cancelTourParticipation'))));
+				$this->Js->buffer(sprintf("$('.cancelTourParticipation').click({ title: '%s'}, TourDB.Tours.cancelTourParticipation);", __('Touranmeldung stornieren', true)));
+			}
+			else
+			{
+				echo $this->Html->para('', __('Falls du doch nicht an der Tour teilnehmen kannst, wende dich bitte direkt an den Tourenleiter. Seine Kontaktdaten findest du in der E-Mail, die dir bei der Anmeldung zugegangen ist.', true));
+			}
 		}
 	}
 }
