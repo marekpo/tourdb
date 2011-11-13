@@ -27,7 +27,12 @@ class UsersController extends AppController
 	{
 		if(!empty($this->data))
 		{
-			$accountCreated = $this->User->createAccount($this->data['User']['username'], $this->data['User']['email'], $password);
+			$accountCreated = $this->User->createAccount(
+				$this->data['User']['username'],
+				$this->data['User']['email'],
+				$password,
+				$this->data['User']['dataprivacystatementaccpted']
+			);
 
 			if($accountCreated)
 			{

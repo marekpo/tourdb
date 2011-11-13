@@ -24,4 +24,13 @@ echo $this->Form->input('User.email', array(
 	)
 ));
 
+echo $this->Form->input('User.dataprivacystatementaccpted', array(
+	'label' => sprintf(__('Ich akzeptiere die %s.', true), $this->Html->link(__('Datenschutzbestimmungen', true), array(
+		'controller' => 'pages', 'action' => 'display', 'dataPrivacyStatement'), array('target' => '_blank'))
+	),
+	'error' => array(
+		'notAccepted' => __('Du musst die Datenschutzerklärung akzeptieren.', true)
+	)
+));
+
 echo $this->Form->end(__('Benutzerkonto anlegen', true));

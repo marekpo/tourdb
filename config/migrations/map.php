@@ -34,5 +34,9 @@ $map = array(
 		'016_add_my_tour_participations_to_menu' => 'M4eaef5c2588046c997fc0e001b2c2a9b'),
 	17 => array(
 		'017_add_privilege_for_tourparticipations_changeStatus' => 'M4ebd98395bc04e96991715541b2c2a9b'),
+	18 => array(
+		'018_add_termsandconditionsaccpted_field_to_user_table' => 'M4ebe80daa1244ab9887614401b2c2a9b'),
+	19 => array(
+		'018_add_termsandconditionsaccpted_field_to_user_table' => 'M4ebe8167f2784524ac6515fc1b2c2a9b'),
 );
 ?>
