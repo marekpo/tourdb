@@ -310,6 +310,21 @@ class Tour extends AppModel
 			&& $this->data['TourStatus']['key'] == TourStatus::PUBLISHED;
 	}
 
+	function setEditableByTourGuide($tours)
+	{
+		foreach($tours as $key => $tour)
+		{
+			if(!isset($tour['TourStatus']))
+			{
+				continue;
+			}
+
+			$tours[$key]['Tour']['editablebytourguide'] = in_array($tour['TourStatus']['key'], array(TourStatus::NEW_, TourStatus::FIXED));
+		}
+
+		return $tours;
+	}
+
 	function getWidgetData($widgets = array())
 	{
 		$widgetData = array();

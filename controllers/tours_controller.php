@@ -157,8 +157,10 @@ class ToursController extends AppController
 		$this->data['Tour'] = $this->params['url'];
 		unset($this->data['Tour']['url']);
 
+		$tours = $this->Tour->setEditableByTourGuide($this->paginate('Tour'));
+
 		$this->set(array(
-			'tours' => $this->paginate('Tour'),
+			'tours' => $tours,
 			'unfilteredTourCount' => $this->Tour->find('count', array(
 				'conditions' => array('Tour.tour_guide_id' => $this->Auth->user('id')),
 				'contain' => array()

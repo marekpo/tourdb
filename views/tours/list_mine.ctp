@@ -22,9 +22,11 @@ if(count($tours))
 
 	foreach($tours as $tour)
 	{
+		$linkAction = $tour['Tour']['editablebytourguide'] ? 'edit' : 'view';
+
 		$tableCells[] = array(
 			array(
-				$this->Html->link($tour['Tour']['title'], array('action' => 'edit', $tour['Tour']['id'])),
+				$this->Html->link($tour['Tour']['title'], array('action' => $linkAction, $tour['Tour']['id'])),
 				array('class' => 'title')
 			),
 			array(
