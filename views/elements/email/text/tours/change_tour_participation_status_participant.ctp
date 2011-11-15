@@ -25,13 +25,17 @@ Hallo <?php echo $user['User']['username']; ?>!
 ?>
 
 
+Benutze bitte für Rückfragen die E-Mail-Adresse <?php echo $tourGuide['TourGuide']['email']; ?>.
+
 Tourlink: <?php echo $this->Html->url(array('controller' => 'tours', 'action' => 'view', $tour['Tour']['id']), true); ?>
 
 <?php if(!empty($message)): ?>
 
 Persönliche Mitteilung vom Tourenleiter:
+--------------------------------------------------------------------------------
 <?php echo $message; ?>
 
+--------------------------------------------------------------------------------
 <?php endif; ?>
 
 Dein Tourenangebot Team
