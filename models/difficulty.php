@@ -12,4 +12,24 @@ class Difficulty extends AppModel
 	var $name = 'Difficulty';
 
 	var $hasAndBelongsToMany = array('Tour');
+
+	function call__($method, $params)
+	{
+		if(preg_match('/get([a-z]+?)Difficulties/i', $method, $matches))
+		{
+			$difficultyGroup = constant(sprintf('self::%s', strtoupper(Inflector::underscore($matches[1]))));
+
+			if(!isset($params[0]))
+			{
+				$params[0] = 'list';
+			}
+
+			return $this->find($params[0], array(
+				'conditions' => array('group' => $difficultyGroup),
+				'order' => array('rank' => 'ASC'),
+			));
+		}
+
+		return parent::call__($method, $params);
+	}
 }

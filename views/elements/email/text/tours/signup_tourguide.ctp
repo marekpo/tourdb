@@ -29,6 +29,25 @@ Telefon: <?php echo $user['Profile']['emergencycontact1_phone']; ?>
 E-Mail: <?php echo $user['Profile']['emergencycontact1_email']; ?>
 
 
+Erfahrung
+---------
+Einsetzbar als Seilschaftsführer: <?php echo $this->Display->displayYesNoDontKnow($user['Profile']['experience_rope_guide']); ?>
+
+Kenntnisse in Knotentechnik: <?php echo $this->Display->displayExperience($user['Profile']['experience_knot_technique']); ?>
+
+Kenntnisse in Seilhandhabung: <?php echo $this->Display->displayExperience($user['Profile']['experience_rope_handling']); ?>
+
+Lawinenausbildung: <?php echo $this->Display->displayExperience($user['Profile']['experience_avalanche_training']); ?>
+
+Kletterniveau im Vorstieg: <?php echo $user['Profile']['LeadClimbNiveau']['name']; ?>
+
+Kletterniveau im Nachstieg: <?php echo $user['Profile']['SecondClimbNiveau']['name']; ?>
+
+Alpin-Hochtourenniveau: <?php echo $user['Profile']['AlpineTourNiveau']['name']; ?>
+
+Skitourenniveau: <?php echo $user['Profile']['SkiTourNiveau']['name']; ?>
+
+
 Der/die Teilnehmer(in) hat eine E-Mail mit der Bestätigung seiner/ihrer provisorischen
 Anmeldung erhalten. Bitte bearbeite die Anmeldung um den/die Teilnehmer(in) entsprechend
 über seine/ihre Teilnahme zu informieren.

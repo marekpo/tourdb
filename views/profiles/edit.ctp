@@ -6,4 +6,6 @@ echo $this->Form->create();
 
 echo $this->element('../profiles/elements/contact_data');
 
+echo $this->element('../profiles/elements/experience_data');
+
 echo $this->Form->end(__('Speichern', true));

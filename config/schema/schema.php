@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2011-11-12 15:23:58 : 1321107838*/
+/* Tourdb schema generated on: 2011-11-18 21:09:22 : 1321646962*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
@@ -122,6 +122,14 @@ class TourdbSchema extends CakeSchema {
 		'emergencycontact2_address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'emergencycontact2_phone' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 24, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'emergencycontact2_email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'experience_rope_guide' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 1),
+		'experience_knot_technique' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 1),
+		'experience_rope_handling' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 1),
+		'experience_avalanche_training' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 1),
+		'lead_climb_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'second_climb_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'alpine_tour_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'ski_tour_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),

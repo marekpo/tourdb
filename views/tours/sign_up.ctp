@@ -8,4 +8,6 @@ echo $this->Form->create(false, array('url' => array($tour['Tour']['id'])));
 
 echo $this->element('../profiles/elements/contact_data');
 
+echo $this->element('../profiles/elements/experience_data');
+
 echo $this->Form->end(__('Anmelden', true));

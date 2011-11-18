@@ -3,7 +3,22 @@ class Profile extends AppModel
 {
 	var $name = 'Profile';
 
-	var $belongsTo = array('User', 'Country');
+	var $belongsTo = array(
+		'User',
+		'Country',
+		'LeadClimbNiveau' => array(
+			'className' => 'Difficulty',
+		),
+		'SecondClimbNiveau' => array(
+			'className' => 'Difficulty',
+		),
+		'AlpineTourNiveau' => array(
+			'className' => 'Difficulty',
+		),
+		'SkiTourNiveau' => array(
+			'className' => 'Difficulty',
+		)
+	);
 
 	var $validate = array(
 		'firstname' => array(
@@ -77,6 +92,26 @@ class Profile extends AppModel
 				'rule' => 'email',
 				'allowEmpty' => true
 			)
-		)		
+		),
+		'lead_climb_niveau_id' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
+		'second_climb_niveau_id' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
+		'alpine_tour_niveau_id' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
+		'ski_tour_niveau_id' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		)
 	);
 }
