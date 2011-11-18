@@ -59,10 +59,10 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 		echo $this->Html->div('columncontainer',
 			$this->Html->div('third', 
 				$this->Form->create(false, array('type' => 'GET', 'url' => array('action' => 'signUp', $tour['Tour']['id'])))
-				. $this->Html->div('submit', $this->Form->submit(__('Zur Tour anmelden', true), array('div' => false, 'class' => 'action', 'disabled' => !$this->Session->check('Auth.User'))))
+				. $this->Form->submit(__('Zur Tour anmelden', true), array('div' => array('class' => 'submit obtrusive'), 'disabled' => !$this->Session->check('Auth.User')))
 				. $this->Form->end()
 			)
-			. (!$this->Session->check('Auth.User') ? $this->Html->div('twothirds',
+			. (!$this->Session->check('Auth.User') ? $this->Html->div('twothirds obtrusive text',
 				sprintf(__('Um dich zur dieser Tour anmelden zu können, musst du dich %s. Wenn du noch kein Benutzerkonto hast, musst du dich zuerst %s.', true),
 					$this->Html->link(__('einloggen', true), array('controller' => 'users', 'action' => 'login')),
 					$this->Html->link(__('registrieren', true), array('controller' => 'users', 'action' => 'createAccount'))

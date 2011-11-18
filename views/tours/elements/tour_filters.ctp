@@ -126,9 +126,11 @@ if($searchFilters)
 	echo $this->Widget->collapsibleFieldset(__('Suchfilter', true), $searchFilters, $filtersCollapsed);
 }
 
-echo $this->Html->div('submit',
-	$this->Form->submit(__('Suchen', true), array('div' => false, 'class' => 'action'))
-	. $this->Html->div('',
+echo $this->Html->div('columncontainer',
+	$this->Html->div('half',
+		$this->Form->submit(__('Suchen', true), array('div' => array('class' => 'submit obtrusive')))
+	)
+	. $this->Html->div('half obtrusive links',
 		$this->Html->link(__('Suchfilter zurücksetzen', true), array('controller' => $this->params['controller'], 'action' => $this->params['action']))
 	)
 );
