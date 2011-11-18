@@ -202,3 +202,4 @@ table.tours .tourweek, table.tours .withmountainguide
 .profiles .input.text input	{ width: 230px; }
 .profiles .input.text input#ProfileExtraaddressline, .profiles .input.text input#ProfileEmergencycontact1Address
 	{ width: 610px; }
+.profiles .experience .input > label	{ width: 200px; }

@@ -370,7 +370,10 @@ class ToursController extends AppController
 
 					$user = $this->User->find('first', array(
 						'conditions' => array('User.id' => $this->Auth->user('id')),
-						'contain' => array('Profile', 'Profile.Country')
+						'contain' => array(
+							'Profile', 'Profile.Country', 'Profile.LeadClimbNiveau', 'Profile.SecondClimbNiveau',
+							'Profile.AlpineTourNiveau', 'Profile.SkiTourNiveau'
+						)
 					));
 
 					$this->set(array(
@@ -413,7 +416,9 @@ class ToursController extends AppController
 			)),
 			'countries' => $this->Country->find('list', array(
 				'order' => array('name' => 'ASC')
-			))
+			)),
+			'climbingDifficulties' => $this->Tour->Difficulty->getRockClimbingDifficulties(),
+			'skiAndAlpineTourDifficulties' => $this->Tour->Difficulty->getSkiAndAlpineTourDifficulties()
 		));
 	}
 

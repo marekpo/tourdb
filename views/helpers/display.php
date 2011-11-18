@@ -3,6 +3,14 @@ class DisplayHelper extends AppHelper
 {
 	var $helpers = array('Html');
 
+	var $yesNoDontKnowLabels = array(
+		'Weiss nicht', 'Ja', 'Nein'
+	);
+
+	var $experienceLabels = array(
+		'Keine', 'Wenig', 'Mittel', 'Viel'
+	);
+
 	function displayFlag($flag)
 	{
 		return $this->Html->tag('input', '', array('type' => 'checkbox', 'disabled' => 'disabled', 'checked' => ($flag == 1 ? 'checked' : '')));
@@ -26,5 +34,15 @@ class DisplayHelper extends AppHelper
 		}
 
 		return sprintf('%s %s', $profile['firstname'], $profile['lastname']);
+	}
+
+	function displayYesNoDontKnow($value)
+	{
+		return $this->yesNoDontKnowLabels[$value];
+	}
+
+	function displayExperience($value)
+	{
+		return $this->experienceLabels[$value];
 	}
 }

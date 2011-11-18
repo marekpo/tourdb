@@ -41,7 +41,9 @@ class ProfilesController extends AppController
 		$this->set(array(
 			'countries' => $this->Profile->Country->find('list', array(
 				'order' => array('name' => 'ASC')
-			))
+			)),
+			'climbingDifficulties' => $this->Profile->LeadClimbNiveau->getRockClimbingDifficulties(),
+			'skiAndAlpineTourDifficulties' => $this->Profile->AlpineTourNiveau->getSkiAndAlpineTourDifficulties()
 		));
 	}
 }
