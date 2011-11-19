@@ -39,13 +39,13 @@ Kenntnisse in Seilhandhabung: <?php echo $this->Display->displayExperience($user
 
 Lawinenausbildung: <?php echo $this->Display->displayExperience($user['Profile']['experience_avalanche_training']); ?>
 
-Kletterniveau im Vorstieg: <?php echo $user['Profile']['LeadClimbNiveau']['name']; ?>
+Kletterniveau im Vorstieg: <?php echo (empty($user['Profile']['lead_climb_niveau_id']) ? __('Keine Erfahrung', true) : $user['Profile']['LeadClimbNiveau']['name']); ?>
 
-Kletterniveau im Nachstieg: <?php echo $user['Profile']['SecondClimbNiveau']['name']; ?>
+Kletterniveau im Nachstieg: <?php echo (empty($user['Profile']['second_climb_niveau_id']) ? __('Keine Erfahrung', true) : $user['Profile']['SecondClimbNiveau']['name']); ?>
 
-Alpin-Hochtourenniveau: <?php echo $user['Profile']['AlpineTourNiveau']['name']; ?>
+Alpin-Hochtourenniveau: <?php echo (empty($user['Profile']['alpine_tour_niveau_id']) ? __('Keine Erfahrung', true) : $user['Profile']['AlpineTourNiveau']['name']); ?>
 
-Skitourenniveau: <?php echo $user['Profile']['SkiTourNiveau']['name']; ?>
+Skitourenniveau: <?php echo (empty($user['Profile']['ski_tour_niveau_id']) ? __('Keine Erfahrung', true) : $user['Profile']['SkiTourNiveau']['name']); ?>
 
 
 Der/die Teilnehmer(in) hat eine E-Mail mit der Bestätigung seiner/ihrer provisorischen
