@@ -92,26 +92,6 @@ class Profile extends AppModel
 				'rule' => 'email',
 				'allowEmpty' => true
 			)
-		),
-		'lead_climb_niveau_id' => array(
-			'notEmpty' => array(
-				'rule' => 'notEmpty'
-			)
-		),
-		'second_climb_niveau_id' => array(
-			'notEmpty' => array(
-				'rule' => 'notEmpty'
-			)
-		),
-		'alpine_tour_niveau_id' => array(
-			'notEmpty' => array(
-				'rule' => 'notEmpty'
-			)
-		),
-		'ski_tour_niveau_id' => array(
-			'notEmpty' => array(
-				'rule' => 'notEmpty'
-			)
 		)
 	);
 }
