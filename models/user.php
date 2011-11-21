@@ -55,7 +55,7 @@ class User extends AppModel
 				'rule' => array('identicalFields', 'changedPassword')
 			)
 		),
-		'dataprivacystatementaccpted' => array(
+		'dataprivacystatementaccepted' => array(
 			'notAccepted' => array(
 				'rule' => array('equalTo', '1')
 			)
@@ -95,13 +95,13 @@ class User extends AppModel
 		return $data;
 	}
 
-	function createAccount($username, $email, &$password, $dataPrivacyStatementAccpted)
+	function createAccount($username, $email, &$password, $dataPrivacyStatementAccepted)
 	{
 		$this->create(array(
 			'User' => array(
 				'username' => $username,
 				'email' => $email,
-				'dataprivacystatementaccpted' => $dataPrivacyStatementAccpted
+				'dataprivacystatementaccepted' => $dataPrivacyStatementAccepted
 			)
 		));
 
