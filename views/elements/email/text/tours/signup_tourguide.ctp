@@ -7,6 +7,8 @@ Ein(e) Teilnehmer(in) hat sich für die Tour "<?php echo $tour['Tour']['title'];
 		: sprintf('vom %s - %s', $this->Time->format('d.m.Y', $tour['Tour']['startdate']), $this->Time->format('d.m.Y', $tour['Tour']['enddate'])));
 ?> provisorisch angemeldet:
 
+Kontakt
+-------
 Name: <?php printf('%s %s', $user['Profile']['firstname'], $user['Profile']['lastname']); ?>
 
 Adresse: <?php printf('%s %s', $user['Profile']['street'], $user['Profile']['housenumber']); ?>
@@ -16,11 +18,19 @@ PLZ/Ort: <?php printf('%s %s', $user['Profile']['zip'], $user['Profile']['city']
 Land: <?php echo $user['Profile']['Country']['name']; ?>
 
 Telefon: <?php echo $user['Profile']['phoneprivate']; ?>
+<?php if(!empty($user['Profile']['cellphone'])): ?>
+
+Handy: <?php echo $user['Profile']['cellphone']; ?>
+<?php endif;?>
+<?php if(!empty($user['Profile']['phonebusiness'])): ?>
+
+Telefon (gesch.): <?php echo $user['Profile']['phonebusiness']; ?>
+<?php endif;?>
 
 E-Mail: <?php echo $user['User']['email']; ?>
 
 
-Notallkontakt
+Notfallkontakt
 -------------
 Adresse: <?php echo $user['Profile']['emergencycontact1_address']; ?>
 
