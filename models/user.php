@@ -116,7 +116,7 @@ class User extends AppModel
 
 	function activateAccount($id, $tempPassword, $newPassword, $newPasswordRepeat)
 	{
-		$this->create(array(
+		$this->set(array(
 			'User' => array(
 				'id' => $id,
 				'tempPassword' => $tempPassword,
@@ -158,7 +158,6 @@ class User extends AppModel
 			));
 		}
 
-		$this->create();
 		return $this->save($userData);
 	}
 

@@ -223,7 +223,7 @@ class UsersController extends AppController
 		if(!empty($this->data))
 		{
 			$this->data['User']['id'] = $this->Auth->user('id');
-			$this->User->create($this->data);
+			$this->User->set($this->data);
 			if($this->User->validates())
 			{
 				if(!empty($this->data['User']['changedPassword']))
