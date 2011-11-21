@@ -72,7 +72,7 @@ class AppController extends Controller
 
 	function __checkDataPrivacyStatementAccepted()
 	{
-		if($this->Auth->user() && !$this->Auth->user('dataprivacystatementaccpted')
+		if($this->Auth->user() && !$this->Auth->user('dataprivacystatementaccepted')
 			&& ($this->name != 'users' && $this->action != 'acceptDataPrivacyStatement'))
 		{
 			$this->Session->write('acceptDataPrivacyStatement.redirect', $this->here);

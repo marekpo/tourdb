@@ -31,7 +31,7 @@ class UsersController extends AppController
 				$this->data['User']['username'],
 				$this->data['User']['email'],
 				$password,
-				$this->data['User']['dataprivacystatementaccpted']
+				$this->data['User']['dataprivacystatementaccepted']
 			);
 
 			if($accountCreated)
@@ -181,7 +181,7 @@ class UsersController extends AppController
 
 			if($this->User->save($this->data))
 			{
-				$this->Session->write('Auth.User.dataprivacystatementaccpted', '1');
+				$this->Session->write('Auth.User.dataprivacystatementaccepted', '1');
 				$redirect = $this->Session->read('acceptDataPrivacyStatement.redirect');
 				$this->Session->delete('acceptDataPrivacyStatement');
 				$this->redirect($redirect);

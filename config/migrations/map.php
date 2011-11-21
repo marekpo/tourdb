@@ -37,6 +37,6 @@ $map = array(
 	18 => array(
 		'018_add_privilege_for_cancelTourParticipation' => 'M4ebfda668c504f028cfd11381b2c2a9b'),
 	19 => array(
-		'019_add_dataprivacystatementaccpted_field_to_user_table' => 'M4ebe8167f2784524ac6515fc1b2c2a9b'),
+		'019_add_dataprivacystatementaccepted_field_to_user_table' => 'M4ebe8167f2784524ac6515fc1b2c2a9b'),
 );
 ?>

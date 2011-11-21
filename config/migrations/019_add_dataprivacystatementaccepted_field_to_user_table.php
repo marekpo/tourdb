@@ -19,13 +19,13 @@ class M4ebe8167f2784524ac6515fc1b2c2a9b extends CakeMigration {
 		'up' => array(
 			'create_field' => array(
 				'users' => array(
-					'dataprivacystatementaccpted' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'after' => 'active'),
+					'dataprivacystatementaccepted' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'after' => 'active'),
 				),
 			),
 		),
 		'down' => array(
 			'drop_field' => array(
-				'users' => array('dataprivacystatementaccpted',),
+				'users' => array('dataprivacystatementaccepted',),
 			),
 		),
 	);

@@ -24,7 +24,7 @@ echo $this->Form->input('User.email', array(
 	)
 ));
 
-echo $this->Form->input('User.dataprivacystatementaccpted', array(
+echo $this->Form->input('User.dataprivacystatementaccepted', array(
 	'label' => sprintf(__('Ich akzeptiere die %s.', true), $this->Html->link(__('Datenschutzbestimmungen', true), array(
 		'controller' => 'pages', 'action' => 'display', 'dataPrivacyStatement'), array('target' => '_blank'))
 	),

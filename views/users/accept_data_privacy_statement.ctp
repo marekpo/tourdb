@@ -8,7 +8,7 @@ echo $this->Html->div('dataPrivacyStatement', $this->element('data_privacy_state
 
 echo $this->Form->create();
 
-echo $this->Form->input('User.dataprivacystatementaccpted', array(
+echo $this->Form->input('User.dataprivacystatementaccepted', array(
 	'label' => __('Datenschutzerklärung akzeptieren', true),
 	'error' => array(
 		'notAccepted' => __('Du musst die Datenschutzerklärung akzeptieren.', true)
