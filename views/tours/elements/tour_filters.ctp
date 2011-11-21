@@ -126,6 +126,8 @@ if($searchFilters)
 	echo $this->Widget->collapsibleFieldset(__('Suchfilter', true), $searchFilters, $filtersCollapsed);
 }
 
+echo $this->Html->para('', sprintf(__('Erklärungen zu den verwendeten Abkürzungen findest du im %s.', true), $this->Html->link(__('Tourenreglement', true), 'http://www.sac-albis.ch/service/dokumente/tourenreglement/', array('target' => '_blank'))));
+
 echo $this->Html->div('columncontainer',
 	$this->Html->div('half',
 		$this->Form->submit(__('Suchen', true), array('div' => array('class' => 'submit obtrusive')))
