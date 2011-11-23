@@ -90,7 +90,7 @@ echo $this->Form->input('Profile.emergencycontact1_address', array(
 echo $this->Html->div('columncontainer',
 	$this->Html->div('half',
 		$this->Form->input('Profile.emergencycontact1_phone', array(
-			'label' => __('Telefon (Handy)', true), 'tabindex' => 12, 'error' => array(
+			'label' => __('Telefon', true), 'tabindex' => 12, 'error' => array(
 				'notEmpty' => __('Trag bitte die Telefon-/Handynummer deiner Notfallkontaktperson ein.', true)
 			)
 		))
@@ -98,7 +98,6 @@ echo $this->Html->div('columncontainer',
 	. $this->Html->div('half',
 		$this->Form->input('Profile.emergencycontact1_email', array(
 			'label' => __('E-Mail', true), 'tabindex' => 13, 'error' => array(
-				'notEmpty' => __('Trag bitte die E-Mail-Adresse deiner Notfallkontaktperson ein.', true),
 				'correctFormat' => __('Dies ist keine gültige E-Mail-Adresse.', true)
 			)
 		))
@@ -114,7 +113,7 @@ echo $this->Form->input('Profile.emergencycontact2_address', array(
 echo $this->Html->div('columncontainer',
 	$this->Html->div('half',
 		$this->Form->input('Profile.emergencycontact2_phone', array(
-			'label' => __('Telefon (Handy)', true), 'tabindex' => 15
+			'label' => __('Telefon', true), 'tabindex' => 15
 		))
 	)
 	. $this->Html->div('half',

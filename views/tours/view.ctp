@@ -112,7 +112,6 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 	}
 }
 
-
 if($tourParticipations)
 {
 	echo $this->Html->tag('h2', __('Anmeldungen', true));

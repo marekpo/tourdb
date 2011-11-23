@@ -79,12 +79,9 @@ class Profile extends AppModel
 			)
 		),
 		'emergencycontact1_email' => array(
-			'notEmpty' => array(
-				'rule' => 'notEmpty',
-				'last' => true
-			),
 			'correctFormat' => array(
-				'rule' => 'email'
+				'rule' => 'email',
+				'allowEmpty' => true
 			)
 		),		
 		'emergencycontact2_email' => array(
