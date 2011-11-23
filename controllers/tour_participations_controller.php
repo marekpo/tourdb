@@ -30,7 +30,10 @@ class TourParticipationsController extends AppController
 		));
 
 		$this->paginate = array_merge($this->paginate, array(
-			'conditions' => array('TourParticipation.tour_id' => Set::extract('/Tour/id', $tourIds)),
+			'conditions' => array(
+				'TourParticipation.user_id' => $this->Auth->user('id'),
+				'TourParticipation.tour_id' => Set::extract('/Tour/id', $tourIds)
+			),
 			'contain' => array(
 				'Tour', 'Tour.TourGuide', 'Tour.TourGuide.Profile', 'Tour.TourType',
 				'Tour.ConditionalRequisite', 'Tour.Difficulty', 'TourParticipationStatus'
