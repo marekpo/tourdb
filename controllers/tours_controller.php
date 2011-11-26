@@ -227,6 +227,11 @@ class ToursController extends AppController
 
 	function search()
 	{
+		if(!isset($this->params['url']['deadline']))
+		{
+			$this->params['url']['deadline'] = date('Y-m-d');
+		}
+
 		$tourIds = $this->Tour->searchTours($this->params['url'], array(
 			'TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT)
 		));
@@ -245,6 +250,7 @@ class ToursController extends AppController
 				'contain' => array('Profile')
 			)),
 			'filtersCollapsed' => empty($this->data['Tour']['startdate'])
+				&& !empty($this->data['Tour']['deadline'])
 				&& empty($this->data['Tour']['enddate'])
 				&& empty($this->data['Tour']['TourGuide'])
 				&& empty($this->data['Tour']['TourType'])

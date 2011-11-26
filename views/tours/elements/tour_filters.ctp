@@ -18,11 +18,12 @@ $searchFilters = '';
 
 if(in_array('deadline', $activeFilters))
 {
+	$deadlineFilterValue = $this->Time->format('Y-m-d', time());
 	$searchFilters .= $this->Form->input('Tour.deadline', array(
-		'type' => 'radio', 'default' => '', 'legend' => false, 'hiddenField' => false,
+		'type' => 'radio', 'default' => $deadlineFilterValue, 'legend' => false, 'hiddenField' => false,
 		'options' => array(
 			'' => __('Alle', true),
-			$this->Time->format('Y-m-d', time()) => __('Aktuell', true)
+			$deadlineFilterValue => __('Aktuell', true)
 		),
 	));
 }
