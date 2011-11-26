@@ -254,7 +254,7 @@ class Tour extends AppModel
 		}
 
 		$tourStatus = $this->find('first', array(
-			'fields' => array('TourStatus.rank'),
+			'fields' => array('TourStatus.rank', 'TourStatus.key'),
 			'conditions' => array('Tour.id' => $id),
 			'contain' => array('TourStatus')
 		));
@@ -265,9 +265,13 @@ class Tour extends AppModel
 		{
 			return $editEverythingWhitelist;
 		}
-		elseif($tourStatus['TourStatus']['rank'] == $fixedTourStatus['TourStatus']['rank'])
+		elseif($tourStatus['TourStatus']['key'] == TourStatus::FIXED)
 		{
 			return array('description', 'tour_status_id');
+		}
+		elseif($tourStatus['TourStatus']['key'] == TourStatus::PUBLISHED)
+		{
+			return array('tour_status_id');
 		}
 		else
 		{
