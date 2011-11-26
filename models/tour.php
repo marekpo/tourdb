@@ -267,7 +267,7 @@ class Tour extends AppModel
 		}
 		elseif($tourStatus['TourStatus']['key'] == TourStatus::FIXED)
 		{
-			return array('description', 'tour_status_id');
+			return array('description', 'deadline', 'tour_status_id');
 		}
 		elseif($tourStatus['TourStatus']['key'] == TourStatus::PUBLISHED)
 		{
