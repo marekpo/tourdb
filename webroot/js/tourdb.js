@@ -22,7 +22,6 @@ TourDB.Tours = {
 				.find('input[type=checkbox]').attr('checked', false);
 			activeDifficulties.show();
 		},
-
 		openTourCalendar: function(event) {
 			var url = this.href;
 			var calendar = $('#formTourCalendar');
@@ -36,6 +35,22 @@ TourDB.Tours = {
 			});
 
 			return false;
+		}
+	},
+	Actions: {
+		cancelTour: function(event) {
+			var url = this.href;
+			var cancelTourForm = $('#cancelTourForm');
+
+			if(cancelTourForm.length == 0) {
+				cancelTourForm = $('<div id="cancelTourForm" style="display: hidden" />').appendTo('body');
+			}
+
+			cancelTourForm.load(url, {}, function(responseText, status, request) {
+				cancelTourForm.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title });
+			});
+
+			event.preventDefault();
 		}
 	},
 	changeTourParticipationStatus: function(event) {

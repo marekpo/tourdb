@@ -317,12 +317,51 @@ class ToursController extends AppController
 
 	function cancel($id)
 	{
-		$canceledStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::CANCELED));
+		$tour = $this->Tour->find('first', array(
+			'fields' => array('Tour.id', 'Tour.title'),
+			'conditions' => array('Tour.id' => $id),
+			'contain' => false
+		));
+		$this->set(compact('tour'));
 
-		$this->__changeTourStatus($id, $canceledStatusId);
+		if(!empty($this->data))
+		{
+			$canceledStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::CANCELED));
 
-		$this->Session->setFlash(__('Die Tour wurde abgesagt.', true));
-		$this->redirect($this->referer(null, true));
+			$this->__changeTourStatus($id, $canceledStatusId);
+
+			$tourParticipationStatuses = $this->Tour->TourParticipation->TourParticipationStatus->find('all', array(
+				'conditions' => array('TourParticipationStatus.key' => array(TourParticipationStatus::REGISTERED, TourParticipationStatus::AFFIRMED, TourParticipationStatus::WAITINGLIST)),
+				'contain' => false
+			));
+
+			$tourParticipations = $this->Tour->TourParticipation->find('all', array(
+				'conditions' => array(
+					'TourParticipation.tour_id' => $id,
+					'TourParticipation.tour_participation_status_id' => Set::extract('/TourParticipationStatus/id', $tourParticipationStatuses)
+				),
+				'contain' => array('User')
+			));
+
+			$this->set(compact('tour'));
+
+			foreach($tourParticipations as $tourParticipation)
+			{
+				$this->set(array(
+					'tourParticipation' => $tourParticipation,
+					'message' => $this->data['Tour']['message']
+				));
+	
+				$this->_sendEmail($tourParticipation['User']['email'], sprintf(__('Die Tour "%s" wurde abgesagt', true), $tour['Tour']['title']), 'tours/cancel_tour_participant');
+			}
+
+			$this->Session->setFlash(__('Die Tour wurde abgesagt.', true));
+			$this->redirect($this->referer(null, true));
+		}
+		else
+		{
+			$this->data = $tour;
+		}
 	}
 
 	function carriedOut($id)

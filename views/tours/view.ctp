@@ -142,3 +142,5 @@ if($tourParticipations)
 }
 
 echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
+
+echo $this->Js->buffer(sprintf("$('.tours .action.cancel').click({ title: '%s'}, TourDB.Tours.Actions.cancelTour);", __('Tour absagen', true)));
