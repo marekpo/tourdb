@@ -118,7 +118,8 @@ if($tourParticipations)
 
 	$tableHeaders = array(
 		__('Benutzer', true),
-		__('Anmeldestatus', true),
+		$this->Paginator->sort(__('Anmeldedatum', true), 'TourParticipation.created'),
+		$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.rank'),
 		__('Aktionen', true)
 	);
 
@@ -128,6 +129,7 @@ if($tourParticipations)
 	{
 		$tableCells[] = array(
 			$this->Display->displayUsersFullName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']),
+			$this->Time->format('d.m.Y', $tourParticipation['TourParticipation']['created']),
 			$tourParticipation['TourParticipationStatus']['statusname'],
 			$this->Html->link(__('Status ändern', true), array(
 				'controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']
