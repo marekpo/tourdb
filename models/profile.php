@@ -27,7 +27,7 @@ class Profile extends AppModel
 				'last' => true
 			),
 			'correctFormat' => array(
-				'rule' => '/^[a-z][a-z\-\. ]+$/i'
+				'rule' => 'validateName'
 			),
 		),
 		'lastname' => array(
@@ -36,7 +36,7 @@ class Profile extends AppModel
 				'last' => true
 			),
 			'correctFormat' => array(
-				'rule' => '/[a-z][a-z\- ]+/i'
+				'rule' => 'validateName'
 			),
 		),
 		'street' => array(

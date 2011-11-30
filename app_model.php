@@ -3,6 +3,29 @@ class AppModel extends Model
 {
 	var $actsAs = array('Containable');
 
+	function validateName($check)
+	{
+		$check = array_pop($check);
+
+		$_this =& Validation::getInstance();
+		$_this->__reset();
+		$_this->check = $check;
+		
+		if(is_array($check))
+		{
+			$_this->_extract($check);
+		}
+		
+		if(empty($_this->check))
+		{
+			return false;
+		}
+
+		$_this->regex = '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\-\. ]+$/mu';
+
+		return $_this->_check();
+	}
+
 	function compareToDateField($check, $operator, $otherDateField)
 	{
 		$checkTimestamp = strtotime(array_pop($check));
