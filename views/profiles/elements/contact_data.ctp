@@ -61,17 +61,17 @@ echo $this->Html->tag('hr', '');
 echo $this->Html->div('columncontainer',
 	$this->Html->div('half',
 		$this->Form->input('Profile.phoneprivate', array(
-			'label' => __('Tel. privat', true), 'tabindex' => 8, 'error' => array(
+			'label' => __('Telefon privat', true), 'tabindex' => 8, 'error' => array(
 				'notEmpty' => __('Trag bitte deine Telefonnummer ein.', true)
 			)
 		))
 		. $this->Form->input('Profile.cellphone', array(
-			'label' => __('Handy Nr.', true), 'tabindex' => 10
+			'label' => __('Mobil Nr.', true), 'tabindex' => 10
 		))
 	)
 	. $this->Html->div('half',
 		$this->Form->input('Profile.phonebusiness', array(
-			'label' => __('Tel. gesch.', true), 'tabindex' => 9
+			'label' => __('Telefon gesch.', true), 'tabindex' => 9
 		))
 	)
 );
@@ -91,7 +91,7 @@ echo $this->Html->div('columncontainer',
 	$this->Html->div('half',
 		$this->Form->input('Profile.emergencycontact1_phone', array(
 			'label' => __('Telefon', true), 'tabindex' => 12, 'error' => array(
-				'notEmpty' => __('Trag bitte die Telefon-/Handynummer deiner Notfallkontaktperson ein.', true)
+				'notEmpty' => __('Trag bitte die Telefon-/Mobilnummer deiner Notfallkontaktperson ein.', true)
 			)
 		))
 	)

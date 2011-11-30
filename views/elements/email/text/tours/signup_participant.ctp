@@ -24,9 +24,7 @@ Typ der Tour: <?php
 Tourenlink: <?php echo $this->Html->url(array('controller' => 'tours', 'action' => 'view', $tour['Tour']['id']), true); ?>
 
 
-Deine Anmeldung gilt bis zur endgültigen Bestätigung durch den Tourenleiter nur
-als vorläufig. Solltest du in den nächsten Tagen keine Nachricht vom Tourenleiter
-erhalten, nimm bitte direkt mit ihm/ihr Kontakt auf:
+Deine Anmeldung gilt bis zur endgültigen Bestätigung durch den Tourenleiter nur als vorläufig. Solltest du in den nächsten Tagen keine Nachricht vom Tourenleiter erhalten, nimm bitte direkt mit ihm/ihr Kontakt auf:
 
 Name: <?php echo $this->TourDisplay->getTourGuide($tour); ?>
 
