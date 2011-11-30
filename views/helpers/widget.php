@@ -191,7 +191,10 @@ class WidgetHelper extends AppHelper
 		$this->Js->buffer(sprintf("$('#%s').collapsibleFieldset({ collapsed: %s });", $fieldsetId, ($collapsed ? 'true' : 'false')));
 
 		return $this->Html->tag('fieldset',
-			$this->Html->tag('legend', $legend)
+			$this->Html->tag('legend',
+				$this->Html->tag('span', sprintf(__('%s ausklappen',true), $legend), array('class' => 'collapsedtext'))
+				. $this->Html->tag('span', sprintf(__('%s einklappen',true), $legend), array('class' => 'expandedtext'))
+			)
 			. $this->Html->div('', $content),
 			array('id' => $fieldsetId)
 		);
