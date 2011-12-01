@@ -127,7 +127,7 @@ if($tourParticipations)
 	foreach($tourParticipations as $tourParticipation)
 	{
 		$tableCells[] = array(
-			$this->Display->displayUsersName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']),
+			$this->Display->displayUsersFullName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']),
 			$tourParticipation['TourParticipationStatus']['statusname'],
 			$this->Html->link(__('Status ändern', true), array(
 				'controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']

@@ -1,4 +1,4 @@
-Hallo <?php echo $tour['TourGuide']['username']; ?>!
+Hallo <?php echo $this->Display->displayUsersFirstName($tour['TourGuide']['username'], $tour['TourGuide']['Profile']); ?>!
 
 Ein(e) Teilnehmer(in) hat sich für die Tour "<?php echo $tour['Tour']['title']; ?>"
 <?php

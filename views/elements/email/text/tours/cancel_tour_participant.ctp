@@ -1,4 +1,4 @@
-Hallo <?php echo $tourParticipation['User']['username']; ?>!
+Hallo <?php echo $this->Display->displayUsersFirstName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']); ?>!
 
 Der Tourenleiter hat die Tour "<?php echo $tour['Tour']['title']?>" abgesagt.
 <?php if(!empty($message)): ?>

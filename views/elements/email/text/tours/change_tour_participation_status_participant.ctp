@@ -1,4 +1,4 @@
-Hallo <?php echo $user['User']['username']; ?>!
+Hallo <?php echo $this->Display->displayUsersFirstName($user['User']['username'], $user['User']['Profile']); ?>!
 
 <?php
 	$changeStatusSentence = '';
@@ -19,7 +19,7 @@ Hallo <?php echo $user['User']['username']; ?>!
 			break;
 	}
 
-	$tourGuideName = $this->Display->displayUsersName($tourGuide['TourGuide']['username'], $tourGuide['TourGuide']['Profile']);
+	$tourGuideName = $this->Display->displayUsersFullName($tourGuide['TourGuide']['username'], $tourGuide['TourGuide']['Profile']);
 
 	echo sprintf($changeStatusSentence, $tourGuideName, $tour['Tour']['title']);
 ?>

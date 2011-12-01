@@ -143,7 +143,7 @@ class UsersController extends AppController
 
 			$this->_sendEmail($this->data['User']['email'], __('Neues Passwort anfordern für Tourenangebot', true), 'request_new_password');
 
-			$this->Session->setFlash(__('Dir wurde ein Link zum Generieren eines neuen Passworts per E-Mail zugeschickt.', true));
+			$this->Session->setFlash(__('Du erhältst in den nächsten Minuten einen Link zum Generieren eines neuen Passworts per E-Mail.', true));
 			$this->redirect(array('action' => 'login'));
 		}
 		elseif($id != null && $newPasswordToken != null)
@@ -168,7 +168,7 @@ class UsersController extends AppController
 
 			$this->_sendEmail($user['User']['email'], __('Dein neues Passwort für Tourenangebot', true), 'new_password');
 
-			$this->Session->setFlash(__('Dein neues Passwort wurde dir per E-Mail zugeschickt.', true));
+			$this->Session->setFlash(__('Du erhältst in den nächsten Minuten eine E-Mail mit deinem neuen Passwort.', true));
 			$this->redirect(array('action' => 'login'));
 		}
 	}
