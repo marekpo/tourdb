@@ -340,7 +340,7 @@ class ToursController extends AppController
 					'TourParticipation.tour_id' => $id,
 					'TourParticipation.tour_participation_status_id' => Set::extract('/TourParticipationStatus/id', $tourParticipationStatuses)
 				),
-				'contain' => array('User')
+				'contain' => array('User', 'User.Profile')
 			));
 
 			$this->set(compact('tour'));

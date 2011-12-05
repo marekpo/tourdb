@@ -1,7 +1,6 @@
 Hallo <?php echo $username; ?>!
 
-Du hast auf Tourenangebot ein neues Passwort angefordert. Klicke bitte auf den
-untenstehenden Link um die Anfrage abzuschließen.
+Du hast auf Tourenangebot ein neues Passwort angefordert. Klicke bitte auf den untenstehenden Link um die Anfrage abzuschließen.
 
 Passwortlink:
 <?php echo $requestUrl; ?>

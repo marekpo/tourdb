@@ -67,9 +67,8 @@ class TourParticipationsController extends AppController
 			$this->TourParticipation->save($this->data);
 
 			$tourParticipationInfo = $this->TourParticipation->find('first', array(
-				'fields' => array('TourParticipation.tour_id', 'User.*', 'Tour.*', 'TourParticipationStatus.*'),
 				'conditions' => array('TourParticipation.id' => $id),
-				'contain' => array('User', 'Tour', 'TourParticipationStatus')
+				'contain' => array('User', 'User.Profile', 'Tour', 'TourParticipationStatus')
 			));
 
 			$tourGuide = $this->TourParticipation->Tour->find('first', array(
@@ -128,7 +127,7 @@ class TourParticipationsController extends AppController
 
 			$tourParticipationInfo = $this->TourParticipation->find('first', array(
 				'conditions' => array('TourParticipation.id' => $id),
-				'contain' => array('User', 'User.Profile', 'Tour', 'Tour.TourGuide')
+				'contain' => array('User', 'User.Profile', 'Tour', 'Tour.TourGuide', 'Tour.TourGuide.Profile')
 			));
 
 			$this->set(array(

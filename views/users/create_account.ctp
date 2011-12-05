@@ -8,7 +8,7 @@ echo $this->Html->para(null, __('Der von dir gewählte Benutzername darf nur Buc
 echo $this->Form->create();
 
 echo $this->Form->input('User.username', array(
-	'label' => __('Benuztername', true),
+	'label' => __('Benutzername', true),
 	'error' => array(
 		'alphaNumeric' => __('Der Benutzername darf nur Buchstaben und Zahlen enthalten.', true),
 		'isUnique' => __('Der Benutzername ist bereits vergeben.', true),

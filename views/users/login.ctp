@@ -23,6 +23,6 @@ echo $this->Form->end(__('Einloggen', true));
 <div class="half"><div class="inner">
 <?php
 	echo $this->Html->para(null, __('Falls du noch nicht über ein persönliches Benutzerkonto verfügst, kann du dir hier eines anlegen.', true));
-	echo $this->Html->link(__('Benutzerkonto eröffnen', true), array('action' => 'createAccount'));
+	echo $this->Html->link(__('Benutzerkonto anlegen', true), array('action' => 'createAccount'));
 ?>
 </div></div>

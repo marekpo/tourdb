@@ -26,7 +26,17 @@ class DisplayHelper extends AppHelper
 		return $this->Html->para('', $text);
 	}
 
-	function displayUsersName($username, $profile)
+	function displayUsersFirstName($username, $profile)
+	{
+		if(!$profile || empty($profile['firstname']))
+		{
+			return $username;
+		}
+
+		return $profile['firstname'];
+	}
+
+	function displayUsersFullName($username, $profile)
 	{
 		if(!$profile || empty($profile['firstname']) || empty($profile['lastname']))
 		{

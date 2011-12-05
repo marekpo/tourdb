@@ -1,4 +1,4 @@
-Hallo <?php echo $tour['TourGuide']['username']; ?>!
+Hallo <?php echo $this->Display->displayUsersFirstName($tour['TourGuide']['username'], $tour['TourGuide']['Profile']); ?>!
 
 Ein(e) Teilnehmer(in) hat sich für die Tour "<?php echo $tour['Tour']['title']; ?>"
 <?php
@@ -20,11 +20,11 @@ Land: <?php echo $user['Profile']['Country']['name']; ?>
 Telefon: <?php echo $user['Profile']['phoneprivate']; ?>
 <?php if(!empty($user['Profile']['cellphone'])): ?>
 
-Handy: <?php echo $user['Profile']['cellphone']; ?>
+Mobil: <?php echo $user['Profile']['cellphone']; ?>
 <?php endif;?>
 <?php if(!empty($user['Profile']['phonebusiness'])): ?>
 
-Telefon (gesch.): <?php echo $user['Profile']['phonebusiness']; ?>
+Telefon (G): <?php echo $user['Profile']['phonebusiness']; ?>
 <?php endif;?>
 
 E-Mail: <?php echo $user['User']['email']; ?>
@@ -58,8 +58,6 @@ Alpin-Hochtourenniveau: <?php echo (empty($user['Profile']['alpine_tour_niveau_i
 Skitourenniveau: <?php echo (empty($user['Profile']['ski_tour_niveau_id']) ? __('Keine Erfahrung', true) : $user['Profile']['SkiTourNiveau']['name']); ?>
 
 
-Der/die Teilnehmer(in) hat eine E-Mail mit der Bestätigung seiner/ihrer provisorischen
-Anmeldung erhalten. Bitte bearbeite die Anmeldung um den/die Teilnehmer(in) entsprechend
-über seine/ihre Teilnahme zu informieren.
+Der/die Teilnehmer(in) hat eine E-Mail mit der Bestätigung seiner/ihrer provisorischen Anmeldung erhalten. Bitte bearbeite die Anmeldung um den/die Teilnehmer(in) entsprechend über seine/ihre Teilnahme zu informieren.
 
 Dein Tourenangebot Team
