@@ -5,16 +5,16 @@ class TourParticipation extends AppModel
 
 	var $belongsTo = array('Tour', 'User', 'TourParticipationStatus');
 
-	function createTourParticipation($tourId, $userId)
+	function createTourParticipation($tourId, $userId, $data = array())
 	{
 		$tourParticipationStatusId = $this->TourParticipationStatus->field('id', array('key' => TourParticipationStatus::REGISTERED));
 
 		$this->create(array(
-			'TourParticipation' => array(
+			'TourParticipation' => array_merge($data, array(
 				'tour_id' => $tourId,
 				'user_id' => $userId,
 				'tour_participation_status_id' => $tourParticipationStatusId
-			)
+			))
 		));
 
 		return $this->save();

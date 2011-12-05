@@ -40,5 +40,7 @@ $map = array(
 		'019_add_dataprivacystatementaccepted_field_to_user_table' => 'M4ebe8167f2784524ac6515fc1b2c2a9b'),
 	20 => array(
 		'020_add_experience_fields_to_profile' => 'M4ec6a6981dc445fcb6d60bb81b2c2a9b'),
+	21 => array(
+		'021_add_note_participant_field_to_tour_participation' => 'M4edd2be4f17c40d2bdd010181b2c2a9b'),
 );
 ?>

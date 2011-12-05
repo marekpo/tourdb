@@ -148,8 +148,8 @@ select	{ border: 1px solid #808080; }
 
 .error-message	{ background: transparent url(../img/error.png) no-repeat 4px center; padding: 4px 0 4px 24px; }
 
-fieldset										{ border: 1px solid #dddddd; padding: 8px 0; margin: 0; }
-fieldset.collapsible							{ border-width: 1px 0 0; }
+fieldset										{ border: 1px solid #dddddd; padding: 8px; margin: 0; }
+fieldset.collapsible							{ border-width: 1px 0 0; padding: 8px 0; }
 fieldset.collapsible legend						{ cursor: pointer; padding-left: 20px; background: #ffffff no-repeat 4px center; color: #4188d3; }
 fieldset.collapsible legend:hover				{ text-decoration: underline; }
 fieldset.collapsible.collapsed legend			{ background-image: url(../img/fieldset_collapsed.png); }
@@ -184,7 +184,8 @@ table.list tr:HOVER td	{ background: #ffffdd; }
 	{ font-size: 8pt; }
 .tours .input.text input, .tours .input.textarea textarea
 	{ width: 384px; }
-.tours .input.textarea textarea				{ height: 250px; }
+.tours.add .input.textarea textarea, .tours.edit .input.textarea textarea
+	{ height: 250px; }
 .tours .input.text input.dateTime			{ width: 150px; }
 table.tours .tourweek, table.tours .withmountainguide
 	{ text-align: center; }

@@ -406,7 +406,7 @@ class ToursController extends AppController
 
 			if($this->Profile->save($this->data))
 			{
-				if($this->Tour->TourParticipation->createTourParticipation($id, $this->Auth->user('id')))
+				if($tourParticipation = $this->Tour->TourParticipation->createTourParticipation($id, $this->Auth->user('id'), $this->data['TourParticipation']))
 				{
 					$this->loadModel('User');
 
@@ -425,7 +425,8 @@ class ToursController extends AppController
 
 					$this->set(array(
 						'user' => $user,
-						'tour' => $tour
+						'tour' => $tour,
+						'tourParticipation' => $tourParticipation
 					));
 
 					$this->_sendEmail(

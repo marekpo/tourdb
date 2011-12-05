@@ -57,6 +57,14 @@ Alpin-Hochtourenniveau: <?php echo (empty($user['Profile']['alpine_tour_niveau_i
 
 Skitourenniveau: <?php echo (empty($user['Profile']['ski_tour_niveau_id']) ? __('Keine Erfahrung', true) : $user['Profile']['SkiTourNiveau']['name']); ?>
 
+<?php if(!empty($tourParticipation['TourParticipation']['note_participant'])): ?>
+
+Anmeldenotiz vom Teilnehmer:
+--------------------------------------------------------------------------------
+<?php echo $tourParticipation['TourParticipation']['note_participant']; ?>
+
+--------------------------------------------------------------------------------
+<?php endif; ?>
 
 Der/die Teilnehmer(in) hat eine E-Mail mit der Bestätigung seiner/ihrer provisorischen Anmeldung erhalten. Bitte bearbeite die Anmeldung um den/die Teilnehmer(in) entsprechend über seine/ihre Teilnahme zu informieren.
 
