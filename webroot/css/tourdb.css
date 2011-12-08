@@ -17,7 +17,7 @@ a:HOVER		{ text-decoration: underline; }
 
 #page		{  }
 #container	{ width: 1002px; margin: 0 auto; }
-#header		{ background: transparent url(../img/sitelogo.png) no-repeat 30px top; height: 80px; }
+#header		{ background: transparent url(../img/header.png) no-repeat left top; height: 80px; }
 #topnav		{ position: relative; overflow: hidden; }
 
 #login_box				{ float: right; margin-bottom: 5px; }

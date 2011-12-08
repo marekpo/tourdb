@@ -15,13 +15,10 @@
   <body>
     <div id="page">
       <div id="container">
-        <div id="header">
-          <div class="inner"></div>
-        </div>
+        <div id="header"></div>
   
         <div id="topnav">
-          <div class="inner">
-            <div id="login_box">
+          <div id="login_box">
 <?php
 	if($this->Session->check('Auth.User'))
 	{
@@ -35,7 +32,6 @@
 		echo $this->Html->link(__('Login', true), array('controller' => 'users', 'action' => 'login'));
 	}
 ?>
-            </div>
           </div>
         </div>
 
