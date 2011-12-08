@@ -196,6 +196,8 @@ table.tours .tourweek, table.tours .withmountainguide
 .checkbox-container			{ width: 390px; float: left; }
 .checkbox-container > div	{ float: left; clear: left; }
 
+#TourParticipationNoteParticipant	{ width: 610px; }
+
 /* users */
 .users.login .input.text input, .users.login .input.password input
 	{ width: 200px; }
