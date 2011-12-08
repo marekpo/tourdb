@@ -32,7 +32,10 @@ echo $this->Widget->dateTime('enddate', array(
 ));
 
 echo $this->Widget->dateTime('deadline', array(
-	'label' => __('Anmeldeschluss', true), 'disabled' => !in_array('deadline', $whitelist)
+	'label' => __('Anmeldeschluss', true), 'disabled' => !in_array('deadline', $whitelist),
+	'error' => array(
+		'lessThanStartDate' => __('Der Anmeldeschluss muss vor dem Startdatum liegen.', true)
+	)
 ));
 
 echo $this->Form->input('tourweek', array(
