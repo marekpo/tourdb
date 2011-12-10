@@ -23,14 +23,14 @@ class AppController extends Controller
 	{
 		$this->Email->reset();
 
-		$this->Email->from = 'TourDB <tourdb@localhost.ch>';
+		$this->Email->from = 'TourDB <tourdb@tourdb.ch>';
 		$this->Email->sendAs = 'text';
 		$this->Email->delivery = 'smtp';
 		$this->Email->lineLength = 998;
 		$this->Email->smtpOptions = array(
 			'port' => 25,
 			'timeout' => 30,
-			'host' => 'localhost',
+			'host' => 'tourdb.ch',
 		);
 
 		$this->Email->to = $recipient;
