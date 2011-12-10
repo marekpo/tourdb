@@ -29,7 +29,7 @@ echo $this->Form->input('User.dataprivacystatementaccepted', array(
 		'controller' => 'pages', 'action' => 'display', 'dataPrivacyStatement'), array('target' => '_blank'))
 	),
 	'error' => array(
-		'notAccepted' => __('Du musst die Datenschutzerklärung akzeptieren.', true)
+		'notAccepted' => __('Du musst die Datenschutzbestimmungen akzeptieren.', true)
 	)
 ));
 

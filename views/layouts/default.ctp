@@ -22,14 +22,14 @@
 <?php
 	if($this->Session->check('Auth.User'))
 	{
-		echo sprintf(__('Angemeldet als %s', true), $this->Html->tag('span',
+		echo sprintf(__('Eingeloggt als %s', true), $this->Html->tag('span',
 			$this->Session->read('Auth.User.username'), array('class' => 'username')));
 		echo '&nbsp;|&nbsp;';
-		echo $this->Html->link(__('Logout', true), array('controller' => 'users', 'action' => 'logout'));
+		echo $this->Html->link(__('Ausloggen', true), array('controller' => 'users', 'action' => 'logout'));
 	}
 	else
 	{
-		echo $this->Html->link(__('Login', true), array('controller' => 'users', 'action' => 'login'));
+		echo $this->Html->link(__('Einloggen', true), array('controller' => 'users', 'action' => 'login'));
 	}
 ?>
           </div>
@@ -68,9 +68,9 @@
 
         <div id="footer">
           <div class="globallinks">
-		    <?php echo $this->Html->link(__('Datenschutzerklärung', true), array('controller' => 'pages', 'action' => 'display', 'data_privacy_statement')); ?>
+		    <?php echo $this->Html->link(__('Datenschutzbestimmungen', true), array('controller' => 'pages', 'action' => 'display', 'data_privacy_statement')); ?>
 		  </div>
-          <?php __('© 2011 Tourenangebot.ch, für SAC am Albis'); ?>
+          <?php __('© 2011 Tourenangebot für SAC am Albis'); ?>
         </div>
       </div>
     </div>

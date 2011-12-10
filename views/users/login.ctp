@@ -1,6 +1,6 @@
 <?php
-$this->set('title_for_layout', __('Login', true));
-$this->Html->addCrumb(__('Login', true));
+$this->set('title_for_layout', __('Einloggen', true));
+$this->Html->addCrumb(__('Einloggen', true));
 ?>
 <div class="half"><div class="inner">
 <?php
