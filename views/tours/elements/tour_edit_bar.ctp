@@ -6,7 +6,9 @@ if($tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
 	if(!in_array($tour['TourStatus']['key'], array(TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT))
 		&& time() < strtotime($tour['Tour']['startdate']))
 	{
-		$actions[] = $this->Html->link(__('Anmeldung schliessen', true), array('action' => 'closeRegistration', $tour['Tour']['id']), array('class' => 'action closeregistration'));
+		$actions[] = $this->Html->link(__('Anmeldung schliessen', true), array('action' => 'closeRegistration', $tour['Tour']['id']), array('class' => 'action closeregistration'),
+		                                  'Bist du sicher? Wenn du die Anmeldung jetzt abschliesst, kann sich niemand mehr anmelden!', true
+		);
 	}
 
 	if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED))
