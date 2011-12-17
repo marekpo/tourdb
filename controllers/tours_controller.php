@@ -294,6 +294,9 @@ class ToursController extends AppController
 			));
 		}
 
+		$this->paginate['TourParticipation'] = array(
+			'contain' => array('User.Profile', 'TourParticipationStatus')
+		);
 		$tourParticipations = $tour['Tour']['tour_guide_id'] == $this->Auth->user('id')
 			? $this->paginate('TourParticipation', array(
 				'TourParticipation.tour_id' => $tour['Tour']['id']

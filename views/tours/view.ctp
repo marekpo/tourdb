@@ -47,6 +47,8 @@ echo $this->Html->tag('h2', __('Tourendetails', true));
 
 echo $this->Display->formatText($tour['Tour']['description']);
 
+echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
+
 if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 {
 	if($registrationOpen || $currentUserAlreadySignedUp)
@@ -142,7 +144,5 @@ if($tourParticipations)
 	echo $this->Widget->table($tableHeaders, $tableCells);
 	$this->Js->buffer(sprintf("$('.changeStatus').click({ title: '%s' }, TourDB.Tours.changeTourParticipationStatus);", __('Anmeldestatus ändern', true)));
 }
-
-echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
 
 echo $this->Js->buffer(sprintf("$('.tours .action.cancel').click({ title: '%s'}, TourDB.Tours.Actions.cancelTour);", __('Tour absagen', true)));
