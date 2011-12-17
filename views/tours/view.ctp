@@ -97,7 +97,9 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 	
 		echo $this->Html->para('', $tourParticipationStatuSentence);
 	
-		if(in_array($currentUsersTourParticipation['TourParticipationStatus']['key'], array(TourParticipationStatus::REGISTERED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::AFFIRMED)))
+		if(in_array($currentUsersTourParticipation['TourParticipationStatus']['key'], array(TourParticipationStatus::REGISTERED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::AFFIRMED))
+		/*MP 17.12.2011, #82 Teilnehmer darf nicht strnieren wenn Tour abgesagt oder durgeführt wurde*/
+		&& !in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT))	)
 		{
 			if($mayBeCanceledByUser)
 			{
@@ -122,23 +124,33 @@ if($tourParticipations)
 		__('Benutzer', true),
 		$this->Paginator->sort(__('Anmeldedatum', true), 'TourParticipation.created'),
 		$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.rank'),
-		__('Aktionen', true)
 	);
+
+	if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT)))
+	{
+		$tableHeaders[] = __('Aktionen', true); 
+	}
 
 	$tableCells = array();
 
 	foreach($tourParticipations as $tourParticipation)
 	{
-		$tableCells[] = array(
+		$row = array(
 			$this->Display->displayUsersFullName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']),
 			$this->Time->format('d.m.Y', $tourParticipation['TourParticipation']['created']),
-			$tourParticipation['TourParticipationStatus']['statusname'],
-			$this->Html->link(__('Status ändern', true), array(
+			$tourParticipation['TourParticipationStatus']['statusname']
+		);
+
+		if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT)))
+		{
+			$row[] = $this->Html->link(__('Status ändern', true), array(
 				'controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']
 			), array(
 				'class' => 'changeStatus'
-			))
-		);
+			));
+		}
+
+		$tableCells[] = $row;
 	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);
