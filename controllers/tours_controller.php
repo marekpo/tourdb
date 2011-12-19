@@ -309,12 +309,23 @@ class ToursController extends AppController
 
 	function closeRegistration($id)
 	{
-		$registrationClosedStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::REGISTRATION_CLOSED));
-
-		$this->__changeTourStatus($id, $registrationClosedStatusId);
-
-		$this->Session->setFlash(__('Die Anmeldung für diese Tour wurde geschlossen.', true));
-		$this->redirect($this->referer(null, true));
+		if(!empty($this->data))
+		{
+			$registrationClosedStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::REGISTRATION_CLOSED));
+	
+			$this->__changeTourStatus($id, $registrationClosedStatusId);
+	
+			$this->Session->setFlash(__('Die Anmeldung für diese Tour wurde geschlossen.', true));
+			$this->redirect(array('action' => 'view', $id));
+		}
+		else
+		{
+			$this->data = $this->Tour->find('first', array(
+				'fields' => array('Tour.id', 'Tour.title'),
+				'conditions' => array('Tour.id' => $id),
+				'contain' => false
+			));
+		}
 	}
 
 	function cancel($id)

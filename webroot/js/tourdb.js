@@ -36,47 +36,21 @@ TourDB.Tours = {
 
 			return false;
 		}
-	},
-	Actions: {
-		cancelTour: function(event) {
-			var url = this.href;
-			var cancelTourForm = $('#cancelTourForm');
+	}
+};
 
-			if(cancelTourForm.length == 0) {
-				cancelTourForm = $('<div id="cancelTourForm" style="display: hidden" />').appendTo('body');
-			}
-
-			cancelTourForm.load(url, {}, function(responseText, status, request) {
-				cancelTourForm.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title });
-			});
-
-			event.preventDefault();
-		}
-	},
-	changeTourParticipationStatus: function(event) {
+TourDB.Util = {
+	confirmationDialog: function(event) {
 		var url = this.href;
-		var changeStatusForm = $('#changeStatusForm');
+		var confirmDialogId = event.data.id;
+		var confirmDialogElement = $(confirmDialogId);
 
-		if(changeStatusForm.length == 0) {
-			changeStatusForm = $('<div id="changeStatusForm" style="display: hidden" />').appendTo('body');
+		if(confirmDialogElement.length == 0) {
+			confirmDialogElement = $('<div id="' + confirmDialogId + '" style="display: hidden" />').appendTo('body');
 		}
 
-		changeStatusForm.load(url, {}, function(responseText, status, request) {
-			changeStatusForm.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title });
-		});
-
-		event.preventDefault();
-	},
-	cancelTourParticipation: function(event) {
-		var url = this.href;
-		var cancelTourParticipationForm = $('#cancelTourParticipationForm');
-
-		if(cancelTourParticipationForm.length == 0) {
-			cancelTourParticipationForm = $('<div id="cancelTourParticipationForm" style="display: hiddne" />').appendTo('body');
-		}
-
-		cancelTourParticipationForm.load(url, {}, function(responseText, status, request) {
-			cancelTourParticipationForm.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title });
+		confirmDialogElement.load(url, {}, function(responseText, status, request) {
+			confirmDialogElement.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title });
 		});
 
 		event.preventDefault();

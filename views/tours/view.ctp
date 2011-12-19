@@ -106,7 +106,7 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 				echo $this->Html->para('', sprintf(__('Falls du doch nicht an der Tour teilnehmen kannst, kannst du deine Anmeldung hier %s.', true), $this->Html->link(__('stornieren', true), array(
 					'controller' => 'tour_participations', 'action' => 'cancelTourParticipation', $currentUsersTourParticipation['TourParticipation']['id']
 				), array('class' => 'cancelTourParticipation'))));
-				$this->Js->buffer(sprintf("$('.cancelTourParticipation').click({ title: '%s'}, TourDB.Tours.cancelTourParticipation);", __('Touranmeldung stornieren', true)));
+				$this->Js->buffer(sprintf("$('.cancelTourParticipation').click({ id: 'cancelTourParticipationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Touranmeldung stornieren', true)));
 			}
 			else
 			{
@@ -154,7 +154,8 @@ if($tourParticipations)
 	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);
-	$this->Js->buffer(sprintf("$('.changeStatus').click({ title: '%s' }, TourDB.Tours.changeTourParticipationStatus);", __('Anmeldestatus ändern', true)));
+	$this->Js->buffer(sprintf("$('.changeStatus').click({ id: 'changeTourparticipationStatusDialog', title: '%s' }, TourDB.Util.confirmationDialog);", __('Anmeldestatus ändern', true)));
 }
 
-echo $this->Js->buffer(sprintf("$('.tours .action.cancel').click({ title: '%s'}, TourDB.Tours.Actions.cancelTour);", __('Tour absagen', true)));
+echo $this->Js->buffer(sprintf("$('.tours .action.closeregistration').click({ id: 'closeRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung schliessen', true)));
+echo $this->Js->buffer(sprintf("$('.tours .action.cancel').click({ id: 'cancelConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Tour absagen', true)));
