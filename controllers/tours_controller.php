@@ -249,8 +249,9 @@ class ToursController extends AppController
 			'tourGuides' => $this->Tour->TourGuide->getUsersByRole(Role::TOURLEADER, array(
 				'contain' => array('Profile')
 			)),
-			'filtersCollapsed' => empty($this->data['Tour']['startdate'])
-				&& !empty($this->data['Tour']['deadline'])
+			'filtersCollapsed' => !empty($this->data['Tour']['deadline'])
+				&& empty($this->data['Tour']['TourStatus'])
+				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
 				&& empty($this->data['Tour']['TourGuide'])
 				&& empty($this->data['Tour']['TourType'])
@@ -259,7 +260,7 @@ class ToursController extends AppController
 		));
 
 		$this->set($this->Tour->getWidgetData(array(
-			Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
+			Tour::WIDGET_TOUR_STATUS, Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
 			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
 		)));
 	}

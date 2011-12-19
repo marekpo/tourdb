@@ -1,6 +1,7 @@
 <?php
 class Tour extends AppModel
 {
+	const WIDGET_TOUR_STATUS = 'WIDGET_TOUR_STATUS';
 	const WIDGET_TOUR_GUIDE = 'WIDGET_TOUR_GUIDE';
 	const WIDGET_TOUR_TYPE = 'WIDGET_TOUR_TYPE';
 	const WIDGET_CONDITIONAL_REQUISITE = 'WIDGET_CONDITIONAL_REQUISITE';
@@ -149,7 +150,6 @@ class Tour extends AppModel
 		$searchConditions = array();
 
 		$this->unbindModel(array(
-			'belongsTo' => array('TourGuide'),
 			'hasMany' => array('TourParticipation', 'ModelChange'),
 			'hasAndBelongsToMany' => array('TourType', 'ConditionalRequisite', 'Difficulty')
 		));
@@ -167,6 +167,11 @@ class Tour extends AppModel
 		if(isset($searchFilters['title']) && !empty($searchFilters['title']))
 		{
 			$searchConditions['Tour.title LIKE'] = sprintf('%%%s%%', $searchFilters['title']);
+		}
+
+		if(isset($searchFilters['TourStatus']) && !empty($searchFilters['TourStatus']))
+		{
+			$searchConditions['Tour.tour_status_id'] = $searchFilters['TourStatus'];
 		}
 
 		if(isset($searchFilters['startdate']) && !empty($searchFilters['startdate']))
@@ -365,6 +370,18 @@ class Tour extends AppModel
 
 			return date('Y-m-d', strtotime('-1 day', strtotime($startdate)));
 		}
+	}
+
+	function __getDataForWidgetTourStatus()
+	{
+		return array(
+			'tourStatuses' => $this->TourStatus->find('list', array(
+				'conditions' => array('TourStatus.key' => array(
+					TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT)
+				),
+				'order' => array('TourStatus.rank' => 'ASC')
+			))
+		);
 	}
 
 	function __getDataForWidgetTourGuide()

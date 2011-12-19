@@ -28,6 +28,14 @@ if(in_array('deadline', $activeFilters))
 	));
 }
 
+if(in_array('TourStatus', $activeFilters))
+{
+	$searchFilters .= $this->Form->input('Tour.TourStatus', array(
+		'label' => __('Tourenstatus', true), 'multiple' => 'checkbox',
+		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
+	));
+}
+
 if(in_array('date', $activeFilters))
 {
 	$searchFilters .= $this->Html->div('daterange',
