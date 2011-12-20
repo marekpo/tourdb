@@ -179,5 +179,5 @@ $this->Html->script('widgets/adjacenttours', array('inline' => false));
 $this->Html->script('widgets/calendar', array('inline' => false));
 $this->Js->buffer(sprintf("$('#tourtypes input[type=checkbox]').click(TourDB.Tours.Form.switchDifficulty); TourDB.Tours.Form.switchDifficulty();"));
 $this->Js->buffer(sprintf("$('#adjacent-tours').adjacentTours({startDate: $('#TourStartdate'), endDate: $('#TourEnddate'), url: '%s'});", $this->Html->url(array('action' => 'formGetAdjacentTours'), true)));
-$this->Js->buffer(sprintf("$('#openTourCalendar').click({ title: '%s' }, TourDB.Tours.Form.openTourCalendar);", __('Tourenkalender', true)
-));
+$this->Js->buffer(sprintf("$('#openTourCalendar').click({ title: '%s' }, TourDB.Tours.Form.openTourCalendar);", __('Tourenkalender', true)));
+$this->Js->buffer("$('#TourStartdate').datepicker('option', 'onSelect', function(dateText, datepicker) { $('#TourEnddate').datepicker('option', 'minDate', dateText); });");

@@ -42,6 +42,7 @@ if(in_array('date', $activeFilters))
 		$this->Widget->dateTime('Tour.startdate', array('label' => __('Datum von', true)))
 		. $this->Widget->dateTime('Tour.enddate', array('label' => __('bis', true)))
 	);
+	$this->Js->buffer("$('#TourStartdate').datepicker('option', 'onSelect', function(dateText, datepicker) { $('#TourEnddate').datepicker('option', 'minDate', dateText); });");
 }
 
 if(in_array('TourGuide', $activeFilters))

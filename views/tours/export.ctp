@@ -19,3 +19,4 @@ echo $this->Widget->dateTime('enddate', array(
 ));
 
 echo $this->Form->end(__('Exportieren', true));
+$this->Js->buffer("$('#TourStartdate').datepicker('option', 'onSelect', function(dateText, datepicker) { $('#TourEnddate').datepicker('option', 'minDate', dateText); });");
