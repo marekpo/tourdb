@@ -98,8 +98,7 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 		echo $this->Html->para('', $tourParticipationStatuSentence);
 	
 		if(in_array($currentUsersTourParticipation['TourParticipationStatus']['key'], array(TourParticipationStatus::REGISTERED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::AFFIRMED))
-		/*MP 17.12.2011, #82 Teilnehmer darf nicht strnieren wenn Tour abgesagt oder durgeführt wurde*/
-		&& !in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT))	)
+			&& !in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT)))
 		{
 			if($mayBeCanceledByUser)
 			{

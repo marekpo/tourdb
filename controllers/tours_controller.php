@@ -122,18 +122,32 @@ class ToursController extends AppController
 					$this->redirect(array('action' => 'index'));
 				}
 			}
+
+		}
+
+		$tour = $this->Tour->findById($id);
+
+		if(empty($this->data))
+		{
+			$this->data = $tour;
 		}
 		else
 		{
-			$this->data = $this->Tour->findById($id);
-			$this->data['Tour']['startdate'] = date('d.m.Y', strtotime($this->data['Tour']['startdate']));
-			$this->data['Tour']['enddate'] = date('d.m.Y', strtotime($this->data['Tour']['enddate']));
+			$data['Tour'] = array_merge($tour['Tour'], $this->data['Tour']);
+			unset($tour['Tour'], $this->data['Tour']);
+			$this->data = array_merge($tour, $data, $this->data);
+		}
 
-			if($this->data['Tour']['deadline'] != null)
-			{
-				$this->data['Tour']['deadline'] = date('d.m.Y', strtotime($this->data['Tour']['deadline']));
-			}
+		$this->data['Tour']['startdate'] = date('d.m.Y', strtotime($this->data['Tour']['startdate']));
+		$this->data['Tour']['enddate'] = date('d.m.Y', strtotime($this->data['Tour']['enddate']));
 
+		if($this->data['Tour']['deadline'] != null)
+		{
+			$this->data['Tour']['deadline'] = date('d.m.Y', strtotime($this->data['Tour']['deadline']));
+		}
+
+		if(!$this->Session->check('referer.tours.edit'))
+		{
 			$this->Session->write('referer.tours.edit', $this->referer(null, true));
 		}
 

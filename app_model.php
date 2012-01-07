@@ -29,7 +29,9 @@ class AppModel extends Model
 	function compareToDateField($check, $operator, $otherDateField)
 	{
 		$checkTimestamp = strtotime(array_pop($check));
-		$otherTimestamp = strtotime($this->data[$this->alias][$otherDateField]);
+
+		$otherFieldValue = isset($this->data[$this->alias][$otherDateField]) ? $this->data[$this->alias][$otherDateField] : $this->field($otherDateField, array('id' => $this->data[$this->alias]['id']));
+		$otherTimestamp = strtotime($otherFieldValue);
 
 		switch($operator)
 		{
