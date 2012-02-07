@@ -9,4 +9,7 @@ echo $this->Form->create();
 
 echo $this->Form->hidden('Tour.id');
 
+echo $this->Form->input('Tour.exportEmergencyContacts', array('type' => 'checkbox', 'label' => __('Notfallkontakte mit exportieren', true)));
+echo $this->Form->input('Tour.legacyMode', array('type' => 'checkbox', 'label' => __('Kompatibel zu MS Excel 5 exportieren', true)));
+
 echo $this->Form->end(__('Liste erstellen', true));

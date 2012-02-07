@@ -5,16 +5,28 @@ class ExcelHelper extends AppHelper
 {
 	var $phpExcelObject;
 
-	var $filename = "Export.xlsx";
+	var $filename = 'Export.xlsx';
+
+	var $fileExtension = '.xlsx';
+
+	var $legacyMode;
 
 	function __construct()
 	{
 		parent::__construct();
 	}
 
-	function startNewDocument()
+	function startNewDocument($legacyMode = false)
 	{
 		$this->phpExcelObject = new PHPExcel();
+
+		if($legacyMode)
+		{
+			$this->fileExtension = '.xls';
+			$this->setFilename('Export');
+		}
+
+		$this->legacyMode = $legacyMode;
 	}
 
 	function getActiveSheet()
@@ -24,12 +36,12 @@ class ExcelHelper extends AppHelper
 
 	function setFilename($filename)
 	{
-		$this->filename = $filename;
-
-		if(!preg_match('/\.xlsx$/i', $this->filename))
+		if(!preg_match(sprintf('/\%s$/i', $this->fileExtension), $filename))
 		{
-			$this->filename .= '.xlsx';
+			$filename .= $this->fileExtension;
 		}
+
+		$this->filename = $filename;
 	}
 
 	function outputDocument()
@@ -41,7 +53,15 @@ class ExcelHelper extends AppHelper
 		header('Content-type: application/excel');
 		header(sprintf('Content-disposition:attachment; filename=%s', $this->filename));
 
-		$writer = new PHPExcel_Writer_Excel2007($this->phpExcelObject);
+		if($this->legacyMode)
+		{
+			$writer = new PHPExcel_Writer_Excel5($this->phpExcelObject);
+		}
+		else
+		{
+			$writer = new PHPExcel_Writer_Excel2007($this->phpExcelObject);
+		}
+
 		$writer->save('php://output');
 	}
 }

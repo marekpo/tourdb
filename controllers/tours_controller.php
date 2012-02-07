@@ -11,7 +11,7 @@ class ToursController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('*');//search', 'view');
+		$this->Auth->allow('search', 'view');
 
 		$this->paginate = array(
 			'limit' => 20,
@@ -517,7 +517,9 @@ class ToursController extends AppController
 			$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
 			$this->set(array(
 				'tour' => $tour,
-				'tourParticipations' => $tourParticipations
+				'tourParticipations' => $tourParticipations,
+				'exportEmergencyContacts' => $this->data['Tour']['exportEmergencyContacts'],
+				'legacyMode' => $this->data['Tour']['legacyMode'],
 			));
 		}
 
