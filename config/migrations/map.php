@@ -42,5 +42,7 @@ $map = array(
 		'020_add_experience_fields_to_profile' => 'M4ec6a6981dc445fcb6d60bb81b2c2a9b'),
 	21 => array(
 		'021_add_note_participant_field_to_tour_participation' => 'M4edd2be4f17c40d2bdd010181b2c2a9b'),
+	22 => array(
+		'022_add_privilege_for_export_tour_participants' => 'M4f319b027cc04dd5ab3006dc1b2c2a9b'),
 );
 ?>

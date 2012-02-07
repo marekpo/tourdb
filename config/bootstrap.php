@@ -41,6 +41,16 @@
  *
  */
 
+foreach(split(PATH_SEPARATOR, ini_get('include_path')) as $includePath)
+{
+	if(stristr($includePath, 'pear') !== false)
+	{
+		App::build(array(
+			'vendors' => array($includePath)
+		));
+	}
+}
+
 /**
  * As of 1.3, additional rules for the inflector are added below
  *
