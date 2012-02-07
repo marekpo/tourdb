@@ -5,13 +5,13 @@ class ToursController extends AppController
 
 	var $components = array('RequestHandler', 'Email');
 
-	var $helpers = array('Widget', 'Time', 'TourDisplay', 'Display', 'Csv');
+	var $helpers = array('Widget', 'Time', 'TourDisplay', 'Display', 'Csv', 'Excel');
 
 	function beforeFilter()
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('search', 'view');
+		$this->Auth->allow('*');//search', 'view');
 
 		$this->paginate = array(
 			'limit' => 20,
@@ -494,6 +494,37 @@ class ToursController extends AppController
 			)),
 			'climbingDifficulties' => $this->Tour->Difficulty->getRockClimbingDifficulties(),
 			'skiAndAlpineTourDifficulties' => $this->Tour->Difficulty->getSkiAndAlpineTourDifficulties()
+		));
+	}
+
+	function exportParticipantList($id)
+	{
+		if(!empty($this->data))
+		{
+			$tour = $this->Tour->find('first', array(
+				'conditions' => array('Tour.id' => $id),
+				'contain' => array('TourGuide', 'TourGuide.Profile')
+			));
+
+			$tourParticipations = $this->Tour->TourParticipation->find('all', array(
+				'conditions' => array('TourParticipation.tour_id' => $id),
+				'contain' => array(
+					'User', 'User.Profile', 'User.Profile.LeadClimbNiveau', 'User.Profile.SecondClimbNiveau',
+					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau'
+				)
+			));
+
+			$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
+			$this->set(array(
+				'tour' => $tour,
+				'tourParticipations' => $tourParticipations
+			));
+		}
+
+		$this->data = $this->Tour->find('first', array(
+			'fields' => array('Tour.id', 'Tour.title'),
+			'conditions' => array('Tour.id' => $id),
+			'contain' => array()
 		));
 	}
 
