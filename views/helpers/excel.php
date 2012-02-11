@@ -51,7 +51,7 @@ class ExcelHelper extends AppHelper
 		$view->layout = 'csv';
 
 		header('Content-type: application/excel');
-		header(sprintf('Content-disposition:attachment; filename=%s', $this->filename));
+		header(sprintf('Content-disposition:attachment; filename="%s"', $this->filename));
 
 		if($this->legacyMode)
 		{

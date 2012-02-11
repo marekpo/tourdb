@@ -507,11 +507,13 @@ class ToursController extends AppController
 				'contain' => array('TourGuide', 'TourGuide.Profile')
 			));
 
+			$conditions = $this->data['Tour']['exportAffirmedParticipantsOnly'] ? array('TourParticipationStatus.key' => 'affirmed') : array();
+
 			$tourParticipations = $this->Tour->TourParticipation->find('all', array(
-				'conditions' => array('TourParticipation.tour_id' => $id),
+				'conditions' => array_merge(array('TourParticipation.tour_id' => $id), $conditions),
 				'contain' => array(
 					'User', 'User.Profile', 'User.Profile.LeadClimbNiveau', 'User.Profile.SecondClimbNiveau',
-					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau'
+					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau', 'TourParticipationStatus'
 				)
 			));
 
@@ -520,7 +522,8 @@ class ToursController extends AppController
 				'tour' => $tour,
 				'tourParticipations' => $tourParticipations,
 				'exportEmergencyContacts' => $this->data['Tour']['exportEmergencyContacts'],
-				'legacyMode' => $this->data['Tour']['legacyMode'],
+				'exportExperienceInformation' => $this->data['Tour']['exportExperienceInformation'],
+				'exportAdditionalInformation' => $this->data['Tour']['exportAdditionalInformation']
 			));
 		}
 

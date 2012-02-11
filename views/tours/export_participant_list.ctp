@@ -10,6 +10,8 @@ echo $this->Form->create();
 echo $this->Form->hidden('Tour.id');
 
 echo $this->Form->input('Tour.exportEmergencyContacts', array('type' => 'checkbox', 'label' => __('Notfallkontakte mit exportieren', true)));
-echo $this->Form->input('Tour.legacyMode', array('type' => 'checkbox', 'label' => __('Kompatibel zu MS Excel 5 exportieren', true)));
+echo $this->Form->input('Tour.exportExperienceInformation', array('type' => 'checkbox', 'label' => __('Erfahrung mit exportieren', true)));
+echo $this->Form->input('Tour.exportAdditionalInformation', array('type' => 'checkbox', 'label' => __('Zusätzliche Informationen mit exportieren (Notiz und Status)', true)));
+echo $this->Form->input('Tour.exportAffirmedParticipantsOnly', array('type' => 'checkbox', 'label' => __('Nur bestätigte Teilnehmer exportieren', true)));
 
-echo $this->Form->end(__('Liste erstellen', true));
+echo $this->Form->end(__('Teilnehmerliste exportieren', true));
