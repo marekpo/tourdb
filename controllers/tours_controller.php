@@ -194,13 +194,48 @@ class ToursController extends AppController
 
 	function index()
 	{
-		$this->paginate = array_merge($this->paginate, array(
-			'contain' => array('TourStatus', 'TourType', 'ConditionalRequisite', 'Difficulty', 'TourGuide', 'TourGuide.Profile')
-		));
 
-		$this->set(array(
-			'tours' => $this->paginate('Tour')
+		if(!isset($this->params['url']['deadline']))
+		{
+			$this->params['url']['deadline'] = date('Y-m-d');
+		}
+		
+		$tourIds = $this->Tour->searchTours($this->params['url']/*, array(
+					'TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT)
+		)*/);
+		
+		$this->paginate = array_merge($this->paginate, array(
+					'conditions' => array('Tour.id' => Set::extract('/Tour/id', $tourIds)),
+					'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile'),
 		));
+		
+		$this->data['Tour'] = $this->params['url'];
+		unset($this->data['Tour']['url']);
+		
+		$this->set(array(
+					'tours' => $this->paginate('Tour'),
+					'tourGuides' => $this->Tour->TourGuide->getUsersByRole(Role::TOURLEADER, array(
+						'contain' => array('Profile')
+		)),
+					'filtersCollapsed' => !empty($this->data['Tour']['deadline'])
+		&& empty($this->data['Tour']['TourStatus'])
+		&& empty($this->data['Tour']['startdate'])
+		&& empty($this->data['Tour']['enddate'])
+		&& empty($this->data['Tour']['TourGuide'])
+		&& empty($this->data['Tour']['TourType'])
+		&& empty($this->data['Tour']['ConditionalRequisite'])
+		&& empty($this->data['Tour']['Difficulty'])
+		));
+		
+		$this->set($this->Tour->getWidgetData(array(
+		Tour::WIDGET_TOUR_STATUS, Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
+		Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+		)));
+		
+		
+		
+		
+		
 	}
 
 	function export()
