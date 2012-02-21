@@ -3,7 +3,8 @@
 $this->Csv->addRow(array(
 	__('Datum', true), __('Tag', true), __('Beschreibung', true),
 	__('Detailbeschreibung', true), __('TW', true), __('Mit Bergführer', true),
-	__('Tourencode', true), __('Tourenleiter(-in)', true)
+	__('Tourencode', true), __('Tourenleiter(-in)', true),
+    __('Anmeldeschluss', true), __('Telefonnummer', true)
 ));
 
 $previousMonth = null;
@@ -13,7 +14,7 @@ foreach($tours as $tour)
 	$startTime = strtotime($tour['Tour']['startdate']);
 	$endTime = strtotime($tour['Tour']['enddate']);
 
-	$currentMonth = $this->Time->format($startTime, '%B');
+	/*$currentMonth = $this->Time->format($startTime, '%B');
 
 	if($previousMonth != $currentMonth)
 	{
@@ -21,15 +22,16 @@ foreach($tours as $tour)
 		$this->Csv->addRow(array($currentMonth));
 
 		$previousMonth = $currentMonth;
-	}
+	}*/
 
-	$dateColumn = $this->Time->format($startTime, '%#d.');
+	$dateColumn = $this->Time->format($startTime, '%#d.') . $this->Time->format($startTime, '%#m.');
+	
 	$dayColumn = $this->Time->format($startTime, '%a');
 	$duration = $endTime - $startTime;
 
 	if($duration > 0)
 	{
-		$dateColumn = sprintf('%s-%s', $dateColumn, $this->Time->format($endTime, '%#d.'));
+		$dateColumn = sprintf('%s-%s', $dateColumn, $this->Time->format($endTime, '%#d.') . $this->Time->format($endTime, '%#m.'));
 		$dayColumn = sprintf('%s-%s', $dayColumn, $this->Time->format($endTime, '%a'));
 	}
 
@@ -41,6 +43,8 @@ foreach($tours as $tour)
 	);
 
 	$row[] = $this->TourDisplay->getTourGuide($tour);
+	$row[] = $this->Time->format($format = 'd.m.Y', $tour['Tour']['deadline'] ) /*. $this->Time->format($tour['Tour']['deadline'], '%#m.') . $this->Time->format($tour['Tour']['deadline'], '%#Y') */;
+	$row[] = $this->Display->displayUsersTelephoneContact($tour['TourGuide']['username'], $tour['TourGuide']['Profile']) /*$tour['TourGuide']['Profile']['cellphone']*/;
 
 	$this->Csv->addRow($row);
 }
