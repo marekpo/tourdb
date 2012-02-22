@@ -3,7 +3,7 @@ class ProfilesController extends AppController
 {
 	var $name = 'Profiles';
 
-	var $helpers = array('Html', 'Form');
+	var $helpers = array('Html', 'Form', 'Display', 'Widget');
 
 	function edit()
 	{

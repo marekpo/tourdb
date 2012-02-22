@@ -5,33 +5,25 @@
 	echo $this->Html->div('input radio',
 		$this->Form->label('Profile.experience_rope_guide', __('Einsetzbar als Seilschaftsführer', true))
 		. $this->Form->input('Profile.experience_rope_guide', array(
-			'type' => 'radio', 'div' => false, 'legend' => false, 'options' => array(
-				1 => 'Ja', 2 => 'Nein', 0 => 'Weiss nicht'
-			)
+			'type' => 'radio', 'div' => false, 'legend' => false, 'options' => $this->Display->getYesNoDontKnowOptions()
 		))
 	);
 	echo $this->Html->div('input radio',
 		$this->Form->label('Profile.experience_knot_technique', __('Kenntnisse in Knotentechnik', true))
 		. $this->Form->input('Profile.experience_knot_technique', array(
-			'type' => 'radio', 'div' => false, 'legend' => false, 'options' => array(
-				'Keine', 'Wenig', 'Mittel', 'Viel'
-			)
+			'type' => 'radio', 'div' => false, 'legend' => false, 'options' => $this->Display->getExperienceOptions()
 		))
 	);
 	echo $this->Html->div('input radio',
 		$this->Form->label('Profile.experience_rope_handling', __('Kenntnisse in Seilhandhabung', true))
 		. $this->Form->input('Profile.experience_rope_handling', array(
-			'type' => 'radio', 'div' => false, 'legend' => false, 'options' => array(
-				'Keine', 'Wenig', 'Mittel', 'Viel'
-			)
+			'type' => 'radio', 'div' => false, 'legend' => false, 'options' => $this->Display->getExperienceOptions()
 		))
 	);
 	echo $this->Html->div('input radio',
 		$this->Form->label('Profile.experience_avalanche_training', __('Lawinenausbildung', true))
 		. $this->Form->input('Profile.experience_avalanche_training', array(
-			'type' => 'radio', 'div' => false, 'legend' => false, 'options' => array(
-				'Keine', 'Wenig', 'Mittel', 'Viel'
-			)
+			'type' => 'radio', 'div' => false, 'legend' => false, 'options' => $this->Display->getExperienceOptions()
 		))
 	);
 	echo $this->Form->input('Profile.lead_climb_niveau_id', array(

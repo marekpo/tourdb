@@ -3,13 +3,21 @@ class DisplayHelper extends AppHelper
 {
 	var $helpers = array('Html');
 
-	var $yesNoDontKnowLabels = array(
-		'Weiss nicht', 'Ja', 'Nein'
-	);
+	var $yesNoDontKnowLabels;
 
-	var $experienceLabels = array(
-		'Keine', 'Wenig', 'Mittel', 'Viel'
-	);
+	var $experienceLabels;
+
+	var $publicTransportSubscriptionLabels;
+
+	var $sexLabels;
+
+	function __construct()
+	{
+		$this->yesNoDontKnowLabels = array(1 => __('Ja', true), 2 => __('Nein', true), 0 => __('Weiss nicht', true));
+		$this->experienceLabels = array(__('Keine', true), __('Wenig',true), __('Mittel', true), __('Viel', true));
+		$this->publicTransportSubscriptionLabels = array(__('1/2 Tax', true), __('GA', true));
+		$this->sexLabels = array(__('weiblich', true), __('männlich', true));
+	}
 
 	function displayFlag($flag)
 	{
@@ -46,13 +54,43 @@ class DisplayHelper extends AppHelper
 		return sprintf('%s %s', $profile['firstname'], $profile['lastname']);
 	}
 
+	function getYesNoDontKnowOptions()
+	{
+		return $this->yesNoDontKnowLabels;
+	}
+
 	function displayYesNoDontKnow($value)
 	{
 		return $this->yesNoDontKnowLabels[$value];
 	}
 
+	function getExperienceOptions()
+	{
+		return $this->experienceLabels;
+	}
+
 	function displayExperience($value)
 	{
 		return $this->experienceLabels[$value];
+	}
+
+	function getPublicTransportSubscriptionOptions()
+	{
+		return $this->publicTransportSubscriptionLabels;
+	}
+
+	function displayPublicTransportSubscription($value)
+	{
+		return $this->publicTransportSubscriptionLabels[$value];
+	}
+
+	function getSexOptions()
+	{
+		return $this->sexLabels;
+	}
+
+	function displaySex($value)
+	{
+		return $this->sexLabels[$value];
 	}
 }

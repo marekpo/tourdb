@@ -89,10 +89,22 @@ class WidgetHelper extends AppHelper
 
 		$inputAttributes = $this->_initInputField($name);
 
+		$datePickerOptions = array('showButtonPanel' => true);
+
+		if(isset($options['datepicker']))
+		{
+			$datePickerOptions = array_merge($datePickerOptions, $options['datepicker']);
+		}
+
+		$datePickerOptionParts = array();
+
+		foreach($datePickerOptions as $key => $value)
+		{
+			$datePickerOptionParts[] = sprintf('%s: %s', $key, $value);
+		}
+
 		$this->Html->script('jquery.ui.datepicker-de', array('inline' => false));
-		$this->Js->buffer("$('#{$inputAttributes['id']}').datepicker({
-			showButtonPanel: true
-		});");
+		$this->Js->buffer(sprintf("$('#{$inputAttributes['id']}').datepicker({%s});", implode(', ', $datePickerOptionParts)));
 
 		return $this->Form->input($name, $options);
 	}
