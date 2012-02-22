@@ -55,15 +55,19 @@ class DisplayHelper extends AppHelper
 	{
 		return $this->experienceLabels[$value];
 	}
-	
-	function displayUsersTelephoneContact($username, $profile)
+
+	function displayUsersPhoneContact($profile)
 	{
-		if(!$profile || empty($profile['cellphone']))
+		if($profile && !empty($profile['phoneprivate']))
 		{
 			return $profile['phoneprivate'];
 		}
-	
-		return $profile['cellphone'];
+
+		if($profile && !empty($profile['cellphone']))
+		{
+			return $profile['cellphone'];
+		}
+
+		return '';
 	}
-	
 }

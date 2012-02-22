@@ -31,7 +31,7 @@ a:HOVER		{ text-decoration: underline; }
 #footer			{ clear: left; margin-left: 200px; font-size: 8pt; }
 
 #footer .globallinks	{ float: right; }
-.globallinks a	{ margin-left: 10px; }
+#footer .globallinks a	{ margin-left: 10px; }
 
 
 .inner				{ margin: 0 10px; }
