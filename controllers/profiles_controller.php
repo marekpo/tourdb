@@ -40,6 +40,8 @@ class ProfilesController extends AppController
 			{
 				unset($this->data['Profile']['id']);
 			}
+
+			$this->data['Profile']['birthdate'] = date('d.m.Y', strtotime($this->data['Profile']['birthdate']));
 		}
 
 		$this->set(array(
