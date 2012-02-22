@@ -23,6 +23,10 @@ class ProfilesController extends AppController
 				$this->redirect(array('action' => 'edit'));
 			}
 
+			$this->log(var_export($this->Profile->validationErrors, true));
+
+			unset($this->data['Profile']['id']);
+
 			$this->Session->setFlash(__('Fehler beim Speichern deines Profils.', true));
 		}
 		else
