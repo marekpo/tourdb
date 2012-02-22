@@ -89,6 +89,49 @@ class Profile extends AppModel
 				'rule' => 'email',
 				'allowEmpty' => true
 			)
+		),
+		'freeseatsinpassengercar' => array(
+			'correctFormat' => array(
+				'rule' => 'numeric',
+				'allowEmpty' => true
+			)
+		),
+		'lengthsinglerope' => array(
+			'correctFormat' => array(
+				'rule' => 'numeric',
+				'allowEmpty' => true
+			)
+		),
+		'lengthhalfrope' => array(
+			'correctFormat' => array(
+				'rule' => 'numeric',
+				'allowEmpty' => true
+			)
 		)
 	);
+
+	function beforeSave($options = array())
+	{
+		if(isset($this->data['Profile']['ownpassengercar']) && !$this->data['Profile']['ownpassengercar'])
+		{
+			$this->data['Profile']['freeseatsinpassengercar'] = null;
+		}
+
+		if(isset($this->data['Profile']['ownsinglerope']) && !$this->data['Profile']['ownsinglerope'])
+		{
+			$this->data['Profile']['lengthsinglerope'] = null;
+		}
+
+		if(isset($this->data['Profile']['ownhalfrope']) && !$this->data['Profile']['ownhalfrope'])
+		{
+			$this->data['Profile']['lengthhalfrope'] = null;
+		}
+
+		if(isset($this->data['Profile']['birthdate']) && empty($this->data['Profile']['birthdate']))
+		{
+			$this->data['Profile']['birthdate'] = null;
+		}
+
+		return true;
+	}
 }

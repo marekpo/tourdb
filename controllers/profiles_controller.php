@@ -3,7 +3,7 @@ class ProfilesController extends AppController
 {
 	var $name = 'Profiles';
 
-	var $helpers = array('Html', 'Form');
+	var $helpers = array('Html', 'Form', 'Display', 'Widget');
 
 	function edit()
 	{
@@ -22,6 +22,10 @@ class ProfilesController extends AppController
 				$this->Session->setFlash(__('Dein Profil wurde gespeichert.', true));
 				$this->redirect(array('action' => 'edit'));
 			}
+
+			$this->log(var_export($this->Profile->validationErrors, true));
+
+			unset($this->data['Profile']['id']);
 
 			$this->Session->setFlash(__('Fehler beim Speichern deines Profils.', true));
 		}
