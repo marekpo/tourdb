@@ -12,7 +12,7 @@ $endColumn = $emergencyContactsOffset + ($exportEmergencyContacts ? 6 : 0) + ($e
 /* sac section name */
 $rowOffset = 2;
 
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow(1, $rowOffset, __('SAC Sektion Am Albis', true));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow(1, $rowOffset, __('SAC, Sektion Am Albis', true));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow(1, $rowOffset)->applyFromArray(array('font' => array('size' => 14, 'bold' => true)));
 $this->Excel->getActiveSheet()->mergeCells(sprintf('B%1$d:G%1$d', $rowOffset));
 

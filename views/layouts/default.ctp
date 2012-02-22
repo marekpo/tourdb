@@ -68,9 +68,10 @@
 
         <div id="footer">
           <div class="globallinks">
+            <?php echo $this->Html->link(__('Kontakte', true), 'http://www.sac-albis.ch/club/kontakte/', array('target' => '_blank') ); ?>
 		    <?php echo $this->Html->link(__('Datenschutzbestimmungen', true), array('controller' => 'pages', 'action' => 'display', 'data_privacy_statement')); ?>
 		  </div>
-          <?php __('© 2011 Tourenangebot für SAC am Albis'); ?>
+          <?php __('©2011-2012 Tourenangebot für SAC, Sektion Am Albis'); ?>
         </div>
       </div>
     </div>

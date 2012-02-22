@@ -7,7 +7,7 @@ echo $this->Form->create();
 
 echo $this->Form->hidden('TourParticipation.id');
 
-echo $this->Html->para('', __('Wenn du möchtest, kannst du dem Tourenleiter noch eine persönliche Mitteilung machen. Wenn du das folgende Feld leer lässt, erhält der Tourenleiter eine Standardmitteilung über deine Absage.', true));
+echo $this->Html->para('', __('Wenn du möchtest, kannst du dem Tourenleiter noch eine persönliche Mitteilung machen. Wenn du das folgende Feld leer lässt, erhält der Tourenleiter eine Standardmitteilung (E-Mail) über deine Absage.', true));
 
 echo $this->Form->input('TourParticipation.message', array('type' => 'textarea', 'label' => __('Nachricht', true)));
 
