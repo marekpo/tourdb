@@ -127,9 +127,9 @@ class Profile extends AppModel
 			$this->data['Profile']['lengthhalfrope'] = null;
 		}
 
-		if(isset($this->data['Profile']['birthdate']) && empty($this->data['Profile']['birthdate']))
+		if(isset($this->data['Profile']['birthdate']))
 		{
-			$this->data['Profile']['birthdate'] = null;
+			$this->data['Profile']['birthdate'] = empty($this->data['Profile']['birthdate']) ? null : date('Y-m-d', strtotime($this->data['Profile']['birthdate']));
 		}
 
 		return true;
