@@ -46,5 +46,7 @@ $map = array(
 		'022_add_privilege_for_export_tour_participants' => 'M4f319b027cc04dd5ab3006dc1b2c2a9b'),
 	23 => array(
 		'023_missing_profile_fields' => 'M4f414238ace84cb583830dd41b2c2a9b'),
+	24 => array(
+		'024_add_privilege_for_profile_view' => 'M4f46b0b152f849828be606401b2c2a9b'),
 );
 ?>
