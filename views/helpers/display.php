@@ -96,14 +96,14 @@ class DisplayHelper extends AppHelper
 
 	function displayUsersPhoneContact($profile)
 	{
-		if($profile && !empty($profile['phoneprivate']))
-		{
-			return $profile['phoneprivate'];
-		}
-
 		if($profile && !empty($profile['cellphone']))
 		{
 			return $profile['cellphone'];
+		}
+
+		if($profile && !empty($profile['phoneprivate']))
+		{
+			return $profile['phoneprivate'];
 		}
 
 		return '';
