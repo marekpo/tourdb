@@ -17,8 +17,12 @@ a:HOVER		{ text-decoration: underline; }
 
 #page		{  }
 #container	{ width: 1002px; margin: 0 auto; }
-#header		{ background: transparent url(../img/header.png) no-repeat left top; height: 80px; }
-#topnav		{ position: relative; overflow: hidden; }
+
+#header				{ height: 80px; }
+#header .sitelogo	{ margin-left: 60px; }
+#header .saclogo	{ float: right; }
+
+#topnav		{ position: relative; overflow: hidden; clear: right; }
 
 #login_box				{ float: right; margin-bottom: 5px; }
 #login_box .username	{ font-weight: bold; }

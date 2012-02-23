@@ -15,7 +15,10 @@
   <body>
     <div id="page">
       <div id="container">
-        <div id="header"></div>
+        <div id="header">
+          <?php echo $this->Html->link($this->Html->image('tourdb_logo.png'), array('controller' => 'tours', 'action' => 'search'), array('escape' => false, 'class' => 'sitelogo')); ?>
+          <?php echo $this->Html->link($this->Html->image('sac_logo.png'), 'http://www.sac-albis.ch/', array('escape' => false, 'class' => 'saclogo', 'target' => '_blank')); ?>
+        </div>
   
         <div id="topnav">
           <div id="login_box">
