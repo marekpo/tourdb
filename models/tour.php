@@ -157,10 +157,13 @@ class Tour extends AppModel
 		if(isset($searchFilters['deadline']) && !empty($searchFilters['deadline']))
 		{
 			$searchConditions[] = array(
+			'Tour.startdate >=' => date('Y-m-d', strtotime('+1 day'))
+			/*
 				'OR' => array(
 					array('Tour.deadline' => null, 'Tour.startdate >=' => date('Y-m-d', strtotime('+1 day'))),
 					array('Tour.deadline >=' => $searchFilters['deadline'])
 				)
+			*/	
 			);
 		}
 
