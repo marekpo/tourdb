@@ -29,26 +29,26 @@ class AppModel extends Model
 	function validatePhone($check)
 	{
 		$check = array_pop($check);
-	
+
 		$_this =& Validation::getInstance();
 		$_this->__reset();
 		$_this->check = $check;
-	
+
 		if(is_array($check))
 		{
 			$_this->_extract($check);
 		}
-	
+
 		if(empty($_this->check))
 		{
 			return false;
 		}
-	
+
 		$_this->regex = '/^([0-9+])[0-9 ]*$/';
-	
+
 		return $_this->_check();
 	}
-	
+
 	function compareToDateField($check, $operator, $otherDateField)
 	{
 		$checkTimestamp = strtotime(array_pop($check));
