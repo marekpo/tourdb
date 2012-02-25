@@ -65,9 +65,25 @@ class Profile extends AppModel
 		),
 		'phoneprivate' => array(
 			'notEmpty' => array(
-				'rule' => 'notEmpty'
+				'rule' => 'notEmpty',
+				'last' => true
+		),
+			'validPhone' => array(
+				'rule' => 'validatePhone'
 			)
 		),
+		'phonebusiness' => array(
+			'validPhone' => array(
+				'rule' => 'validatePhone',
+	        	'allowEmpty' => true				
+			)
+		),
+		'cellphone' => array(
+			'validPhone' => array(
+				'rule' => 'validatePhone',
+				'allowEmpty' => true
+			)
+		),	
 		'emergencycontact1_address' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty'
@@ -75,7 +91,17 @@ class Profile extends AppModel
 		),
 		'emergencycontact1_phone' => array(
 			'notEmpty' => array(
-				'rule' => 'notEmpty'
+				'rule' => 'notEmpty',
+				'last' => true
+		),
+			'validPhone' => array(
+				'rule' => 'validatePhone'
+			)
+		),
+		'emergencycontact2_phone' => array(
+			'validPhone' => array(
+				'rule' => 'validatePhone',
+	            'allowEmpty' => true					
 			)
 		),
 		'emergencycontact1_email' => array(
