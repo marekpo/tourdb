@@ -52,4 +52,17 @@ class ProfilesController extends AppController
 			'skiAndAlpineTourDifficulties' => $this->Profile->AlpineTourNiveau->getSkiAndAlpineTourDifficulties()
 		));
 	}
+
+	function view($id)
+	{
+		$this->set(array(
+			'profile' => $this->Profile->find('first', array(
+				'conditions' => array('Profile.id' => $id),
+				'contain' => array(
+					'User', 'Country', 'LeadClimbNiveau', 'SecondClimbNiveau',
+					'AlpineTourNiveau', 'SkiTourNiveau'
+				)
+			))
+		));
+	}
 }
