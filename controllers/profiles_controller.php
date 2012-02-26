@@ -41,7 +41,10 @@ class ProfilesController extends AppController
 				unset($this->data['Profile']['id']);
 			}
 
-			$this->data['Profile']['birthdate'] = date('d.m.Y', strtotime($this->data['Profile']['birthdate']));
+			if(!empty($this->data['Profile']['birthdate']))
+			{
+				$this->data['Profile']['birthdate'] = date('d.m.Y', strtotime($this->data['Profile']['birthdate']));
+			}
 		}
 
 		$this->set(array(
@@ -53,15 +56,25 @@ class ProfilesController extends AppController
 		));
 	}
 
-	function view($id)
+	function view($userId)
 	{
+		$profile = $this->Profile->find('first', array(
+			'conditions' => array('Profile.user_id' => $userId),
+			'contain' => array(
+				'User', 'Country', 'LeadClimbNiveau', 'SecondClimbNiveau',
+				'AlpineTourNiveau', 'SkiTourNiveau'
+			)
+		));
+
 		$this->set(array(
-			'profile' => $this->Profile->find('first', array(
-				'conditions' => array('Profile.id' => $id),
-				'contain' => array(
-					'User', 'Country', 'LeadClimbNiveau', 'SecondClimbNiveau',
-					'AlpineTourNiveau', 'SkiTourNiveau'
-				)
+			'profile' => $profile,
+			'ownTours' => $this->Profile->User->Tour->find('all', array(
+				'conditions' => array('Tour.tour_guide_id' => $userId),
+				'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite')
+			)),
+			'tourParticipations' => $this->Profile->User->TourParticipation->find('all', array(
+				'conditions' => array('TourParticipation.user_id' => $userId),
+				'contain' => array('Tour', 'Tour.TourStatus', 'Tour.TourType', 'Tour.Difficulty', 'Tour.ConditionalRequisite')
 			))
 		));
 	}

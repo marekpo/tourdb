@@ -28,7 +28,7 @@ class DisplayHelper extends AppHelper
 	{
 		$text = trim($text);
 
-		$text = preg_replace('/(\r\n|\r|\n){2,}/', '</p><p>', $text);
+		$text = preg_replace('/(\r\n\r\n|\r\r|\n\n)/', '</p><p>', $text);
 		$text = preg_replace('/(\r\n|\r|\n)/', '<br />', $text);
 
 		return $this->Html->para('', $text);
