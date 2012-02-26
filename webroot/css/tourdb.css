@@ -221,3 +221,4 @@ table.tours .tourweek, table.tours .withmountainguide
 	{ width: 610px; }
 .profiles .experience .input > label	{ width: 200px; }
 #ProfileAdditionalequipment, #ProfileHealthinformation	{ width: 610px; }
+.profiles.view table td	{ vertical-align: top; }

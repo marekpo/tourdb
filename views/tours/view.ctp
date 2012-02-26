@@ -135,7 +135,10 @@ if($tourParticipations)
 	foreach($tourParticipations as $tourParticipation)
 	{
 		$row = array(
-			$this->Display->displayUsersFullName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']),
+			$this->Html->link(
+				$this->Display->displayUsersFullName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']),
+				array('controller' => 'profiles', 'action' => 'view', $tourParticipation['User']['id'])
+			),
 			$this->Time->format('d.m.Y', $tourParticipation['TourParticipation']['created']),
 			$tourParticipation['TourParticipationStatus']['statusname']
 		);

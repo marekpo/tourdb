@@ -160,4 +160,38 @@ class Profile extends AppModel
 
 		return true;
 	}
+
+	function afterFind($results, $primary = false)
+	{
+		if($primary)
+		{
+			foreach($results as $index => $profile)
+			{
+				if(!isset($profile['Profile']))
+				{
+					continue;
+				}
+
+				if(isset($profile['Profile']['birthdate']) && !empty($profile['Profile']['birthdate']))
+				{
+					$results[$index]['Profile']['age'] = $this->__calculateAge($profile['Profile']['birthdate']);
+				}
+			}
+		}
+		else
+		{
+			if(isset($results['birthdate']) && !empty($results['birthdate']))
+			{
+				$results['age'] = $this->__calculateAge($results['birthdate']);
+			}
+		}	
+
+		return $results;
+	}
+
+	function __calculateAge($birthdate)
+	{
+		$birthDateTime = new DateTime($birthdate);
+		return $birthDateTime->diff(new DateTime('now'))->y;
+	}
 }
