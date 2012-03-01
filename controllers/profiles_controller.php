@@ -70,11 +70,13 @@ class ProfilesController extends AppController
 			'profile' => $profile,
 			'ownTours' => $this->Profile->User->Tour->find('all', array(
 				'conditions' => array('Tour.tour_guide_id' => $userId),
-				'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite')
+				'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite'),
+				'order' => array('Tour.startdate' => 'desc')
 			)),
 			'tourParticipations' => $this->Profile->User->TourParticipation->find('all', array(
 				'conditions' => array('TourParticipation.user_id' => $userId),
-				'contain' => array('Tour', 'Tour.TourStatus', 'Tour.TourType', 'Tour.Difficulty', 'Tour.ConditionalRequisite')
+				'contain' => array('Tour', 'Tour.TourStatus', 'Tour.TourType', 'Tour.Difficulty', 'Tour.ConditionalRequisite'),
+				'order' => array('Tour.startdate' => 'desc')
 			))
 		));
 	}

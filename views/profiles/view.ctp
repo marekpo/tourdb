@@ -169,7 +169,7 @@ if(count($tourParticipations))
 	{
 		$tourParticipationRows[] = array(
 			$tourParticipation['Tour']['TourStatus']['statusname'],
-			$this->Html->link($tourParticipation['Tour']['title'], array('controller' => 'tour', 'action' => 'view', $tourParticipation['Tour']['id'])),
+			$this->Html->link($tourParticipation['Tour']['title'], array('controller' => 'tours', 'action' => 'view', $tourParticipation['Tour']['id'])),
 			$this->Time->format('d.m.Y', $tourParticipation['Tour']['startdate']),
 			$this->Time->format('d.m.Y', $tourParticipation['Tour']['enddate']),
 			$this->TourDisplay->getClassification($tourParticipation)
