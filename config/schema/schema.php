@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2011-12-10 16:56:54 : 1323532614*/
+/* Tourdb schema generated on: 2012-03-04 14:22:11 : 1330867331*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
@@ -130,6 +130,18 @@ class TourdbSchema extends CakeSchema {
 		'second_climb_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'alpine_tour_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'ski_tour_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'publictransportsubscription' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'ownpassengercar' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+		'freeseatsinpassengercar' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'ownsinglerope' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+		'lengthsinglerope' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'ownhalfrope' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+		'lengthhalfrope' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'owntent' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+		'additionalequipment' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'birthdate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'sex' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'healthinformation' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
