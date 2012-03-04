@@ -17,6 +17,18 @@ class Profile extends AppModel
 		),
 		'SkiTourNiveau' => array(
 			'className' => 'Difficulty',
+		),
+		'SacMainSection' => array(
+			'className' => 'SacSection'			
+		),
+		'SacAdditionalSection1' => array(
+			'className' => 'SacSection'			
+		),
+		'SacAdditionalSection2' => array(
+			'className' => 'SacSection'			
+		),
+		'SacAdditionalSection3' => array(
+			'className' => 'SacSection'			
 		)
 	);
 
@@ -138,6 +150,15 @@ class Profile extends AppModel
 
 	function beforeSave($options = array())
 	{
+		if(isset($this->data['Profile']['sac_member']) && !$this->data['Profile']['sac_member'])
+		{
+			$this->data['Profile']['sac_membership_number'] = null;
+			$this->data['Profile']['sac_main_section_id'] = null;
+			$this->data['Profile']['sac_additional_section1_id'] = null;
+			$this->data['Profile']['sac_additional_section2_id'] = null;
+			$this->data['Profile']['sac_additional_section3_id'] = null;
+		}
+
 		if(isset($this->data['Profile']['ownpassengercar']) && !$this->data['Profile']['ownpassengercar'])
 		{
 			$this->data['Profile']['freeseatsinpassengercar'] = null;

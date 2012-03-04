@@ -511,6 +511,7 @@ class ToursController extends AppController
 		}
 
 		$this->loadModel('Country');
+		$this->loadModel('SacSection');
 
 		$this->set(array(
 			'tour' => $this->Tour->find('first', array(
@@ -521,7 +522,11 @@ class ToursController extends AppController
 				'order' => array('name' => 'ASC')
 			)),
 			'climbingDifficulties' => $this->Tour->Difficulty->getRockClimbingDifficulties(),
-			'skiAndAlpineTourDifficulties' => $this->Tour->Difficulty->getSkiAndAlpineTourDifficulties()
+			'skiAndAlpineTourDifficulties' => $this->Tour->Difficulty->getSkiAndAlpineTourDifficulties(),
+			'sacSections' => $this->SacSection->find('list', array(
+				'order' => array('SacSection.id' => 'ASC'),
+				'contain' => array()
+			))
 		));
 	}
 

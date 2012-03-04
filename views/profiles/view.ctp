@@ -46,7 +46,48 @@ if(!empty($profile['Profile']['emergencycontact1_address']) || ! empty($profile[
 	}
 }
 
-echo $this->Html->tag('h2', __('SAC Mitgliedschaft', true));
+if($profile['Profile']['sac_member'])
+{
+	echo $this->Html->tag('h2', __('SAC Mitgliedschaft', true));
+
+	$sacMembershipRows = array();
+
+	if(!empty($profile['Profile']['sac_membership_number']))
+	{
+		$sacMembershipRows[] = array(__('Mitgliedernummer', true), $profile['Profile']['sac_membership_number']);
+	}
+
+	$sections = array();
+
+	if(!empty($profile['SacMainSection']['id']))
+	{
+		$sections[] = sprintf(__('%s (Hauptsektion)', true), $profile['SacMainSection']['title']);
+	}
+
+	if(!empty($profile['SacAdditionalSection1']['id']))
+	{
+		$sections[] = sprintf(__('%s (Zweitsektion)', true), $profile['SacAdditionalSection1']['title']);
+	}
+
+	if(!empty($profile['SacAdditionalSection2']['id']))
+	{
+		$sections[] = sprintf(__('%s (Drittsektion)', true), $profile['SacAdditionalSection2']['title']);
+	}
+
+	if(!empty($profile['SacAdditionalSection3']['id']))
+	{
+		$sections[] = sprintf(__('%s (Viertsektion)', true), $profile['SacAdditionalSection3']['title']);
+	}
+
+	if(!empty($sections))
+	{
+		$sacMembershipRows[] = array(
+			__n('Sektion', 'Sektionen', count($sections), true), implode(', ', $sections)
+		);
+	}
+
+	echo $this->Html->tag('table', $this->Html->tableCells($sacMembershipRows));
+}
 
 echo $this->Html->tag('h2', __('Erfahrungen', true));
 

@@ -52,7 +52,11 @@ class ProfilesController extends AppController
 				'order' => array('name' => 'ASC')
 			)),
 			'climbingDifficulties' => $this->Profile->LeadClimbNiveau->getRockClimbingDifficulties(),
-			'skiAndAlpineTourDifficulties' => $this->Profile->AlpineTourNiveau->getSkiAndAlpineTourDifficulties()
+			'skiAndAlpineTourDifficulties' => $this->Profile->AlpineTourNiveau->getSkiAndAlpineTourDifficulties(),
+			'sacSections' => $this->Profile->SacMainSection->find('list', array(
+				'order' => array('SacMainSection.id' => 'ASC'),
+				'contain' => array()
+			))
 		));
 	}
 
@@ -62,7 +66,8 @@ class ProfilesController extends AppController
 			'conditions' => array('Profile.user_id' => $userId),
 			'contain' => array(
 				'User', 'Country', 'LeadClimbNiveau', 'SecondClimbNiveau',
-				'AlpineTourNiveau', 'SkiTourNiveau'
+				'AlpineTourNiveau', 'SkiTourNiveau', 'SacMainSection',
+				'SacAdditionalSection1', 'SacAdditionalSection2', 'SacAdditionalSection3'
 			)
 		));
 
