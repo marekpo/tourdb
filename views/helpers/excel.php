@@ -36,6 +36,9 @@ class ExcelHelper extends AppHelper
 
 	function setFilename($filename)
 	{
+		$filename = preg_replace('/\s+/', '_', $filename);
+		$filename = preg_replace('/\W/i', '', $filename);
+
 		if(!preg_match(sprintf('/\%s$/i', $this->fileExtension), $filename))
 		{
 			$filename .= $this->fileExtension;
