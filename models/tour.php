@@ -324,7 +324,7 @@ class Tour extends AppModel
 			$this->read();
 		}
 
-		return strtotime($this->data['Tour']['deadline_calculated']) > time()
+		return strtotime($this->data['Tour']['deadline_calculated']) >= time()
 			&& $this->data['TourStatus']['key'] == TourStatus::PUBLISHED;
 	}
 
