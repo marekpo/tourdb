@@ -102,13 +102,13 @@ class Tour extends AppModel
 			$this->data['TourType'] = $this->data['Tour']['TourType'];
 		}
 		unset($this->data['Tour']['TourType']);
-		
+
 		if(in_array('ConditionalRequisite', $options['fieldList']) && isset($this->data['Tour']['ConditionalRequisite']))
 		{
 			$this->data['ConditionalRequisite'] = $this->data['Tour']['ConditionalRequisite'];
 		}
 		unset($this->data['Tour']['ConditionalRequisite']);
-		
+
 		if(in_array('Difficulty', $options['fieldList']) && isset($this->data['Tour']['Difficulty']))
 		{
 			$this->data['Difficulty'] = $this->data['Tour']['Difficulty'];
@@ -324,7 +324,7 @@ class Tour extends AppModel
 			$this->read();
 		}
 
-		return strtotime($this->data['Tour']['deadline_calculated']) >= time()
+		return strtotime($this->data['Tour']['deadline_calculated']) >= strtotime(date('Y-m-d'))
 			&& $this->data['TourStatus']['key'] == TourStatus::PUBLISHED;
 	}
 
