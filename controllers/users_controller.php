@@ -9,8 +9,10 @@ class UsersController extends AppController
 
 	var $helpers = array('Widget', 'Display');
 
-	function _defineBeforeFilter()
+	function __construct()
 	{
+		parent::__construct();
+
 		$this->paginate = array(
 			'limit' => 25,
 			'order' => array('User.username' => 'ASC')

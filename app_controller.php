@@ -7,8 +7,6 @@ class AppController extends Controller
 
 	function beforeFilter()
 	{
-		$this->_defineBeforeFilter();
-
 		$this->__mergeDefaultOrderForPagination();
 
 		$this->__setupAuth();
@@ -21,11 +19,6 @@ class AppController extends Controller
 	function isAuthorized()
 	{
 		return $this->Authorization->hasPrivilege($this->name, $this->action);
-	}
-
-	function _defineBeforeFilter()
-	{
-		/* NOOP */
 	}
 
 	function _sendEmail($recipient, $subject, $template)

@@ -7,8 +7,10 @@ class TourParticipationsController extends AppController
 
 	var $components = array('RequestHandler', 'Email');
 
-	function _defineBeforeFilter()
+	function __construct()
 	{
+		parent::__construct();
+
 		$this->paginate = array(
 			'limit' => 20,
 			'order' => array('Tour.startdate' => 'ASC')

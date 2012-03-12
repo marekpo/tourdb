@@ -3,10 +3,10 @@ $this->set('title_for_layout', __('Benutzer', true));
 $this->Html->addCrumb(__('Benutzer', true));
 
 $tableHeaders = array(
-	$this->Paginator->sort(__('Aktiv', true), 'active'),
-	$this->Paginator->sort(__('Benutzername', true), 'username'),
-	$this->Paginator->sort(__('E-Mail-Adresse', true), 'email'),
-	$this->Paginator->sort(__('Letzter Login', true), 'last_login'),
+	$this->Paginator->sort(__('Aktiv', true), 'User.active'),
+	$this->Paginator->sort(__('Benutzername', true), 'User.username'),
+	$this->Paginator->sort(__('E-Mail-Adresse', true), 'User.email'),
+	$this->Paginator->sort(__('Letzter Login', true), 'User.last_login'),
 	__('Aktionen', true)
 );
 
