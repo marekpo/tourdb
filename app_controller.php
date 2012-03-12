@@ -7,6 +7,8 @@ class AppController extends Controller
 
 	function beforeFilter()
 	{
+		$this->__mergeDefaultOrderForPagination();
+
 		$this->__setupAuth();
 
 		$this->__loginByCookie();
@@ -77,6 +79,16 @@ class AppController extends Controller
 		{
 			$this->Session->write('acceptDataPrivacyStatement.redirect', $this->here);
 			$this->redirect(array('controller' => 'users', 'action' => 'acceptDataPrivacyStatement'));
+		}
+	}
+
+	function __mergeDefaultOrderForPagination()
+	{
+		if(isset($this->passedArgs['sort']) && isset($this->paginate['order']) && array_pop(array_keys($this->paginate['order'])) != $this->passedArgs['sort'])
+		{
+			$this->passedArgs['order'] = array_merge($this->paginate['order'], array($this->passedArgs['sort'] => $this->passedArgs['direction']));
+			unset($this->passedArgs['sort']);
+			unset($this->passedArgs['direction']);
 		}
 	}
 }

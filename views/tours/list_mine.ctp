@@ -9,12 +9,12 @@ echo $this->element('../tours/elements/tour_filters', array('activeFilters' => a
 if(count($tours))
 {
 	$tableHeaders =array(
-		$this->Paginator->sort(__('Tourbezeichnung', true), 'title'),
+		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
 		$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
-		$this->Paginator->sort(__('Datum von', true), 'startdate'),
-		$this->Paginator->sort(__('Datum bis', true), 'enddate'),
-		$this->Paginator->sort(__('TW', true), 'tourweek', array('title' => __('Tourenwoche', true))),
-		$this->Paginator->sort(__('BGF', true), 'withmountainguide', array('title' => __('mit Bergführer durchgeführte/r Tour/Kurs', true))),
+		$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
+		$this->Paginator->sort(__('Datum bis', true), 'Tour.enddate'),
+		$this->Paginator->sort(__('TW', true), 'Tour.tourweek', array('title' => __('Tourenwoche', true))),
+		$this->Paginator->sort(__('BGF', true), 'Tour.withmountainguide', array('title' => __('mit Bergführer durchgeführte/r Tour/Kurs', true))),
 		__('Code', true)
 	);
 	

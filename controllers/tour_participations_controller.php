@@ -7,9 +7,9 @@ class TourParticipationsController extends AppController
 
 	var $components = array('RequestHandler', 'Email');
 
-	function beforeFilter()
+	function __construct()
 	{
-		parent::beforeFilter();
+		parent::__construct();
 
 		$this->paginate = array(
 			'limit' => 20,
