@@ -9,18 +9,19 @@ class UsersController extends AppController
 
 	var $helpers = array('Widget', 'Display');
 
-	var $scaffold;
+	function _defineBeforeFilter()
+	{
+		$this->paginate = array(
+			'limit' => 25,
+			'order' => array('User.username' => 'ASC')
+		);
+	}
 
 	function beforeFilter()
 	{
 		parent::beforeFilter();
 
 		$this->Auth->allow(array('createAccount', 'activateAccount', 'login', 'logout', 'requestNewPassword', 'acceptDataPrivacyStatement'));
-
-		$this->paginate = array(
-			'limit' => 25,
-			'order' => array('User.username' => 'ASC')
-		);
 	}
 
 	function createAccount()

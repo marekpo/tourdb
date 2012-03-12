@@ -7,16 +7,19 @@ class ToursController extends AppController
 
 	var $helpers = array('Widget', 'Time', 'TourDisplay', 'Display', 'Csv', 'Excel');
 
+	function _defineBeforeFilter()
+	{
+		$this->paginate = array(
+			'limit' => 20,
+			'order' => array('Tour.startdate' => 'ASC')
+		);
+	}
+
 	function beforeFilter()
 	{
 		parent::beforeFilter();
 
 		$this->Auth->allow('search', 'view');
-
-		$this->paginate = array(
-			'limit' => 20,
-			'order' => array('Tour.startdate' => 'ASC')
-		);
 	}
 
 	function add()
