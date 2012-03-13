@@ -192,8 +192,16 @@ class UsersController extends AppController
 		}
 	}
 
+	/**
+	 * s
+	 * Enter description here ...
+	 */
 	function index()
 	{
+		$this->paginate = array_merge($this->paginate, array(
+			'contain' => array('Profile', 'Role')
+		));
+
 		$this->set(array(
 			'users' => $this->paginate('User')
 		));
