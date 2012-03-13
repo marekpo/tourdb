@@ -220,7 +220,8 @@ class UsersController extends AppController
 		else
 		{
 			$this->data = $this->User->find('first', array(
-				'conditions' => array('User.id' => $id)
+				'conditions' => array('User.id' => $id),
+				'contain' => array('Role')
 			));
 		}
 
