@@ -30,6 +30,14 @@ Telefon (G): <?php echo $user['Profile']['phonebusiness']; ?>
 E-Mail: <?php echo $user['User']['email']; ?>
 
 
+SAC Mitglied: <?php echo $this->Display->displayYesNoDontKnow($user['Profile']['sac_member']); ?>
+
+Hauptsektion: <?php echo (empty($user['Profile']['sac_main_section_id']) ? __('Keine', true) : $user['Profile']['SacMainSection']['title']); ?>
+
+<?php if(!empty($user['Profile']['sac_additional_section1_id'])): ?>
+Zweitsektion: <?php echo $user['Profile']['SacAdditionalSection1']['title'] ?>
+<?php endif; ?>
+
 Notfallkontakt
 -------------
 Adresse: <?php echo $user['Profile']['emergencycontact1_address']; ?>

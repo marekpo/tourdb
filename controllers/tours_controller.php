@@ -479,10 +479,10 @@ class ToursController extends AppController
 						'conditions' => array('User.id' => $this->Auth->user('id')),
 						'contain' => array(
 							'Profile', 'Profile.Country', 'Profile.LeadClimbNiveau', 'Profile.SecondClimbNiveau',
-							'Profile.AlpineTourNiveau', 'Profile.SkiTourNiveau'
+							'Profile.AlpineTourNiveau', 'Profile.SkiTourNiveau', 'Profile.SacMainSection', 'Profile.SacAdditionalSection1'
 						)
 					));
-
+					
 					$this->set(array(
 						'user' => $user,
 						'tour' => $tour,
