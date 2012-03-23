@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <?php echo $this->Html->charset(); ?>
     <title><?php __('Tourenangebot'); ?> :: <?php echo $title_for_layout; ?></title>
     <?php echo $this->Html->meta('icon'); ?>
@@ -16,7 +17,6 @@
     <div id="page">
       <div id="container">
         <div id="header">
-          <?php echo $this->Html->link($this->Html->image('tourdb_logo.png'), array('controller' => 'tours', 'action' => 'search'), array('escape' => false, 'class' => 'sitelogo')); ?>
           <?php echo $this->Html->link($this->Html->image('sac_logo.png'), 'http://www.sac-albis.ch/', array('escape' => false, 'class' => 'saclogo', 'target' => '_blank')); ?>
         </div>
   
@@ -37,7 +37,9 @@
 ?>
           </div>
         </div>
-
+        <div id="leftheader">
+          <?php echo $this->Html->link($this->Html->image('tourdb_logo.png'), array('controller' => 'tours', 'action' => 'search'), array('escape' => false, 'class' => 'sitelogo')); ?>
+        </div>  
         <div id="contentheader">
           <div class="inner">
             <div id="breadcrumbs"><?php echo $this->Html->getCrumbs(' › ', __('Tourenangebot', true)); ?></div>

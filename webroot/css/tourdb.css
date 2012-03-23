@@ -21,7 +21,6 @@ a img		{ vertical-align: middle; border: 0; }
 #container	{ width: 1000px; margin: 0 auto; }
 
 #header				{ height: 80px; }
-#header .sitelogo	{ margin-left: 60px; }
 #header .saclogo	{ float: right; }
 
 #topnav		{ position: relative; overflow: hidden; clear: right; }
@@ -31,9 +30,11 @@ a img		{ vertical-align: middle; border: 0; }
 
 #breadcrumbs	{ margin: 10px 0; font-weight: bold; }
 #breadcrumbs a	{ color: #04376c; }
-#leftnav		{ width: 200px; float: left; }
-#contentheader	{ margin-left: 200px; border: 1px solid #689cd3; background: #689cd3; }
-#content		{ width: 800px; border: solid #dddddd; border-width: 0 0 1px; float: left; margin-bottom: 5px; padding: 10px 0 10px; min-height: 400px; }
+#leftheader      		{ width: 200px; float: left; }
+#leftheader .sitelogo	{ float: right; margin-right: 10px; }
+#leftnav		{ clear: left; width: 190px; float: left; border: 0px solid #dddddd; moz-border-radius:5px; /* Firefox */ webkit-border-radius:5px; /* Safari, Chrome */ border-radius:5px; /* CSS3 */}
+#contentheader	{ margin-left: 198px; margin-bottom: 6px; border: 1px solid #689cd3; background: #689cd3; moz-border-radius:5px; /* Firefox */ webkit-border-radius:5px; /* Safari, Chrome */ border-radius:5px; /* CSS3 */}
+#content		{ width: 800px; border: solid #dddddd; border-width: 1px; float: right; margin-bottom: 5px; padding: 10px 0 10px; min-height: 400px; moz-border-radius:5px; /* Firefox */ webkit-border-radius:5px; /* Safari, Chrome */ border-radius:5px; /* CSS3 */}
 #footer			{ clear: left; margin-left: 200px; font-size: 8pt; }
 
 #footer .globallinks	{ float: right; }
@@ -57,7 +58,7 @@ a img		{ vertical-align: middle; border: 0; }
 .paginator div.next	{ margin-left: 10px; }
 
 /* menu */
-ul.menu				{ margin: 10px 0 0; padding: 0; list-style: none; }
+ul.menu				{ margin: 10px 0 10; padding: 0; list-style: none; }
 ul.menu ul			{ margin: 5px 0 10px; padding-left: 15px; }
 ul.menu li			{ list-style: none; text-align: right; }
 ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
