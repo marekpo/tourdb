@@ -37,6 +37,28 @@ class AuthorizationComponent extends TourDBAuthorization
 		$this->delete('Auth.Privileges');
 	}
 
+	function isAuthorized()
+	{
+		$method = new ReflectionMethod($this->controller, $this->controller->action);
+
+		$comment = $method->getDocComment();
+
+		preg_match_all('/@([a-z]+)\(([^\)]+)\)/i', $comment, $matches);
+
+		$authorized = false;
+
+		for($i = 0; $i < count($matches[0]); $i++)
+		{
+			$ruleName = sprintf('%sRule', $matches[1][$i]);
+
+			$authorized = $authorized || $this->{$ruleName}($matches[2][$i]);
+		}
+
+		return $authorized;
+
+		return $this->hasPrivilege($this->controller->name, $this->controller->action);
+	}
+
 	function hasPrivilege($controller, $action)
 	{
 		$privileges = null;
@@ -60,5 +82,15 @@ class AuthorizationComponent extends TourDBAuthorization
 		));
 
 		return false;
+	}
+
+	function requireRoleRule($requiredRole)
+	{
+		if(!preg_match('/[\'\"]([a-z]+)[\'\"]/i', $requiredRole, $matches))
+		{
+			trigger_error('Invalid parameter for requireRoleRule', E_USER_ERROR);
+		}
+
+		return in_array($matches[1], $this->getRoles());
 	}
 }

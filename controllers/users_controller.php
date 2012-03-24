@@ -192,6 +192,9 @@ class UsersController extends AppController
 		}
 	}
 
+	/**
+	 * @requireRole('systemadmin')
+	 */
 	function index()
 	{
 		$this->set(array(
@@ -199,6 +202,9 @@ class UsersController extends AppController
 		));
 	}
 
+	/**
+	 * @requireRole('systemadmin')
+	 */
 	function edit($id)
 	{
 		if(!empty($this->data))

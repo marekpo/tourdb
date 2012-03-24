@@ -18,7 +18,7 @@ class AppController extends Controller
 
 	function isAuthorized()
 	{
-		return $this->Authorization->hasPrivilege($this->name, $this->action);
+		return $this->Authorization->isAuthorized();
 	}
 
 	function _sendEmail($recipient, $subject, $template)
