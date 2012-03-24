@@ -81,7 +81,7 @@ class DisplayHelper extends AppHelper
 
 	function displayPublicTransportSubscription($value)
 	{
-		return $this->publicTransportSubscriptionLabels[$value];
+		return (empty($value) ? '' : $this->publicTransportSubscriptionLabels[$value]);
 	}
 
 	function getSexOptions()
