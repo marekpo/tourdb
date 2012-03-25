@@ -12,6 +12,6 @@ echo $this->Form->hidden('Tour.id');
 echo $this->Form->input('Tour.exportEmergencyContacts', array('type' => 'checkbox', 'label' => __('Notfallkontakte mit exportieren', true)));
 echo $this->Form->input('Tour.exportExperienceInformation', array('type' => 'checkbox', 'label' => __('Erfahrung mit exportieren', true)));
 echo $this->Form->input('Tour.exportAdditionalInformation', array('type' => 'checkbox', 'label' => __('Zusätzliche Informationen mit exportieren (Notiz und Status)', true)));
-echo $this->Form->input('Tour.exportAffirmedParticipantsOnly', array('type' => 'checkbox', 'label' => __('Nur bestätigte Teilnehmer exportieren', true)));
+echo $this->Form->input('Tour.exportAffirmedParticipantsOnly', array('type' => 'checkbox', 'label' => __('Bestätigte Teilnehmer exportieren', true)));
 
 echo $this->Form->end(__('Teilnehmerliste exportieren', true));

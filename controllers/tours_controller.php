@@ -550,7 +550,8 @@ class ToursController extends AppController
 				'conditions' => array_merge(array('TourParticipation.tour_id' => $id), $conditions),
 				'contain' => array(
 					'User', 'User.Profile', 'User.Profile.LeadClimbNiveau', 'User.Profile.SecondClimbNiveau',
-					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau', 'TourParticipationStatus'
+					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau', 'User.Profile.SacMainSection',
+					'TourParticipationStatus'
 				)
 			));
 
