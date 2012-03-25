@@ -37,8 +37,10 @@
 ?>
           </div>
         </div>
-        <div id="leftheader">
-          <?php echo $this->Html->link($this->Html->image('tourdb_logo.png'), array('controller' => 'tours', 'action' => 'search'), array('escape' => false, 'class' => 'sitelogo')); ?>
+        <div id="navheader">
+          <div class="inner">
+            <?php echo $this->Html->link($this->Html->image('tourdb_logo.png'), array('controller' => 'tours', 'action' => 'search'), array('escape' => false, 'class' => 'sitelogo')); ?>
+          </div>
         </div>  
         <div id="contentheader">
           <div class="inner">

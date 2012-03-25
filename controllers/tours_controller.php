@@ -359,9 +359,9 @@ class ToursController extends AppController
 		if(!empty($this->data))
 		{
 			$registrationClosedStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::REGISTRATION_CLOSED));
-	
+
 			$this->__changeTourStatus($id, $registrationClosedStatusId);
-	
+
 			$this->Session->setFlash(__('Die Anmeldung für diese Tour wurde geschlossen.', true));
 			$this->redirect(array('action' => 'view', $id));
 		}
@@ -411,7 +411,7 @@ class ToursController extends AppController
 					'tourParticipation' => $tourParticipation,
 					'message' => $this->data['Tour']['message']
 				));
-	
+
 				$this->_sendEmail($tourParticipation['User']['email'], sprintf(__('Die Tour "%s" wurde abgesagt', true), $tour['Tour']['title']), 'tours/cancel_tour_participant');
 			}
 
@@ -482,7 +482,7 @@ class ToursController extends AppController
 							'Profile.AlpineTourNiveau', 'Profile.SkiTourNiveau', 'Profile.SacMainSection', 'Profile.SacAdditionalSection1'
 						)
 					));
-					
+
 					$this->set(array(
 						'user' => $user,
 						'tour' => $tour,
@@ -577,13 +577,13 @@ class ToursController extends AppController
 			'conditions' => array('Tour.id' => $id),
 			'contain' => array()
 		));
-		
+
 		if(empty($tour))
 		{
 			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
 			$this->redirect('/');
 		}
-		
+
 		if($tour['Tour']['tour_guide_id'] != $this->Auth->user('id'))
 		{
 			$this->Session->setFlash(__('Nur der Tourleiter darf diese Aktion durchführen.', true));

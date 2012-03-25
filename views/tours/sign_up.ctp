@@ -16,11 +16,11 @@ echo $this->element('../profiles/elements/sac_membership_data');
 <fieldset class="experience">
   <legend><?php __('Mitteilung an den Tourenleiter/die Tourenleiterin'); ?></legend>
 <?php
-echo $this->Html->para('', __('In dem folgenden Textfeld kannst du dem Tourenleiter noch beliebige Informationen, z.B. fehlende Ausrüstung oder etwas Organisatorisches (eigener PW, anz. freie Plätze), zukommen lassen. ', true));
+echo $this->Html->para('', __('In dem folgenden Textfeld kannst du dem Tourenleiter noch beliebige Informationen, z.B. fehlende Ausrüstung oder etwas Organisatorisches (eigener PW, anz. freie Plätze), zukommen lassen.', true));
 
 echo $this->Form->input('TourParticipation.note_participant', array('label' => __('Mitteilung an Tourenleiter/in', true)));
 
-echo $this->Html->para('', __('Bin ich dem Tourenleiter nicht bekannt, bitte 3 Referenzen mit Name des Tourenleiters von vergleichbaren Touren der letzten zwei Jahre angeben.', true));
+echo $this->Html->para('', __('Wenn du dem Tourenleiter noch nicht bekannt bist, gib bitte 3 Referenzen mit dem Namen des Tourenleiters von vergleichbaren Touren der letzten zwei Jahre an.', true));
 ?>
 </fieldset>
 <?php
