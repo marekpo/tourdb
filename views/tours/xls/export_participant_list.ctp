@@ -4,10 +4,10 @@ $this->Excel->startNewDocument(true);
 $this->Excel->setFilename(sprintf('%d_%s', $this->Time->format($tour['Tour']['startdate'], '%Y'), $tour['Tour']['title']));
 
 $emergencyContactsOffset = 9;
-$experienceInformationOffset = $exportEmergencyContacts ? $emergencyContactsOffset + 6 : $emergencyContactsOffset;
+$experienceInformationOffset = $exportEmergencyContacts ? $emergencyContactsOffset + 3 : $emergencyContactsOffset;
 $additionalInformationOffset = $exportExperienceInformation ? $experienceInformationOffset + 8 : $experienceInformationOffset;
 
-$endColumn = $emergencyContactsOffset + ($exportEmergencyContacts ? 6 : 0) + ($exportExperienceInformation ? 8 : 0) + ($exportAdditionalInformation ? 8 : 0) - 1;
+$endColumn = $emergencyContactsOffset + ($exportEmergencyContacts ? 3 : 0) + ($exportExperienceInformation ? 8 : 0) + ($exportAdditionalInformation ? 8 : 0) - 1;
 
 /* sac section name */
 $rowOffset = 2;
@@ -48,10 +48,7 @@ $this->Excel->getActiveSheet()->mergeCells(sprintf('B%1$d:%2$s%1$d', $rowOffset,
 if($exportEmergencyContacts)
 {
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($emergencyContactsOffset, $rowOffset, __('Notfall1', true));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($emergencyContactsOffset + 3, $rowOffset, __('Notfall2', true));
-
 	$this->Excel->getActiveSheet()->mergeCells(sprintf('%2$s%1$d:%3$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($emergencyContactsOffset), PHPExcel_Cell::stringFromColumnIndex($emergencyContactsOffset + 2)));
-	$this->Excel->getActiveSheet()->mergeCells(sprintf('%2$s%1$d:%3$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($emergencyContactsOffset + 3), PHPExcel_Cell::stringFromColumnIndex($emergencyContactsOffset + 5)));
 }
 
 if($exportExperienceInformation)
@@ -93,7 +90,7 @@ $this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColu
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Telefon mobil', true));
 $this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(14.75);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('E-Mail', true));
-$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(17.75);
+$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(30.75);
 
 if($exportEmergencyContacts)
 {
@@ -102,14 +99,7 @@ if($exportEmergencyContacts)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Telefon', true));
 	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(14.75);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('E-Mail', true));
-	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(17.75);
-
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Kontaktadresse', true));
-	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(14.75);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Telefon', true));
-	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(14.75);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('E-Mail', true));
-	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(17.75);
+	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(30.75);
 }
 
 if($exportExperienceInformation)
@@ -186,11 +176,6 @@ if($exportEmergencyContacts)
 	$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset)->getAlignment()->setWrapText(true);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['emergencycontact1_phone']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['emergencycontact1_email']);
-
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['emergencycontact2_address']);
-	$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset)->getAlignment()->setWrapText(true);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['emergencycontact2_phone']);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['emergencycontact2_email']);
 }
 
 if($exportExperienceInformation)
@@ -243,11 +228,6 @@ foreach($tourParticipations as $tourParticipation)
 		$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset + $index)->getAlignment()->setWrapText(true);
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact1_phone']);
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact1_email']);
-	
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact2_address']);
-		$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset + $index)->getAlignment()->setWrapText(true);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact2_phone']);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact2_email']);
 	}
 
 	if($exportExperienceInformation)
