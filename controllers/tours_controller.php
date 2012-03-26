@@ -541,7 +541,11 @@ class ToursController extends AppController
 		{
 			$tour = $this->Tour->find('first', array(
 				'conditions' => array('Tour.id' => $id),
-				'contain' => array('TourGuide', 'TourGuide.Profile')
+				'contain' => array(
+					'TourGuide', 'TourGuide.Profile', 'TourGuide.Profile.SacMainSection',
+					'TourGuide.Profile.LeadClimbNiveau', 'TourGuide.Profile.SecondClimbNiveau',
+					'TourGuide.Profile.AlpineTourNiveau', 'TourGuide.Profile.SkiTourNiveau'
+				)
 			));
 
 			$conditions = $this->data['Tour']['exportAffirmedParticipantsOnly'] ? array('TourParticipationStatus.key' => 'affirmed') : array();
