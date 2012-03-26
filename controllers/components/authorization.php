@@ -43,18 +43,33 @@ class AuthorizationComponent extends TourDBAuthorization
 
 		$comment = $method->getDocComment();
 
-		preg_match_all('/@([a-z]+)\(([^\)]+)\)/i', $comment, $matches);
+		preg_match_all('/@([a-z\.]+)\(([^\)]+)\)/i', $comment, $matches);
 
 		$authorized = false;
 
 		for($i = 0; $i < count($matches[0]); $i++)
 		{
-			$ruleName = sprintf('%sRule', $matches[1][$i]);
+			$ruleQualifier = explode('.', $matches[1][$i]);
+			$arguments = explode(',', $matches[2][$i]);
 
-			$authorized = $authorized || $this->{$ruleName}($matches[2][$i]);
+			switch($ruleQualifier[0])
+			{
+				case 'Model':
+					break;
+				case 'Controller':
+					break;
+				default:
+					$ruleName = sprintf('%sRule', $matches[1][$i]);
+					$authorized = $authorized || $this->{$ruleName}($matches[2][$i]);
+			}
+
+			if($authorized)
+			{
+				return true;
+			}
 		}
 
-		return $authorized;
+		return false;
 
 		return $this->hasPrivilege($this->controller->name, $this->controller->action);
 	}

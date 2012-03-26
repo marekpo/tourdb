@@ -91,6 +91,9 @@ class ToursController extends AppController
 		));
 	}
 
+	/**
+	 * @Model.Tour.isTourGuideOf(#passed-0)
+	 */
 	function edit($id)
 	{
 		$whitelist = $this->Tour->getEditWhitelist($id);
