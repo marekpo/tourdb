@@ -54,6 +54,9 @@ class ToursController extends AppController
 		)));
 	}
 
+	/**
+	 * @requireRole('tourleader')
+	 */
 	function formGetAdjacentTours($startDate, $endDate)
 	{
 		$smallestEndDate = date('Y-m-d', strtotime('-1 week', strtotime($startDate)));
@@ -80,6 +83,9 @@ class ToursController extends AppController
 		));
 	}
 
+	/**
+	 * @requireRole('tourleader')
+	 */
 	function formGetTourCalendar($year, $month)
 	{
 		$this->set(array(
@@ -92,7 +98,7 @@ class ToursController extends AppController
 	}
 
 	/**
-	 * @Model.Tour.isTourGuideOf(#passed-0)
+	 * @Model.Tour.isTourGuideOf(#arg-0)
 	 */
 	function edit($id)
 	{

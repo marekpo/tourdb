@@ -43,27 +43,50 @@ class AuthorizationComponent extends TourDBAuthorization
 
 		$comment = $method->getDocComment();
 
-		preg_match_all('/@([a-z\.]+)\(([^\)]+)\)/i', $comment, $matches);
+		preg_match_all('/@([a-z\.]+)\(([^\)]+)\)/i', $comment, $ruleMatches);
 
 		$authorized = false;
 
-		for($i = 0; $i < count($matches[0]); $i++)
+		for($i = 0; $i < count($ruleMatches[0]); $i++)
 		{
-			$ruleQualifier = explode('.', $matches[1][$i]);
-			$arguments = explode(',', $matches[2][$i]);
+			$ruleQualifier = explode('.', $ruleMatches[1][$i]);
+			$rawArguments = preg_split('/\s*,\s*/', $ruleMatches[2][$i]);
+			$arguments = array($this->Auth->user('id') ? $this->Auth->user('id') : null);
+
+			foreach($rawArguments as $rawArgument)
+			{
+				if(preg_match('/\#arg\-([a-zA-Z0-9]+)/', $rawArgument, $argumentMatch))
+				{
+					if(!array_key_exists($argumentMatch[1], $this->controller->passedArgs))
+					{
+						trigger_error(sprintf('Missing argument "%s" for action "%s::%s" while validating rule "%s".',
+							$argumentMatch[1], $this->controller->name, $this->controller->action, $ruleMatches[1][$i]
+						), E_USER_ERROR);
+					}
+
+					$arguments[] = $this->controller->passedArgs[$argumentMatch[1]];
+				}
+				else
+				{
+					$arguments[] = eval(sprintf('return %s;', $rawArgument));
+				}
+			}
+
+			$callback = array();
 
 			switch($ruleQualifier[0])
 			{
 				case 'Model':
+					$callback = array(ClassRegistry::init($ruleQualifier[1]), sprintf('%sRule', $ruleQualifier[2]));
 					break;
 				case 'Controller':
+					$callback = array($this->controller, sprintf('%sRule', $ruleQualifier[1]));
 					break;
 				default:
-					$ruleName = sprintf('%sRule', $matches[1][$i]);
-					$authorized = $authorized || $this->{$ruleName}($matches[2][$i]);
+					$callback = array($this, sprintf('%sRule', $ruleQualifier[0]));
 			}
 
-			if($authorized)
+			if(call_user_func_array($callback, $arguments))
 			{
 				return true;
 			}
@@ -99,13 +122,13 @@ class AuthorizationComponent extends TourDBAuthorization
 		return false;
 	}
 
-	function requireRoleRule($requiredRole)
+	function noAccessRule($userId)
 	{
-		if(!preg_match('/[\'\"]([a-z]+)[\'\"]/i', $requiredRole, $matches))
-		{
-			trigger_error('Invalid parameter for requireRoleRule', E_USER_ERROR);
-		}
+		return false;
+	}
 
-		return in_array($matches[1], $this->getRoles());
+	function requireRoleRule($userId, $requiredRole)
+	{
+		return in_array($requiredRole, $this->getRoles());
 	}
 }

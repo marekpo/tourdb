@@ -145,6 +145,13 @@ class Tour extends AppModel
 		return $results;
 	}
 
+	function isTourGuideOfRule($userId, $tourId)
+	{
+		return $this->find('count', array(
+			'conditions' => array('Tour.id' => $tourId, 'Tour.tour_guide_id' => $userId)
+		)) > 0;
+	}
+
 	function searchTours($searchFilters = array(), $additionalConditions = array())
 	{
 		$searchConditions = array();
