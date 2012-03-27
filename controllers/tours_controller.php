@@ -55,7 +55,7 @@ class ToursController extends AppController
 	}
 
 	/**
-	 * @requireRole('tourleader')
+	 * @auth:requireRole(tourleader)
 	 */
 	function formGetAdjacentTours($startDate, $endDate)
 	{
@@ -84,7 +84,7 @@ class ToursController extends AppController
 	}
 
 	/**
-	 * @requireRole('tourleader')
+	 * @auth:requireRole(tourleader)
 	 */
 	function formGetTourCalendar($year, $month)
 	{
@@ -98,7 +98,8 @@ class ToursController extends AppController
 	}
 
 	/**
-	 * @Model.Tour.isTourGuideOf(#arg-0)
+	 * @auth:requireRole(tourchief)
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
 	 */
 	function edit($id)
 	{

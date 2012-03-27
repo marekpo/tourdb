@@ -193,7 +193,7 @@ class UsersController extends AppController
 	}
 
 	/**
-	 * @requireRole('systemadmin')
+	 * @auth:requireRole(systemadmin)
 	 */
 	function index()
 	{
@@ -203,7 +203,7 @@ class UsersController extends AppController
 	}
 
 	/**
-	 * @requireRole('systemadmin')
+	 * @auth:requireRole(systemadmin)
 	 */
 	function edit($id)
 	{

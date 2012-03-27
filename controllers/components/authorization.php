@@ -40,16 +40,14 @@ class AuthorizationComponent extends TourDBAuthorization
 	function isAuthorized()
 	{
 		$method = new ReflectionMethod($this->controller, $this->controller->action);
-
 		$comment = $method->getDocComment();
 
-		preg_match_all('/@([a-z\.]+)\(([^\)]+)\)/i', $comment, $ruleMatches);
-
-		$authorized = false;
+		preg_match_all('/@auth:([a-z\.]+)\(([^\)]+)\)/i', $comment, $ruleMatches);
 
 		for($i = 0; $i < count($ruleMatches[0]); $i++)
 		{
-			$ruleQualifier = explode('.', $ruleMatches[1][$i]);
+			$ruleName = $ruleMatches[1][$i];
+			$ruleQualifier = explode('.', $ruleName);
 			$rawArguments = preg_split('/\s*,\s*/', $ruleMatches[2][$i]);
 			$arguments = array($this->Auth->user('id') ? $this->Auth->user('id') : null);
 
@@ -60,7 +58,7 @@ class AuthorizationComponent extends TourDBAuthorization
 					if(!array_key_exists($argumentMatch[1], $this->controller->passedArgs))
 					{
 						trigger_error(sprintf('Missing argument "%s" for action "%s::%s" while validating rule "%s".',
-							$argumentMatch[1], $this->controller->name, $this->controller->action, $ruleMatches[1][$i]
+							$argumentMatch[1], $this->controller->name, $this->controller->action, $ruleName
 						), E_USER_ERROR);
 					}
 
@@ -68,7 +66,7 @@ class AuthorizationComponent extends TourDBAuthorization
 				}
 				else
 				{
-					$arguments[] = eval(sprintf('return %s;', $rawArgument));
+					$arguments[] = $rawArgument;
 				}
 			}
 
@@ -88,6 +86,13 @@ class AuthorizationComponent extends TourDBAuthorization
 
 			if(call_user_func_array($callback, $arguments))
 			{
+				if(Configure::read() > 0)
+				{
+					CakeLog::write('authorization', sprintf('Access on action "%s::%s" granted to user "%s" by authorization rule "%s".',
+						$this->controller->name, $this->controller->action, $this->Auth->user('username'), $ruleName						
+					));
+				}
+
 				return true;
 			}
 		}
