@@ -7,15 +7,10 @@ class ToursController extends AppController
 
 	var $helpers = array('Widget', 'Time', 'TourDisplay', 'Display', 'Csv', 'Excel');
 
-	function __construct()
-	{
-		parent::__construct();
-
-		$this->paginate = array(
-			'limit' => 20,
-			'order' => array('Tour.startdate' => 'ASC')
-		);
-	}
+	var $paginate = array(
+		'limit' => 20,
+		'order' => array('Tour.startdate' => 'ASC')
+	);
 
 	function beforeFilter()
 	{
@@ -24,6 +19,9 @@ class ToursController extends AppController
 		$this->Auth->allow('search', 'view');
 	}
 
+	/**
+	 * @auth:requireRole(tourleader)
+	 */
 	function add()
 	{
 		$whitelist = $this->Tour->getEditWhitelist();
@@ -172,6 +170,9 @@ class ToursController extends AppController
 		)));
 	}
 
+	/**
+	 * @auth:requireRole(tourleader)
+	 */
 	function listMine()
 	{
 		$tourIds = $this->Tour->searchTours($this->params['url'], array(
@@ -207,6 +208,9 @@ class ToursController extends AppController
 		)));
 	}
 
+	/**
+	 * @auth:requireRole(tourchief)
+	 */
 	function index()
 	{
 		if(!isset($this->params['url']['deadline']))
@@ -245,6 +249,9 @@ class ToursController extends AppController
 		)));
 	}
 
+	/**
+	 * @auth:requireRole(editor)
+	 */
 	function export()
 	{
 		if(!empty($this->data))
@@ -281,6 +288,9 @@ class ToursController extends AppController
 		}
 	}
 
+	/**
+	 * @auth:allowed()
+	 */
 	function search()
 	{
 		if(!isset($this->params['url']['deadline']))
@@ -321,6 +331,9 @@ class ToursController extends AppController
 		)));
 	}
 
+	/**
+	 * @auth:allowed()
+	 */
 	function view($id)
 	{
 		$tour = $this->Tour->find('first', array(
@@ -364,6 +377,9 @@ class ToursController extends AppController
 		$this->set(compact('tour', 'registrationOpen', 'currentUserAlreadySignedUp', 'tourParticipations'));
 	}
 
+	/**
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 */
 	function closeRegistration($id)
 	{
 		if(!empty($this->data))
@@ -385,6 +401,9 @@ class ToursController extends AppController
 		}
 	}
 
+	/**
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 */
 	function cancel($id)
 	{
 		$tour = $this->Tour->find('first', array(
@@ -434,6 +453,9 @@ class ToursController extends AppController
 		}
 	}
 
+	/**
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 */
 	function carriedOut($id)
 	{
 		$carriedOutStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::CARRIED_OUT));
@@ -444,6 +466,9 @@ class ToursController extends AppController
 		$this->redirect($this->referer(null, true));
 	}
 
+	/**
+	 * @auth:requireRole(user)
+	 */
 	function signUp($id)
 	{
 		if($this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id')))
@@ -545,6 +570,9 @@ class ToursController extends AppController
 		));
 	}
 
+	/**
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 */
 	function exportParticipantList($id)
 	{
 		if(!empty($this->data))

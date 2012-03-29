@@ -7,16 +7,14 @@ class TourParticipationsController extends AppController
 
 	var $components = array('RequestHandler', 'Email');
 
-	function __construct()
-	{
-		parent::__construct();
+	var $paginate = array(
+		'limit' => 20,
+		'order' => array('Tour.startdate' => 'ASC')
+	);
 
-		$this->paginate = array(
-			'limit' => 20,
-			'order' => array('Tour.startdate' => 'ASC')
-		);
-	}
-
+	/**
+	 * @auth:requireRole(user)
+	 */
 	function listMine()
 	{
 		$tourParticipationTourIds = $this->TourParticipation->find('all', array(
@@ -60,6 +58,9 @@ class TourParticipationsController extends AppController
 		)));
 	}
 
+	/**
+	 * @auth:Model.TourParticipation.isTourGuideOfRespectiveTour(#arg-0)
+	 */
 	function changeStatus($id)
 	{
 		if(!empty($this->data))
@@ -117,6 +118,9 @@ class TourParticipationsController extends AppController
 		));
 	}
 
+	/**
+	 * @auth:Model.TourParticipation.isTourGuideOfRespectiveTour(#arg-0)
+	 */
 	function cancelTourParticipation($id)
 	{
 		if(!empty($this->data))

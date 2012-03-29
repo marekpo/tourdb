@@ -5,6 +5,9 @@ class RolesController extends AppController
 
 	var $helpers = array('Widget', 'Js');
 
+	/**
+	 * @auth:requireRole(systemadmin)
+	 */
 	function index()
 	{
 		$this->set(array(
@@ -15,6 +18,9 @@ class RolesController extends AppController
 		));
 	}
 
+	/**
+	 * @auth:requireRole(systemadmin)
+	 */
 	function edit($id)
 	{
 		if(!empty($this->data))

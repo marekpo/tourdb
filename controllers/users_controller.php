@@ -9,15 +9,10 @@ class UsersController extends AppController
 
 	var $helpers = array('Widget', 'Display');
 
-	function __construct()
-	{
-		parent::__construct();
-
-		$this->paginate = array(
-			'limit' => 25,
-			'order' => array('User.username' => 'ASC')
-		);
-	}
+	var $paginate = array(
+		'limit' => 25,
+		'order' => array('User.username' => 'ASC')
+	);
 
 	function beforeFilter()
 	{
@@ -26,6 +21,9 @@ class UsersController extends AppController
 		$this->Auth->allow(array('createAccount', 'activateAccount', 'login', 'logout', 'requestNewPassword', 'acceptDataPrivacyStatement'));
 	}
 
+	/**
+	 * @auth:allowed()
+	 */
 	function createAccount()
 	{
 		if(!empty($this->data))
@@ -54,6 +52,9 @@ class UsersController extends AppController
 		}
 	}
 
+	/**
+	 * @auth:allowed()
+	 */
 	function activateAccount($username)
 	{
 		$id = $this->User->field('id', array('User.username' => $username));
@@ -86,6 +87,9 @@ class UsersController extends AppController
 		$this->set(compact('username'));
 	}
 
+	/**
+	 * @auth:allowed()
+	 */
 	function login()
 	{
 		if($this->Auth->user())
@@ -111,6 +115,9 @@ class UsersController extends AppController
 		}
 	}
 
+	/**
+	 * @auth:allowed()
+	 */
 	function logout()
 	{
 		$this->Authorization->endUserSession();
@@ -118,6 +125,9 @@ class UsersController extends AppController
 		$this->redirect($this->Auth->logout());
 	}
 
+	/**
+	 * @auth:allowed()
+	 */
 	function requestNewPassword($id = null, $newPasswordToken = null)
 	{
 		if(!empty($this->data))
@@ -176,6 +186,9 @@ class UsersController extends AppController
 		}
 	}
 
+	/**
+	 * @auth:allowed()
+	 */
 	function acceptDataPrivacyStatement()
 	{
 		if(!empty($this->data))
@@ -227,6 +240,9 @@ class UsersController extends AppController
 		));
 	}
 
+	/**
+	 * @auth:requireRole(user)
+	 */
 	function editAccount()
 	{
 		if(!empty($this->data))

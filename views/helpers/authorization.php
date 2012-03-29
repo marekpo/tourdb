@@ -6,16 +6,16 @@ if (!class_exists('TourDBAuthorization'))
 
 class AuthorizationHelper extends TourDBAuthorization
 {
-	var $helpers = array('Html');
+	var $helpers = array('Html', 'Session');
 
 	function link($title, $url = null, $options = array(), $confirmMessage = false)
 	{
-		$linkUrl = $this->Html->url($url !== null ? $url : $title);
-		$this->log(var_export(Router::parse($linkUrl), true));
-		
-		$beforeTime = microtime(true);
-		Router::parse($linkUrl);
-		$this->log(microtime(true) - $beforeTime);
+		$parsedRoute = Router::parse(Router::url($url !== null ? $url : $title));
+
+		if(!$this->checkRules($parsedRoute['controller'], $parsedRoute['action'], Set::merge($parsedRoute['named'], $parsedRoute['pass']), $this->read('Auth.User.id')))
+		{
+			return false;
+		}
 
 		return $this->Html->link($title, $url, $options, $confirmMessage);
 	}

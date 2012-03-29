@@ -5,6 +5,9 @@ class ProfilesController extends AppController
 
 	var $helpers = array('Html', 'Form', 'Display', 'Widget');
 
+	/**
+	 * @auth:requireRole(user)
+	 */
 	function edit()
 	{
 		if(!empty($this->data))
@@ -22,8 +25,6 @@ class ProfilesController extends AppController
 				$this->Session->setFlash(__('Dein Profil wurde gespeichert.', true));
 				$this->redirect(array('action' => 'edit'));
 			}
-
-			$this->log(var_export($this->Profile->validationErrors, true));
 
 			unset($this->data['Profile']['id']);
 
@@ -60,6 +61,9 @@ class ProfilesController extends AppController
 		));
 	}
 
+	/**
+	 * @auth:requireRole(tourleader)
+	 */
 	function view($userId)
 	{
 		$profile = $this->Profile->find('first', array(
