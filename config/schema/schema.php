@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2012-03-04 14:22:11 : 1330867331*/
+/* Tourdb schema generated on: 2012-04-14 16:35:57 : 1334414157*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
@@ -87,21 +87,6 @@ class TourdbSchema extends CakeSchema {
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
-	var $privileges = array(
-		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'key' => array('type' => 'string', 'null' => true, 'default' => NULL, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'label' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 64, 'key' => 'unique', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'key_UNIQUE' => array('column' => 'key', 'unique' => 1), 'label_UNIQUE' => array('column' => 'label', 'unique' => 1)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-	);
-	var $privileges_roles = array(
-		'privilege_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'role_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'indexes' => array('privilege_id' => array('column' => 'privilege_id', 'unique' => 0), 'role_id' => array('column' => 'role_id', 'unique' => 0)),
-		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
-	);
 	var $profiles = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'user_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -122,6 +107,12 @@ class TourdbSchema extends CakeSchema {
 		'emergencycontact2_address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'emergencycontact2_phone' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 24, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'emergencycontact2_email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'sac_member' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+		'sac_membership_number' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'sac_main_section_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'sac_additional_section1_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'sac_additional_section2_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'sac_additional_section3_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'experience_rope_guide' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 1),
 		'experience_knot_technique' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 1),
 		'experience_rope_handling' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 1),
@@ -161,6 +152,14 @@ class TourdbSchema extends CakeSchema {
 		'role_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'user_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'indexes' => array('role_id' => array('column' => 'role_id', 'unique' => 0), 'user_id' => array('column' => 'user_id', 'unique' => 0)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+	var $sac_sections = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $tour_participation_statuses = array(

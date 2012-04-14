@@ -8,5 +8,3 @@ if(!$this->Session->check('Auth.User'))
 {
 	echo $this->Html->para('', 'Um weiterzumachen logge dich bitte ein.');
 }
-
-echo $this->Authorization->link(array('controller' => 'tours', 'action' => 'add', 'test', 'test' => 'asdf'));

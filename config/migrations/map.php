@@ -50,5 +50,7 @@ $map = array(
 		'024_add_privilege_for_profile_view' => 'M4f46b0b152f849828be606401b2c2a9b'),
 	25 => array(
 		'025_add_changes_for_sac_member_info' => 'M4f536cf2c49c4f4eb2ab06241b2c2a9b'),
+	26 => array(
+		'026_remove_privilege_related_tables' => 'M4f8986f10278421a883617581b2c2a9b'),
 );
 ?>

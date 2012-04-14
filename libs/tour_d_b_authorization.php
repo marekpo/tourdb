@@ -1,6 +1,34 @@
 <?php
+/**
+ * This class provides some basic functionality for the authorization system.
+ * It inherits CakeSession so that it can easily access session values.
+ * 
+ * @author Michael
+ */
 class TourDBAuthorization extends CakeSession
 {
+	/**
+	 * This method checks the authorization requirements for the denoted
+	 * controller action and request arguments against the currently logged in
+	 * user account.
+	 * 
+	 * @param Controller|string	$controller
+	 * 			Either a Controller object or the name of a controller
+	 * 			(underscored).
+	 * @param string $action
+	 * 			The name of a controller action.
+	 * @param array $requestArguments
+	 * 			All request arguments (passed and named). May be empty, defaults
+	 * 			to an empty array.
+	 * @param string $userId
+	 * 			The id of the currently logged in user account. May be null,
+	 * 			defaults to null.
+	 * 
+	 * @return boolean
+	 * 			Returns true, if the checks passed and the currently logged in
+	 * 			user account has access to the denoted controller action, false
+	 * 			otherwise.
+	 */
 	function checkRules($controller, $action, $requestArguments = array(), $userId = null)
 	{
 		if(is_object($controller) && is_a($controller, 'Controller'))
@@ -76,6 +104,32 @@ class TourDBAuthorization extends CakeSession
 		return false;
 	}
 
+	/**
+	 * This method parses the authorization rules from the denoted controller
+	 * action and returns the result.
+	 * 
+	 * @param string $controllerClassName
+	 * 			The class name of the respective controller.
+	 * @param string $action
+	 * 			The name of the respective controller action.
+	 * @param array $requestArguments
+	 * 			The request arguments (named and passed).
+	 * @return array
+	 * 			Returns a multidimensional array containing information about
+	 * 			all the autorization rules that are specified for the denoted
+	 * 			controller action. The array has the following format:
+	 * 
+	 * 			array(
+	 * 				0 => array(
+	 * 					'rulename' => '<fully qualified rulename>',
+	 * 					'arguments' => array('<ruleargument 1>', '<ruleargument 2>')
+	 * 				),
+	 * 				1 => array(
+	 * 					...
+	 * 				),
+	 * 				...
+	 * 			)
+	 */
 	function getAuthRules($controllerClassName, $action, $requestArguments)
 	{
 		if(!class_exists($controllerClassName))
@@ -128,35 +182,38 @@ class TourDBAuthorization extends CakeSession
 		return $authRules;
 	}
 
+	/**
+	 * This authorization rule handler method always returns true.
+	 * 
+	 * @param string $userId
+	 * 			The id of the currently logged in user account.
+	 * @return boolean
+	 * 			Returns true.
+	 */
 	function allowedRule($userId)
 	{
 		return true;
 	}
 
+	/**
+	 * This authorization rule handler method checks whether the currenlty
+	 * logged in user account is associated with some required role.
+	 * 
+	 * @param string $userId
+	 * 			The id of the currently logged in user account.
+	 * @param string $requiredRole
+	 * 			The key of the required role.
+	 * @return boolean
+	 * 			Returns true, if the currently logged in user account is
+	 * 			associated with the denoted role, false otherwise.
+	 */
 	function requireRoleRule($userId, $requiredRole)
 	{
-		return in_array($requiredRole, $this->getRoles());
+		return in_array($requiredRole, $this->getRoleKeys());
 	}
 
-	function getRoles()
+	function getRoleKeys()
 	{
 		return Set::extract('/Role/key', $this->read('Auth.Roles'));
-	}
-
-	function hasRole($requiredRoles = array())
-	{
-		if(!$this->check('Auth.User'))
-		{
-			return false;
-		}
-
-		if(!is_array($requiredRoles))
-		{
-			$requiredRoles = array($requiredRoles);
-		}
-
-		$roles = $this->read('Auth.Roles');
-
-		return count(Set::extract(sprintf('/Role[key=/%s/]', implode('|', $requiredRoles)), $roles)) > 0;
 	}
 }

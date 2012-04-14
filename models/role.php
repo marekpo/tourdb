@@ -12,6 +12,4 @@ class Role extends AppModel
 	var $name = 'Role';
 
 	var $displayField = 'rolename';
-
-	var $hasAndBelongsToMany = array('User', 'Privilege');
 }

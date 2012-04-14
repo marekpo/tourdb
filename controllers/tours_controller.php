@@ -102,7 +102,7 @@ class ToursController extends AppController
 	function edit($id)
 	{
 		$whitelist = $this->Tour->getEditWhitelist($id);
-		$newStatusOptions = $this->Tour->getNewStatusOptions($this->Authorization->getRoles());
+		$newStatusOptions = $this->Tour->getNewStatusOptions($this->Authorization->getRoleKeys());
 
 		if(!empty($this->data))
 		{
