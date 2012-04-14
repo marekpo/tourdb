@@ -1,7 +1,7 @@
 <?php
 class MenuHelper extends AppHelper
 {
-	var $helpers = array('Html', 'Session');
+	var $helpers = array('Html', 'Session', 'Authorization');
 
 	function renderMenu()
 	{
@@ -11,35 +11,31 @@ class MenuHelper extends AppHelper
 			'order' => array('rank' => 'ASC')
 		));
 
-		$privileges = $this->Session->read('Auth.Privileges');
+		$loggedIn = $this->Session->check('Auth.User');
 
 		$menuEntries = array();
 		$insertSeparator = false;
 
 		foreach($allMenuEntries as $menuEntry)
 		{
-			$allowedAction = false;
+			$menuLink = false;
 
 			if(!$menuEntry['Menu']['protected'] || $menuEntry['Menu']['separator'])
 			{
-				$allowedAction = true;
+				$menuLink = $this->Html->link($menuEntry['Menu']['caption'], array(
+					'controller' => $menuEntry['Menu']['controller'],
+					'action' => $menuEntry['Menu']['action']
+				));
 			}
-			elseif($menuEntry['Menu']['protected'] && !empty($privileges))
+			elseif($menuEntry['Menu']['protected'] && $loggedIn)
 			{
-				foreach($privileges as $privilege)
-				{
-					list($privilegeController, $privilegeAction) = explode(':', $privilege['Privilege']['key']);
-		
-					if($privilegeController == $menuEntry['Menu']['controller']
-						&& ($privilegeAction == $menuEntry['Menu']['action'] || $privilegeAction == '*'))
-					{
-						$allowedAction = true;
-						break;
-					}
-				}
+				$menuLink = $this->Authorization->link($menuEntry['Menu']['caption'], array(
+					'controller' => $menuEntry['Menu']['controller'],
+					'action' => $menuEntry['Menu']['action']
+				));
 			}
 
-			if($allowedAction)
+			if($menuLink)
 			{
 				if($menuEntry['Menu']['separator'])
 				{
@@ -53,12 +49,7 @@ class MenuHelper extends AppHelper
 						$menuEntries[] = $this->Html->tag('li', $this->Html->tag('hr', ''));
 					}
 
-					$menuEntries[] = $this->Html->tag('li', $this->Html->link(
-						$menuEntry['Menu']['caption'], array(
-							'controller' => $menuEntry['Menu']['controller'],
-							'action' => $menuEntry['Menu']['action']
-						)
-					));
+					$menuEntries[] = $this->Html->tag('li', $menuLink);
 				}
 			}
 		}
