@@ -34,8 +34,8 @@ $this->Js->buffer("$('#ProfileFreeseatsinpassengercar').parent().css('visibility
 <?php
 echo $this->Form->input('Profile.ownsinglerope', array(
 	'label' => __('Eigenes Einfachseil vorhanden', true), 'after' => $this->Form->input('Profile.lengthsinglerope', array(
-		'label' => __('Länge Einfachseil', true), 'error' => array(
-			'correctFormat' => __('Bitte gib hier eine ganze Zahl ein.', true)
+		'label' => __('Länge in Meter', true), 'error' => array(
+			'correctFormat' => __('Bitte gib hier die Länge in Meter ein. Beispiel: 40', true)
 		)
 	))
 ));
@@ -43,8 +43,8 @@ $this->Js->buffer("$('#ProfileOwnsinglerope').click(function(event) { $(event.ta
 $this->Js->buffer("$('#ProfileLengthsinglerope').parent().css('visibility', ($('#ProfileOwnsinglerope').prop('checked') ? 'visible' : 'hidden'));");
 echo $this->Form->input('Profile.ownhalfrope', array(
 	'label' => __('Eigenes Halbseilpaar vorhanden', true), 'after' => $this->Form->input('Profile.lengthhalfrope', array(
-		'label' => __('Länge Halbseilpaar', true), 'error' => array(
-			'correctFormat' => __('Bitte gib hier eine ganze Zahl ein.', true)
+		'label' => __('Länge in Meter', true), 'error' => array(
+			'correctFormat' => __('Bitte gib hier die Länge in Meter ein. Beispiel: 60', true)
 		)
 	))
 ));

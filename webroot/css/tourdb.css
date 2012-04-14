@@ -18,23 +18,22 @@ a:HOVER		{ text-decoration: underline; }
 a img		{ vertical-align: middle; border: 0; }
 
 #page		{  }
-#container	{ width: 1000px; margin: 0 auto; }
+#container	{ width: 1010px; margin: 0 auto; }
 
-#header				{ height: 80px; }
-#header .sitelogo	{ margin-left: 60px; }
-#header .saclogo	{ float: right; }
+#header		{ height: 80px; text-align: right; }
 
-#topnav		{ position: relative; overflow: hidden; clear: right; }
+#topnav		{ text-align: right; margin-right: 10px; }
 
-#login_box				{ float: right; margin-bottom: 5px; }
+#login_box				{ margin-bottom: 5px; }
 #login_box .username	{ font-weight: bold; }
 
 #breadcrumbs	{ margin: 10px 0; font-weight: bold; }
 #breadcrumbs a	{ color: #04376c; }
-#leftnav		{ width: 200px; float: left; }
-#contentheader	{ margin-left: 200px; border: 1px solid #689cd3; background: #689cd3; }
-#content		{ width: 800px; border: solid #dddddd; border-width: 0 0 1px; float: left; margin-bottom: 5px; padding: 10px 0 10px; min-height: 400px; }
-#footer			{ clear: left; margin-left: 200px; font-size: 8pt; }
+#navheader		{ float: left; width: 200px; text-align: right; }
+#contentheader	{ float: left; width: 800px; border: 1px solid #689cd3; margin-bottom: 5px; background: #689cd3; moz-border-radius:5px; /* Firefox */ webkit-border-radius:5px; /* Safari, Chrome */ border-radius:5px; /* CSS3 */ }
+#leftnav		{ float: left; width: 200px; clear: left; }
+#content		{ width: 800px; border: solid #dddddd; border-width: 1px; float: left; margin-bottom: 5px; padding: 10px 0 10px; min-height: 400px; moz-border-radius:5px; /* Firefox */ webkit-border-radius:5px; /* Safari, Chrome */ border-radius:5px; /* CSS3 */ }
+#footer			{ clear: left; margin-left: 200px; margin-right: 10px; font-size: 8pt; }
 
 #footer .globallinks	{ float: right; }
 #footer .globallinks a	{ margin-left: 10px; }

@@ -385,9 +385,9 @@ class ToursController extends AppController
 		if(!empty($this->data))
 		{
 			$registrationClosedStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::REGISTRATION_CLOSED));
-	
+
 			$this->__changeTourStatus($id, $registrationClosedStatusId);
-	
+
 			$this->Session->setFlash(__('Die Anmeldung für diese Tour wurde geschlossen.', true));
 			$this->redirect(array('action' => 'view', $id));
 		}
@@ -440,7 +440,7 @@ class ToursController extends AppController
 					'tourParticipation' => $tourParticipation,
 					'message' => $this->data['Tour']['message']
 				));
-	
+
 				$this->_sendEmail($tourParticipation['User']['email'], sprintf(__('Die Tour "%s" wurde abgesagt', true), $tour['Tour']['title']), 'tours/cancel_tour_participant');
 			}
 
@@ -514,7 +514,7 @@ class ToursController extends AppController
 						'conditions' => array('User.id' => $this->Auth->user('id')),
 						'contain' => array(
 							'Profile', 'Profile.Country', 'Profile.LeadClimbNiveau', 'Profile.SecondClimbNiveau',
-							'Profile.AlpineTourNiveau', 'Profile.SkiTourNiveau'
+							'Profile.AlpineTourNiveau', 'Profile.SkiTourNiveau', 'Profile.SacMainSection', 'Profile.SacAdditionalSection1'
 						)
 					));
 
@@ -579,7 +579,11 @@ class ToursController extends AppController
 		{
 			$tour = $this->Tour->find('first', array(
 				'conditions' => array('Tour.id' => $id),
-				'contain' => array('TourGuide', 'TourGuide.Profile')
+				'contain' => array(
+					'TourGuide', 'TourGuide.Profile', 'TourGuide.Profile.SacMainSection',
+					'TourGuide.Profile.LeadClimbNiveau', 'TourGuide.Profile.SecondClimbNiveau',
+					'TourGuide.Profile.AlpineTourNiveau', 'TourGuide.Profile.SkiTourNiveau'
+				)
 			));
 
 			$conditions = $this->data['Tour']['exportAffirmedParticipantsOnly'] ? array('TourParticipationStatus.key' => 'affirmed') : array();
@@ -588,7 +592,8 @@ class ToursController extends AppController
 				'conditions' => array_merge(array('TourParticipation.tour_id' => $id), $conditions),
 				'contain' => array(
 					'User', 'User.Profile', 'User.Profile.LeadClimbNiveau', 'User.Profile.SecondClimbNiveau',
-					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau', 'TourParticipationStatus'
+					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau', 'User.Profile.SacMainSection',
+					'TourParticipationStatus'
 				)
 			));
 
@@ -615,13 +620,13 @@ class ToursController extends AppController
 			'conditions' => array('Tour.id' => $id),
 			'contain' => array()
 		));
-		
+
 		if(empty($tour))
 		{
 			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
 			$this->redirect('/');
 		}
-		
+
 		if($tour['Tour']['tour_guide_id'] != $this->Auth->user('id'))
 		{
 			$this->Session->setFlash(__('Nur der Tourleiter darf diese Aktion durchführen.', true));
