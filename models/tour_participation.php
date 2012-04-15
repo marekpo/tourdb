@@ -68,4 +68,15 @@ class TourParticipation extends AppModel
 
 		return false;
 	}
+
+	function isTourGuideOfRespectiveTourRule($userId, $tourParticipationId)
+	{
+		return $this->find('count', array(
+			'conditions' => array(
+				'TourParticipation.id' => $tourParticipationId,
+				'Tour.tour_guide_id' => $userId
+			),
+			'contain' => 'Tour'
+		)) > 0;
+	}
 }
