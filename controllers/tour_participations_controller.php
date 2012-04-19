@@ -119,7 +119,7 @@ class TourParticipationsController extends AppController
 	}
 
 	/**
-	 * @auth:Model.TourParticipation.isTourGuideOfRespectiveTour(#arg-0)
+	 * @auth:Model.TourParticipation.isParticipant(#arg-0)
 	 */
 	function cancelTourParticipation($id)
 	{
