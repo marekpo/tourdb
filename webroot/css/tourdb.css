@@ -115,6 +115,10 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 .popup table td		{ white-space: nowrap; }
 .popup table .label	{ font-weight: bold; text-align: right; }
 
+/* actions */
+a.iconaction			{ width: 16px; height: 16px; display: block; float: left; margin-right: 4px; background: center center no-repeat; }
+a.iconaction.delete		{ background-image: url(../img/bin_closed.png); }
+
 /* forms */
 .input				{ clear: left; margin-bottom: 15px; }
 .input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label, .input.radio label:FIRST-CHILD

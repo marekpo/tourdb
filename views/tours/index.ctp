@@ -17,12 +17,20 @@ if(count($tours))
 		$this->Paginator->sort(__('BGF', true), 'Tour.withmountainguide', array('title' => __('mit Bergführer durchgeführte/r Tour/Kurs', true))),
 		__('Code', true),
 		$this->Paginator->sort(__('Tourenleiter', true), 'TourGuide.username'),
+		''
 	);
 
 	$tableCells = array();
 	
 	foreach($tours as $tour)
 	{
+		$deleteLink = $tour['TourStatus']['key'] == TourStatus::NEW_
+			? $this->Authorization->link('', array('controller' => 'tours', 'action' => 'delete', $tour['Tour']['id']), array(
+					'class' => 'iconaction delete',
+					'id' => sprintf('delete-%s', $tour['Tour']['id'])
+				))
+			: '';
+
 		$tableCells[] = array(
 			array(
 				$tour['TourStatus']['statusname'],
@@ -56,8 +64,14 @@ if(count($tours))
 			array(
 				$this->TourDisplay->getTourGuide($tour),
 				array('class' => 'tourguide')
+			),
+			array(
+				$deleteLink,
+				array('class' => 'actions')
 			)
 		);
+
+		$this->Js->buffer(sprintf("$('#%1\$s').click({ id: '%1\$s', title: '%2\$s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $tour['Tour']['id']), __('Tour löschen', true)));
 	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);

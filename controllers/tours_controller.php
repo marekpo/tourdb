@@ -159,15 +159,43 @@ class ToursController extends AppController
 			$this->data['Tour']['deadline'] = date('d.m.Y', strtotime($this->data['Tour']['deadline']));
 		}
 
-		if(!$this->Session->check('referer.tours.edit'))
-		{
-			$this->Session->write('referer.tours.edit', $this->referer(null, true));
-		}
+		$this->Session->write('referer.tours.edit', $this->referer(null, true));
 
 		$this->set(compact('whitelist', 'newStatusOptions'));
 		$this->set($this->Tour->getWidgetData(array(
 			Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
 		)));
+	}
+
+	/**
+	 * @auth:requireRole(tourchief)
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 */
+	function delete($id)
+	{
+		if(!empty($this->data) && $this->data['Tour']['confirm'])
+		{
+			if(!$this->Tour->delete($id))
+			{
+				$this->Session->setFlash(__('Die Tour konnte nicht gelöscht werden.', true));
+			}
+
+			if($this->Session->check('referer.tours.delete'))
+			{
+				$redirect = $this->Session->read('referer.tours.delete');
+				$this->Session->delete('referer.tours.delete');
+				$this->redirect($redirect);
+			}
+
+			$this->redirect(array('action' => 'index'));
+		}
+
+		$this->Session->write('referer.tours.delete', $this->referer(null, true));
+
+		$this->data = $this->Tour->find('first', array(
+			'conditions' => array('Tour.id' => $id),
+			'contain' => array('TourGuide', 'TourGuide.Profile')
+		));
 	}
 
 	/**

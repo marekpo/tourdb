@@ -123,6 +123,17 @@ class Tour extends AppModel
 		return true;
 	}
 
+	function beforeDelete($cascade = true)
+	{
+		return $this->find('count', array(
+			'conditions' => array(
+				'Tour.id' => $this->id,
+				'TourStatus.key' => TourStatus::NEW_
+			),
+			'contain' => array('TourStatus')
+		)) == 1;
+	}
+
 	function afterFind($results, $primary = false)
 	{
 		if($primary)

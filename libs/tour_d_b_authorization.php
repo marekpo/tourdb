@@ -46,8 +46,6 @@ class TourDBAuthorization extends CakeSession
 
 		$authRules = $this->getAuthRules($controllerClassName, $action, $requestArguments);
 
-		$this->log(sprintf('%s::%s: %s', $controllerName, $action, var_export($authRules, true)));
-
 		foreach($authRules as $authRule)
 		{
 			$ruleQualifier = explode('.', $authRule['ruleName']);
