@@ -28,7 +28,8 @@ if(count($tours))
 		$deleteLink = $tour['TourStatus']['key'] == TourStatus::NEW_
 			? $this->Authorization->link('', array('controller' => 'tours', 'action' => 'delete', $tour['Tour']['id']), array(
 					'class' => 'iconaction delete',
-					'id' => sprintf('delete-%s', $tour['Tour']['id'])
+					'id' => sprintf('delete-%s', $tour['Tour']['id']),
+					'title' => __('Tour löschen', true)
 				))
 			: '';
 
