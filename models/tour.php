@@ -69,6 +69,10 @@ class Tour extends AppModel
 	var $hasMany = array(
 		'TourParticipation'
 	);
+	
+	var $hasOne = array(
+			'TourGuideReport'
+	);
 
 	var $hasAndBelongsToMany = array(
 		'TourType',
@@ -334,6 +338,18 @@ class Tour extends AppModel
 		return $newStatusOptions;
 	}
 
+	function getReportStatusOptions()
+	{
+	
+		$ReportStatusOptions = array();
+	
+		$ReportStatusOptions[TourStatus::CARRIED_OUT] = __('durchgeführt', true);
+		$ReportStatusOptions[TourStatus::NOT_CARRIED_OUT] = __('NICHT durchgeführt', true);
+	
+		return $ReportStatusOptions;
+	}
+	
+	
 	function isRegistrationOpen($id = null)
 	{
 		if(empty($this->data) || $id != null)
@@ -398,7 +414,7 @@ class Tour extends AppModel
 		return array(
 			'tourStatuses' => $this->TourStatus->find('list', array(
 				'conditions' => array('TourStatus.key' => array(
-					TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT)
+					TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)
 				),
 				'order' => array('TourStatus.rank' => 'ASC')
 			))

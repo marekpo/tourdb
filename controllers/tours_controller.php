@@ -327,7 +327,7 @@ class ToursController extends AppController
 		}
 
 		$tourIds = $this->Tour->searchTours($this->params['url'], array(
-			'TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT)
+			'TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)
 		));
 
 		$this->paginate = array_merge($this->paginate, array(
@@ -487,13 +487,13 @@ class ToursController extends AppController
 	function carriedOut($id)
 	{
 		$carriedOutStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::CARRIED_OUT));
-
+		
 		$this->__changeTourStatus($id, $carriedOutStatusId);
 
 		$this->Session->setFlash(__('Die Tour wurde als durchgeführt markiert.', true));
 		$this->redirect($this->referer(null, true));
 	}
-
+	
 	/**
 	 * @auth:requireRole(user)
 	 */
