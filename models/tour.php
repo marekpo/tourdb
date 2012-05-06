@@ -71,7 +71,7 @@ class Tour extends AppModel
 	);
 	
 	var $hasOne = array(
-			'TourGuideReport'
+		'TourGuideReport'
 	);
 
 	var $hasAndBelongsToMany = array(

@@ -62,7 +62,7 @@ class User extends AppModel
 		)
 	);
 
-	var $hasOne = array('Profile', 'TourGuideReport');
+	var $hasOne = array('Profile');
 
 	var $hasMany = array('Tour', 'TourParticipation');
 

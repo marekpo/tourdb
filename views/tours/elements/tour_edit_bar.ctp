@@ -19,7 +19,12 @@ if($tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
 
 	if( time() > strtotime($tour['Tour']['enddate']))
 	{
-		$actions[] = $this->Html->link(__('Tourenrapport', true), array('action' => 'tourGuideReport', $tour['Tour']['id']), array('class' => 'action tourguidereport'));
+		$actions[] = $this->Html->link(__('Tourenrapport erstellen', true), array('controller' => 'TourGuideReports', 'action' => 'edit', $tour['Tour']['id']), array('class' => 'action edit'));
+	}
+	
+	if( !empty($tour['Tour']['TourGuideReport']['id'])) 
+	{
+		$actions[] = $this->Html->link(__('Tourenrapport exportieren', true), array('controller' => 'TourGuideReports', 'action' => 'export', $tour['Tour']['id']), array('class' => 'action export'));
 	}
 	
 	
