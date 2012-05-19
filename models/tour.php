@@ -27,11 +27,6 @@ class Tour extends AppModel
 				'rule' => array('multiple', array('min' => 1, 'max' => 2))
 			)
 		),
-		'ConditionalRequisite' => array(
-			'rightQuanitity' => array(
-				'rule' => array('multiple', array('min' => 1, 'max' => 2))
-			)
-		),
 		'Difficulty' => array(
 			'atMostTwo' => array(
 				'rule' => array('multiple', array('min' => 1, 'max' => 2)),
@@ -79,6 +74,31 @@ class Tour extends AppModel
 			'order' => array('group' => 'ASC', 'rank' => 'ASC')
 		)
 	);
+
+	function beforeValidate($options = array())
+	{
+		if(isset($this->data['Tour']['TourType']) && !empty($this->data['Tour']['TourType']))
+		{
+			$isNotCourse = $this->TourType->find('count', array(
+				'conditions' => array(
+					'TourType.id' => $this->data['Tour']['TourType'],
+					'TourType.key' => TourType::COURSE
+				),
+				'contain' => array()
+			)) == 0;
+
+			if($isNotCourse)
+			{
+				$this->validate['ConditionalRequisite'] = array(
+					'rightQuanitity' => array(
+							'rule' => array('multiple', array('min' => 1, 'max' => 2))
+					)
+				);
+			}
+		}
+
+		return true;
+	}
 
 	function beforeSave($options = array())
 	{
