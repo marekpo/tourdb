@@ -207,6 +207,21 @@ class TourDBAuthorization extends CakeSession
 	 */
 	function requireRoleRule($userId, $requiredRole)
 	{
+		return $this->hasRole($requiredRole);
+	}
+
+	/**
+	 * This method checks, whether the currently logged in user is associated
+	 * with the denoted required role.
+	 *
+	 * @param string $requiredRole
+	 * 			The key of the required role.
+	 * @return boolean
+	 * 			Returns true, if the currently logged in user account is
+	 * 			associated with the denoted role, false otherwise.
+	 */
+	function hasRole($requiredRole)
+	{
 		return in_array($requiredRole, $this->getRoleKeys());
 	}
 

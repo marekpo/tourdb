@@ -143,7 +143,8 @@ if($tourParticipations)
 			$tourParticipation['TourParticipationStatus']['statusname']
 		);
 
-		if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT)))
+		if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT))
+				&& $tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
 		{
 			$row[] = $this->Html->link(__('Status ändern', true), array(
 				'controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']
