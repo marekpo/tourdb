@@ -109,9 +109,21 @@ class WidgetHelper extends AppHelper
 		return $this->Form->input($name, $options);
 	}
 
+	function includeCalendarScripts()
+	{
+		$this->Html->script('widgets/adjacenttours', array('inline' => false));
+		$this->Html->script('widgets/calendar', array('inline' => false));
+	}
+
 	function calendar($events, $options = array())
 	{
-		$options = array_merge(array('month' => date('m'), 'year' => date('Y')), $options);
+		$options = array_merge(array(
+			'month' => date('m'),
+			'year' => date('Y'),
+			'ajax' => true,
+			'viewlinks' => false
+		), $options);
+
 		$calendar = array();
 
 		$appointments = $this->__buildAppointmentTree($events);
@@ -169,7 +181,7 @@ class WidgetHelper extends AppHelper
 
 						foreach($slotContent as $appointment)
 						{
-							$slotAppointments[] = $this->__renderAppointment($appointment);
+							$slotAppointments[] = $this->__renderAppointment($appointment, $options);
 						}
 
 						$slots[] = $this->Html->div(sprintf('slot slot%d', $slot), implode("\n", $slotAppointments));
@@ -185,7 +197,7 @@ class WidgetHelper extends AppHelper
 
 		$calendarId = 'calendar' . String::uuid();
 
-		$calendar[] = $this->Html->scriptBlock(sprintf('$(\'#%s\').calendar();', $calendarId));
+		$calendar[] = $this->Html->scriptBlock(sprintf("$('#%s').calendar({'ajax': %s});", $calendarId, $options['ajax'] ? 'true' : 'false'));
 
 		return $this->Html->div('calendar', implode("\n", $calendar), array('id' => $calendarId));
 	}
@@ -321,19 +333,30 @@ class WidgetHelper extends AppHelper
 		return array_shift(array_keys($data));
 	}
 
-	function __renderAppointment($appointment)
+	function __renderAppointment($appointment, $options)
 	{
 		$appointmentModel = $this->__getAppointmentModel($appointment['event']);
 
+		$titleRenderFunction = sprintf('__render%sTitle', $appointmentModel);
 		$popupRenderFunction = sprintf('__render%sPopup', $appointmentModel);
 
 		return $this->Html->div(sprintf('appointment appointment%s offset%d width%d', $appointment['id'], $appointment['offset'], $appointment['length']),
-			$this->Html->div('popup', $this->{$popupRenderFunction}($appointment))
-			. $this->Html->div('label', $appointment['title'])
+			$this->Html->div('popup', $this->{$popupRenderFunction}($appointment, $options))
+			. $this->Html->div('label', $this->{$titleRenderFunction}($appointment, $options))
 		);
 	}
 
-	function __renderTourPopup($appointment)
+	function __renderTourTitle($appointment, $options)
+	{
+		if($options['viewlinks'])
+		{
+			return $this->Html->link($appointment['title'], array('controller' => 'tours', 'action' => 'view', $appointment['id']));
+		}
+
+		return $appointment['title'];
+	}
+
+	function __renderTourPopup($appointment, $options)
 	{
 		$rows = array(
 			array(

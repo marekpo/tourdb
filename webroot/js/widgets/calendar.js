@@ -1,14 +1,25 @@
 (function($) {
 	var methods = {
 		init: function(options) {
+
+			if(options == undefined) {
+				options = {};
+			}
+
+			options.ajax = options.ajax == undefined ? true : options.ajax;
+
+			console.log(options);
+
 			return this.each(function(index, calendarElement) {
 	
 				var $this = $(this);
 
-				$this.find('.title .previous a, .title .next a').click(function() {
-					$(calendarElement).parent().load(this.href);
-					return false;
-				});
+				if(options.ajax) {
+					$this.find('.title .previous a, .title .next a').click(function() {
+						$(calendarElement).parent().load(this.href);
+						return false;
+					});
+				}
 
 				$this.find('.slotcontainer').css({overflow: 'hidden'}).each(function() {
 					var slotContainer = $(this);

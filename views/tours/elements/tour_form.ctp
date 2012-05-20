@@ -175,8 +175,7 @@ if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist) &
 $saveButtonText = empty($whitelist) ? __('Zurück', true) : __('Speichern', true);
 echo $this->Form->end($saveButtonText);
 
-$this->Html->script('widgets/adjacenttours', array('inline' => false));
-$this->Html->script('widgets/calendar', array('inline' => false));
+$this->Widget->includeCalendarScripts();
 $this->Js->buffer(sprintf("$('#tourtypes input[type=checkbox]').click(TourDB.Tours.Form.switchDifficulty); TourDB.Tours.Form.switchDifficulty();"));
 $this->Js->buffer(sprintf("$('#adjacent-tours').adjacentTours({startDate: $('#TourStartdate'), endDate: $('#TourEnddate'), url: '%s'});", $this->Html->url(array('action' => 'formGetAdjacentTours'), true)));
 $this->Js->buffer(sprintf("$('#openTourCalendar').click({ title: '%s' }, TourDB.Tours.Form.openTourCalendar);", __('Tourenkalender', true)));

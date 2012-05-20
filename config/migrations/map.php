@@ -52,5 +52,7 @@ $map = array(
 		'025_add_changes_for_sac_member_info' => 'M4f536cf2c49c4f4eb2ab06241b2c2a9b'),
 	26 => array(
 		'026_remove_privilege_related_tables' => 'M4f8986f10278421a883617581b2c2a9b'),
+	27 => array(
+		'029_add_menu_entry_for_tour_calendar' => 'M4fb78e7e184843f7b9da0d9c1b2c2a9b'),
 );
 ?>
