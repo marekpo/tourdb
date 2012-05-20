@@ -27,6 +27,11 @@ class Tour extends AppModel
 				'rule' => array('multiple', array('min' => 1, 'max' => 2))
 			)
 		),
+		'ConditionalRequisite' => array(
+			'rightQuanitity' => array(
+				'rule' => array('multiple', array('min' => 1, 'max' => 2))
+			)
+		),
 		'Difficulty' => array(
 			'atMostTwo' => array(
 				'rule' => array('multiple', array('min' => 1, 'max' => 2)),
@@ -79,21 +84,17 @@ class Tour extends AppModel
 	{
 		if(isset($this->data['Tour']['TourType']) && !empty($this->data['Tour']['TourType']))
 		{
-			$isNotCourse = $this->TourType->find('count', array(
+			$isCourse = $this->TourType->find('count', array(
 				'conditions' => array(
 					'TourType.id' => $this->data['Tour']['TourType'],
 					'TourType.key' => TourType::COURSE
 				),
 				'contain' => array()
-			)) == 0;
+			)) > 0;
 
-			if($isNotCourse)
+			if($isCourse)
 			{
-				$this->validate['ConditionalRequisite'] = array(
-					'rightQuanitity' => array(
-							'rule' => array('multiple', array('min' => 1, 'max' => 2))
-					)
-				);
+				unset($this->validate['ConditionalRequisite']);
 			}
 		}
 
