@@ -7,6 +7,9 @@ if(!empty($this->data['Tour']['id']))
 	echo $this->Form->hidden('id');
 }
 
+echo $this->Form->input('tour_group_id', array(
+	'label' => __('Gruppe', true), 'disabled' => !in_array('tour_group_id', $whitelist)
+));
 echo $this->Form->input('title', array(
 	'label' => __('Tourbezeichnung', true), 'disabled' => !in_array('title', $whitelist),
 	'error' => array(

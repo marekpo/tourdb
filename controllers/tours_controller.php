@@ -48,7 +48,7 @@ class ToursController extends AppController
 		$this->set(compact('whitelist'));
 
 		$this->set($this->Tour->getWidgetData(array(
-			Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+			Tour::WIDGET_TOUR_GROUP, Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
 		)));
 	}
 
@@ -168,7 +168,7 @@ class ToursController extends AppController
 
 		$this->set(compact('whitelist', 'newStatusOptions'));
 		$this->set($this->Tour->getWidgetData(array(
-			Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+			Tour::WIDGET_TOUR_GROUP, Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
 		)));
 	}
 
@@ -237,7 +237,7 @@ class ToursController extends AppController
 		));
 
 		$this->set($this->Tour->getWidgetData(array(
-			Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+			Tour::WIDGET_TOUR_GROUP, Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
 		)));
 	}
 
@@ -280,7 +280,7 @@ class ToursController extends AppController
 
 		$this->set($this->Tour->getWidgetData(array(
 			Tour::WIDGET_TOUR_STATUS, Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
-			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY, Tour::WIDGET_TOUR_GROUP
 		)));
 	}
 
@@ -362,7 +362,7 @@ class ToursController extends AppController
 
 		$this->set($this->Tour->getWidgetData(array(
 			Tour::WIDGET_TOUR_STATUS, Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
-			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY, Tour::WIDGET_TOUR_GROUP
 		)));
 	}
 
