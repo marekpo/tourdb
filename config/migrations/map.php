@@ -54,5 +54,7 @@ $map = array(
 		'026_remove_privilege_related_tables' => 'M4f8986f10278421a883617581b2c2a9b'),
 	27 => array(
 		'027_add_key_column_to_tour_type_model' => 'M4fb768bbc9c84bb4be5e1d101b2c2a9b'),
+	28 => array(
+		'028_add_tourtype_cavetour' => 'M4fb787029e144a3096e923581b2c2a9b'),
 );
 ?>

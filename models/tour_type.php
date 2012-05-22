@@ -13,6 +13,7 @@ class TourType extends AppModel
 	const TRAINING_COURSE	= 'training_course';
 	const EXCURSION			= 'excursion';
 	const ICE_CLIMBING		= 'ice_climbing';
+	const CAVE_TOUR			= 'cave_tour';
 
 	var $name = 'TourType';
 
