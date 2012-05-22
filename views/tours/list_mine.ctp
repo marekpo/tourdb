@@ -3,12 +3,13 @@ $this->set('title_for_layout', __('Meine Touren', true));
 $this->Html->addCrumb(__('Meine Touren', true));
 
 echo $this->element('../tours/elements/tour_filters', array('activeFilters' => array(
-	'title', 'date', 'TourType', 'ConditionalRequisite', 'Difficulty'
+	'title', 'TourGroup', 'date', 'TourType', 'ConditionalRequisite', 'Difficulty'
 )));
 
 if(count($tours))
 {
-	$tableHeaders =array(
+	$tableHeaders = array(
+		$this->Paginator->sort(__('Gruppe', true), 'TourGroup.tourgroupname'),
 		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
 		$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
 		$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
@@ -34,6 +35,10 @@ if(count($tours))
 			: '';
 
 		$tableCells[] = array(
+			array(
+				$tour['TourGroup']['tourgroupname'],
+				array('class' => 'tourgroup')
+			),
 			array(
 				$this->Html->link($tour['Tour']['title'], array('action' => $linkAction, $tour['Tour']['id'])),
 				array('class' => 'title')

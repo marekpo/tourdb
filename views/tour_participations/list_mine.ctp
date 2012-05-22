@@ -3,13 +3,14 @@ $this->set('title_for_layout', __('Meine Tourenanmeldungen', true));
 $this->Html->addCrumb(__('Meine Tourenanmeldungen', true));
 
 echo $this->element('../tours/elements/tour_filters', array('activeFilters' => array(
-	'title', 'date', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty'
+	'title', 'TourGroup', 'date', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty'
 )));
 
 if(count($tours))
 {
 	$tableHeaders = array(
 		$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.statusname'),
+		__('Gruppe', true),
 		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
 		$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
 		$this->Paginator->sort(__('Datum bis', true), 'Tour.enddate'),
@@ -27,6 +28,10 @@ if(count($tours))
 			array(
 				$tour['TourParticipationStatus']['statusname'],
 				array('class' => 'tourparticipationstatus')
+			),
+			array(
+				$tour['Tour']['TourGroup']['tourgroupname'],
+				array('class' => 'tourgroup')
 			),
 			array(
 				$this->Html->link($this->Text->truncate($tour['Tour']['title'], 40), array(

@@ -192,6 +192,11 @@ class Tour extends AppModel
 			$searchConditions['Tour.title LIKE'] = sprintf('%%%s%%', $searchFilters['title']);
 		}
 
+		if(isset($searchFilters['TourGroup']) && !empty($searchFilters['TourGroup']))
+		{
+			$searchConditions['Tour.tour_group_id'] = $searchFilters['TourGroup'];
+		}
+
 		if(isset($searchFilters['TourStatus']) && !empty($searchFilters['TourStatus']))
 		{
 			$searchConditions['Tour.tour_status_id'] = $searchFilters['TourStatus'];
@@ -282,6 +287,11 @@ class Tour extends AppModel
 			)
 		);
 
+		if($id == null)
+		{
+			return $editEverythingWhitelist;
+		}
+
 		foreach($editEverythingWhitelist as $key => $value)
 		{
 			if($value == 'tour_group_id')
@@ -289,11 +299,6 @@ class Tour extends AppModel
 				unset($editEverythingWhitelist[$key]);
 				break;
 			}
-		}
-
-		if($id == null)
-		{
-			return $editEverythingWhitelist;
 		}
 
 		$tourStatus = $this->find('first', array(

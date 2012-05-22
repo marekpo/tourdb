@@ -33,7 +33,7 @@ class TourParticipationsController extends AppController
 				'TourParticipation.tour_id' => Set::extract('/Tour/id', $tourIds)
 			),
 			'contain' => array(
-				'Tour', 'Tour.TourGuide', 'Tour.TourGuide.Profile', 'Tour.TourType',
+				'Tour', 'Tour.TourGroup', 'Tour.TourGuide', 'Tour.TourGuide.Profile', 'Tour.TourType',
 				'Tour.ConditionalRequisite', 'Tour.Difficulty', 'TourParticipationStatus'
 			)
 		));
@@ -44,7 +44,8 @@ class TourParticipationsController extends AppController
 		$this->set(array(
 			'tours' => $this->paginate('TourParticipation'),
 			'tourParticipationCount' => count($tourParticipationTourIds),
-			'filtersCollapsed' => empty($this->data['Tour']['startdate'])
+			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
+				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
 				&& empty($this->data['Tour']['TourGuide'])
 				&& empty($this->data['Tour']['TourType'])
@@ -53,7 +54,7 @@ class TourParticipationsController extends AppController
 		));
 
 		$this->set($this->TourParticipation->Tour->getWidgetData(array(
-			Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
+			Tour::WIDGET_TOUR_GROUP, Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
 			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
 		)));
 	}
@@ -69,7 +70,7 @@ class TourParticipationsController extends AppController
 
 			$tourParticipationInfo = $this->TourParticipation->find('first', array(
 				'conditions' => array('TourParticipation.id' => $id),
-				'contain' => array('User', 'User.Profile', 'Tour', 'TourParticipationStatus')
+				'contain' => array('User', 'User.Profile', 'Tour', 'Tour.TourGroup', 'TourParticipationStatus')
 			));
 
 			$tourGuide = $this->TourParticipation->Tour->find('first', array(
@@ -131,7 +132,7 @@ class TourParticipationsController extends AppController
 
 			$tourParticipationInfo = $this->TourParticipation->find('first', array(
 				'conditions' => array('TourParticipation.id' => $id),
-				'contain' => array('User', 'User.Profile', 'Tour', 'Tour.TourGuide', 'Tour.TourGuide.Profile')
+				'contain' => array('User', 'User.Profile', 'Tour', 'Tour.TourGroup', 'Tour.TourGuide', 'Tour.TourGuide.Profile')
 			));
 
 			$this->set(array(
