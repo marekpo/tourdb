@@ -28,6 +28,14 @@ if(in_array('deadline', $activeFilters))
 	));
 }
 
+if(in_array('TourGroup', $activeFilters))
+{
+	$searchFilters .= $this->Form->input('Tour.TourGroup', array(
+		'type' => 'select', 'label' => __('Tourengruppe', true),
+		'empty' => ''
+	));
+}
+
 if(in_array('TourStatus', $activeFilters))
 {
 	$searchFilters .= $this->Form->input('Tour.TourStatus', array(

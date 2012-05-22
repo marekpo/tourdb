@@ -1,6 +1,6 @@
 Hallo <?php echo $this->Display->displayUsersFirstName($user['User']['username'], $user['Profile']); ?>!
 
-Deine Anmeldung zur Tour "<?php echo $tour['Tour']['title']; ?>" wurde gespeichert.
+Deine Anmeldung zur Tour "<?php echo $tour['Tour']['title']; ?>" (<?php echo $tour['TourGroup']['tourgroupname']; ?>) wurde gespeichert.
 
 Hier noch einmal zusammenfassend die wichtigsten Daten über die Tour:
 

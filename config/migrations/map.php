@@ -60,5 +60,7 @@ $map = array(
 		'029_add_menu_entry_for_tour_calendar' => 'M4fb78e7e184843f7b9da0d9c1b2c2a9b'),
 	30 => array(
 		'030_add_role_for_safety_committee' => 'M4fb9093d12204cddb03d1fb01b2c2a9b'),
+	31 => array(
+		'031_add_tour_group' => 'M4fb9168749e84a82837919281b2c2a9b'),
 );
 ?>

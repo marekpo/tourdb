@@ -29,6 +29,10 @@ echo $this->Html->div('columncontainer',
 	)
 	. $this->Html->div('half',
 		$this->Html->div('infoitem',
+			$this->Html->div('label', __('Tourengruppe', true))
+			. $this->Html->div('content', $tour['TourGroup']['tourgroupname'])
+		)
+		. $this->Html->div('infoitem',
 			$this->Html->div('label', __('Tourenstatus', true))
 			. $this->Html->div('content', $tour['TourStatus']['statusname'])
 		)

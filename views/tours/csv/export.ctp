@@ -1,7 +1,7 @@
 <?php
 
 $this->Csv->addRow(array(
-	__('Datum', true), __('Tag', true), __('Beschreibung', true),
+	__('Datum', true), __('Tag', true), __('Gruppe', true), __('Beschreibung', true),
 	__('Detailbeschreibung', true), __('TW', true), __('Mit Bergführer', true),
 	__('Tourencode', true), __('Tourenleiter(-in)', true),
 	__('Anmeldeschluss', true), __('Telefonnummer', true)
@@ -26,7 +26,8 @@ foreach($tours as $tour)
 	}
 
 	$row = array(
-		$dateColumn, $dayColumn, $tour['Tour']['title'], $tour['Tour']['description'],
+		$dateColumn, $dayColumn, $tour['TourGroup']['tourgroupname'], 
+		$tour['Tour']['title'], $tour['Tour']['description'],
 		($tour['Tour']['tourweek'] == true ? 'TW' : ''),
 		($tour['Tour']['withmountainguide'] == true ? 'Ja' : ''),
 		$this->TourDisplay->getClassification($tour, array('span' => false))

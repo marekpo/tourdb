@@ -48,7 +48,7 @@ class ToursController extends AppController
 		$this->set(compact('whitelist'));
 
 		$this->set($this->Tour->getWidgetData(array(
-			Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+			Tour::WIDGET_TOUR_GROUP, Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
 		)));
 	}
 
@@ -168,7 +168,7 @@ class ToursController extends AppController
 
 		$this->set(compact('whitelist', 'newStatusOptions'));
 		$this->set($this->Tour->getWidgetData(array(
-			Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+			Tour::WIDGET_TOUR_GROUP, Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
 		)));
 	}
 
@@ -214,7 +214,7 @@ class ToursController extends AppController
 
 		$this->paginate = array_merge($this->paginate, array(
 			'conditions' => array('Tour.id' => Set::extract('/Tour/id', $tourIds)),
-			'contain' => array('TourStatus', 'TourType', 'ConditionalRequisite', 'Difficulty')
+			'contain' => array('TourGroup', 'TourStatus', 'TourType', 'ConditionalRequisite', 'Difficulty')
 		));
 
 		$this->data['Tour'] = $this->params['url'];
@@ -228,7 +228,8 @@ class ToursController extends AppController
 				'conditions' => array('Tour.tour_guide_id' => $this->Auth->user('id')),
 				'contain' => array()
 			)),
-			'filtersCollapsed' => empty($this->data['Tour']['startdate'])
+			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
+				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
 				&& empty($this->data['Tour']['TourGuide'])
 				&& empty($this->data['Tour']['TourType'])
@@ -237,7 +238,7 @@ class ToursController extends AppController
 		));
 
 		$this->set($this->Tour->getWidgetData(array(
-			Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+			Tour::WIDGET_TOUR_GROUP, Tour::WIDGET_TOUR_TYPE, Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
 		)));
 	}
 
@@ -257,7 +258,7 @@ class ToursController extends AppController
 
 		$this->paginate = array_merge($this->paginate, array(
 			'conditions' => array('Tour.id' => Set::extract('/Tour/id', $tourIds)),
-			'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile'),
+			'contain' => array('TourGroup', 'TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile'),
 		));
 
 		$this->data['Tour'] = $this->params['url'];
@@ -268,7 +269,8 @@ class ToursController extends AppController
 			'tourGuides' => $this->Tour->TourGuide->getUsersByRole(Role::TOURLEADER, array(
 				'contain' => array('Profile')
 			)),
-			'filtersCollapsed' => !empty($this->data['Tour']['deadline'])
+			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
+				&& !empty($this->data['Tour']['deadline'])
 				&& empty($this->data['Tour']['TourStatus'])
 				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
@@ -280,7 +282,7 @@ class ToursController extends AppController
 
 		$this->set($this->Tour->getWidgetData(array(
 			Tour::WIDGET_TOUR_STATUS, Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
-			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY, Tour::WIDGET_TOUR_GROUP
 		)));
 	}
 
@@ -307,7 +309,7 @@ class ToursController extends AppController
 						)
 					),
 					'order' => array('startdate' => 'ASC'),
-					'contain' => array('TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty', 'TourStatus')
+					'contain' => array('TourGroup', 'TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty', 'TourStatus')
 				));
 
 				if(empty($tours))
@@ -339,7 +341,7 @@ class ToursController extends AppController
 
 		$this->paginate = array_merge($this->paginate, array(
 			'conditions' => array('Tour.id' => Set::extract('/Tour/id', $tourIds)),
-			'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile'),
+			'contain' => array('TourGroup', 'TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile'),
 		));
 
 		$this->data['Tour'] = $this->params['url'];
@@ -350,7 +352,8 @@ class ToursController extends AppController
 			'tourGuides' => $this->Tour->TourGuide->getUsersByRole(Role::TOURLEADER, array(
 				'contain' => array('Profile')
 			)),
-			'filtersCollapsed' => !empty($this->data['Tour']['deadline'])
+			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
+				&& !empty($this->data['Tour']['deadline'])
 				&& empty($this->data['Tour']['TourStatus'])
 				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
@@ -362,7 +365,7 @@ class ToursController extends AppController
 
 		$this->set($this->Tour->getWidgetData(array(
 			Tour::WIDGET_TOUR_STATUS, Tour::WIDGET_TOUR_GUIDE, Tour::WIDGET_TOUR_TYPE,
-			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY
+			Tour::WIDGET_CONDITIONAL_REQUISITE, Tour::WIDGET_DIFFICULTY, Tour::WIDGET_TOUR_GROUP
 		)));
 	}
 
@@ -373,7 +376,7 @@ class ToursController extends AppController
 	{
 		$tour = $this->Tour->find('first', array(
 			'conditions' => array('Tour.id' => $id),
-			'contain' => array('TourStatus', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty', 'TourGuide.Profile')
+			'contain' => array('TourGroup', 'TourStatus', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty', 'TourGuide.Profile')
 		));
 
 		$publishedTourStatus = $this->Tour->TourStatus->findByKey(TourStatus::PUBLISHED);
@@ -566,7 +569,7 @@ class ToursController extends AppController
 
 					$tour = $this->Tour->find('first', array(
 						'conditions' => array('Tour.id' => $id),
-						'contain' => array('TourGuide', 'TourGuide.Profile', 'TourType')
+						'contain' => array('TourGroup', 'TourGuide', 'TourGuide.Profile', 'TourType')
 					));
 
 					$user = $this->User->find('first', array(
@@ -639,7 +642,7 @@ class ToursController extends AppController
 			$tour = $this->Tour->find('first', array(
 				'conditions' => array('Tour.id' => $id),
 				'contain' => array(
-					'TourGuide', 'TourGuide.Profile', 'TourGuide.Profile.SacMainSection',
+					'TourGroup', 'TourGuide', 'TourGuide.Profile', 'TourGuide.Profile.SacMainSection',
 					'TourGuide.Profile.LeadClimbNiveau', 'TourGuide.Profile.SecondClimbNiveau',
 					'TourGuide.Profile.AlpineTourNiveau', 'TourGuide.Profile.SkiTourNiveau'
 				)

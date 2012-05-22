@@ -1,6 +1,7 @@
 <?php
 class Tour extends AppModel
 {
+	const WIDGET_TOUR_GROUP = 'WIDGET_TOUR_GROUP';
 	const WIDGET_TOUR_STATUS = 'WIDGET_TOUR_STATUS';
 	const WIDGET_TOUR_GUIDE = 'WIDGET_TOUR_GUIDE';
 	const WIDGET_TOUR_TYPE = 'WIDGET_TOUR_TYPE';
@@ -63,7 +64,8 @@ class Tour extends AppModel
 		'TourGuide' => array(
 			'className' => 'User'
 		),
-		'TourStatus'
+		'TourStatus',
+		'TourGroup'
 	);
 
 	var $hasMany = array(
@@ -211,6 +213,11 @@ class Tour extends AppModel
 			$searchConditions['Tour.title LIKE'] = sprintf('%%%s%%', $searchFilters['title']);
 		}
 
+		if(isset($searchFilters['TourGroup']) && !empty($searchFilters['TourGroup']))
+		{
+			$searchConditions['Tour.tour_group_id'] = $searchFilters['TourGroup'];
+		}
+
 		if(isset($searchFilters['TourStatus']) && !empty($searchFilters['TourStatus']))
 		{
 			$searchConditions['Tour.tour_status_id'] = $searchFilters['TourStatus'];
@@ -304,6 +311,15 @@ class Tour extends AppModel
 		if($id == null)
 		{
 			return $editEverythingWhitelist;
+		}
+
+		foreach($editEverythingWhitelist as $key => $value)
+		{
+			if($value == 'tour_group_id')
+			{
+				unset($editEverythingWhitelist[$key]);
+				break;
+			}
 		}
 
 		$tourStatus = $this->find('first', array(
@@ -412,6 +428,15 @@ class Tour extends AppModel
 
 			return date('Y-m-d', strtotime('-1 day', strtotime($startdate)));
 		}
+	}
+
+	function __getDataForWidgetTourGroup()
+	{
+		return array(
+			'tourGroups' => $this->TourGroup->find('list', array(
+				'order' => array('TourGroup.rank' => 'ASC')
+			))
+		);
 	}
 
 	function __getDataForWidgetTourStatus()
