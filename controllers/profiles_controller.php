@@ -63,6 +63,7 @@ class ProfilesController extends AppController
 
 	/**
 	 * @auth:requireRole(tourleader)
+	 * @auth:requireRole(safetycommittee)
 	 */
 	function view($userId)
 	{
