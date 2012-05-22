@@ -56,5 +56,7 @@ $map = array(
 		'027_add_key_column_to_tour_type_model' => 'M4fb768bbc9c84bb4be5e1d101b2c2a9b'),
 	28 => array(
 		'028_add_tourtype_cavetour' => 'M4fb787029e144a3096e923581b2c2a9b'),
+	29 => array(
+		'029_add_menu_entry_for_tour_calendar' => 'M4fb78e7e184843f7b9da0d9c1b2c2a9b'),
 );
 ?>

@@ -16,7 +16,7 @@ class ToursController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('search', 'view');
+		$this->Auth->allow('search', 'view', 'calendar');
 	}
 
 	/**
@@ -410,6 +410,30 @@ class ToursController extends AppController
 			: array();
 
 		$this->set(compact('tour', 'registrationOpen', 'currentUserAlreadySignedUp', 'tourParticipations'));
+	}
+
+	/**
+	 * @auth:allowed()
+	 */
+	function calendar($year, $month)
+	{
+		if(empty($year) || empty($month))
+		{
+			$this->redirect(array('action' => 'calendar', date('Y'), date('m')));
+		}
+
+		$tourStatusVisible = $this->Tour->TourStatus->find('all', array(
+			'fields' => array('TourStatus.id', 'TourStatus.statusname'),
+			'conditions' => array('TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED, TourStatus::CARRIED_OUT)),
+			'contain' => array()
+		));
+
+		$tours = $this->Tour->getCalendarData($year, $month, array(
+			'conditions' => array('Tour.tour_status_id' => Set::extract('/TourStatus/id', $tourStatusVisible)),
+			'contain' => array('TourGuide', 'TourGuide.Profile', 'TourStatus', 'TourType', 'ConditionalRequisite', 'Difficulty')
+		));
+
+		$this->set(compact('tours', 'year', 'month'));
 	}
 
 	/**

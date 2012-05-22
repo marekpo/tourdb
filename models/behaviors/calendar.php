@@ -1,4 +1,5 @@
 <?php
+
 class CalendarBehavior extends ModelBehavior
 {
 	function setup(&$model, $settings = array())
@@ -13,15 +14,27 @@ class CalendarBehavior extends ModelBehavior
 		$firstDayInCalendar = date('Y-m-d', strtotime(date('o-\WW', mktime(0, 0, 0, $month, 1, $year))));
 		$lastDayInCalendar = date('Y-m-d', strtotime('sunday', mktime(0, 0, 0, $month, cal_days_in_month(CAL_GREGORIAN, $month, $year), $year)));
 
-		return $model->find('all', array_merge($findOptions, array(
-			'conditions' => array(
+		$options = array(
+			'conditions' => array(array(
 				'NOT' => array(
-					'AND' => array(
+					'OR' => array(
 						array($this->settings[$model->alias]['startdate'] . ' >' => $lastDayInCalendar),
 						array($this->settings[$model->alias]['enddate'] . ' <' => $firstDayInCalendar)
 					)
 				)
-			),
+			))
+		);
+
+		if(isset($findOptions['conditions']) && !empty($findOptions['conditions']))
+		{
+			$options['conditions'] = array_merge($options['conditions'], $findOptions['conditions']);
+		}
+
+		unset($findOptions['conditions']);
+
+		$options = array_merge($options, $findOptions);
+
+		return $model->find('all', array_merge($options, array(
 			'order' => array($this->settings[$model->alias]['startdate'] => 'ASC')
 		)));
 	}
