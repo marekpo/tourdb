@@ -40,7 +40,7 @@ class M4fb9093d12204cddb03d1fb01b2c2a9b extends CakeMigration {
 			$safetyCommitteeRole = array(
 				'Role' => array(
 					'id' => $safetyCommitteeRoleId,
-					'rolename' => 'Sicherheitskommitee',
+					'rolename' => 'Sicherheitskomitee',
 					'key' => 'safetycommittee',
 					'rank' => $safetyCommitteeRoleRank
 				)
