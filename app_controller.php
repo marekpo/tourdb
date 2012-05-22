@@ -14,6 +14,12 @@ class AppController extends Controller
 		$this->__loginByCookie();
 
 		$this->__checkDataPrivacyStatementAccepted();
+
+		if(!empty($this->data))
+		{
+			App::import('Lib', 'Sanitize');
+			$this->data = $this->__sanitize($this->data);
+		}
 	}
 
 	function isAuthorized()
@@ -90,5 +96,20 @@ class AppController extends Controller
 			unset($this->passedArgs['sort']);
 			unset($this->passedArgs['direction']);
 		}
+	}
+
+	function __sanitize($data)
+	{
+		if(is_array($data))
+		{
+			foreach($data as $key => $value)
+			{
+				$data[$key] = $this->__sanitize($value);
+			}
+
+			return $data;
+		}
+
+		return strip_tags($data);
 	}
 }
