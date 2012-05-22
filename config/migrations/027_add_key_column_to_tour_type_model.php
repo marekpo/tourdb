@@ -89,11 +89,11 @@ class M4fb768bbc9c84bb4be5e1d101b2c2a9b extends CakeMigration {
 				),
 				array(
 					'id' => '4e6680c6-9a74-4f04-b05f-08f01b2c2a9b', 
-					'key' => 'langlauf'
+					'key' => 'cross_country'
 				),
 				array(
 					'id' => '4e6680c6-9bf8-4da9-a532-08f01b2c2a9b', 
-					'key' => 'course'
+					'key' => 'training_course'
 				),
 				array(
 					'id' => '4e6680c6-d4c8-4d69-a0b8-08f01b2c2a9b', 

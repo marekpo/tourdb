@@ -9,8 +9,8 @@ class TourType extends AppModel
 	const HIKE				= 'hike';
 	const PLAISIR_CLIMBING	= 'plaisir_climbing';
 	const SKI_TOUR			= 'ski_tour';
-	const LANGLAUF			= 'langlauf';
-	const COURSE			= 'course';
+	const CROSS_COUNTRY		= 'cross_country';
+	const TRAINING_COURSE	= 'training_course';
 	const EXCURSION			= 'excursion';
 	const ICE_CLIMBING		= 'ice_climbing';
 
