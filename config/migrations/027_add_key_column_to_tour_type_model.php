@@ -53,59 +53,33 @@ class M4fb768bbc9c84bb4be5e1d101b2c2a9b extends CakeMigration {
 	{
 		if($direction == 'up')
 		{
-			$TourType = $this->generateModel('TourType');
-			$tourTypeUpdates = array(
-				array(
-					'id' => '4dfe29a0-fe40-4433-a676-12201b2c2a9b', 
-					'key' => 'alpine_tour'
-				),
-				array(
-					'id' => '4e6680c6-0a2c-4893-8836-08f01b2c2a9b', 
-					'key' => 'via_ferrata'
-				),
-				array(
-					'id' => '4e6680c6-2e58-47a9-a961-08f01b2c2a9b', 
-					'key' => 'snowshoe_tour'
-				),
-				array(
-					'id' => '4e6680c6-3090-4dbd-becc-08f01b2c2a9b', 
-					'key' => 'mountainbike_tour'
-				),
-				array(
-					'id' => '4e6680c6-3964-48e7-ac6b-08f01b2c2a9b', 
-					'key' => 'climbing_tour'
-				),
-				array(
-					'id' => '4e6680c6-4600-45f3-80c6-08f01b2c2a9b', 
-					'key' => 'hike'
-				),
-				array(
-					'id' => '4e6680c6-8d10-45aa-935f-08f01b2c2a9b', 
-					'key' => 'plaisir_tour'
-				),
-				array(
-					'id' => '4e6680c6-9004-4c0b-9022-08f01b2c2a9b', 
-					'key' => 'ski_tour'
-				),
-				array(
-					'id' => '4e6680c6-9a74-4f04-b05f-08f01b2c2a9b', 
-					'key' => 'cross_country'
-				),
-				array(
-					'id' => '4e6680c6-9bf8-4da9-a532-08f01b2c2a9b', 
-					'key' => 'training_course'
-				),
-				array(
-					'id' => '4e6680c6-d4c8-4d69-a0b8-08f01b2c2a9b', 
-					'key' => 'excursion'
-				),
-				array(
-					'id' => '4e6680c6-f6cc-4ed4-a685-08f01b2c2a9b', 
-					'key' => 'ice_climbing'
-				)
+			$acronymKeys = array(
+				'H' => 'alpine_tour',
+				'KS' => 'via_ferrata',
+				'SS' => 'snowshoe_tour',
+				'MTB' => 'mountainbike_tour',
+				'K' => 'climbing_tour',
+				'W' => 'hike',
+				'P' => 'plaisir_tour',
+				'S' => 'ski_tour',
+				'LL' => 'cross_country',
+				'Kurs' => 'training_course',
+				'Exk' => 'excursion',
+				'E' => 'ice_climbing'
 			);
 
-			$TourType->saveAll($tourTypeUpdates);
+			$TourType = $this->generateModel('TourType');
+
+			foreach($acronymKeys as $acronym => $key)
+			{
+				$tourType = $TourType->find('first', array(
+					'conditions' => array('TourType.acronym' => $acronym)
+				));
+
+				$tourType['TourType']['key'] = $key;
+
+				$TourType->save($tourType);
+			}
 		}
 
 		return true;
