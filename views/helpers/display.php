@@ -28,10 +28,10 @@ class DisplayHelper extends AppHelper
 	{
 		$text = trim($text);
 
+		$text = preg_replace_callback('/(http(?:s)?:\/\/[^\s\r\n]+)/', array($this, '__replaceUrlCallback'), $text);
+
 		$text = preg_replace('/(\r\n\r\n|\r\r|\n\n)/', '</p><p>', $text);
 		$text = preg_replace('/(\r\n|\r|\n)/', '<br />', $text);
-
-		$text = preg_replace_callback('/(http(?:s)?:\/\/[^\s]+)/', array($this, '__replaceUrlCallback'), $text);
 
 		return $this->Html->para('', $text);
 	}
@@ -113,6 +113,6 @@ class DisplayHelper extends AppHelper
 
 	function __replaceUrlCallback($match)
 	{
-		return $this->Html->link($match[0]);
+		return $this->Html->link($match[0], $match[0], array('target' => '_blank'));
 	}
 }
