@@ -89,7 +89,10 @@ class Tour extends AppModel
 			$isCourse = $this->TourType->find('count', array(
 				'conditions' => array(
 					'TourType.id' => $this->data['Tour']['TourType'],
-					'TourType.key' => TourType::TRAINING_COURSE
+					'OR' => array(
+						array('TourType.key' => TourType::TRAINING_COURSE),
+						array('TourType.key' => TourType::CAVE_TOUR)
+					)
 				),
 				'contain' => array()
 			)) > 0;
