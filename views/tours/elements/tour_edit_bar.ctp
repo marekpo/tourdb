@@ -1,10 +1,10 @@
 <?php
 $actions = array();
 
+$actions[] = $this->Authorization->link(__('Teilnehmerliste exportieren', true), array('action' => 'exportParticipantList', $tour['Tour']['id']), array('class' => 'action exportparticipantlist'));
+
 if($tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
 {
-	$actions[] = $this->Html->link(__('Teilnehmerliste exportieren', true), array('action' => 'exportParticipantList', $tour['Tour']['id']), array('class' => 'action exportparticipantlist'));
-
 	if(!in_array($tour['TourStatus']['key'], array(TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT))
 		&& time() < strtotime($tour['Tour']['startdate']))
 	{

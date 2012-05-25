@@ -634,6 +634,7 @@ class ToursController extends AppController
 
 	/**
 	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 * @auth:requireRole(safetycommittee)
 	 */
 	function exportParticipantList($id)
 	{
