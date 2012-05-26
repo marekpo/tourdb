@@ -47,6 +47,9 @@ echo $this->Form->input('tourweek', array(
 echo $this->Form->input('withmountainguide', array(
 	'label' => __('Mit dipl. Bergführer', true), 'disabled' => !in_array('withmountainguide', $whitelist)
 ));
+echo $this->Form->input('signuprequired', array(
+	'label' => __('Anmeldung erforderlich', true), 'disabled' => !in_array('signuprequired', $whitelist)
+));
 
 $tourTypeSelect = $this->Html->div('input select' . (isset($this->validationErrors['Tour']['TourType']) ? ' error' : ''),
 	$this->Form->label(__('Tourentyp', true))

@@ -55,11 +55,16 @@ echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
 
 if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 {
-	if($registrationOpen || $currentUserAlreadySignedUp)
+	if($registrationOpen || $currentUserAlreadySignedUp || !$tour['Tour']['signuprequired'])
 	{
 		echo $this->Html->tag('h2', __('Anmeldung', true));
 	}
-	
+
+	if(!$tour['Tour']['signuprequired'])
+	{
+		echo $this->Html->para('', __('Für diese Tour ist keine Anmeldung erforderlich!', true));
+	}
+
 	if($registrationOpen && !$currentUserAlreadySignedUp)
 	{
 		echo $this->Html->div('columncontainer',
@@ -79,27 +84,27 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 
 	if($currentUserAlreadySignedUp)
 	{
-		$tourParticipationStatuSentence = '';
+		$tourParticipationStatusSentence = '';
 		switch($currentUsersTourParticipation['TourParticipationStatus']['key'])
 		{
 			case TourParticipationStatus::REGISTERED:
-				$tourParticipationStatuSentence = __('Du bist provisorisch zu dieser Tour angemeldet. Der Tourenleiter muss deine Anmeldung noch bearbeiten.', true);
+				$tourParticipationStatusSentence = __('Du bist provisorisch zu dieser Tour angemeldet. Der Tourenleiter muss deine Anmeldung noch bearbeiten.', true);
 				break;
 			case TourParticipationStatus::WAITINGLIST:
-				$tourParticipationStatuSentence = __('Du bist bereits für diese Tour angemeldet. Der Tourenleiter hat dich auf die Warteliste gesetzt.', true);
+				$tourParticipationStatusSentence = __('Du bist bereits für diese Tour angemeldet. Der Tourenleiter hat dich auf die Warteliste gesetzt.', true);
 				break;
 			case TourParticipationStatus::AFFIRMED:
-				$tourParticipationStatuSentence = __('Du bist bereits für diese Tour angemeldet und der Tourleiter hat deine Teilnahme bestätigt.', true);
+				$tourParticipationStatusSentence = __('Du bist bereits für diese Tour angemeldet und der Tourleiter hat deine Teilnahme bestätigt.', true);
 				break;
 			case TourParticipationStatus::REJECTED:
-				$tourParticipationStatuSentence = __('Du hattest dich für diese Tour angemeldet, aber der Tourleiter hat deine Teilnahme abgelehnt.', true);
+				$tourParticipationStatusSentence = __('Du hattest dich für diese Tour angemeldet, aber der Tourleiter hat deine Teilnahme abgelehnt.', true);
 				break;
 			case TourParticipationStatus::CANCELED:
-				$tourParticipationStatuSentence = __('Du hattest dich für diese Tour angemeldet aber deine Anmeldung wieder storniert.', true);
+				$tourParticipationStatusSentence = __('Du hattest dich für diese Tour angemeldet aber deine Anmeldung wieder storniert.', true);
 				break;
 		}
 	
-		echo $this->Html->para('', $tourParticipationStatuSentence);
+		echo $this->Html->para('', $tourParticipationStatusSentence);
 	
 		if(in_array($currentUsersTourParticipation['TourParticipationStatus']['key'], array(TourParticipationStatus::REGISTERED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::AFFIRMED))
 			&& !in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT)))

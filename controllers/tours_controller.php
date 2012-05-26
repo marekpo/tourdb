@@ -387,8 +387,27 @@ class ToursController extends AppController
 			$this->redirect('/');
 		}
 
-		$registrationOpen = $this->Tour->isRegistrationOpen($id);
-		$currentUserAlreadySignedUp = $this->Auth->user() ? $this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id')) : false;
+		if(!$tour['Tour']['signuprequired'])
+		{
+			$registrationOpen = false;
+			$currentUserAlreadySignedUp = false;
+			$tourParticipations = array();
+		}
+		else
+		{
+			$registrationOpen = $this->Tour->isRegistrationOpen($id);
+			$currentUserAlreadySignedUp = $this->Auth->user() ? $this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id')) : false;
+
+			$this->paginate['TourParticipation'] = array(
+				'contain' => array('User.Profile', 'TourParticipationStatus'),
+				'limit' => 1000
+			);
+			$tourParticipations = $tour['Tour']['tour_guide_id'] == $this->Auth->user('id') || $this->Authorization->hasRole(Role::SAFETYCOMMITTEE)
+				? $this->paginate('TourParticipation', array(
+					'TourParticipation.tour_id' => $tour['Tour']['id']
+				))
+				: array();
+		}
 
 		if($currentUserAlreadySignedUp)
 		{
@@ -401,16 +420,6 @@ class ToursController extends AppController
 				'mayBeCanceledByUser' => $this->Tour->TourParticipation->mayBeCanceledByUser()
 			));
 		}
-
-		$this->paginate['TourParticipation'] = array(
-			'contain' => array('User.Profile', 'TourParticipationStatus'),
-			'limit' => 1000
-		);
-		$tourParticipations = $tour['Tour']['tour_guide_id'] == $this->Auth->user('id') || $this->Authorization->hasRole(Role::SAFETYCOMMITTEE)
-			? $this->paginate('TourParticipation', array(
-				'TourParticipation.tour_id' => $tour['Tour']['id']
-			))
-			: array();
 
 		$this->set(compact('tour', 'registrationOpen', 'currentUserAlreadySignedUp', 'tourParticipations'));
 	}

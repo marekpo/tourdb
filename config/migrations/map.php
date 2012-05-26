@@ -62,5 +62,7 @@ $map = array(
 		'030_add_role_for_safety_committee' => 'M4fb9093d12204cddb03d1fb01b2c2a9b'),
 	31 => array(
 		'031_add_tour_group' => 'M4fb9168749e84a82837919281b2c2a9b'),
+	32 => array(
+		'032_add_signup_required_flag_to_tour_model' => 'M4fbf410ccfe04447a0071f241b2c2a9b'),
 );
 ?>
