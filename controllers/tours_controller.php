@@ -44,6 +44,10 @@ class ToursController extends AppController
 				$this->Session->setFlash(__('Die Tour konnte nicht gespeichert werden.', true));
 			}
 		}
+		else
+		{
+			$this->data['Tour']['signuprequired'] = true;
+		}
 
 		$this->set(compact('whitelist'));
 
@@ -542,20 +546,22 @@ class ToursController extends AppController
 	 */
 	function signUp($id)
 	{
+		if(!$this->Tour->find('count', array('conditions' => array('Tour.id' => $id))))
+		{
+			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
+			$this->redirect('/');
+		}
+
+		if(!$this->Tour->field('signuprequired', array('Tour.id' => $id)))
+		{
+			$this->Session->setFlash(__('Für diese Tour ist keine Anmeldung erforderlich.', true));
+			$this->redirect(array('action' => 'view', $id));
+		}
+
 		if($this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id')))
 		{
 			$this->Session->setFlash(__('Du bist bereits für diese Tour angemeldet.', true));
 			$this->redirect(array('action' => 'view', $id));
-		}
-
-		$count = $this->Tour->find('count', array(
-			'conditions' => array('Tour.id' => $id),
-		));
-
-		if(!$count)
-		{
-			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
-			$this->redirect('/');
 		}
 
 		$this->loadModel('Profile');

@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2012-05-25 10:19:09 : 1337933949*/
+/* Tourdb schema generated on: 2012-05-26 16:16:21 : 1338041781*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
@@ -228,6 +228,7 @@ class TourdbSchema extends CakeSchema {
 		'tour_guide_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'tourweek' => array('type' => 'boolean', 'null' => true, 'default' => NULL),
 		'withmountainguide' => array('type' => 'boolean', 'null' => true, 'default' => NULL),
+		'signuprequired' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
 		'startdate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'enddate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'deadline' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
