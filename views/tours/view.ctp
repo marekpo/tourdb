@@ -74,7 +74,7 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 				. $this->Form->end()
 			)
 			. (!$this->Session->check('Auth.User') ? $this->Html->div('twothirds obtrusive text',
-				sprintf(__('Um dich zur dieser Tour anmelden zu können, musst du dich %s. Wenn du noch kein Benutzerkonto hast, musst du dir zuerst ein %s.', true),
+				sprintf(__('Um dich zu dieser Tour anmelden zu können, musst du dich %s. Wenn du noch kein Benutzerkonto hast, musst du dir zuerst ein %s.', true),
 					$this->Html->link(__('einloggen', true), array('controller' => 'users', 'action' => 'login')),
 					$this->Html->link(__('Benutzerkonto anlegen', true), array('controller' => 'users', 'action' => 'createAccount'))
 				)
