@@ -144,7 +144,10 @@ class ToursController extends AppController
 					$this->redirect(array('action' => 'index'));
 				}
 			}
-
+		}
+		else
+		{
+			$this->Session->write('referer.tours.edit', $this->referer(null, true));
 		}
 
 		$tour = $this->Tour->findById($id);
@@ -167,8 +170,6 @@ class ToursController extends AppController
 		{
 			$this->data['Tour']['deadline'] = date('d.m.Y', strtotime($this->data['Tour']['deadline']));
 		}
-
-		$this->Session->write('referer.tours.edit', $this->referer(null, true));
 
 		$this->set(compact('whitelist', 'newStatusOptions'));
 		$this->set($this->Tour->getWidgetData(array(
