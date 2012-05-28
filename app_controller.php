@@ -57,7 +57,7 @@ class AppController extends Controller
 		$this->Auth->authorize = 'controller';
 
 		$this->Auth->loginError = __('Benutzername und/oder Passwort falsch.', true);
-		$this->Auth->authError = __('Du hast nicht genügten Rechte um diese Seite zu sehen.', true);
+		$this->Auth->authError = __('Du hast nicht genügend Rechte um diese Seite zu sehen.', true);
 
 		$this->Auth->deny('*');
 	}
