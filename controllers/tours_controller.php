@@ -310,7 +310,7 @@ class ToursController extends AppController
 						'AND' => array(
 							'startdate >=' => $dateRangeStart,
 							'startdate <=' => $dateRangeEnd,
-							'TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED)
+							'TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED)
 						)
 					),
 					'order' => array('startdate' => 'ASC'),
