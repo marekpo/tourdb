@@ -121,7 +121,7 @@ a.iconaction.delete		{ background-image: url(../img/bin_closed.png); }
 
 /* forms */
 .input				{ clear: left; margin-bottom: 15px; }
-.input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label, .input.radio label:FIRST-CHILD
+.input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label, .input.radio label:FIRST-CHILD, .input.time label
 	{ width: 130px; float: left; font-weight: bold; }
 .input.required > label:after	{ content: ' *'; }
 

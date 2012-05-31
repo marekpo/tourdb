@@ -64,5 +64,7 @@ $map = array(
 		'031_add_tour_group' => 'M4fb9168749e84a82837919281b2c2a9b'),
 	32 => array(
 		'032_add_signup_required_flag_to_tour_model' => 'M4fbf410ccfe04447a0071f241b2c2a9b'),
+	33 => array(
+		'033_additional_tour_detail_fields' => 'M4fc5463c8d384643acc423241b2c2a9b'),
 );
 ?>

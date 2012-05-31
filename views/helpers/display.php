@@ -11,12 +11,15 @@ class DisplayHelper extends AppHelper
 
 	var $sexLabels;
 
+	var $transportLabels;
+
 	function __construct()
 	{
 		$this->yesNoDontKnowLabels = array(1 => __('Ja', true), 2 => __('Nein', true), 0 => __('Weiss nicht', true));
 		$this->experienceLabels = array(__('Keine', true), __('Wenig',true), __('Mittel', true), __('Viel', true));
 		$this->publicTransportSubscriptionLabels = array(__('1/2 Tax', true), __('GA', true));
 		$this->sexLabels = array(__('weiblich', true), __('männlich', true));
+		$this->transportLabels = array(__('ÖV (Bus, Bahn)', true), __('PKW', true), __('Taxi', true));
 	}
 
 	function displayFlag($flag)
@@ -94,6 +97,16 @@ class DisplayHelper extends AppHelper
 	function displaySex($value)
 	{
 		return $this->sexLabels[$value];
+	}
+
+	function getTransportOptions()
+	{
+		return $this->transportLabels;
+	}
+
+	function displayTransport($value)
+	{
+		return $this->transportLabels[$value];
 	}
 
 	function displayUsersPhoneContact($profile)
