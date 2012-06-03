@@ -20,7 +20,7 @@ class TourGuideReportsController extends AppController
 
 			if($this->TourGuideReport->saveAll($this->data))
 			{
-				$this->Session->setFlash(__('Tourenrapport wurde gespeichert. Bitte exportieren und per eMail abschicken!', true));
+				$this->Session->setFlash(__('Tourenrapport wurde gespeichert. Bitte exportieren und per E-Mail abschicken!', true));
 				$this->redirect(array('controller' => 'tours', 'action' => 'view', $tourId));
 			}
 			else

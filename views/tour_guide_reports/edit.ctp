@@ -29,7 +29,7 @@ echo $this->Form->input('TourGuideReport.description', array(
 
 </fieldset>
   <fieldset class="substitutetour">
-    <legend><?php __('Bei Änderung Bezeichung der Ersatztour'); ?></legend>
+    <legend><?php __('Bei Änderung, Bezeichnung der Ersatztour'); ?></legend>
 <?php
 echo $this->Form->input('TourGuideReport.substitute_tour', array('type' => 'text', 'label' => __('Ersatztour', true)));
 ?>
@@ -38,7 +38,7 @@ echo $this->Form->input('TourGuideReport.substitute_tour', array('type' => 'text
   <fieldset class="expenses">
     <legend><?php __('Spesen'); ?></legend>
 <?php
-$decnumText = __('Hier sind nur Dezimal Zahlen erlaubt! (z.B. 68.50)', true);
+$decnumText = __('Spesen müssen als Dezimalzahlen eingegeben werden. (z.B. 68.00 oder 70.50)', true);
 echo $this->Form->input('TourGuideReport.expenses_organsiation', array(
 		'type' => 'text',
 		'label' => __('Spesen Telefon, Porti etc.', true),
@@ -48,7 +48,7 @@ echo $this->Form->input('TourGuideReport.expenses_organsiation', array(
 echo $this->Form->input('TourGuideReport.driven_km', array(
 		'type' => 'text',
 		'label' => __('Auto (km)', true),
-		'error' => array('km' => __('km dürfen nur ganze Zahlen sein (max. 9999)', true))
+		'error' => array('km' => __('Kilometer müssen als ganze Zahlen eingegeben werden. (z.B. 128, max. 9999)', true))
 		));
 
 echo $this->Form->input('TourGuideReport.expenses_transport', array('type' => 'text',

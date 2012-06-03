@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2012-04-14 16:35:57 : 1334414157*/
+/* Tourdb schema generated on: 2012-06-03 14:59:44 : 1338728384*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
@@ -157,6 +157,25 @@ class TourdbSchema extends CakeSchema {
 	var $sac_sections = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+	var $tour_guide_reports = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'tour_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'substitute_tour' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'expenses_organsiation' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'expenses_transport' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'expenses_accommodation' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'expenses_others1' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'expenses_others2' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'driven_km' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 5),
+		'paid_tourguide' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'paid_donation' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'paid_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),

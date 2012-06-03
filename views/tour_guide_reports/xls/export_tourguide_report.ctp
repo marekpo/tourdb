@@ -4,14 +4,12 @@ $sektionName = "SEKTION AM ALBIS";
 $fontSizeHeader = 18;
 $fontSizeNormal = 11;
 
-debug($sektionName);
-
 $labelColumn1 = 0;
-$labelColumn2 = 2;
+$labelColumn2 = 2; /*2 ist Absturz*/
 $labelColumn3 = 4;
 
 $startColumn = 0;
-$endColumn = 7;
+$endColumn = 6;
 
 $kmCosts = ".2";
 
@@ -29,7 +27,6 @@ foreach($tourParticipations as $tourParticipation)
 }
 
 $this->Excel->startNewDocument(true);
-debug($countOthers);
 
 $this->Excel->setFilename(sprintf('%d_%s_Rapport', $this->Time->format($tour['Tour']['startdate'], '%Y'), $tour['Tour']['title']));
 
@@ -38,13 +35,13 @@ $rowOffset = 2;
 
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('TOURENRAPPORT', true));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeHeader, 'bold' => true)));
-$this->Excel->getActiveSheet()->mergeCells(sprintf('%2$s%1$d:%3$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($startColumn), PHPExcel_Cell::stringFromColumnIndex($startColumn + 4 )));
+$this->Excel->getActiveSheet()->mergeCells(sprintf('%2$s%1$d:%3$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($startColumn), PHPExcel_Cell::stringFromColumnIndex($startColumn + 2)));
 
 /*Sektionsname*/
 $rowOffset = 3;
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __($sektionName, true));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeHeader, 'bold' => true)));
-$this->Excel->getActiveSheet()->mergeCells(sprintf('%2$s%1$d:%3$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($startColumn), PHPExcel_Cell::stringFromColumnIndex($startColumn + 4 )));
+$this->Excel->getActiveSheet()->mergeCells(sprintf('%2$s%1$d:%3$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($startColumn), PHPExcel_Cell::stringFromColumnIndex($startColumn + 2)));
 
 /*Logo*/
 $objDrawing = new PHPExcel_Worksheet_Drawing();
@@ -52,7 +49,7 @@ $objDrawing->setName('Logo');
 $objDrawing->setDescription('SAC Logo');
 $objDrawing->setPath('./img/sac_logo.png');
 //$objDrawing->setHeight(36);
-$objDrawing->setCoordinates('F2');
+$objDrawing->setCoordinates('E1');
 $objDrawing->setWorksheet($this->Excel->getActiveSheet());
 
 /*Tour und Ersatztour*/
@@ -67,24 +64,27 @@ else
 	$planedTour = $tour['Tour']['title'];
 }		
 
-/*durchgeführt*/
-$rowOffset = 5;
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Durchgeführe Tour:', true));
-$this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => false)));
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset, $madeTour);
-$this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => true)));
-/*geplant*/
-$rowOffset = 7;
-if(!empty($tour['TourGuideReport']['substitute_tour']))
-{
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Ursprünflich geplant:', true));
-$this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => false)));
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset, $planedTour);
-$this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => true)));
-}
-$this->Excel->getActiveSheet()->getStyle(sprintf('%1s%3$d:%2$s%3$d', PHPExcel_Cell::stringFromColumnIndex($startColumn), PHPExcel_Cell::stringFromColumnIndex($endColumn), $rowOffset))->applyFromArray(array(
-		'borders' => array('bottom' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM)),
-));
+ /*durchgeführt*/
+ $rowOffset = 5;
+ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Durchgeführe Tour:', true));
+ $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => false)));
+ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset, $madeTour);
+ $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeHeader, 'bold' => true)));
+ $this->Excel->getActiveSheet()->mergeCells(sprintf('%2$s%1$d:%3$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($labelColumn2), PHPExcel_Cell::stringFromColumnIndex($endColumn)));
+ 
+ 
+ /*geplant*/
+ $rowOffset = 7;
+ if(!empty($tour['TourGuideReport']['substitute_tour']))
+ {
+ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Ursprünflich geplant:', true));
+ $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => false)));
+ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset, $planedTour);
+ $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => true)));
+ }
+ $this->Excel->getActiveSheet()->getStyle(sprintf('%1s%3$d:%2$s%3$d', PHPExcel_Cell::stringFromColumnIndex($startColumn), PHPExcel_Cell::stringFromColumnIndex($endColumn), $rowOffset))->applyFromArray(array(
+ 		'borders' => array('bottom' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM)),
+ ));
 
 /*Touren Details*/
 $rowOffset = 9;
@@ -229,7 +229,7 @@ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOf
 
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 2, __('Auto (km):', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1 + 1, $rowOffset + 2, $tour['TourGuideReport']['driven_km']);
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset + 2, sprintf('=C%1$d * %2$s', $rowOffset + 2 , $kmCosts));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset + 2, sprintf('=%3$s%1$d * %2$s', $rowOffset + 2 , $kmCosts, PHPExcel_Cell::stringFromColumnIndex($labelColumn1 + 1)));
 
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 3, __('ÖV (1/2 Tax):', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset + 3 , $tour['TourGuideReport']['expenses_transport']);
@@ -247,7 +247,6 @@ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOf
 $this->Excel->getActiveSheet()->getStyle(sprintf('%1s%3$d:%2$s%3$d', PHPExcel_Cell::stringFromColumnIndex($labelColumn1), PHPExcel_Cell::stringFromColumnIndex($labelColumn2), $rowOffset + 6))->applyFromArray(array(
 		'borders' => array('bottom' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM))
 ));
-
 
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset + 6 , $tour['TourGuideReport']['expenses_others2']);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 6, __('Empfänger:', true));
@@ -272,5 +271,4 @@ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOf
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 15, __('Rapport erstellt am: ', true) . $this->Time->format('d.m.Y', time()));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset + 15)->applyFromArray(array('font' => array('size' => 8, 'bold' => false)));
 
-/*Dokumentausgabe*/
 $this->Excel->outputDocument();
