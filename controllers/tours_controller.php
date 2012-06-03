@@ -366,7 +366,7 @@ class ToursController extends AppController
 	{
 		$tour = $this->Tour->find('first', array(
 			'conditions' => array('Tour.id' => $id),
-			'contain' => array('TourStatus', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty', 'TourGuide.Profile')
+			'contain' => array('TourStatus', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty', 'TourGuide.Profile', 'TourGuideReport.id')
 		));
 
 		$publishedTourStatus = $this->Tour->TourStatus->findByKey(TourStatus::PUBLISHED);

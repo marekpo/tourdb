@@ -338,18 +338,6 @@ class Tour extends AppModel
 		return $newStatusOptions;
 	}
 
-	function getReportStatusOptions()
-	{
-	
-		$ReportStatusOptions = array();
-	
-		$ReportStatusOptions[TourStatus::CARRIED_OUT] = __('durchgeführt', true);
-		$ReportStatusOptions[TourStatus::NOT_CARRIED_OUT] = __('NICHT durchgeführt', true);
-	
-		return $ReportStatusOptions;
-	}
-	
-	
 	function isRegistrationOpen($id = null)
 	{
 		if(empty($this->data) || $id != null)
