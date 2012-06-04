@@ -1,6 +1,6 @@
 <?php
-$this->set('title_for_layout', __('Alle Termine', true));
-$this->Html->addCrumb(__('Alle Termine', true));
+$this->set('title_for_layout', __('Alle Anlässe', true));
+$this->Html->addCrumb(__('Alle Anlässe', true));
 
 if(count($appointments))
 {
@@ -32,20 +32,20 @@ if(count($appointments))
 				$this->Authorization->link('', array('controller' => 'appointments', 'action' => 'delete', $appointment['Appointment']['id']), array(
 					'class' => 'iconaction delete',
 					'id' => sprintf('delete-%s', $appointment['Appointment']['id']),
-					'title' => __('Termin löschen', true)
+					'title' => __('Anlass löschen', true)
 				)),
 				array('class' => 'delete')
 			)
 		);
 
-		$this->Js->buffer(sprintf("$('#%1\$s').click({ id: '%1\$s', title: '%2\$s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $appointment['Appointment']['id']), __('Termin löschen', true)));
+		$this->Js->buffer(sprintf("$('#%1\$s').click({ id: '%1\$s', title: '%2\$s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $appointment['Appointment']['id']), __('Anlass löschen', true)));
 	}
 
 	echo $this->Widget->table($headers, $rows);
 }
 else
 {
-	echo $this->Html->para('', __('Zu den gewählten Suchkriterien wurden keine Termine gefunden.', true));
+	echo $this->Html->para('', __('Zu den gewählten Suchkriterien wurden keine Anlässe gefunden.', true));
 }
 
 echo $this->element('paginator');

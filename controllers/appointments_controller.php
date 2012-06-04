@@ -5,8 +5,14 @@ class AppointmentsController extends AppController
 
 	var $components = array('RequestHandler');
 
-	var $helpers = array('Widget');
+	var $helpers = array('Widget', 'Display');
 
+	function beforeFilter()
+	{
+		parent::beforeFilter();
+
+		$this->Auth->allow('view');
+	}
 	/**
 	 * @auth:requireRole(editor)
 	 */
@@ -26,7 +32,7 @@ class AppointmentsController extends AppController
 		{
 			if($this->Appointment->save($this->data))
 			{
-				$this->Session->setFlash(__('Der Termin wurde gespeichert.', true));
+				$this->Session->setFlash(__('Der Anlass wurde gespeichert.', true));
 				$this->redirect(array('action' => 'index'));
 			}
 		}
@@ -41,7 +47,7 @@ class AppointmentsController extends AppController
 		{
 			if($this->Appointment->save($this->data))
 			{
-				$this->Session->setFlash(__('Der Termin wurde gespeichert.', true));
+				$this->Session->setFlash(__('Der Anlass wurde gespeichert.', true));
 				$this->redirect(array('action' => 'index'));
 			}
 		}
@@ -55,6 +61,25 @@ class AppointmentsController extends AppController
 	}
 
 	/**
+	 * @auth:allowed()
+	 */
+	function view($id)
+	{
+		$appointment = $this->Appointment->find('first', array(
+			'conditions' => array('Appointment.id' => $id),
+			'contain' => array()
+		));
+
+		if(empty($appointment))
+		{
+			$this->Session->setFlash(__('Der Anlass wurde nicht gefunden.', true));
+			$this->redirect('/');
+		}
+
+		$this->set(compact('appointment'));
+	}
+
+	/**
 	 * @auth:requireRole(editor)
 	 */
 	function delete($id)
@@ -63,7 +88,7 @@ class AppointmentsController extends AppController
 		{
 			if($this->Appointment->delete($id))
 			{
-				$this->Session->setFlash(__('Der Termin wurde gelöscht.', true));
+				$this->Session->setFlash(__('Der Anlass wurde gelöscht.', true));
 			}
 
 			$this->redirect(array('action' => 'index'));

@@ -82,20 +82,20 @@ class M4fc511d086284e15b77f06881b2c2a9b extends CakeMigration {
 					'rank' => $separatorRank
 				),
 				array(
-					'id' => $indexActionId,
+					'id' => $addActionId,
 					'separator' => false,
-					'caption' => 'Alle Termine',
+					'caption' => 'Anlass hinzufügen',
 					'controller' => 'appointments',
-					'action' => 'index',
+					'action' => 'add',
 					'protected' => true,
 					'rank' => $separatorRank + 1
 				),
 				array(
-					'id' => $addActionId,
+					'id' => $indexActionId,
 					'separator' => false,
-					'caption' => 'Termin hinzufügen',
+					'caption' => 'Alle Anlässe',
 					'controller' => 'appointments',
-					'action' => 'add',
+					'action' => 'index',
 					'protected' => true,
 					'rank' => $separatorRank + 2
 				)
