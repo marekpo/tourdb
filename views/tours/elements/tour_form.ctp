@@ -173,7 +173,7 @@ echo $this->Form->input('Tour.meetingplace', array(
 
 echo $this->Form->input('Tour.meetingtime', array(
 	'label' => __('Zeitpunkt', true), 'timeFormat' => 24,
-	'disabled' => !in_array('meetingtime', $whitelist)
+	'disabled' => !in_array('meetingtime', $whitelist), 'default' => 0
 ));
 
 echo $this->Form->input('Tour.transport', array(
@@ -195,11 +195,11 @@ echo $this->Form->input('Tour.auxiliarymaterial', array(
 ));
 
 echo $this->Form->input('Tour.travelcosts', array(
-	'label' => __('Reisekosten', true), 'disabled' => !in_array('travelcosts', $whitelist)
+	'label' => __('Reisekosten', true), 'disabled' => !in_array('travelcosts', $whitelist), 'default' => 0
 ));
 
 echo $this->Form->input('Tour.accomodationcosts', array(
-	'label' => __('Unterkunftskosten', true), 'disabled' => !in_array('accomodationcosts', $whitelist)
+	'label' => __('Unterkunftskosten', true), 'disabled' => !in_array('accomodationcosts', $whitelist), 'default' => 0
 ));
 
 echo $this->Form->input('Tour.accomodation', array(
