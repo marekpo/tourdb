@@ -89,8 +89,8 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 .calendar .slotcontainer				{ /*background: none repeat scroll 0 0 #DD00FF;*/ overflow: auto; height: 110px; position: absolute; top: 20px; width: 100%; }
 .calendar .scrollbar					{ position: absolute; left: 774px; top: 10px; height: 110px; width: 5px; }
 .calendar .scrollbar .ui-slider-handle	{ width: 9px; height: 15px; left: -3px; }
-.calendar .slot							{ margin-bottom: 3px; }
-.calendar .appointment					{ position: relative; }
+.calendar .slot							{ margin-bottom: 3px; height: 18px; }
+.calendar .appointment					{ position: absolute; }
 .calendar .appointment.offset2			{ left: 110px; }
 .calendar .appointment.offset3			{ left: 220px; }
 .calendar .appointment.offset4			{ left: 330px; }
