@@ -45,7 +45,7 @@ class TourGuideReportsController extends AppController
 		$reportStatusDefault = $this->TourGuideReport->getReportStatusDefault();
 
 		$tourStatuses = $reportStatusOptions;
-		
+
 		$this->set(compact('reportStatusOptions', 'reportStatusDefault', 'tour', 'tourStatuses'));
 	}
 
@@ -57,37 +57,30 @@ class TourGuideReportsController extends AppController
 		if(!empty($this->data))
 		{
 			$tour = $this->TourGuideReport->Tour->find('first', array(
-					'conditions' => array('Tour.id' => $tourId),
-					'contain' => array(
-							'TourGuideReport', 'TourGuide', 'TourGuide.Profile', 'TourGuide.Profile.SacMainSection'
-					)
+				'conditions' => array('Tour.id' => $tourId),
+				'contain' => array(
+					'TourGuideReport', 'TourGuide', 'TourGuide.Profile', 'TourGuide.Profile.SacMainSection'
+				)
 			));
-	
+
 			$tourParticipations = $this->TourGuideReport->Tour->TourParticipation->find('all', array(
-					'conditions' => array('TourParticipation.tour_id' => $tourId, 'TourParticipationStatus.key' => 'affirmed'),
-					'contain' => array(
-							'User', 'User.Profile', 'User.Profile.SacMainSection','TourParticipationStatus'
-					)
+				'conditions' => array('TourParticipation.tour_id' => $tourId, 'TourParticipationStatus.key' => 'affirmed'),
+				'contain' => array(
+					'User', 'User.Profile', 'User.Profile.SacMainSection','TourParticipationStatus'
+				)
 			));
-			
- 			/*debug($tour);
- 			debug($tourParticipations);
- 			die;*/
-	
-			
+
 			$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
 			$this->set(array(
-					'tour' => $tour,
-					'tourParticipations' => $tourParticipations
+				'tour' => $tour,
+				'tourParticipations' => $tourParticipations
 			));
 		}
-	
+
 		$this->data = $this->TourGuideReport->Tour->find('first', array(
-				'fields' => array('Tour.id', 'Tour.title'),
-				'conditions' => array('Tour.id' => $tourId),
-				'contain' => array()
+			'fields' => array('Tour.id', 'Tour.title'),
+			'conditions' => array('Tour.id' => $tourId),
+			'contain' => array()
 		));
 	}	
-	
-	
 }

@@ -55,7 +55,8 @@ class M4fcb5dd082b049d0a63717141b2c2a9b extends CakeMigration {
  * @return boolean Should process continue
  * @access public
  */
-	public function before($direction) {
+	public function before($direction)
+	{
 		return true;
 	}
 
@@ -66,25 +67,30 @@ class M4fcb5dd082b049d0a63717141b2c2a9b extends CakeMigration {
  * @return boolean Should process continue
  * @access public
  */
-	public function after($direction) {
+	public function after($direction)
+	{
+		$TourStatus = $this->generateModel('TourStatus');
+		$newTourStatusId = 'dec21bcd-930e-11e1-ab93-40bdf79c26ea';
+
 		if($direction == 'up')
 		{
-			$TourStatus = $this->generateModel('TourStatus');
 			$tourStatuses = array(
-					array(
-							'TourStatus' => array(
-									'id' => 'dec21bcd-930e-11e1-ab93-40bdf79c26ea',
-									'statusname' => 'Nicht durchgeführt',
-									'key' => 'not_carried_out',
-									'rank' => 6
-							)
-					),
-
+				'TourStatus' => array(
+					'id' => $newTourStatusId,
+					'statusname' => 'Nicht durchgeführt',
+					'key' => 'not_carried_out',
+					'rank' => 6
+				)
 			);
-			$TourStatus->saveAll($tourStatuses);
-		
+
+			$TourStatus->save($tourStatuses);
 		}
-		
+
+		if($direction == 'down')
+		{
+			$TourStatus->delete($newTourStatusId);
+		}
+
 		return true;
 	}
 }
