@@ -190,12 +190,24 @@ echo $this->Form->input('Tour.food', array(
 	'label' => __('Verpflegung', true), 'disabled' => !in_array('food', $whitelist)
 ));
 
-echo $this->Form->input('Tour.costs', array(
-	'label' => __('Kosten', true), 'disabled' => !in_array('costs', $whitelist)
-));
-
 echo $this->Form->input('Tour.auxiliarymaterial', array(
 	'label' => __('Hilfsmittel', true), 'disabled' => !in_array('auxiliarymaterial', $whitelist)
+));
+
+echo $this->Form->input('Tour.travelcosts', array(
+	'label' => __('Reisekosten', true), 'disabled' => !in_array('travelcosts', $whitelist)
+));
+
+echo $this->Form->input('Tour.accomodationcosts', array(
+	'label' => __('Unterkunftskosten', true), 'disabled' => !in_array('accomodationcosts', $whitelist)
+));
+
+echo $this->Form->input('Tour.accomodation', array(
+	'label' => __('Unterkunft', true), 'disabled' => !in_array('accomodation', $whitelist)
+));
+
+echo $this->Form->input('Tour.planneddeparture', array(
+	'label' => __('Rückreise (geplant)', true), 'disabled' => !in_array('planneddeparture', $whitelist)
 ));
 
 if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist) && !empty($newStatusOptions))

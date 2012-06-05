@@ -9,8 +9,8 @@ echo $this->Html->div('columncontainer',
 		$this->Html->div('infoitem',
 			$this->Html->div('label', __('Tourenleiter', true))
 			. $this->Html->div('content', $this->TourDisplay->getTourGuide($tour))
-		).
-		$this->Html->div('infoitem',
+		)
+		. $this->Html->div('infoitem',
 			$this->Html->div('label', __('Datum', true))
 			. $this->Html->div('content', 
 				($tour['Tour']['startdate'] == $tour['Tour']['enddate']
@@ -50,6 +50,61 @@ echo $this->Html->div('columncontainer',
 echo $this->Html->tag('h2', __('Tourendetails', true));
 
 echo $this->Display->formatText($tour['Tour']['description']);
+
+echo $this->Html->div('columncontainer',
+	$this->Html->div('half',
+		$this->Html->div('infoitem',
+			$this->Html->div('label', __('Karten', true))
+			. $this->Html->div('content', $tour['Tour']['maps'])
+		)
+		. $this->Html->div('infoitem',
+			$this->Html->div('label', __('Zeitrahmen', true))
+			. $this->Html->div('content', $tour['Tour']['timeframe'])
+		)
+		. $this->Html->div('infoitem',
+			$this->Html->div('label', __('Treffpunkt', true))
+			. $this->Html->div('content', $tour['Tour']['meetingplace'])
+		)
+		. $this->Html->div('infoitem',
+			$this->Html->div('label', __('Zeit', true))
+			. $this->Html->div('content', sprintf(__('%s Uhr', true), $this->Time->format('H:i', $tour['Tour']['meetingtime'])))
+		)
+		. $this->Html->div('infoitem',
+			$this->Html->div('label', __('Transportmittel', true))
+			. $this->Html->div('content', $this->Display->displayTransport($tour['Tour']['transport']))
+		)
+		. $this->Html->div('infoitem',
+			$this->Html->div('label', __('Ausrüstung', true))
+			. $this->Html->div('content', $tour['Tour']['equipment'])
+		)
+	)
+	. $this->Html->div('half',
+		$this->Html->div('infoitem',
+			$this->Html->div('label', __('Verpflegung', true))
+			. $this->Html->div('content', $tour['Tour']['food'])
+		)
+		. $this->Html->div('infoitem',
+			$this->Html->div('label', __('Hilfsmittel', true))
+			. $this->Html->div('content', $tour['Tour']['auxiliarymaterial'])
+		)
+		. $this->Html->div('infoitem',
+			$this->Html->div('label', __('Reisekosten', true))
+			. $this->Html->div('content', sprintf(__('%.2f CHF', true), $tour['Tour']['travelcosts']))
+		)
+		. $this->Html->div('infoitem',
+			$this->Html->div('label', __('Unterkunftskosten', true))
+			. $this->Html->div('content', sprintf(__('%.2f CHF', true), $tour['Tour']['accomodationcosts']))
+		)
+		. $this->Html->div('infoitem',
+			$this->Html->div('label', __('Unterkunft', true))
+			. $this->Html->div('content', $tour['Tour']['accomodation'])
+		)
+		. $this->Html->div('infoitem',
+			$this->Html->div('label', __('Rückreise (geplant)', true))
+			. $this->Html->div('content', $tour['Tour']['planneddeparture'])
+		)
+	)
+);
 
 echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
 

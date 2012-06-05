@@ -27,14 +27,17 @@ class M4fc5463c8d384643acc423241b2c2a9b extends CakeMigration {
 					'equipment' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'transport'),
 					'food' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'equipment'),
 					'auxiliarymaterial' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'food'),
-					'costs' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'auxiliarymaterial')
+					'travelcosts' => array('type' => 'float', 'null' => false, 'default' => NULL, 'length' => '5,2', 'after' => 'auxiliarymaterial'),
+					'accomodationcosts' => array('type' => 'float', 'null' => false, 'default' => NULL, 'length' => '5,2', 'after' => 'travelcosts'),
+					'accomodation' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'accomodationcosts'),
+					'planneddeparture' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'accomodation'),
 				)
 			)
 		),
 		'down' => array(
 			'drop_field' => array(
 				'tours' => array(
-					'maps', 'timeframe', 'meetingplace', 'meetingtime', 'transport', 'equipment', 'food', 'auxiliarymaterial', 'costs'
+					'maps', 'timeframe', 'meetingplace', 'meetingtime', 'transport', 'equipment', 'food', 'auxiliarymaterial', 'travelcosts', 'accomodationcosts', 'accomodation', 'planneddeparture'
 				)
 			)
 		),	
