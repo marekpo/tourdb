@@ -14,6 +14,11 @@ class Appointment extends AppModel
 				'rule' => 'notEmpty'
 			)
 		),
+		'location' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
 		'startdate' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty'
@@ -33,12 +38,12 @@ class Appointment extends AppModel
 	{
 		if(isset($this->data['Appointment']['startdate']))
 		{
-			$this->data['Appointment']['startdate'] = date('Y-m-d', strtotime($this->data['Appointment']['startdate']));
+			$this->data['Appointment']['startdate'] = date('Y-m-d H:i:s', strtotime($this->data['Appointment']['startdate']));
 		}
-		
+
 		if(isset($this->data['Appointment']['enddate']))
 		{
-			$this->data['Appointment']['enddate'] = date('Y-m-d', strtotime($this->data['Appointment']['enddate']));
+			$this->data['Appointment']['enddate'] = date('Y-m-d H:i:s', strtotime($this->data['Appointment']['enddate']));
 		}
 
 		return true;

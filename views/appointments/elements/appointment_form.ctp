@@ -16,14 +16,21 @@ echo $this->Form->input('Appointment.description', array(
 		'notEmpty' => __('Die Beschreibung eines Anlasses darf nicht leer sein.', true)
 	)
 ));
+echo $this->Form->input('Appointment.location', array(
+	'label' => __('Ort', true), 'error' => array(
+		'notEmpty' => __('Für den Anlass muss angegeben werden, wo dieser stattfindet.', true)
+	)
+));
 
 echo $this->Widget->dateTime('Appointment.startdate', array(
-	'label' => __('Startdatum', true), 'error' => array(
+	'mode' => 'datetime',
+	'label' => __('Beginn', true), 'error' => array(
 		'notEmpty' => __('Das Startdatum des Anlasses darf nicht leer sein.', true)
 	)
 ));
 echo $this->Widget->dateTime('Appointment.enddate', array(
-	'label' => __('Enddatum', true), 'error' => array(
+	'mode' => 'datetime',
+	'label' => __('Ende', true), 'error' => array(
 		'notEmpty' => __('Das Enddatum des Anlasses darf nicht leer sein.', true),
 		'greaterOrEqualStartDate' => __('Das Enddatum muss größer oder gleich dem Startdatum sein.', true)
 	)

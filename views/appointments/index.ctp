@@ -6,8 +6,9 @@ if(count($appointments))
 {
 	$headers = array(
 		$this->Paginator->sort(__('Titel', true), 'Appointment.title'),
-		$this->Paginator->sort(__('Startdatum', true), 'Appointment.startdate'),
-		$this->Paginator->sort(__('Enddatum', true), 'Appointment.enddate'),
+		$this->Paginator->sort(__('Ort', true), 'Appointment.location'),
+		$this->Paginator->sort(__('Beginn', true), 'Appointment.startdate'),
+		$this->Paginator->sort(__('Ende', true), 'Appointment.enddate'),
 		''
 	);
 
@@ -21,11 +22,15 @@ if(count($appointments))
 				array('class' => 'title')
 			),
 			array(
-				$this->Time->format('d.m.Y', $appointment['Appointment']['startdate']),
+				$appointment['Appointment']['location'],
+				array('class' => 'location')
+			),
+			array(
+				$this->Time->format('d.m.Y H:i', $appointment['Appointment']['startdate']),
 				array('class' => 'startdate')
 			),
 			array(
-				$this->Time->format('d.m.Y', $appointment['Appointment']['enddate']),
+				$this->Time->format('d.m.Y H:i', $appointment['Appointment']['enddate']),
 				array('class' => 'enddate')
 			),
 			array(

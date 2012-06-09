@@ -13,6 +13,7 @@ class AppointmentsController extends AppController
 
 		$this->Auth->allow('view');
 	}
+
 	/**
 	 * @auth:requireRole(editor)
 	 */
@@ -58,6 +59,9 @@ class AppointmentsController extends AppController
 				'contain' => array()
 			));
 		}
+
+		$this->data['Appointment']['startdate'] = date('d.m.Y H:i', strtotime($this->data['Appointment']['startdate']));
+		$this->data['Appointment']['enddate'] = date('d.m.Y H:i', strtotime($this->data['Appointment']['enddate']));
 	}
 
 	/**

@@ -22,6 +22,7 @@ class M4fc511d086284e15b77f06881b2c2a9b extends CakeMigration {
 					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+					'location' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'startdate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'enddate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
