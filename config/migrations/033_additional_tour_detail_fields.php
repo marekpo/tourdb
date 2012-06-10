@@ -30,7 +30,8 @@ class M4fc5463c8d384643acc423241b2c2a9b extends CakeMigration {
 					'travelcosts' => array('type' => 'float', 'null' => false, 'default' => NULL, 'length' => '5,2', 'after' => 'auxiliarymaterial'),
 					'accomodationcosts' => array('type' => 'float', 'null' => false, 'default' => NULL, 'length' => '5,2', 'after' => 'travelcosts'),
 					'accomodation' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'accomodationcosts'),
-					'planneddeparture' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'accomodation'),
+					'altitudedifference' => array('type' => 'string', 'null' => true, 'default' => null, 'after' => 'accomodation'),
+					'planneddeparture' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'altitudedifference'),
 				)
 			)
 		),
