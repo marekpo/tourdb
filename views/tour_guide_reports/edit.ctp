@@ -8,7 +8,6 @@ echo $this->Form->create('TourGuideReport', array('url' => array($tour['Tour']['
 ?>
 
 <div class="tourguidereports">
-  <fieldset class="tourstatus">
 <?php 
 echo $this->Form->input('Tour.tour_status_id', array(
 	'type' => 'radio',
@@ -16,7 +15,6 @@ echo $this->Form->input('Tour.tour_status_id', array(
 	'default' => $reportStatusDefault
 ));
 ?>
-  </fieldset>
   <fieldset class="description">
    <legend><?php __('Beschreibung der Tour (Route, Zeiten, Verhältnisse, Wetter, Besonderes)'); ?></legend>
 <?php
