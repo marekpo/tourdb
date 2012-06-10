@@ -226,3 +226,9 @@ table.tours .tourweek, table.tours .withmountainguide
 .profiles .experience .input > label	{ width: 200px; }
 #ProfileAdditionalequipment, #ProfileHealthinformation	{ width: 610px; }
 .profiles.view table td	{ vertical-align: top; }
+
+/* tourguidereports */
+.tourguidereports .input label { width: 200px; }
+.tourguidereports .expenses .input.text input { width: 100px; }
+#TourGuideReportDescription	{ width: 500px; }
+#TourGuideReportSubstituteTour { width: 500px; }

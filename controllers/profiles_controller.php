@@ -36,7 +36,7 @@ class ProfilesController extends AppController
 				'conditions' => array('user_id' => $this->Auth->user('id')),
 				'contain' => array()
 			));
-
+			
 			if(is_array($this->data))
 			{
 				unset($this->data['Profile']['id']);

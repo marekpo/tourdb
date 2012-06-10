@@ -71,6 +71,10 @@ class Tour extends AppModel
 	var $hasMany = array(
 		'TourParticipation'
 	);
+	
+	var $hasOne = array(
+		'TourGuideReport'
+	);
 
 	var $hasAndBelongsToMany = array(
 		'TourType',
@@ -447,7 +451,7 @@ class Tour extends AppModel
 		return array(
 			'tourStatuses' => $this->TourStatus->find('list', array(
 				'conditions' => array('TourStatus.key' => array(
-					TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT)
+					TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)
 				),
 				'order' => array('TourStatus.rank' => 'ASC')
 			))

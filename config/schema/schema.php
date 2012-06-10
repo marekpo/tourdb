@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2012-05-26 16:16:21 : 1338041781*/
+/* Tourdb schema generated on: 2012-06-10 15:27:16 : 1339334836*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
@@ -172,6 +172,25 @@ class TourdbSchema extends CakeSchema {
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
+	var $tour_guide_reports = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'tour_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'description' => array('type' => 'text', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'substitute_tour' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'expenses_organsiation' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'expenses_transport' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'expenses_accommodation' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'expenses_others1' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'expenses_others2' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'driven_km' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 5),
+		'paid_tourguide' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'paid_donation' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'paid_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
 	var $tour_participation_statuses = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'statusname' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -232,6 +251,18 @@ class TourdbSchema extends CakeSchema {
 		'startdate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'enddate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'deadline' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'maps' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'timeframe' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'meetingplace' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'meetingtime' => array('type' => 'time', 'null' => false, 'default' => NULL),
+		'transport' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'equipment' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'food' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'auxiliarymaterial' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'travelcosts' => array('type' => 'float', 'null' => false, 'default' => NULL, 'length' => '5,2'),
+		'accomodationcosts' => array('type' => 'float', 'null' => false, 'default' => NULL, 'length' => '5,2'),
+		'accomodation' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'planneddeparture' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),

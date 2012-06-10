@@ -7,6 +7,7 @@ class TourStatus extends AppModel
 	const CANCELED = 'canceled';
 	const REGISTRATION_CLOSED = 'registration_closed';
 	const CARRIED_OUT = 'carried_out';
+	const NOT_CARRIED_OUT = 'not_carried_out';
 
 	var $name = 'TourStatus';
 
