@@ -38,7 +38,7 @@ class M4fc5463c8d384643acc423241b2c2a9b extends CakeMigration {
 		'down' => array(
 			'drop_field' => array(
 				'tours' => array(
-					'maps', 'timeframe', 'meetingplace', 'meetingtime', 'transport', 'equipment', 'food', 'auxiliarymaterial', 'travelcosts', 'accomodationcosts', 'accomodation', 'planneddeparture'
+					'maps', 'timeframe', 'meetingplace', 'meetingtime', 'transport', 'equipment', 'food', 'auxiliarymaterial', 'travelcosts', 'accomodationcosts', 'accomodation', 'altitudedifference', 'planneddeparture'
 				)
 			)
 		),	
