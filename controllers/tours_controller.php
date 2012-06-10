@@ -323,7 +323,7 @@ class ToursController extends AppController
 				}
 				else
 				{
-					$this->viewPath = Inflector::underscore($this->name) . DS . 'csv';
+					$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
 					$this->set(compact('tours'));
 				}
 			}
