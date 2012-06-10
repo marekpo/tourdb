@@ -49,7 +49,8 @@ $objDrawing = new PHPExcel_Worksheet_Drawing();
 $objDrawing->setName('Logo');
 $objDrawing->setDescription('SAC Logo');
 $objDrawing->setPath('./img/sac_logo.png');
-//$objDrawing->setHeight(36);
+$objDrawing->setResizeProportional(false);
+$objDrawing->setHeight(59);
 $objDrawing->setCoordinates('E1');
 $objDrawing->setWorksheet($this->Excel->getActiveSheet());
 
