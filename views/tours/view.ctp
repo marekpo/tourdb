@@ -51,59 +51,115 @@ echo $this->Html->tag('h2', __('Tourendetails', true));
 
 echo $this->Display->formatText($tour['Tour']['description']);
 
+$detailedInformation = array();
+
+if(!empty($tour['Tour']['meetingplace']))
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Treffpunkt', true))
+		. $this->Html->div('content', $tour['Tour']['meetingplace'])
+	);
+}
+
+if(!empty($tour['Tour']['meetingtime']))
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Zeit', true))
+		. $this->Html->div('content', sprintf(__('%s Uhr', true), $this->Time->format('H:i', $tour['Tour']['meetingtime'])))
+	);
+}
+
+$detailedInformation[] = $this->Html->div('infoitem',
+	$this->Html->div('label', __('Transportmittel', true))
+	. $this->Html->div('content', $this->Display->displayTransport($tour['Tour']['transport']))
+);
+
+if($tour['Tour']['travelcosts'] > 0)
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Reisekosten', true))
+		. $this->Html->div('content', sprintf(__('%.2f CHF', true), $tour['Tour']['travelcosts']))
+	);
+}
+
+if(!empty($tour['Tour']['planneddeparture']))
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Rückreise (geplant)', true))
+		. $this->Html->div('content', $tour['Tour']['planneddeparture'])
+	);
+}
+
+if(!empty($tour['Tour']['equipment']))
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Ausrüstung', true))
+		. $this->Html->div('content', $tour['Tour']['equipment'])
+	);
+}
+
+if(!empty($tour['Tour']['maps']))
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Karten', true))
+		. $this->Html->div('content', $tour['Tour']['maps'])
+	);
+}
+
+if(!empty($tour['Tour']['auxiliarymaterial']))
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Hilfsmittel', true))
+		. $this->Html->div('content', $tour['Tour']['auxiliarymaterial'])
+	);
+}
+
+if($tour['Tour']['timeframe'])
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Zeitrahmen', true))
+		. $this->Html->div('content', $tour['Tour']['timeframe'])
+	);
+}
+
+if(!empty($tour['Tour']['altitudedifference']))
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Höhendifferenz', true))
+		. $this->Html->div('content', $tour['Tour']['altitudedifference'])
+	);
+}
+
+if(!empty($tour['Tour']['food']))
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Verpflegung', true))
+		. $this->Html->div('content', $tour['Tour']['food'])
+	);
+}
+
+if(!empty($tour['Tour']['accomodation']))
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Unterkunft', true))
+		. $this->Html->div('content', $tour['Tour']['accomodation'])
+	);
+}
+
+if($tour['Tour']['accomodationcosts'] > 0)
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Unterkunftskosten', true))
+		. $this->Html->div('content', sprintf(__('%.2f CHF', true), $tour['Tour']['accomodationcosts']))
+	);
+}
+
+$firstColumn = implode('', array_slice($detailedInformation, 0, ceil(count($detailedInformation) / 2)));
+$secondColumn = implode('', array_slice($detailedInformation, ceil(count($detailedInformation) / 2), floor(count($detailedInformation) / 2)));
+
 echo $this->Html->div('columncontainer',
-	$this->Html->div('half',
-		$this->Html->div('infoitem',
-			$this->Html->div('label', __('Karten', true))
-			. $this->Html->div('content', $tour['Tour']['maps'])
-		)
-		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Zeitrahmen', true))
-			. $this->Html->div('content', $tour['Tour']['timeframe'])
-		)
-		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Treffpunkt', true))
-			. $this->Html->div('content', $tour['Tour']['meetingplace'])
-		)
-		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Zeit', true))
-			. $this->Html->div('content', sprintf(__('%s Uhr', true), $this->Time->format('H:i', $tour['Tour']['meetingtime'])))
-		)
-		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Transportmittel', true))
-			. $this->Html->div('content', $this->Display->displayTransport($tour['Tour']['transport']))
-		)
-		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Ausrüstung', true))
-			. $this->Html->div('content', $tour['Tour']['equipment'])
-		)
-	)
-	. $this->Html->div('half',
-		$this->Html->div('infoitem',
-			$this->Html->div('label', __('Verpflegung', true))
-			. $this->Html->div('content', $tour['Tour']['food'])
-		)
-		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Hilfsmittel', true))
-			. $this->Html->div('content', $tour['Tour']['auxiliarymaterial'])
-		)
-		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Reisekosten', true))
-			. $this->Html->div('content', sprintf(__('%.2f CHF', true), $tour['Tour']['travelcosts']))
-		)
-		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Unterkunftskosten', true))
-			. $this->Html->div('content', sprintf(__('%.2f CHF', true), $tour['Tour']['accomodationcosts']))
-		)
-		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Unterkunft', true))
-			. $this->Html->div('content', $tour['Tour']['accomodation'])
-		)
-		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Rückreise (geplant)', true))
-			. $this->Html->div('content', $tour['Tour']['planneddeparture'])
-		)
-	)
+	$this->Html->div('half', $firstColumn)
+	. $this->Html->div('half', $secondColumn)
 );
 
 echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));

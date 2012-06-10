@@ -159,14 +159,6 @@ if(!in_array('Difficulty', $whitelist))
 	$this->Js->buffer("$('[id^=TourDifficulty]').attr('disabled', true)");
 }
 
-echo $this->Form->input('Tour.maps', array(
-	'label' => __('Karten', true), 'disabled' => !in_array('maps', $whitelist)
-));
-
-echo $this->Form->input('Tour.timeframe', array(
-	'label' => __('Zeitrahmen', true), 'disabled' => !in_array('timeframe', $whitelist)
-));
-
 echo $this->Form->input('Tour.meetingplace', array(
 	'label' => __('Treffpunkt', true), 'disabled' => !in_array('meetingplace', $whitelist)
 ));
@@ -182,32 +174,44 @@ echo $this->Form->input('Tour.transport', array(
 	'disabled' => !in_array('transport', $whitelist)
 ));
 
+echo $this->Form->input('Tour.travelcosts', array(
+	'label' => __('Reisekosten', true), 'disabled' => !in_array('travelcosts', $whitelist), 'default' => 0
+));
+
+echo $this->Form->input('Tour.planneddeparture', array(
+	'label' => __('Rückreise (geplant)', true), 'disabled' => !in_array('planneddeparture', $whitelist)
+));
+
 echo $this->Form->input('Tour.equipment', array(
 	'label' => __('Ausrüstung', true), 'disabled' => !in_array('equipment', $whitelist)
 ));
 
-echo $this->Form->input('Tour.food', array(
-	'label' => __('Verpflegung', true), 'disabled' => !in_array('food', $whitelist)
+echo $this->Form->input('Tour.maps', array(
+	'label' => __('Karten', true), 'disabled' => !in_array('maps', $whitelist)
 ));
 
 echo $this->Form->input('Tour.auxiliarymaterial', array(
 	'label' => __('Hilfsmittel', true), 'disabled' => !in_array('auxiliarymaterial', $whitelist)
 ));
 
-echo $this->Form->input('Tour.travelcosts', array(
-	'label' => __('Reisekosten', true), 'disabled' => !in_array('travelcosts', $whitelist), 'default' => 0
+echo $this->Form->input('Tour.timeframe', array(
+	'label' => __('Zeitrahmen', true), 'disabled' => !in_array('timeframe', $whitelist)
 ));
 
-echo $this->Form->input('Tour.accomodationcosts', array(
-	'label' => __('Unterkunftskosten', true), 'disabled' => !in_array('accomodationcosts', $whitelist), 'default' => 0
+echo $this->Form->input('Tour.altitudedifference', array(
+	'label' => __('Höhendifferenz', true), 'disabled' => !in_array('altitudedifference', $whitelist)
+));
+
+echo $this->Form->input('Tour.food', array(
+	'label' => __('Verpflegung', true), 'disabled' => !in_array('food', $whitelist)
 ));
 
 echo $this->Form->input('Tour.accomodation', array(
 	'label' => __('Unterkunft', true), 'disabled' => !in_array('accomodation', $whitelist)
 ));
 
-echo $this->Form->input('Tour.planneddeparture', array(
-	'label' => __('Rückreise (geplant)', true), 'disabled' => !in_array('planneddeparture', $whitelist)
+echo $this->Form->input('Tour.accomodationcosts', array(
+	'label' => __('Unterkunftskosten', true), 'disabled' => !in_array('accomodationcosts', $whitelist), 'default' => 0
 ));
 
 if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist) && !empty($newStatusOptions))
