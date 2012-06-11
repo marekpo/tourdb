@@ -7,6 +7,7 @@ class Role extends AppModel
 	const TOURLEADER		= 'tourleader';
 	const EDITOR			= 'editor';
 	const SAFETYCOMMITTEE	= 'safetycommittee';
+	const BOOKKEEPER		= 'bookkeeper'; 
 	const SACMEMBER			= 'sacmember';
 	const USER				= 'user';
 

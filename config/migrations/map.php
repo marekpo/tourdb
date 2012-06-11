@@ -68,5 +68,9 @@ $map = array(
 		'033_additional_tour_detail_fields' => 'M4fc5463c8d384643acc423241b2c2a9b'),
 	34 => array(
 		'034_add_tour_guide_reports_table' => 'M4fcb5dd082b049d0a63717141b2c2a9b'),
+	35 => array(
+		'035_role_bookkeeper' => 'M4fd4d1d3c5f0461e899315341b2c2a9b'),
+	36 => array(
+		'036_add_menu_entry_for_list_tours_without_report' => 'M4fd4e0f6e33448a29a0b18d81b2c2a9b'),
 );
 ?>
