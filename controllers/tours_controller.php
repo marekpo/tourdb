@@ -701,7 +701,10 @@ class ToursController extends AppController
 	{
 		$reportDeadLine = date('Y-m-d', strtotime('-30 day'));
 		$this->paginate = array_merge($this->paginate, array(
-				'conditions' => array('and' => array('TourGuideReport.id' => null, 'Tour.enddate <' => $reportDeadLine )),
+				'conditions' => array('and' => array('TourGuideReport.id' => null,
+													'Tour.enddate <' => $reportDeadLine ),
+													'TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED)					
+				),
 				'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile', 'TourGuideReport.id')
 		));
 	
