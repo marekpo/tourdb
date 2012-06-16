@@ -49,6 +49,24 @@ class AppModel extends Model
 		return $_this->_check();
 	}
 
+	function integer($check)
+	{
+		$check = array_pop($check);
+
+		$_this =& Validation::getInstance();
+		$_this->__reset();
+		$_this->check = $check;
+
+		if(is_array($check))
+		{
+			$_this->_extract($check);
+		}
+
+		$_this->regex = '/^\d+$/';
+
+		return $_this->_check();
+	}
+
 	function compareToDateField($check, $operator, $otherDateField)
 	{
 		$checkTimestamp = strtotime(array_pop($check));

@@ -19,19 +19,19 @@ class M4fc5463c8d384643acc423241b2c2a9b extends CakeMigration {
 		'up' => array(
 			'create_field' => array(
 				'tours' => array(
-					'maps' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'deadline'),
-					'timeframe' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'maps'),
-					'meetingplace' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'timeframe'),
-					'meetingtime' => array('type' => 'time', 'null' => false, 'default' => NULL, 'after' => 'meetingplace'),
-					'transport' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'after' => 'meetingtime'),
-					'equipment' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'transport'),
-					'food' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'equipment'),
-					'auxiliarymaterial' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'food'),
-					'travelcosts' => array('type' => 'float', 'null' => false, 'default' => NULL, 'length' => '5,2', 'after' => 'auxiliarymaterial'),
-					'accomodationcosts' => array('type' => 'float', 'null' => false, 'default' => NULL, 'length' => '5,2', 'after' => 'travelcosts'),
-					'accomodation' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'accomodationcosts'),
-					'altitudedifference' => array('type' => 'string', 'null' => true, 'default' => null, 'after' => 'accomodation'),
-					'planneddeparture' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'altitudedifference'),
+					'maps' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'deadline'),
+					'timeframe' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'maps'),
+					'meetingplace' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'timeframe'),
+					'meetingtime' => array('type' => 'time', 'null' => true, 'default' => NULL, 'after' => 'meetingplace'),
+					'transport' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'after' => 'meetingtime'),
+					'equipment' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'transport'),
+					'food' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'equipment'),
+					'auxiliarymaterial' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'food'),
+					'travelcosts' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2', 'after' => 'auxiliarymaterial'),
+					'accomodationcosts' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2', 'after' => 'travelcosts'),
+					'accomodation' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'accomodationcosts'),
+					'altitudedifference' => array('type' => 'integer', 'null' => true, 'default' => null, 'after' => 'accomodation'),
+					'planneddeparture' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'altitudedifference'),
 				)
 			)
 		),

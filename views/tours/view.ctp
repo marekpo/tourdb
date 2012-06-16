@@ -47,10 +47,6 @@ echo $this->Html->div('columncontainer',
 	)
 );
 
-echo $this->Html->tag('h2', __('Tourendetails', true));
-
-echo $this->Display->formatText($tour['Tour']['description']);
-
 $detailedInformation = array();
 
 if(!empty($tour['Tour']['meetingplace']))
@@ -69,12 +65,15 @@ if(!empty($tour['Tour']['meetingtime']))
 	);
 }
 
-$detailedInformation[] = $this->Html->div('infoitem',
-	$this->Html->div('label', __('Transportmittel', true))
-	. $this->Html->div('content', $this->Display->displayTransport($tour['Tour']['transport']))
-);
+if(!empty($tour['Tour']['transport']))
+{
+	$detailedInformation[] = $this->Html->div('infoitem',
+		$this->Html->div('label', __('Transportmittel', true))
+		. $this->Html->div('content', $this->Display->displayTransport($tour['Tour']['transport']))
+	);
+}
 
-if($tour['Tour']['travelcosts'] > 0)
+if(!empty($tour['Tour']['travelcosts']))
 {
 	$detailedInformation[] = $this->Html->div('infoitem',
 		$this->Html->div('label', __('Reisekosten', true))
@@ -94,7 +93,7 @@ if(!empty($tour['Tour']['equipment']))
 {
 	$detailedInformation[] = $this->Html->div('infoitem',
 		$this->Html->div('label', __('Ausrüstung', true))
-		. $this->Html->div('content', $tour['Tour']['equipment'])
+		. $this->Html->div('content', $this->Display->formatText($tour['Tour']['equipment']))
 	);
 }
 
@@ -114,7 +113,7 @@ if(!empty($tour['Tour']['auxiliarymaterial']))
 	);
 }
 
-if($tour['Tour']['timeframe'])
+if(!empty($tour['Tour']['timeframe']))
 {
 	$detailedInformation[] = $this->Html->div('infoitem',
 		$this->Html->div('label', __('Zeitrahmen', true))
@@ -146,7 +145,7 @@ if(!empty($tour['Tour']['accomodation']))
 	);
 }
 
-if($tour['Tour']['accomodationcosts'] > 0)
+if(!empty($tour['Tour']['accomodationcosts']))
 {
 	$detailedInformation[] = $this->Html->div('infoitem',
 		$this->Html->div('label', __('Unterkunftskosten', true))
@@ -154,13 +153,20 @@ if($tour['Tour']['accomodationcosts'] > 0)
 	);
 }
 
-$firstColumn = implode('', array_slice($detailedInformation, 0, ceil(count($detailedInformation) / 2)));
-$secondColumn = implode('', array_slice($detailedInformation, ceil(count($detailedInformation) / 2), floor(count($detailedInformation) / 2)));
+if(!empty($tour['Tour']['description']) || !empty($detailedInformation))
+{
+	echo $this->Html->tag('h2', __('Tourendetails', true));
+	
+	echo $this->Display->formatText($tour['Tour']['description']);
+	
+	$firstColumn = implode('', array_slice($detailedInformation, 0, ceil(count($detailedInformation) / 2)));
+	$secondColumn = implode('', array_slice($detailedInformation, ceil(count($detailedInformation) / 2), floor(count($detailedInformation) / 2)));
 
-echo $this->Html->div('columncontainer',
-	$this->Html->div('half', $firstColumn)
-	. $this->Html->div('half', $secondColumn)
-);
+	echo $this->Html->div('columncontainer',
+		$this->Html->div('half', $firstColumn)
+		. $this->Html->div('half', $secondColumn)
+	);
+}
 
 echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
 

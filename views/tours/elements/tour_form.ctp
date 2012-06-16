@@ -170,12 +170,15 @@ echo $this->Form->input('Tour.meetingtime', array(
 
 echo $this->Form->input('Tour.transport', array(
 	'label' => __('Verkehrsmittel', true), 'type' => 'select',
-	'options' => $this->Display->getTransportOptions(),
+	'options' => $this->Display->getTransportOptions(), 'empty' => '',
 	'disabled' => !in_array('transport', $whitelist)
 ));
 
 echo $this->Form->input('Tour.travelcosts', array(
-	'label' => __('Reisekosten', true), 'disabled' => !in_array('travelcosts', $whitelist), 'default' => 0
+	'label' => __('Reisekosten', true), 'disabled' => !in_array('travelcosts', $whitelist),
+	'error' => array(
+		'decnum' => __('Die Reisekosten müssen als Dezimalzahl eingegeben werden (z.B. 30.0).', true)
+	)
 ));
 
 echo $this->Form->input('Tour.planneddeparture', array(
@@ -199,7 +202,10 @@ echo $this->Form->input('Tour.timeframe', array(
 ));
 
 echo $this->Form->input('Tour.altitudedifference', array(
-	'label' => __('Höhendifferenz', true), 'disabled' => !in_array('altitudedifference', $whitelist)
+	'label' => __('Höhendifferenz (m)', true), 'disabled' => !in_array('altitudedifference', $whitelist),
+	'error' => array(
+		'integer' => __('Die Höhendifferenz muss als ganze Zahl angegeben werden (z.B. 1000).', true)
+	)
 ));
 
 echo $this->Form->input('Tour.food', array(
@@ -211,7 +217,10 @@ echo $this->Form->input('Tour.accomodation', array(
 ));
 
 echo $this->Form->input('Tour.accomodationcosts', array(
-	'label' => __('Unterkunftskosten', true), 'disabled' => !in_array('accomodationcosts', $whitelist), 'default' => 0
+	'label' => __('Unterkunftskosten', true), 'disabled' => !in_array('accomodationcosts', $whitelist),
+	'error' => array(
+		'decnum' => __('Die Unterkunftskosten müssen als Dezimalzahl eingegeben werden (z.B. 30.0).', true)
+	)
 ));
 
 if(!empty($this->data['Tour']['id']) && in_array('tour_status_id', $whitelist) && !empty($newStatusOptions))

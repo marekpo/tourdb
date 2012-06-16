@@ -57,6 +57,24 @@ class Tour extends AppModel
 				'rule' => array('compareToDateField', '<', 'startdate'),
 				'allowEmpty' => true
 			)
+		),
+		'travelcosts' => array(
+			'decnum' => array(
+				'rule' => 'decimal',
+				'allowEmpty' => true
+			)
+		),
+		'altitudedifference' => array(
+			'integer' => array(
+				'rule' => 'integer',
+				'allowEmpty' => true
+			)
+		),
+		'accomodationcosts' => array(
+			'decnum' => array(
+				'rule' => 'decimal',
+				'allowEmpty' => true
+			)
 		)
 	);
 
@@ -148,6 +166,11 @@ class Tour extends AppModel
 		if(empty($this->id) && empty($this->data['Tour']['id']) && empty($this->data['Tour']['tour_status_id']))
 		{
 			$this->data['Tour']['tour_status_id'] = $this->TourStatus->field('id', array('key' => TourStatus::NEW_));
+		}
+
+		if($this->data['Tour']['meetingtime'] == '00:00:00')
+		{
+			$this->data['Tour']['meetingtime'] = null;
 		}
 
 		return true;

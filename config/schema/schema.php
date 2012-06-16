@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2012-06-10 23:00:15 : 1339362015*/
+/* Tourdb schema generated on: 2012-06-16 11:42:15 : 1339839735*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
@@ -251,19 +251,19 @@ class TourdbSchema extends CakeSchema {
 		'startdate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'enddate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'deadline' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'maps' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'timeframe' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'meetingplace' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'meetingtime' => array('type' => 'time', 'null' => false, 'default' => NULL),
-		'transport' => array('type' => 'integer', 'null' => false, 'default' => NULL),
-		'equipment' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'food' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'auxiliarymaterial' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'travelcosts' => array('type' => 'float', 'null' => false, 'default' => NULL, 'length' => '5,2'),
-		'accomodationcosts' => array('type' => 'float', 'null' => false, 'default' => NULL, 'length' => '5,2'),
-		'accomodation' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'altitudedifference' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'planneddeparture' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'maps' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'timeframe' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'meetingplace' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'meetingtime' => array('type' => 'time', 'null' => true, 'default' => NULL),
+		'transport' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'equipment' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'food' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'auxiliarymaterial' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'travelcosts' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'accomodationcosts' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'accomodation' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'altitudedifference' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'planneddeparture' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
