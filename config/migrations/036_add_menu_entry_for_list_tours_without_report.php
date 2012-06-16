@@ -29,7 +29,8 @@ class M4fd4e0f6e33448a29a0b18d81b2c2a9b extends CakeMigration {
  * @return boolean Should process continue
  * @access public
  */
-	public function before($direction) {
+	public function before($direction)
+	{
 		$Menu = $this->generateModel('Menu');
 		$menulistToursWithoutReportId = '2fdc91f3-b397-11e1-87b7-add00ac1a90b';
 		$menulistToursWithoutReportRank = 8;
@@ -68,7 +69,8 @@ class M4fd4e0f6e33448a29a0b18d81b2c2a9b extends CakeMigration {
  * @return boolean Should process continue
  * @access public
  */
-	public function after($direction) {
+	public function after($direction)
+	{
 		return true;
 	}
 }

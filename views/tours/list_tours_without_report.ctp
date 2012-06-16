@@ -5,7 +5,7 @@ $this->Html->addCrumb(__('Touren ohne Tourenrapport', true));
 if(count($tours))
 {
 	$tableHeaders = array(
-	    $this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
+		$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
 		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
 		$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
 		$this->Paginator->sort(__('Datum bis', true), 'Tour.enddate'),
@@ -17,14 +17,13 @@ if(count($tours))
 	);
 
 	$tableCells = array();
-	
+
 	foreach($tours as $tour)
 	{
-
 		$emailLink = $this->Authorization->link('', array('controller' => 'tours', 'action' => 'reminderTourguideReport', $tour['Tour']['id']), array(
-				'class' => 'iconaction email',
-				'id' => sprintf('email-%s', $tour['Tour']['id']),
-				'title' => __('E-Mail verschicken', true)
+			'class' => 'iconaction email',
+			'id' => sprintf('email-%s', $tour['Tour']['id']),
+			'title' => __('E-Mail verschicken', true)
 		));		
 
 		$tableCells[] = array(
@@ -36,7 +35,6 @@ if(count($tours))
 				$this->Html->link($tour['Tour']['title'], array('action' => 'edit', $tour['Tour']['id'])),
 				array('class' => 'title')
 			),
-	
 			array(
 				$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
 				array('class' => 'startdate')

@@ -701,15 +701,18 @@ class ToursController extends AppController
 	{
 		$reportDeadLine = date('Y-m-d', strtotime('-30 day'));
 		$this->paginate = array_merge($this->paginate, array(
-				'conditions' => array('and' => array('TourGuideReport.id' => null,
-													'Tour.enddate <' => $reportDeadLine ),
-													'TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED)					
+			'conditions' => array(
+				'AND' => array(
+					'TourGuideReport.id' => null,
+					'Tour.enddate <' => $reportDeadLine
 				),
-				'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile', 'TourGuideReport.id')
+				'TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED)					
+			),
+			'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile', 'TourGuideReport.id')
 		));
 	
 		$this->set(array(
-				'tours' => $this->paginate('Tour')
+			'tours' => $this->paginate('Tour')
 		));
 	}	
 	
@@ -719,35 +722,35 @@ class ToursController extends AppController
 	 */
 	function reminderTourguideReport($id)
 	{
-	
 		$tour = $this->Tour->find('first', array(
-				'conditions' => array('Tour.id' => $id),
-				'contain' => array('TourGuide', 'TourGuide.Profile')
+			'conditions' => array('Tour.id' => $id),
+			'contain' => array('TourGuide', 'TourGuide.Profile')
 		));
-	
+
 		if(!empty($this->data) && $this->data['Tour']['confirm'])
 		{
 			$tour = $this->Tour->find('first', array(
-					'conditions' => array('Tour.id' => $id),
-					'contain' => array('TourGuide', 'TourGuide.Profile')
+				'conditions' => array('Tour.id' => $id),
+				'contain' => array('TourGuide', 'TourGuide.Profile')
 			));
-	
+
 			$this->set(array('tour' => $tour));
-				
+
 			$this->_sendEmail(
-					$tour['TourGuide']['email'],
-					sprintf(__('Tourenrapport Erinnerung für die Tour "%s"', true), $tour['Tour']['title']),
-					'tours/reminder_tourguide_report'
+				$tour['TourGuide']['email'],
+				sprintf(__('Tourenrapport Erinnerung für die Tour "%s"', true), $tour['Tour']['title']),
+				'tours/reminder_tourguide_report'
 			);
+
 			$this->Session->setFlash(__('Die E-Mail wurde verschickt.', true));
 			$this->redirect(array('action' => 'listToursWithoutReport'));
 		}
-		else {
+		else
+		{
 			$this->data = $tour;
 		}
-	
 	}	
-	
+
 	function __changeTourStatus($id, $statusId)
 	{
 		$tour = $this->Tour->find('first', array(

@@ -29,7 +29,8 @@ class M4fd4d1d3c5f0461e899315341b2c2a9b extends CakeMigration {
  * @return boolean Should process continue
  * @access public
  */
-	public function before($direction) {
+	public function before($direction)
+	{
 		$Role = $this->generateModel('Role');
 		$bookkeeperRoleId = 'b340f5e3-b396-11e1-87b7-add00ac1a90b';
 		$bookkeeperRoleRank = 6;
@@ -67,7 +68,8 @@ class M4fd4d1d3c5f0461e899315341b2c2a9b extends CakeMigration {
  * @return boolean Should process continue
  * @access public
  */
-	public function after($direction) {
+	public function after($direction)
+	{
 		return true;
 	}
 }
