@@ -11,7 +11,7 @@ if(!class_exists('Security'))
 
 class TourDBShell extends Shell
 {
-	var $uses = array('User', 'Tour', 'TourStatus');
+	var $uses = array('User', 'Role', 'Tour', 'TourStatus');
 
 	function main()
 	{
@@ -35,9 +35,16 @@ class TourDBShell extends Shell
 			$this->error(sprintf('Import file %s could not be opened for reading.', $importFilePath));
 		}
 
-		$response = $this->in(sprintf('This will import all the users in %s into the database. Continue?', $importFile), array('y', 'n'), 'n');
+		$securityQuery = sprintf('This will import all the users in %s into the database. ', $importFilePath);
 
-		if($response == 'n')
+		if(!empty($this->params['promoteToTourGuide']))
+		{
+			$securityQuery .= 'All imported users will be promoted to tour guides. ';
+		}
+
+		$response = $this->in(sprintf('%sContinue?', $securityQuery), array('y', 'n'), 'n');
+
+		if($response !== 'y')
 		{
 			$this->_stop();
 		}
@@ -45,21 +52,49 @@ class TourDBShell extends Shell
 		$importedCount = 0;
 		$errorCount = 0;
 		$errorFile = null;
+		$tourGuideRoleId = $this->Role->field('id', array('Role.key' => Role::TOURLEADER));
 
 		while($row = fgetcsv($importFile, 0, ';'))
 		{
-			$salt = SecurityTools::generateRandomString();
+			$existingUser = $this->User->find('first', array(
+				'fields' => array('User.id'),
+				'conditions' => array(
+					'OR' => array(
+						array('User.username' => $row[0]),
+						array('User.email' => $row[2])
+					)
+				),
+				'contain' => array('Role.id')
+			));
 
-			$user = array(
-				'User' => array(
-					'username' => $row[0],
-					'salt' => $salt,
-					'password' => $this->User->hashPassword($salt, $row[1]),
-					'email' => $row[2]
-				)
-			);
+			if(!empty($existingUser))
+			{
+				$user = $existingUser;
+				$user['Role'] = array(
+					'Role' => Set::extract('/Role/id', $user)
+				);
+			}
+			else
+			{
+				$salt = SecurityTools::generateRandomString();
+
+				$user = array(
+					'User' => array(
+						'username' => $row[0],
+						'salt' => $salt,
+						'password' => $this->User->hashPassword($salt, $row[1]),
+						'email' => $row[2]
+					)
+				);
+			}
+
+			if(!empty($this->params['promoteToTourGuide']))
+			{
+				$user['Role']['Role'][] = $tourGuideRoleId;
+			}
 
 			$this->User->create();
+			unset($this->User->data['User']['dataprivacystatementaccepted']);
 			if(!$this->User->save($user))
 			{
 				$errorCount++;
@@ -75,6 +110,13 @@ class TourDBShell extends Shell
 
 				if($errorFile !== false)
 				{
+					$errorColumn = array();
+					foreach($this->User->validationErrors as $field => $rule)
+					{
+						$errorColumn[] = sprintf('%s => %s', $field, $rule);
+					}
+
+					$row[] = implode(',', $errorColumn);
 					fwrite($errorFile, sprintf("%s\n", implode(';', $row)));
 				}
 
@@ -95,7 +137,11 @@ class TourDBShell extends Shell
 		}
 
 		fclose($importFile);
-		fclose($errorFile);
+
+		if($errorFile != null)
+		{
+			fclose($errorFile);
+		}
 	}
 
 	function settourstatus()

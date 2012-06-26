@@ -64,7 +64,12 @@ class User extends AppModel
 
 	var $hasOne = array('Profile');
 
-	var $hasMany = array('Tour', 'TourParticipation');
+	var $hasMany = array(
+		'Tour' => array(
+			'foreignKey' => 'tour_guide_id'
+		),
+		'TourParticipation'
+	);
 
 	var $hasAndBelongsToMany = array('Role');
 
