@@ -35,9 +35,10 @@ class TourDBShell extends Shell
 			$this->error(sprintf('Import file %s could not be opened for reading.', $importFilePath));
 		}
 
+		$promoteToTourGuide = !empty($this->params['promoteToTourGuide']);
 		$securityQuery = sprintf('This will import all the users in %s into the database. ', $importFilePath);
 
-		if(!empty($this->params['promoteToTourGuide']))
+		if($promoteToTourGuide)
 		{
 			$securityQuery .= 'All imported users will be promoted to tour guides. ';
 		}
@@ -50,6 +51,7 @@ class TourDBShell extends Shell
 		}
 
 		$importedCount = 0;
+		$skippedCount = 0;
 		$errorCount = 0;
 		$errorFile = null;
 		$tourGuideRoleId = $this->Role->field('id', array('Role.key' => Role::TOURLEADER));
@@ -69,6 +71,13 @@ class TourDBShell extends Shell
 
 			if(!empty($existingUser))
 			{
+				if(!$promoteToTourGuide)
+				{
+					$skippedCount++;
+
+					continue;
+				}
+
 				$user = $existingUser;
 				$user['Role'] = array(
 					'Role' => Set::extract('/Role/id', $user)
@@ -88,7 +97,7 @@ class TourDBShell extends Shell
 				);
 			}
 
-			if(!empty($this->params['promoteToTourGuide']))
+			if($promoteToTourGuide)
 			{
 				$user['Role']['Role'][] = $tourGuideRoleId;
 			}
@@ -129,7 +138,7 @@ class TourDBShell extends Shell
 		}
 
 		$this->out('Done.');
-		$this->out(sprintf('Imported %d users. There were %d errors.', $importedCount, $errorCount));
+		$this->out(sprintf('Imported %d users, skipped %d. There were %d errors.', $importedCount, $skippedCount, $errorCount));
 
 		if($errorCount > 0 && $errorFile !== null && $errorFile !== false)
 		{
