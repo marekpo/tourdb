@@ -38,4 +38,81 @@ class CalendarBehavior extends ModelBehavior
 			'order' => array($this->settings[$model->alias]['startdate'] => 'ASC')
 		)));
 	}
+
+	function sortRecords()
+	{
+		$recordListsToSort = array();
+		$numRecordLists = 0;
+
+		foreach(func_get_args() as $recordList)
+		{
+			if(is_array($recordList) && !empty($recordList))
+			{
+				$recordListsToSort[] = $recordList;
+				$numRecordLists++;
+			}
+		}
+
+		if($numRecordLists == 0)
+		{
+			return array();
+		}
+
+		$sortedRecords = array();
+
+		$topAppointments = array();
+
+		for($i = 0; $i < $numRecordLists; $i++)
+		{
+			$topAppointments[] = $this->__getStartTimestamp($recordListsToSort[$i][0]);
+		}
+
+		while(true)
+		{
+			$nextRecordListIndex = $this->__getMinValueIndex($topAppointments);
+			$sortedRecords[] = array_shift($recordListsToSort[$nextRecordListIndex]);
+
+			if(!empty($recordListsToSort[$nextRecordListIndex]))
+			{
+				$topAppointments[$nextRecordListIndex] = $this->__getStartTimestamp($recordListsToSort[$nextRecordListIndex][0]);
+			}
+			else
+			{
+				unset($recordListsToSort[$nextRecordListIndex]);
+			}
+
+			if(count($recordListsToSort) == 1)
+			{
+				$sortedRecords = array_merge($sortedRecords, $recordListsToSort[0]);
+				break;
+			}
+		}
+
+		return $sortedRecords;
+	}
+
+	function __getStartTimestamp($record)
+	{
+		$model = array_shift(array_keys($record));
+
+		return strtotime($record[$model]['startdate']);
+	}
+
+	function __getMinValueIndex($values = array())
+	{
+		$minValueIndex = null;
+		$previousValue = PHP_INT_MAX;
+
+		foreach($values as $key => $value)
+		{
+			if($value < $previousValue)
+			{
+				$minValueIndex = $key;
+			}
+
+			$previousValue = $value;
+		}
+
+		return $minValueIndex;
+	}
 }

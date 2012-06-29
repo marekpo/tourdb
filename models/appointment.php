@@ -3,6 +3,8 @@ class Appointment extends AppModel
 {
 	var $name = 'Appointment';
 
+	var $actsAs = array('Calendar');
+
 	var $validate = array(
 		'title' => array(
 			'notEmpty' => array(

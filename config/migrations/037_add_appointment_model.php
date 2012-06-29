@@ -67,7 +67,7 @@ class M4fc511d086284e15b77f06881b2c2a9b extends CakeMigration {
 		$separatorId = '4fc52c09-9a08-4c37-b8a7-0f4c1b2c2a9b';
 		$indexActionId = '4fc52c3c-9f90-4360-be33-0f4c1b2c2a9b';
 		$addActionId = '4fc52c4e-e5b4-435b-8959-0f4c1b2c2a9b';
-		$separatorRank = 8;
+		$separatorRank = 9;
 
 		if($direction == 'up')
 		{
