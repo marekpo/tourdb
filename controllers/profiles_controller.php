@@ -84,8 +84,8 @@ class ProfilesController extends AppController
 				'order' => array('Tour.startdate' => 'desc')
 			)),
 			'tourParticipations' => $this->Profile->User->TourParticipation->find('all', array(
-				'conditions' => array('TourParticipation.user_id' => $userId),
-				'contain' => array('Tour', 'Tour.TourStatus', 'Tour.TourType', 'Tour.Difficulty', 'Tour.ConditionalRequisite'),
+				'conditions' => array('TourParticipation.user_id' => $userId , 'TourParticipationStatus.key' => 'affirmed'),
+				'contain' => array('Tour', 'Tour.TourStatus', 'Tour.TourType', 'Tour.Difficulty', 'Tour.ConditionalRequisite', 'TourParticipationStatus'),
 				'order' => array('Tour.startdate' => 'desc')
 			))
 		));

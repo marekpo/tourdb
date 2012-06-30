@@ -198,7 +198,7 @@ if(count($ownTours))
 
 if(count($tourParticipations))
 {
-	echo $this->Html->tag('h2', __('Tourenanmeldungen', true));
+	echo $this->Html->tag('h2', __('Bestätigte Tourenanmeldungen', true));
 
 	$tourParticipationHeaders = array(
 		__('Status', true), __('Tourbezeichnung', true), __('Datum von', true), __('Datum bis', true), __('Code', true)
