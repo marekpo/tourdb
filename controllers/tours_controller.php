@@ -450,7 +450,14 @@ class ToursController extends AppController
 			'contain' => array('TourGuide', 'TourGuide.Profile', 'TourStatus', 'TourType', 'ConditionalRequisite', 'Difficulty')
 		));
 
-		$this->set(compact('tours', 'year', 'month'));
+		$this->loadModel('Appointment');
+		$appointments = $this->Appointment->getCalendarData($year, $month, array(
+			'contain' => array()
+		));
+
+		$allCalendarItems = $this->Tour->sortRecords($tours, $appointments);
+
+		$this->set(compact('allCalendarItems', 'year', 'month'));
 	}
 
 	/**

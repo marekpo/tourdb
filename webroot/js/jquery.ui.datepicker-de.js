@@ -20,4 +20,21 @@ jQuery(function($){
 		showMonthAfterYear: false,
 		yearSuffix: ''};
 	$.datepicker.setDefaults($.datepicker.regional['de']);
+
+	if($.timepicker != undefined)
+	{
+		$.timepicker.regional['de'] = {
+				timeOnlyTitle: 'Zeit wählen',
+				timeText: 'Zeit',
+				hourText: 'Stunde',
+				minuteText: 'Minute',
+				secondText: 'Sekunde',
+				millisecText: 'Millisekunde',
+				currentText: 'Jetzt',
+				closeText: 'schließen',
+				ampm: false
+		};
+
+		$.timepicker.setDefaults($.timepicker.regional['de']);
+	}
 });

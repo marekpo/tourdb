@@ -82,10 +82,11 @@ class WidgetHelper extends AppHelper
 
 	function dateTime($name, $options = array())
 	{
-		$options = array_merge($options, array(
+		$options = array_merge(array(
 			'type' => 'text',
-			'class' => 'dateTime'
-		));
+			'class' => 'dateTime',
+			'mode' => 'date'
+		), $options);
 
 		$inputAttributes = $this->_initInputField($name);
 
@@ -104,7 +105,15 @@ class WidgetHelper extends AppHelper
 		}
 
 		$this->Html->script('jquery.ui.datepicker-de', array('inline' => false));
-		$this->Js->buffer(sprintf("$('#{$inputAttributes['id']}').datepicker({%s});", implode(', ', $datePickerOptionParts)));
+
+		if($options['mode'] == 'time' || $options['mode'] == 'datetime')
+		{
+			$this->Html->script('jquery-ui-timepicker-addon.js', array('inline' => false));
+		}
+
+		$pickerFunction = sprintf('%spicker', $options['mode']);
+
+		$this->Js->buffer(sprintf("$('#{$inputAttributes['id']}').%s({%s});", $pickerFunction, implode(', ', $datePickerOptionParts)));
 
 		return $this->Form->input($name, $options);
 	}
@@ -398,6 +407,46 @@ class WidgetHelper extends AppHelper
 			)
 		);
 		
+		return $this->Html->div('title', $appointment['title'])
+			. $this->Html->div('body', $this->Html->tag('table', $this->Html->tableCells($rows)));
+	}
+
+	function __renderAppointmentTitle($appointment, $options)
+	{
+		if($options['viewlinks'])
+		{
+			return $this->Html->link($appointment['title'], array('controller' => 'appointments', 'action' => 'view', $appointment['id']));
+		}
+
+		return $appointment['title'];
+	}
+
+	function __renderAppointmentPopup($appointment, $options)
+	{
+		$rows = array(
+			array(
+				array(
+					__('Ort', true),
+					array('class' => 'label')
+				),
+				$appointment['event']['Appointment']['location']
+			),
+			array(
+				array(
+					__('Start', true),
+					array('class' => 'label')
+				),
+				strftime('%d.%m.%Y %H:%M', strtotime($appointment['event']['Appointment']['startdate']))
+			),
+			array(
+				array(
+					__('Ende', true),
+					array('class' => 'label')
+				),
+				strftime('%d.%m.%Y %H:%M', strtotime($appointment['event']['Appointment']['enddate']))
+			)
+		);
+
 		return $this->Html->div('title', $appointment['title'])
 			. $this->Html->div('body', $this->Html->tag('table', $this->Html->tableCells($rows)));
 	}
