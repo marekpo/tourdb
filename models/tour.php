@@ -343,15 +343,6 @@ class Tour extends AppModel
 			return $editEverythingWhitelist;
 		}
 
-		foreach($editEverythingWhitelist as $key => $value)
-		{
-			if($value == 'tour_group_id')
-			{
-				unset($editEverythingWhitelist[$key]);
-				break;
-			}
-		}
-
 		$tourStatus = $this->find('first', array(
 			'fields' => array('TourStatus.rank', 'TourStatus.key'),
 			'conditions' => array('Tour.id' => $id),
