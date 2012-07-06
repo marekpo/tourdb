@@ -108,18 +108,19 @@ class Tour extends AppModel
 	{
 		if(isset($this->data['Tour']['TourType']) && !empty($this->data['Tour']['TourType']))
 		{
-			$isCourse = $this->TourType->find('count', array(
+			$doesNotRequireConditionalRequisite = $this->TourType->find('count', array(
 				'conditions' => array(
 					'TourType.id' => $this->data['Tour']['TourType'],
 					'OR' => array(
 						array('TourType.key' => TourType::TRAINING_COURSE),
-						array('TourType.key' => TourType::CAVE_TOUR)
+						array('TourType.key' => TourType::CAVE_TOUR),
+						array('TourType.key' => TourType::EXCURSION)
 					)
 				),
 				'contain' => array()
 			)) > 0;
 
-			if($isCourse)
+			if($doesNotRequireConditionalRequisite)
 			{
 				unset($this->validate['ConditionalRequisite']);
 			}
