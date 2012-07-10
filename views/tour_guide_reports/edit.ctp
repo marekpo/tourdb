@@ -57,7 +57,7 @@ echo $this->Form->input('TourGuideReport.expenses_transport', array(
 
 echo $this->Form->input('TourGuideReport.expenses_accommodation', array(
 	'type' => 'text',
-	'label' => __('Hütte', true),
+	'label' => __('Übernachtung inkl. HP', true),
 	'error' => array('decnum' => $decnumText)
 ));
 
