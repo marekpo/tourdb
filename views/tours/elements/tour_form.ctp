@@ -175,7 +175,7 @@ echo $this->Form->input('Tour.transport', array(
 ));
 
 echo $this->Form->input('Tour.travelcosts', array(
-	'label' => __('Reisekosten', true), 'disabled' => !in_array('travelcosts', $whitelist),
+	'label' => __('Reisekosten (CHF)', true), 'disabled' => !in_array('travelcosts', $whitelist),
 	'error' => array(
 		'decnum' => __('Die Reisekosten müssen als Dezimalzahl eingegeben werden (z.B. 30.0).', true)
 	)
@@ -217,7 +217,7 @@ echo $this->Form->input('Tour.accomodation', array(
 ));
 
 echo $this->Form->input('Tour.accomodationcosts', array(
-	'label' => __('Unterkunftskosten', true), 'disabled' => !in_array('accomodationcosts', $whitelist),
+	'label' => __('Unterk.Kosten (CHF)', true), 'disabled' => !in_array('accomodationcosts', $whitelist),
 	'error' => array(
 		'decnum' => __('Die Unterkunftskosten müssen als Dezimalzahl eingegeben werden (z.B. 30.0).', true)
 	)
