@@ -292,7 +292,9 @@ class ToursController extends AppController
 	}
 
 	/**
+	 * @auth:requireRole(tourchief)
 	 * @auth:requireRole(editor)
+	 * @auth:requireRole(tourleader)
 	 */
 	function export()
 	{
