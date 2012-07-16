@@ -172,14 +172,9 @@ echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
 
 if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 {
-	if($registrationOpen || $currentUserAlreadySignedUp || !$tour['Tour']['signuprequired'])
+	if($registrationOpen || $currentUserAlreadySignedUp)
 	{
 		echo $this->Html->tag('h2', __('Anmeldung', true));
-	}
-
-	if(!$tour['Tour']['signuprequired'])
-	{
-		echo $this->Html->para('', __('Für diese Tour ist keine Anmeldung erforderlich!', true));
 	}
 
 	if($registrationOpen && !$currentUserAlreadySignedUp)
