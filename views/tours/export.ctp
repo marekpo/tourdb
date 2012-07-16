@@ -18,5 +18,11 @@ echo $this->Widget->dateTime('enddate', array(
 	)
 ));
 
+
+echo $this->Form->input('Tour.tour_group_id', array(
+		'type' => 'select', 'label' => __('Tourengruppe', true),
+		'empty' => ''
+));
+
 echo $this->Form->end(__('Exportieren', true));
 $this->Js->buffer("$('#TourStartdate').datepicker('option', 'onSelect', function(dateText, datepicker) { $('#TourEnddate').datepicker('option', 'minDate', dateText); });");

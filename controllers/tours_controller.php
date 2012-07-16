@@ -303,18 +303,18 @@ class ToursController extends AppController
 			$this->Tour->set($this->data);
 			if($this->Tour->validates())
 			{
-				$dateRangeStart = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
-				$dateRangeEnd= date('Y-m-d', strtotime($this->data['Tour']['enddate']));
+				$searchConditions['TourStatus.key'] = array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED);
+				$searchConditions['Tour.startdate >='] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
+				$searchConditions['Tour.enddate <='] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
+
+				if(isset($this->data['Tour']['tour_group_id']) && !empty($this->data['Tour']['tour_group_id']))
+				{
+					$searchConditions['Tour.tour_group_id'] = $this->data['Tour']['tour_group_id'];
+				}
 
 				$tours = $this->Tour->find('all', array(
 					'recursive' => 2,
-					'conditions' => array(
-						'AND' => array(
-							'startdate >=' => $dateRangeStart,
-							'startdate <=' => $dateRangeEnd,
-							'TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED)
-						)
-					),
+					'conditions' => array('AND' => $searchConditions),
 					'order' => array('startdate' => 'ASC'),
 					'contain' => array('TourGroup', 'TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty', 'TourStatus')
 				));
@@ -330,6 +330,9 @@ class ToursController extends AppController
 				}
 			}
 		}
+		
+		$this->set($this->Tour->getWidgetData(array(Tour::WIDGET_TOUR_GROUP)));		
+		
 	}
 
 	/**
