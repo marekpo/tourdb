@@ -350,8 +350,8 @@ class WidgetHelper extends AppHelper
 		$popupRenderFunction = sprintf('__render%sPopup', $appointmentModel);
 
 		return $this->Html->div(sprintf('appointment appointment%s offset%d width%d', $appointment['id'], $appointment['offset'], $appointment['length']),
-			$this->Html->div('popup', $this->{$popupRenderFunction}($appointment, $options))
-			. $this->Html->div('label', $this->{$titleRenderFunction}($appointment, $options))
+			$this->Html->div(sprintf('popup model-%s', strtolower($appointmentModel)), $this->{$popupRenderFunction}($appointment, $options))
+			. $this->Html->div(sprintf('label model-%s', strtolower($appointmentModel)), $this->{$titleRenderFunction}($appointment, $options))
 		);
 	}
 
