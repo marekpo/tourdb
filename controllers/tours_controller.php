@@ -437,7 +437,7 @@ class ToursController extends AppController
 	/**
 	 * @auth:allowed()
 	 */
-	function calendar($year, $month)
+	function calendar($year = null, $month = null)
 	{
 		if(empty($year) || empty($month))
 		{
