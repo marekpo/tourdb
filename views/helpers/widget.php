@@ -259,8 +259,8 @@ class WidgetHelper extends AppHelper
 		{
 			$appointmentModel = $this->__getAppointmentModel($event);
 
-			$startTimestamp = strtotime($event[$appointmentModel]['startdate']);
-			$endTimestamp = strtotime($event[$appointmentModel]['enddate']);
+			$startTimestamp = strtotime($this->Time->format($event[$appointmentModel]['startdate'], '%Y-%m-%d'));
+			$endTimestamp = strtotime($this->Time->format($event[$appointmentModel]['enddate'], '%Y-%m-%d'));
 
 			for($slot = 0; true; $slot++)
 			{
