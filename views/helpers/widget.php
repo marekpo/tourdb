@@ -377,6 +377,13 @@ class WidgetHelper extends AppHelper
 			),
 			array(
 				array(
+					__('Gruppe', true),
+					array('class' => 'label')
+				),
+				$appointment['event']['TourGroup']['tourgroupname']
+			),
+			array(
+				array(
 					__('Tourstatus', true),
 					array('class' => 'label')
 				),

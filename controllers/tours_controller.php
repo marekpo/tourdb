@@ -452,7 +452,7 @@ class ToursController extends AppController
 
 		$tours = $this->Tour->getCalendarData($year, $month, array(
 			'conditions' => array('Tour.tour_status_id' => Set::extract('/TourStatus/id', $tourStatusVisible)),
-			'contain' => array('TourGuide', 'TourGuide.Profile', 'TourStatus', 'TourType', 'ConditionalRequisite', 'Difficulty')
+			'contain' => array('TourGroup', 'TourGuide', 'TourGuide.Profile', 'TourStatus', 'TourType', 'ConditionalRequisite', 'Difficulty')
 		));
 
 		$this->loadModel('Appointment');
