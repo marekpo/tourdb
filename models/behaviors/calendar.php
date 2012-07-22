@@ -67,7 +67,7 @@ class CalendarBehavior extends ModelBehavior
 			$topAppointments[] = $this->__getStartTimestamp($recordListsToSort[$i][0]);
 		}
 
-		while(true)
+		while(count($recordListsToSort))
 		{
 			$nextRecordListIndex = $this->__getMinValueIndex($topAppointments);
 			$sortedRecords[] = array_shift($recordListsToSort[$nextRecordListIndex]);
