@@ -55,7 +55,7 @@ class AppointmentsController extends AppController
 		else
 		{
 			$this->data = $this->Appointment->find('first', array(
-				'conitions' => array('Appointment.id' => $id),
+				'conditions' => array('Appointment.id' => $id),
 				'contain' => array()
 			));
 		}
