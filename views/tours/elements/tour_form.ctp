@@ -73,19 +73,7 @@ if(!in_array('TourType', $whitelist))
 	$this->Js->buffer("$('[id^=TourTourType]').attr('disabled', true)");
 }
 
-echo $this->Form->input('Tour.ConditionalRequisite', array(
-	'label' => __('Anforderung', true), 'multiple' => 'checkbox',
-	'after' => $this->Html->div('', '', array('style' => 'clear: left')),
-	'error' => array(
-		'rightQuanitity' => __('Es müssen mindestens ein und maximal zwei Anforderungen gewählt werden.', true)
-	)
-));
-
-if(!in_array('ConditionalRequisite', $whitelist))
-{
-	$this->Js->buffer("$('[id^=TourConditionalRequisite]').attr('disabled', true)");
-}
-
+echo $this->element('../tours/elements/tour_form_conditional_requisite');
 
 $difficultyErrorMessages =  array(
 	'atMostTwo' => __('Es dürfen maximal zwei Schwierigkeiten gewählt werden.', true)

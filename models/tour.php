@@ -501,9 +501,9 @@ class Tour extends AppModel
 	function __getDataForWidgetConditionalRequisite()
 	{
 		return array(
- 			'conditionalRequisites' => $this->ConditionalRequisite->find('list', array(
-				'fields' => array('acronym'),
-				'order' => array('acronym' => 'ASC')
+			'conditionalRequisites' => $this->ConditionalRequisite->find('all', array(
+				'order' => array('acronym' => 'ASC'),
+				'contain' => array()
 			))
 		);
 	}
