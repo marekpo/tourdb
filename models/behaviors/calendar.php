@@ -83,7 +83,7 @@ class CalendarBehavior extends ModelBehavior
 
 			if(count($recordListsToSort) == 1)
 			{
-				$sortedRecords = array_merge($sortedRecords, $recordListsToSort[0]);
+				$sortedRecords = array_merge($sortedRecords, array_shift($recordListsToSort));
 				break;
 			}
 		}
