@@ -446,7 +446,7 @@ class ToursController extends AppController
 
 		$tourStatusVisible = $this->Tour->TourStatus->find('all', array(
 			'fields' => array('TourStatus.id', 'TourStatus.statusname'),
-			'conditions' => array('TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED, TourStatus::CARRIED_OUT)),
+			'conditions' => array('TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)),
 			'contain' => array()
 		));
 
