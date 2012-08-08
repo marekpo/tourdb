@@ -51,41 +51,19 @@ echo $this->Form->input('signuprequired', array(
 	'label' => __('Anmeldung erforderlich', true), 'disabled' => !in_array('signuprequired', $whitelist)
 ));
 
-$tourTypeSelect = $this->Html->div('input select' . (isset($this->validationErrors['Tour']['TourType']) ? ' error' : ''),
-	$this->Form->label(__('Tourentyp', true))
-	. $this->Html->div('checkbox-container',
-		$this->Form->input('Tour.TourType', array(
-			'label' => false, 'multiple' => 'checkbox',
-			'after' => $this->Html->div('', '', array('style' => 'clear: left')),
-			'error' => array(
-				'rightQuanitity' => __('Es müssen mindestens ein und maximal zwei Tourentypen gewählt werden.', true)
-			)
-		)),
-		array('id' => 'tourtypes')
+echo $this->Widget->tourTypes(array(
+	'disabled' => !in_array('TourType', $whitelist),
+	'error' => array(
+		'rightQuanitity' => __('Es müssen mindestens ein und maximal zwei Tourentypen gewählt werden.', true)
 	)
-	. $this->Html->div('', '', array('style' => 'clear: left'))
-);
+));
 
-echo $tourTypeSelect;
-
-if(!in_array('TourType', $whitelist))
-{
-	$this->Js->buffer("$('[id^=TourTourType]').attr('disabled', true)");
-}
-
-echo $this->Form->input('Tour.ConditionalRequisite', array(
-	'label' => __('Anforderung', true), 'multiple' => 'checkbox',
-	'after' => $this->Html->div('', '', array('style' => 'clear: left')),
+echo $this->Widget->conditionalRequisites(array(
+	'disabled' => !in_array('ConditionalRequisite', $whitelist),
 	'error' => array(
 		'rightQuanitity' => __('Es müssen mindestens ein und maximal zwei Anforderungen gewählt werden.', true)
 	)
 ));
-
-if(!in_array('ConditionalRequisite', $whitelist))
-{
-	$this->Js->buffer("$('[id^=TourConditionalRequisite]').attr('disabled', true)");
-}
-
 
 $difficultyErrorMessages =  array(
 	'atMostTwo' => __('Es dürfen maximal zwei Schwierigkeiten gewählt werden.', true)
@@ -94,7 +72,7 @@ $difficultyErrorMessages =  array(
 $difficultySelect = $this->Html->div('input select',
 	$this->Form->label(__('Schwierigkeit', true))
 	. $this->Html->div('difficulty-select checkbox-container',
-		$this->Html->div('diff-s diff-h', 
+		$this->Html->div('diff-s diff-h',
 			$this->Form->input('Tour.Difficulty', array(
 				'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesSkiAndAlpineTour,
 				'after' => $this->Html->div('', '', array('style' => 'clear: left')),
