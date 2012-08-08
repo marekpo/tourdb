@@ -59,7 +59,7 @@ if(in_array('TourGuide', $activeFilters))
 	{
 		$tourGuideOptions[$tourGuide['TourGuide']['id']] = $this->TourDisplay->getTourGuide($tourGuide);
 	}
-	
+
 	$searchFilters .= $this->Form->input('Tour.TourGuide', array(
 		'type' => 'select', 'options' => $tourGuideOptions, 'label' => __('Tourenleiter', true),
 		'empty' => ''
@@ -68,21 +68,21 @@ if(in_array('TourGuide', $activeFilters))
 
 if(in_array('TourType', $activeFilters))
 {
-	$searchFilters .= $this->Html->div('input select',
-		$this->Form->label(__('Tourentypen', true))
-		. $this->Form->input('Tour.TourType', array(
-			'label' => false, 'div' => false, 'multiple' => 'checkbox',
-			'after' => $this->Html->div('', '', array('style' => 'clear: left')),
-		)),
-		array('id' => 'tourtypes')
-	);
+	$searchFilters .= $this->Widget->tourTypes(array(
+		'get' => true,
+		'error' => array(
+			'rightQuanitity' => __('Es müssen mindestens ein und maximal zwei Anforderungen gewählt werden.', true)
+		)
+	));
 }
 
 if(in_array('ConditionalRequisite', $activeFilters))
 {
-	$searchFilters .= $this->Form->input('Tour.ConditionalRequisite', array(
-		'label' => __('Anforderungen', true), 'multiple' => 'checkbox',
-		'after' => $this->Html->div('', '', array('style' => 'clear: left'))
+	$searchFilters .= $this->Widget->conditionalRequisites(array(
+		'get' => true,
+		'error' => array(
+			'rightQuanitity' => __('Es müssen mindestens ein und maximal zwei Anforderungen gewählt werden.', true)
+		)
 	));
 }
 

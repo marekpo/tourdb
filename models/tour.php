@@ -20,7 +20,7 @@ class Tour extends AppModel
 	var $validate = array(
 		'title' => array(
 			'notEmpty' => array(
-				'rule' => 'notEmpty' 
+				'rule' => 'notEmpty'
 			)
 		),
 		'TourType' => array(
@@ -89,7 +89,7 @@ class Tour extends AppModel
 	var $hasMany = array(
 		'TourParticipation'
 	);
-	
+
 	var $hasOne = array(
 		'TourGuideReport'
 	);
@@ -205,7 +205,7 @@ class Tour extends AppModel
 		else
 		{
 			$results['deadline_calculated'] = $this->__calculateDeadline($results);
-		}	
+		}
 
 		return $results;
 	}
@@ -235,7 +235,7 @@ class Tour extends AppModel
 					array('Tour.deadline' => null, 'Tour.startdate >=' => date('Y-m-d', strtotime('+1 day'))),
 					array('Tour.deadline >=' => $searchFilters['deadline'])
 				)
-			*/	
+			*/
 			);
 		}
 
@@ -492,8 +492,8 @@ class Tour extends AppModel
 	function __getDataForWidgetTourType()
 	{
 		return array(
-			'tourTypes' => $this->TourType->find('list', array(
-				'fields' => array('acronym')
+			'tourTypes' => $this->TourType->find('all', array(
+				'contain' => array()
 			)),
 		);
 	}

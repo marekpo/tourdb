@@ -25,7 +25,7 @@ class WidgetHelper extends AppHelper
 		$attributes = $this->_initInputField($name, array('type' => 'hidden'));
 
 		$value = $attributes['value'];
-		unset($attributes['value']); 
+		unset($attributes['value']);
 
 		$forUniqueId = Inflector::underscore($name);
 
@@ -65,7 +65,7 @@ class WidgetHelper extends AppHelper
 			'activeClass' => 'active',
 			'hoverClass' => 'hover'
 		));
-		
+
 		$this->Js->get(sprintf('#assoc-items-%s', $forUniqueId));
 		$this->Js->drop(array(
 			'accept' => sprintf('#all-items-%s > .item', $forUniqueId),
@@ -73,10 +73,10 @@ class WidgetHelper extends AppHelper
 			'activeClass' => 'active',
 			'hoverClass' => 'hover'
 		));
-		
+
 		$this->Js->get(sprintf('#dd-%s .item', $forUniqueId));
 		$this->Js->drag(array('revert' => 'invalid', 'helper' => 'clone'));
-		
+
 		return $ddWidget;
 	}
 
@@ -183,7 +183,7 @@ class WidgetHelper extends AppHelper
 				if(isset($appointments[$week]))
 				{
 					$slots = array();
-	
+
 					foreach($appointments[$week] as $slot => $slotContent)
 					{
 						$slotAppointments = array();
@@ -195,7 +195,7 @@ class WidgetHelper extends AppHelper
 
 						$slots[] = $this->Html->div(sprintf('slot slot%d', $slot), implode("\n", $slotAppointments));
 					}
-	
+
 					$calendar[] = $this->Html->div('slotcontainer',
 						$this->Html->div('slotscroller', implode("\n", $slots))
 					);
@@ -239,7 +239,172 @@ class WidgetHelper extends AppHelper
 			$this->Html->tableHeaders($tableHeaders) . $this->Html->tableCells($tableCells, array(), array('class' => 'even'), false, false),
 			array('class' => 'list')
 		);
-	} 
+	}
+
+	function tourTypes($options = array())
+	{
+		$view =& ClassRegistry::getObject('view');
+
+		$options = array_merge(array(
+			'fieldName' => 'Tour.TourType',
+			'label' => __('Tourentyp', true),
+			'options' => $view->getVar('tourTypes'),
+			'disabled' => false,
+			'error' => false,
+			'get' => false
+		), $options);
+
+		if(empty($options['options']))
+		{
+			$options['options'] = array();
+		}
+
+		$fieldName = $options['fieldName'];
+		unset($options['fieldName']);
+
+		$label = $options['label'];
+		unset($options['label']);
+
+		$tourTypes = $options['options'];
+		unset($options['options']);
+
+		$disabled = $options['disabled'];
+		unset($options['disabled']);
+
+		$error = $options['error'];
+		unset($options['error']);
+
+		$this->setEntity($fieldName, true);
+
+		if($options['get'])
+		{
+			$fieldName = array_pop(explode('.', $fieldName));
+		}
+
+		$inputFieldInitInfo = $this->_initInputField($fieldName);
+		$nameAttributeValue = $options['get'] ? $fieldName : $inputFieldInitInfo['name'];
+
+		$inputs = array();
+		$inputs[] = $this->Form->hidden($fieldName, array('value' => ''));
+
+		foreach($tourTypes as $tourType)
+		{
+			$inputs[] = $this->Html->div('checkbox',
+				$this->Form->checkbox($fieldName, array(
+					'id' => sprintf('%s%s', $inputFieldInitInfo['id'], $tourType['TourType']['id']),
+					'name' => sprintf('%s[]', $nameAttributeValue), 'label' => $tourType['TourType']['acronym'],
+					'hiddenField' => false, 'value' => $tourType['TourType']['id'],
+					'checked' => !empty($inputFieldInitInfo['value']) && in_array($tourType['TourType']['id'], $inputFieldInitInfo['value']),
+					'disabled' => $disabled
+				))
+				. $this->Html->tag('label', $tourType['TourType']['acronym'], array(
+					'for' => sprintf('%s%s', $inputFieldInitInfo['id'], $tourType['TourType']['id'])
+				)), array('title' => $tourType['TourType']['title'])
+			);
+		}
+
+		$options['class'] = 'input select';
+
+		$out = array();
+		$out[] = $this->Html->div('checkbox-container', $this->Html->div('', implode("\n", $inputs)), array('id' => 'tourtypes'));
+
+		$out[] = $this->Html->div('', '', array('style' => 'clear: left'));
+
+		if($error !== false)
+		{
+			$errorMessage = $this->Form->error($fieldName, $error);
+			if($errorMessage)
+			{
+				$options = $this->addClass($options, 'error');
+				$out[] = $errorMessage;
+			}
+		}
+
+		array_unshift($out, $this->Form->label($fieldName, $label));
+
+		return $this->Html->tag('div', implode("\n", $out), $options);
+	}
+
+	function conditionalRequisites($options = array())
+	{
+		$view =& ClassRegistry::getObject('view');
+
+		$options = array_merge(array(
+			'fieldName' => 'Tour.ConditionalRequisite',
+			'label' => __('Anforderung', true),
+			'options' => $view->getVar('conditionalRequisites'),
+			'disabled' => false,
+			'error' => false,
+			'get' => false
+		), $options);
+
+		if(empty($options['options']))
+		{
+			$options['options'] = array();
+		}
+
+		$fieldName = $options['fieldName'];
+		unset($options['fieldName']);
+
+		$label = $options['label'];
+		unset($options['label']);
+
+		$conditionalRequisites = $options['options'];
+		unset($options['options']);
+
+		$disabled = $options['disabled'];
+		unset($options['disabled']);
+
+		$error = $options['error'];
+		unset($options['error']);
+
+		$this->setEntity($fieldName, true);
+
+		if($options['get'])
+		{
+			$fieldName = array_pop(explode('.', $fieldName));
+		}
+
+		$out = array();
+
+		$out[] = $this->Form->label($fieldName, $label);
+		$out[] = $this->Form->hidden($fieldName, array('value' => ''));
+
+		$inputFieldInitInfo = $this->_initInputField($fieldName);
+
+		$nameAttributeValue = $options['get'] ? $fieldName : $inputFieldInitInfo['name'];
+
+		foreach($conditionalRequisites as $conditionalRequisite)
+		{
+			$out[] = $this->Html->div('checkbox',
+				$this->Form->checkbox($fieldName, array(
+					'id' => sprintf('%s%s', $inputFieldInitInfo['id'], $conditionalRequisite['ConditionalRequisite']['id']),
+					'name' => sprintf('%s[]', $nameAttributeValue), 'label' => $conditionalRequisite['ConditionalRequisite']['acronym'],
+					'hiddenField' => false, 'value' => $conditionalRequisite['ConditionalRequisite']['id'],
+					'checked' => !empty($inputFieldInitInfo['value']) && in_array($conditionalRequisite['ConditionalRequisite']['id'], $inputFieldInitInfo['value']),
+					'disabled' => $disabled
+				))
+				. $this->Html->tag('label', $conditionalRequisite['ConditionalRequisite']['acronym'], array(
+					'for' => sprintf('%s%s', $inputFieldInitInfo['id'], $conditionalRequisite['ConditionalRequisite']['id'])
+				)), array('title' => $conditionalRequisite['ConditionalRequisite']['description']));
+		}
+
+		$options['class'] = 'input select required';
+
+		$out[] = $this->Html->div('', '', array('style' => 'clear: left'));
+
+		if($error !== false)
+		{
+			$errorMessage = $this->Form->error($fieldName, $error);
+			if($errorMessage)
+			{
+				$options = $this->addClass($options, 'error');
+				$out[] = $errorMessage;
+			}
+		}
+
+		return $this->Html->tag('div', implode("\n", $out), $options);
+	}
 
 	function __createItem($key, $label, $itemClass)
 	{
@@ -413,7 +578,7 @@ class WidgetHelper extends AppHelper
 				$this->Text->truncate($appointment['event']['Tour']['description'])
 			)
 		);
-		
+
 		return $this->Html->div('title', $appointment['title'])
 			. $this->Html->div('body', $this->Html->tag('table', $this->Html->tableCells($rows)));
 	}
