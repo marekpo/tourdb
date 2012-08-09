@@ -11,7 +11,7 @@ class AppointmentsController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('view');
+		$this->Auth->allow('view', 'upcomingAppointments');
 	}
 
 	/**
@@ -137,5 +137,19 @@ class AppointmentsController extends AppController
 				$this->set(compact('appointments'));
 			}
 		}
+	}
+
+	/**
+	 * @auth:allowed()
+	 */
+	function upcomingAppointments()
+	{
+		$appointments = $this->Appointment->find('all', array(
+			'conditions' => array('DATE(Appointment.startdate) >=' => date('Y-m-d')),
+			'order' => array('Appointment.startdate' => 'ASC'),
+			'contain' => array()
+		));
+
+		$this->set(compact('appointments'));
 	}
 }

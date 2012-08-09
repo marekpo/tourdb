@@ -90,26 +90,26 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 .calendar .scrollbar					{ position: absolute; left: 774px; top: 10px; height: 110px; width: 5px; }
 .calendar .scrollbar .ui-slider-handle	{ width: 9px; height: 15px; left: -3px; }
 .calendar .slot							{ margin-bottom: 3px; height: 18px; }
-.calendar .appointment					{ position: absolute; }
-.calendar .appointment.offset2			{ left: 110px; }
-.calendar .appointment.offset3			{ left: 220px; }
-.calendar .appointment.offset4			{ left: 330px; }
-.calendar .appointment.offset5			{ left: 440px; }
-.calendar .appointment.offset6			{ left: 550px; }
-.calendar .appointment.offset0			{ left: 660px; }
-.calendar .appointment.width1			{ width: 110px; }
-.calendar .appointment.width2			{ width: 220px; }
-.calendar .appointment.width3			{ width: 330px; }
-.calendar .appointment.width4			{ width: 440px; }
-.calendar .appointment.width5			{ width: 550px; }
-.calendar .appointment.width6			{ width: 660px; }
-.calendar .appointment.width7			{ width: 770px; }
-.calendar .appointment .label			{ background: #cccccc; font-size: 10pt; padding: 0 4px; overflow: hidden; white-space: nowrap; margin: 0 10px; border-radius: 2px; cursor: default; }
-.calendar .appointment .label.model-appointment
+.calendar .event					{ position: absolute; }
+.calendar .event.offset2			{ left: 110px; }
+.calendar .event.offset3			{ left: 220px; }
+.calendar .event.offset4			{ left: 330px; }
+.calendar .event.offset5			{ left: 440px; }
+.calendar .event.offset6			{ left: 550px; }
+.calendar .event.offset0			{ left: 660px; }
+.calendar .event.width1				{ width: 110px; }
+.calendar .event.width2				{ width: 220px; }
+.calendar .event.width3				{ width: 330px; }
+.calendar .event.width4				{ width: 440px; }
+.calendar .event.width5				{ width: 550px; }
+.calendar .event.width6				{ width: 660px; }
+.calendar .event.width7				{ width: 770px; }
+.calendar .event .label				{ background: #cccccc; font-size: 10pt; padding: 0 4px; overflow: hidden; white-space: nowrap; margin: 0 10px; border-radius: 2px; cursor: default; }
+.calendar .event .label.model-appointment
 	{ background: #bae0ba;  }
-.calendar .appointment.highlight .label	{ background: #ffffdd; }
-.calendar .appointment.wrapstart .label	{ padding-right: 20px; }
-.calendar .appointment.wrapend .label	{ padding-right: 20px; }
+.calendar .event.highlight .label	{ background: #ffffdd; }
+.calendar .event.wrapstart .label	{ padding-right: 20px; }
+.calendar .event.wrapend .label		{ padding-right: 20px; }
 
 .popup				{ position: absolute; display: none; z-index: 6000; padding: 3px; max-width: 500px; border-radius: 2px; box-shadow: 3px 3px 3px #dddddd, -3px 3px 3px #dddddd, 3px -3px 3px #dddddd, -3px -3px 3px #dddddd; }
 .popup > div		{ font-size: 8pt; }
@@ -235,3 +235,8 @@ table.tours .tourweek, table.tours .withmountainguide
 .tourguidereports .expenses .input.text input	{ width: 100px; }
 #TourGuideReportDescription						{ width: 500px; }
 #TourGuideReportSubstituteTour					{ width: 500px; }
+
+/* appointments */
+.appointment.even		{ background-color: #dddddd; }
+.appointment:hover		{ background-color: #ffffdd; }
+.appointment .title		{ font-weight: bold; }

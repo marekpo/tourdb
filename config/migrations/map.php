@@ -74,5 +74,7 @@ $map = array(
 		'036_add_menu_entry_for_list_tours_without_report' => 'M4fd4e0f6e33448a29a0b18d81b2c2a9b'),
 	37 => array(
 		'037_add_appointment_model' => 'M4fc511d086284e15b77f06881b2c2a9b'),
+	38 => array(
+		'038_add_upcoming_appointments' => 'M50234f26cd3042e2b1f50b181b2c2a9b'),
 );
 ?>

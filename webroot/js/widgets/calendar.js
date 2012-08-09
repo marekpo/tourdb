@@ -41,9 +41,9 @@
 					}
 				});
 
-				$this.find('.appointment').mouseover(function() {
-					var appointmentId = $(this).attr('class').replace(/.*appointment([0-9a-z\-]{36}).*/i, '$1');
-					$this.find('.appointment' + appointmentId).addClass('highlight');
+				$this.find('.event').mouseover(function() {
+					var appointmentId = $(this).attr('class').replace(/.*event([0-9a-z\-]{36}).*/i, '$1');
+					$this.find('.event' + appointmentId).addClass('highlight');
 
 					var popup = $('body .popup' + appointmentId);
 
@@ -67,7 +67,7 @@
 
 					popup.css({display: 'block'}).offset(offset);
 				}).mouseout(function() {
-					$this.find('.appointment').removeClass('highlight');
+					$this.find('.event').removeClass('highlight');
 					$('.popup').css({display: 'none'});
 				});
 			});
