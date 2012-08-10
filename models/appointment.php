@@ -8,7 +8,7 @@ class Appointment extends AppModel
 	var $validate = array(
 		'title' => array(
 			'notEmpty' => array(
-				'rule' => 'notEmpty' 
+				'rule' => 'notEmpty'
 			)
 		),
 		'description' => array(
@@ -23,12 +23,21 @@ class Appointment extends AppModel
 		),
 		'startdate' => array(
 			'notEmpty' => array(
-				'rule' => 'notEmpty'
-			)
+				'rule' => 'notEmpty',
+				'last' => true
+			),
+			'correctDateRange' => array(
+				'rule' => array('dateBetween', 'today', '+2 years')
+			),
 		),
 		'enddate' => array(
 			'notEmpty' => array(
-				'rule' => 'notEmpty'
+				'rule' => 'notEmpty',
+				'last' => true
+			),
+			'correctDateRange' => array(
+				'rule' => array('dateBetween', 'today', '+2 years'),
+				'last' => true
 			),
 			'greaterOrEqualStartDate' => array(
 				'rule' => array('compareToDateField', '>=', 'startdate')

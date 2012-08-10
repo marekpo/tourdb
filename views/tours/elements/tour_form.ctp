@@ -23,14 +23,16 @@ echo $this->Form->input('description', array(
 echo $this->Widget->dateTime('startdate', array(
 	'label' => __('Startdatum', true), 'disabled' => !in_array('startdate', $whitelist),
 	'error' => array(
-		'notEmpty' => __('Das Startdatum der Tour darf nicht leer sein.', true)
+		'notEmpty' => __('Das Startdatum der Tour darf nicht leer sein.', true),
+		'correctDateRange' => sprintf(__('Das Startdatum der Tour muss zwischen heute und dem %s liegen.', true), $this->Time->format('d.m.Y', '+2 years'))
 	)
 ));
 echo $this->Widget->dateTime('enddate', array(
 	'label' => __('Enddatum', true), 'disabled' => !in_array('enddate', $whitelist),
 	'error' => array(
 		'notEmpty' => __('Das Enddatum der Tour darf nicht leer sein.', true),
-		'greaterOrEqualStartDate' => __('Das Enddatum muss größer oder gleich dem Startdatum sein.', true)
+		'greaterOrEqualStartDate' => __('Das Enddatum muss größer oder gleich dem Startdatum sein.', true),
+		'correctDateRange' => sprintf(__('Das Enddatum der Tour muss zwischen heute und dem %s liegen.', true), $this->Time->format('d.m.Y', '+2 years'))
 	)
 ));
 

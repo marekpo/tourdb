@@ -10,12 +10,12 @@ class AppModel extends Model
 		$_this =& Validation::getInstance();
 		$_this->__reset();
 		$_this->check = $check;
-		
+
 		if(is_array($check))
 		{
 			$_this->_extract($check);
 		}
-		
+
 		if(empty($_this->check))
 		{
 			return false;
@@ -118,5 +118,35 @@ class AppModel extends Model
 		}
 
 		return false;
+	}
+
+	function dateBetween($check, $minDate, $maxDate)
+	{
+		$fieldName = array_shift(array_keys($check));
+		$fieldValue = array_shift($check);
+
+		$minDateTime = strtotime($minDate);
+		$maxDateTime = strtotime($maxDate);
+
+		if($minDateTime === false)
+		{
+			trigger_error(sprintf('Argument $minDate is not valid for validation rule dateBetween of field %s.', $fieldName), E_USER_ERROR);
+			return false;
+		}
+
+		if($maxDateTime === false)
+		{
+			trigger_error(sprintf('Argument $maxDate is not valid for validation rule dateBetween of field %s.', $fieldName), E_USER_ERROR);
+			return false;
+		}
+
+		$fieldValueDateTime = strtotime($fieldValue);
+
+		if($fieldValueDateTime === false)
+		{
+			return false;
+		}
+
+		return $fieldValueDateTime >= $minDateTime && $fieldValueDateTime <= $maxDateTime;
 	}
 }
