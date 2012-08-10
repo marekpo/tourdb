@@ -14,11 +14,16 @@ for($i = 0; $i < count($appointments); $i++)
 		. $this->Html->div('columncontainer',
 			$this->Html->div('half', $this->Html->div('infoitem',
 				$this->Html->div('label', __('Datum', true))
-				. $this->Html->div('content', ($startdate == $enddate ? $startdate : sprintf('%s %s', $startdate, $enddate)))))
+				. $this->Html->div('content', ($startdate == $enddate ? $startdate : sprintf('%s - %s', $startdate, $enddate)))))
 			. $this->Html->div('half', $this->Html->div('infoitem',
 				$this->Html->div('label', __('Ort', true))
 				. $this->Html->div('content', $appointment['Appointment']['location'])
 			))
+		)
+		. $this->Html->div('description', sprintf('%s %s',
+				$this->Text->truncate($appointment['Appointment']['description'], 200, array('exact' => false, 'html' => true)),
+				$this->Html->link('weiter', array('controller' => 'appointments', 'action' => 'view', $appointment['Appointment']['id']))
+			)
 		)
 	);
 }

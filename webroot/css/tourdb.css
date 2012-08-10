@@ -237,6 +237,7 @@ table.tours .tourweek, table.tours .withmountainguide
 #TourGuideReportSubstituteTour					{ width: 500px; }
 
 /* appointments */
-.appointment.even		{ background-color: #dddddd; }
-.appointment:hover		{ background-color: #ffffdd; }
-.appointment .title		{ font-weight: bold; }
+.appointment		{ padding: 4px 0; }
+.appointment.even	{ background-color: #dddddd; }
+.appointment:hover	{ background-color: #ffffdd; }
+.appointment .title	{ margin-bottom: 5px; }
