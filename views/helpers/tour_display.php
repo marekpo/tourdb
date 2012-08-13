@@ -43,80 +43,55 @@ class TourDisplayHelper extends AppHelper
 		{
 			if(!isset($tour['Tour']['TourType']))
 			{
-				return "";
+				return '';
 			}
 
 			$tour = $tour['Tour'];
 		}
 
-		$tourClassification = array();
+		$tourClassification = array(implode(', ', Set::extract('/TourType/acronym', $tour)));
 
-		$tourTypes = array();
-
-		foreach($tour['TourType'] as $tourType)
+		if(!empty($tour['ConditionalRequisite']))
 		{
-			$tourTypes[] = $tourType['acronym'];
+			$conditionalRequisites = Set::extract('/ConditionalRequisite/acronym', $tour);
+
+			$tourClassification[] = in_array('A', $conditionalRequisites) && in_array('C', $conditionalRequisites)
+				? 'ABC' : implode('', $conditionalRequisites);
 		}
 
-		$tourType = implode(', ', $tourTypes);
-
-		if($tourType == 'Exk')
+		if(!empty($tour['Difficulty']))
 		{
-			return $tourType;
+			$difficulties = array();
+			$climbingDifficulties = array();
+
+			foreach($tour['Difficulty'] as $difficulty)
+			{
+				if(in_array(TourType::ALPINE_TOUR, Set::extract('/TourType/key', $tour)) && $difficulty['group'] == Difficulty::ROCK_CLIMBING)
+				{
+					$climbingDifficulties[] = $difficulty['name'];
+					continue;
+				}
+
+				$difficulties[] = $difficulty['name'];
+			}
+
+			if(!empty($climbingDifficulties))
+			{
+				$tourClassification[] = implode(', ', array(implode(' - ', $difficulties), implode(' - ', $climbingDifficulties)));
+			}
+			else
+			{
+				$tourClassification[] = implode(' - ', $difficulties);
+			}
 		}
-		else
+
+		$result = implode('/', $tourClassification);
+
+		if($options['span'] == true)
 		{
-			$tourClassification = array($tourType);
-
-			if(!empty($tour['ConditionalRequisite']))
-			{
-				$conditionalRequisites = array();
-
-				foreach($tour['ConditionalRequisite'] as $conditionalRequisite)
-				{
-					$conditionalRequisites[] = $conditionalRequisite['acronym'];
-				}
-
-				$tourClassification[] = in_array('A', $conditionalRequisites) && in_array('C', $conditionalRequisites)
-					? 'ABC' : implode('', $conditionalRequisites);
-			}
-
-			if(!empty($tour['Difficulty']))
-			{
-				$difficulties = array();
-				$climbingDifficulties = array();
-
-				foreach($tour['Difficulty'] as $difficulty)
-				{
-					if($tourType == 'H' && $difficulty['group'] == Difficulty::ALPINE_TOUR)
-					{
-						$climbingDifficulties[] = $difficulty['name'];
-						continue;
-					}
-
-					$difficulties[] = $difficulty['name'];
-				}
-
-
-				if(!empty($climbingDifficulties))
-				{
-					$tourClassification[] = implode(', ', array(implode(' - ', $difficulties), implode(' - ', $climbingDifficulties)));
-				}
-				else
-				{
-					$tourClassification[] = implode(' - ', $difficulties);
-				}
-
-			}
-
-			$result = implode('/', $tourClassification);
-
-			if($options['span'] == true)
-			{
-				return $this->Html->tag('span', $result, array('class' => 'tourClassification'));
-			}
-
-			return $result;
+			return $this->Html->tag('span', $result, array('class' => 'tourClassification'));
 		}
+
+		return $result;
 	}
 }
