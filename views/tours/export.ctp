@@ -7,13 +7,13 @@ echo $this->Form->create();
 echo $this->Widget->dateTime('startdate', array(
 	'label' => __('Startdatum', true),
 	'error' => array(
-		'notEmpty' => __('Das Startdatum für den Export darf nicht leer sein.', true)
+		'correctDate' => __('Das Startdatum muss ein korrektes Datum sein (TT.MM.YYYY).', true)
 	)
 ));
 echo $this->Widget->dateTime('enddate', array(
 	'label' => __('Enddatum', true),
 	'error' => array(
-		'notEmpty' => __('Das Enddatum für den Export darf nicht leer sein.', true),
+		'correctDate' => __('Das Enddatum muss ein korrektes Datum sein (TT.MM.YYYY).', true),
 		'greaterOrEqualStartDate' => __('Das Enddatum muss größer oder gleich dem Startdatum sein.', true)
 	)
 ));

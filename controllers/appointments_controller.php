@@ -111,30 +111,49 @@ class AppointmentsController extends AppController
 	{
 		if(!empty($this->data))
 		{
-			$this->Appointment->set($this->data);
-			if($this->Appointment->validates())
+			$valid = true;
+
+			if(!isset($this->data['Appointment']['startdate']) || empty($this->data['Appointment']['startdate']) || strtotime($this->data['Appointment']['startdate']) === false)
+			{
+				$this->Appointment->invalidate('startdate', 'correctDate');
+				$valid = false;
+			}
+
+			if(!isset($this->data['Appointment']['enddate']) || empty($this->data['Appointment']['enddate']) || strtotime($this->data['Appointment']['enddate']) === false)
+			{
+				$this->Appointment->invalidate('enddate', 'correctDate');
+				$valid = false;
+			}
+
+			if($valid && strtotime($this->data['Appointment']['startdate']) > strtotime($this->data['Appointment']['enddate']))
+			{
+				$this->Appointment->invalidate('enddate', 'greaterOrEqualStartDate');
+				$valid = false;
+			}
+
+			if($valid)
 			{
 				$dateRangeStart = date('Y-m-d', strtotime($this->data['Appointment']['startdate']));
 				$dateRangeEnd = date('Y-m-d', strtotime($this->data['Appointment']['enddate']));
-			}
 
-			$appointments = $this->Appointment->find('all', array(
-				'conditions' => array(
-					'startdate >=' => $dateRangeStart,
-					'startdate <=' => $dateRangeEnd
-				),
-				'order' => array('Appointment.startdate' => 'ASC'),
-				'contain' => array()
-			));
+				$appointments = $this->Appointment->find('all', array(
+					'conditions' => array(
+						'startdate >=' => $dateRangeStart,
+						'startdate <=' => $dateRangeEnd
+					),
+					'order' => array('Appointment.startdate' => 'ASC'),
+					'contain' => array()
+				));
 
-			if(empty($appointments))
-			{
-				$this->Session->setFlash(__('Für die angegebenen Kriterien wurden keine Anlässe gefunden', true));
-			}
-			else
-			{
-				$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
-				$this->set(compact('appointments'));
+				if(empty($appointments))
+				{
+					$this->Session->setFlash(__('Für die angegebenen Kriterien wurden keine Anlässe gefunden', true));
+				}
+				else
+				{
+					$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
+					$this->set(compact('appointments'));
+				}
 			}
 		}
 	}

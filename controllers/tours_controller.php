@@ -300,8 +300,27 @@ class ToursController extends AppController
 	{
 		if(!empty($this->data))
 		{
-			$this->Tour->set($this->data);
-			if($this->Tour->validates())
+			$valid = true;
+
+			if(!isset($this->data['Tour']['startdate']) || empty($this->data['Tour']['startdate']) || strtotime($this->data['Tour']['startdate']) === false)
+			{
+				$this->Tour->invalidate('startdate', 'correctDate');
+				$valid = false;
+			}
+
+			if(!isset($this->data['Tour']['enddate']) || empty($this->data['Tour']['enddate']) || strtotime($this->data['Tour']['enddate']) === false)
+			{
+				$this->Tour->invalidate('enddate', 'correctDate');
+				$valid = false;
+			}
+
+			if($valid && strtotime($this->data['Tour']['startdate']) > strtotime($this->data['Tour']['enddate']))
+			{
+				$this->Tour->invalidate('enddate', 'greaterOrEqualStartDate');
+				$valid = false;
+			}
+
+			if($valid)
 			{
 				$searchConditions['TourStatus.key'] = array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED);
 				$searchConditions['Tour.startdate >='] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
@@ -330,9 +349,8 @@ class ToursController extends AppController
 				}
 			}
 		}
-		
-		$this->set($this->Tour->getWidgetData(array(Tour::WIDGET_TOUR_GROUP)));		
-		
+
+		$this->set($this->Tour->getWidgetData(array(Tour::WIDGET_TOUR_GROUP)));
 	}
 
 	/**
@@ -547,13 +565,13 @@ class ToursController extends AppController
 	function carriedOut($id)
 	{
 		$carriedOutStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::CARRIED_OUT));
-		
+
 		$this->__changeTourStatus($id, $carriedOutStatusId);
 
 		$this->Session->setFlash(__('Die Tour wurde als durchgeführt markiert.', true));
 		$this->redirect($this->referer(null, true));
 	}
-	
+
 	/**
 	 * @auth:requireRole(user)
 	 */
@@ -718,16 +736,16 @@ class ToursController extends AppController
 					'TourGuideReport.id' => null,
 					'Tour.enddate <' => $reportDeadLine
 				),
-				'TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED)					
+				'TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED)
 			),
 			'contain' => array('TourStatus', 'TourType', 'Difficulty', 'ConditionalRequisite', 'TourGuide.Profile', 'TourGuideReport.id')
 		));
-	
+
 		$this->set(array(
 			'tours' => $this->paginate('Tour')
 		));
-	}	
-	
+	}
+
 	/**
 	 * @auth:requireRole(tourchief)
 	 * @auth:requireRole(bookkeeper)
@@ -761,7 +779,7 @@ class ToursController extends AppController
 		{
 			$this->data = $tour;
 		}
-	}	
+	}
 
 	function __changeTourStatus($id, $statusId)
 	{
