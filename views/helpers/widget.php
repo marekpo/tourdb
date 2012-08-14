@@ -285,14 +285,14 @@ class WidgetHelper extends AppHelper
 		$nameAttributeValue = $options['get'] ? $fieldName : $inputFieldInitInfo['name'];
 
 		$inputs = array();
-		$inputs[] = $this->Form->hidden($fieldName, array('value' => ''));
+		$inputs[] = $this->Form->hidden($fieldName, array('value' => '', 'disabled' => $disabled));
 
 		foreach($tourTypes as $tourType)
 		{
 			$inputs[] = $this->Html->div('checkbox',
 				$this->Form->checkbox($fieldName, array(
 					'id' => sprintf('%s%s', $inputFieldInitInfo['id'], $tourType['TourType']['id']),
-					'name' => sprintf('%s[]', $nameAttributeValue), 'label' => $tourType['TourType']['acronym'],
+					'name' => sprintf('%s[]', $nameAttributeValue),
 					'hiddenField' => false, 'value' => $tourType['TourType']['id'],
 					'checked' => !empty($inputFieldInitInfo['value']) && in_array($tourType['TourType']['id'], $inputFieldInitInfo['value']),
 					'disabled' => $disabled
@@ -368,7 +368,7 @@ class WidgetHelper extends AppHelper
 		$out = array();
 
 		$out[] = $this->Form->label($fieldName, $label);
-		$out[] = $this->Form->hidden($fieldName, array('value' => ''));
+		$out[] = $this->Form->hidden($fieldName, array('value' => '', 'disabled' => $disabled));
 
 		$inputFieldInitInfo = $this->_initInputField($fieldName);
 
@@ -379,7 +379,7 @@ class WidgetHelper extends AppHelper
 			$out[] = $this->Html->div('checkbox',
 				$this->Form->checkbox($fieldName, array(
 					'id' => sprintf('%s%s', $inputFieldInitInfo['id'], $conditionalRequisite['ConditionalRequisite']['id']),
-					'name' => sprintf('%s[]', $nameAttributeValue), 'label' => $conditionalRequisite['ConditionalRequisite']['acronym'],
+					'name' => sprintf('%s[]', $nameAttributeValue),
 					'hiddenField' => false, 'value' => $conditionalRequisite['ConditionalRequisite']['id'],
 					'checked' => !empty($inputFieldInitInfo['value']) && in_array($conditionalRequisite['ConditionalRequisite']['id'], $inputFieldInitInfo['value']),
 					'disabled' => $disabled
