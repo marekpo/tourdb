@@ -254,9 +254,9 @@ class ToursController extends AppController
 	 */
 	function index()
 	{
-		if(!isset($this->params['url']['deadline']))
+		if(!isset($this->params['url']['range']))
 		{
-			$this->params['url']['deadline'] = date('Y-m-d');
+			$this->params['url']['range'] = Tour::FILTER_RANGE_CURRENT;
 		}
 
 		$tourIds = $this->Tour->searchTours($this->params['url']);
@@ -275,7 +275,7 @@ class ToursController extends AppController
 				'contain' => array('Profile')
 			)),
 			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
-				&& !empty($this->data['Tour']['deadline'])
+				&& empty($this->data['Tour']['range']) == Tour::FILTER_RANGE_CURRENT
 				&& empty($this->data['Tour']['TourStatus'])
 				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
@@ -358,9 +358,9 @@ class ToursController extends AppController
 	 */
 	function search()
 	{
-		if(!isset($this->params['url']['deadline']))
+		if(!isset($this->params['url']['range']))
 		{
-			$this->params['url']['deadline'] = date('Y-m-d');
+			$this->params['url']['range'] = Tour::FILTER_RANGE_CURRENT;
 		}
 
 		$tourIds = $this->Tour->searchTours($this->params['url'], array(
@@ -381,7 +381,7 @@ class ToursController extends AppController
 				'contain' => array('Profile')
 			)),
 			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
-				&& !empty($this->data['Tour']['deadline'])
+				&& $this->data['Tour']['range'] == Tour::FILTER_RANGE_CURRENT
 				&& empty($this->data['Tour']['TourStatus'])
 				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])

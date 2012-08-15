@@ -16,14 +16,13 @@ if(in_array('title', $activeFilters))
 
 $searchFilters = '';
 
-if(in_array('deadline', $activeFilters))
+if(in_array('range', $activeFilters))
 {
-	$deadlineFilterValue = $this->Time->format('Y-m-d', time());
-	$searchFilters .= $this->Form->input('Tour.deadline', array(
-		'type' => 'radio', 'default' => $deadlineFilterValue, 'legend' => false, 'hiddenField' => false,
+	$searchFilters .= $this->Form->input('Tour.range', array(
+		'type' => 'radio', 'default' => Tour::FILTER_RANGE_CURRENT, 'legend' => false, 'hiddenField' => false,
 		'options' => array(
-			'' => __('Alle', true),
-			$deadlineFilterValue => __('Aktuell', true)
+			Tour::FILTER_RANGE_ALL => __('Alle', true),
+			Tour::FILTER_RANGE_CURRENT => __('Aktuell', true)
 		),
 	));
 }

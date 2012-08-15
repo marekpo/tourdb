@@ -3,7 +3,7 @@ $this->set('title_for_layout', __('Tourensuche', true));
 $this->Html->addCrumb(__('Tourensuche', true));
 
 echo $this->element('../tours/elements/tour_filters', array('activeFilters' => array(
-	'title', 'TourGroup', 'deadline', 'TourStatus', 'date', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty'
+	'title', 'TourGroup', 'range', 'TourStatus', 'date', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty'
 )));
 
 if(count($tours))
@@ -19,9 +19,9 @@ if(count($tours))
 		__('Code', true),
 		$this->Paginator->sort(__('Tourenleiter', true), 'TourGuide.username')
 	);
-	
+
 	$tableRows = array();
-	
+
 	foreach($tours as $tour)
 	{
 		$tableRows[] = array(
@@ -65,7 +65,7 @@ if(count($tours))
 			)
 		);
 	}
-	
+
 	echo $this->Widget->table($tableHeaders, $tableRows);
 }
 else

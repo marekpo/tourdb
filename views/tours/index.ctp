@@ -3,7 +3,7 @@ $this->set('title_for_layout', __('Alle Touren', true));
 $this->Html->addCrumb(__('Alle Touren', true));
 
 echo $this->element('../tours/elements/tour_filters', array('activeFilters' => array(
-	'title', 'TourGroup', 'deadline', 'TourStatus', 'date', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty'
+	'title', 'TourGroup', 'range', 'TourStatus', 'date', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty'
 )));
 
 if(count($tours))
@@ -22,7 +22,7 @@ if(count($tours))
 	);
 
 	$tableCells = array();
-	
+
 	foreach($tours as $tour)
 	{
 		$deleteLink = $tour['TourStatus']['key'] == TourStatus::NEW_
@@ -46,7 +46,7 @@ if(count($tours))
 				$this->Html->link($tour['Tour']['title'], array('action' => 'edit', $tour['Tour']['id'])),
 				array('class' => 'title')
 			),
-	
+
 			array(
 				$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
 				array('class' => 'startdate')

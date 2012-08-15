@@ -8,6 +8,9 @@ class Tour extends AppModel
 	const WIDGET_CONDITIONAL_REQUISITE = 'WIDGET_CONDITIONAL_REQUISITE';
 	const WIDGET_DIFFICULTY = 'WIDGET_DIFFICULTY';
 
+	const FILTER_RANGE_ALL = 'all';
+	const FILTER_RANGE_CURRENT = 'current';
+
 	var $name = 'Tour';
 
 	var $actsAs = array(
@@ -235,16 +238,10 @@ class Tour extends AppModel
 			'hasAndBelongsToMany' => array('TourType', 'ConditionalRequisite', 'Difficulty')
 		));
 
-		if(isset($searchFilters['deadline']) && !empty($searchFilters['deadline']))
+		if(isset($searchFilters['range']) && $searchFilters['range'] == Tour::FILTER_RANGE_CURRENT)
 		{
 			$searchConditions[] = array(
-			'Tour.startdate >=' => date('Y-m-d', strtotime('+1 day'))
-			/*
-				'OR' => array(
-					array('Tour.deadline' => null, 'Tour.startdate >=' => date('Y-m-d', strtotime('+1 day'))),
-					array('Tour.deadline >=' => $searchFilters['deadline'])
-				)
-			*/
+				'Tour.startdate >=' => date('Y-m-d', strtotime('+1 day'))
 			);
 		}
 
