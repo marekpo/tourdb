@@ -22,6 +22,11 @@ class AppController extends Controller
 		}
 	}
 
+	function beforeRender()
+	{
+		$this->__restoreOrderForPagination();
+	}
+
 	function isAuthorized()
 	{
 		return $this->Authorization->isAuthorized($this, $this->action, $this->passedArgs, $this->Auth->user('id'));
@@ -95,6 +100,18 @@ class AppController extends Controller
 			$this->passedArgs['order'] = array_merge($this->paginate['order'], array($this->passedArgs['sort'] => $this->passedArgs['direction']));
 			unset($this->passedArgs['sort']);
 			unset($this->passedArgs['direction']);
+		}
+	}
+
+	function __restoreOrderForPagination()
+	{
+		if(isset($this->passedArgs['order']))
+		{
+			end($this->passedArgs['order']);
+			$this->passedArgs['sort'] = key($this->passedArgs['order']);
+			$this->passedArgs['direction'] = current($this->passedArgs['order']);
+
+			unset($this->passedArgs['order']);
 		}
 	}
 

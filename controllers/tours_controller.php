@@ -275,7 +275,7 @@ class ToursController extends AppController
 				'contain' => array('Profile')
 			)),
 			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
-				&& empty($this->data['Tour']['range']) == Tour::FILTER_RANGE_CURRENT
+				&& $this->data['Tour']['range'] == Tour::FILTER_RANGE_CURRENT
 				&& empty($this->data['Tour']['TourStatus'])
 				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
