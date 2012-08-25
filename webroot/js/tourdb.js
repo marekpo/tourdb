@@ -6,7 +6,7 @@ TourDB.Tours = {
 			var activeTourTypes = [];
 			
 			$('#tourtypes input[type=checkbox]:checked').each(function(index, element) {
-				activeTourTypes.push('.diff-' + $(this).next().text().toLowerCase());
+				activeTourTypes.push('.diff-' + $(this).attr('class').replace(/.*tt-([^\s]+).*/g, '$1'));
 			});
 
 			var activeDifficulties = $('.difficulty-select > div').filter(activeTourTypes.join());

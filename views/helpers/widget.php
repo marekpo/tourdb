@@ -295,7 +295,7 @@ class WidgetHelper extends AppHelper
 					'name' => sprintf('%s[]', $nameAttributeValue),
 					'hiddenField' => false, 'value' => $tourType['TourType']['id'],
 					'checked' => !empty($inputFieldInitInfo['value']) && in_array($tourType['TourType']['id'], $inputFieldInitInfo['value']),
-					'disabled' => $disabled
+					'disabled' => $disabled, 'class' => sprintf('tt-%s', $tourType['TourType']['key'])
 				))
 				. $this->Html->tag('label', $tourType['TourType']['acronym'], array(
 					'for' => sprintf('%s%s', $inputFieldInitInfo['id'], $tourType['TourType']['id'])
