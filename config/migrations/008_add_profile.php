@@ -50,34 +50,26 @@ class M4e554d18f3804380bebf0efc1b2c2a9b extends CakeMigration {
 	{
 		if($direction == 'up')
 		{
-			if(!class_exists('Menu'))
-			{
-				App::import('Model', 'Menu');
-			}
-			
-			$Menu = new Menu();
-				$menuEntry = array(
-					'Menu' => array(
-						'id' => '4e554da6-43a8-4cab-ae54-11301b2c2a9b',
-						'caption' => 'Profil bearbeiten',
-						'controller' => 'profiles',
-						'action' => 'edit',
-						'protected' => '1'
+			$Menu = $this->generateModel('Menu');
+			$Menu->Behaviors->attach('Tree');
+			$menuEntry = array(
+				'Menu' => array(
+					'id' => '4e554da6-43a8-4cab-ae54-11301b2c2a9b',
+					'caption' => 'Profil bearbeiten',
+					'controller' => 'profiles',
+					'action' => 'edit',
+					'protected' => '1',
+					'parent_id' => '4e3e8ce5-b67c-41b8-b6ff-12001b2c2a9b'
 				)
 			);
 			$Menu->save($menuEntry);
-				
-			$Menu->id = '4e554da6-43a8-4cab-ae54-11301b2c2a9b';
-			$Menu->save(array(
-				'parent_id' => '4e3e8ce5-b67c-41b8-b6ff-12001b2c2a9b'
-			));
-			
+
 			$Privilege = $this->generateModel('Privilege');
 			$exportPrivilege = array(
 				'Privilege' => array(
 					'id' => '4e554e06-6e90-413e-83fa-11301b2c2a9b',
 					'key' => 'profiles:edit',
-							'label' => 'Profil: bearbeiten'
+						'label' => 'Profil: bearbeiten'
 				)
 			);
 			$Privilege->save($exportPrivilege);

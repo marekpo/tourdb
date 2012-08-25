@@ -45,27 +45,19 @@ class M4e42c4d6b6504f13b53616541b2c2a9b extends CakeMigration {
 	{
 		if($direction == 'up')
 		{
-			if(!class_exists('Menu'))
-			{
-				App::import('Model', 'Menu');
-			}
-	
-			$Menu = new Menu();
+			$Menu = $this->generateModel('Menu');
+			$Menu->Behaviors->attach('Tree');
 			$menuEntry = array(
 				'Menu' => array(
 					'id' => '4e42c672-e10c-4896-abe8-12241b2c2a9b',
 					'caption' => 'Alle Touren',
 					'controller' => 'tours',
 					'action' => 'index',
-					'protected' => '1'
+					'protected' => '1',
+					'parent_id' => '4e285def-8ae4-4cc1-8caa-088c1b2c2a9b'
 				)
 			);
 			$Menu->save($menuEntry);
-
-			$Menu->id = '4e42c672-e10c-4896-abe8-12241b2c2a9b';
-			$Menu->save(array(
-				'parent_id' => '4e285def-8ae4-4cc1-8caa-088c1b2c2a9b'
-			));
 		}
 
 		return true;

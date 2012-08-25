@@ -54,6 +54,8 @@ if(in_array('date', $activeFilters))
 
 if(in_array('TourGuide', $activeFilters))
 {
+	$tourGuideOptions = array();
+
 	foreach($tourGuides as $tourGuide)
 	{
 		$tourGuideOptions[$tourGuide['TourGuide']['id']] = $this->TourDisplay->getTourGuide($tourGuide);

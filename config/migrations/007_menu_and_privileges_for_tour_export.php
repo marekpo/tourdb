@@ -33,27 +33,19 @@ class M4e50e7e6ce3847f7823115e01b2c2a9b extends CakeMigration {
 	{
 		if($direction == 'up')
 		{
-			if(!class_exists('Menu'))
-			{
-				App::import('Model', 'Menu');
-			}
-
-			$Menu = new Menu();
+			$Menu = $this->generateModel('Menu');
+			$Menu->Behaviors->attach('Tree');
 			$menuEntry = array(
 				'Menu' => array(
 					'id' => '4e50e8d4-55e4-4779-9488-0cc01b2c2a9b',
 					'caption' => 'Touren exportieren',
 					'controller' => 'tours',
 					'action' => 'export',
-					'protected' => '1'
+					'protected' => '1',
+					'parent_id' => '4e285def-8ae4-4cc1-8caa-088c1b2c2a9b'
 				)
 			);
 			$Menu->save($menuEntry);
-			
-			$Menu->id = '4e50e8d4-55e4-4779-9488-0cc01b2c2a9b';
-			$Menu->save(array(
-				'parent_id' => '4e285def-8ae4-4cc1-8caa-088c1b2c2a9b'
-			));
 
 			$Privilege = $this->generateModel('Privilege');
 			$exportPrivilege = array(

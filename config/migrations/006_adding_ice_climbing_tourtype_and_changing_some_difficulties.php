@@ -59,7 +59,7 @@ class M4e58c8b65a484965a9040dbc1b2c2a9b extends CakeMigration {
 		{
 			App::import('Model', 'Difficulty');
 		}
-		
+
 		$Difficulty = $this->generateModel('Difficulty');
 		$difficulties = array(
 			array(
@@ -134,7 +134,7 @@ class M4e58c8b65a484965a9040dbc1b2c2a9b extends CakeMigration {
 			)
 		);
 		$Difficulty->saveAll($difficulties);
-			
+
 		$TourType = $this->generateModel('TourType');
 		$courseTourType = array(
 						'TourType' => array(
@@ -152,7 +152,7 @@ class M4e58c8b65a484965a9040dbc1b2c2a9b extends CakeMigration {
 			App::import('Model', 'Difficulty');
 		}
 
-		$Difficulty = new Difficulty();
+		$Difficulty = $this->generateModel('Difficulty');
 		$difficulties = array(
 			array(
 				'Difficulty' => array(
@@ -210,13 +210,14 @@ class M4e58c8b65a484965a9040dbc1b2c2a9b extends CakeMigration {
 		$Difficulty->updateAll(array('rank' => 8), array('name' => 'S', 'group' => Difficulty::SKI_AND_ALPINE_TOUR));
 		$Difficulty->updateAll(array('rank' => 11), array('name' => 'SS', 'group' => Difficulty::SKI_AND_ALPINE_TOUR));
 
-		$difficultyIdsToDelete = $Difficulty->find('list', array(
+		$difficultyIdsToDelete = array_keys($Difficulty->find('list', array(
 			'conditions' => array('Difficulty.name' => array('AS', 'EX'), 'Difficulty.group' => Difficulty::SKI_AND_ALPINE_TOUR)
-		));
+		)));
 
-		$Difficulty->DifficultiesTour->deleteAll(array('DifficultiesTour.difficulty_id' => $difficultyIdsToDelete));
+		$DifficultiesTours = $this->generateModel('DifficultiesTours');
+		$DifficultiesTours->deleteAll(array('difficulty_id' => $difficultyIdsToDelete));
 
-		$Difficulty->deleteAll(array('name' => array('AS', 'EX'), 'group' => Difficulty::SKI_AND_ALPINE_TOUR));
+		$Difficulty->deleteAll(array('id' => $difficultyIdsToDelete, 'group' => Difficulty::SKI_AND_ALPINE_TOUR));
 	}
 
 	private function changeAlpineTourDiffuculties()
@@ -279,7 +280,7 @@ class M4e58c8b65a484965a9040dbc1b2c2a9b extends CakeMigration {
 			)
 		);
 		$Difficulty->saveAll($difficulties);
-		
+
 		$Difficulty->updateAll(array('rank' => 3), array('name' => 'II', 'group' => Difficulty::ALPINE_TOUR));
 		$Difficulty->updateAll(array('rank' => 6), array('name' => 'III', 'group' => Difficulty::ALPINE_TOUR));
 		$Difficulty->updateAll(array('rank' => 9), array('name' => 'IV', 'group' => Difficulty::ALPINE_TOUR));

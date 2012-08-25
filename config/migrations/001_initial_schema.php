@@ -31,9 +31,11 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'conditional_requisites_tours' => array(
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'conditional_requisite_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'tour_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'conditional_requisite_id' => array('column' => 'conditional_requisite_id', 'unique' => 0),
 						'tour_id' => array('column' => 'tour_id', 'unique' => 0),
 					),
@@ -52,9 +54,11 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'difficulties_tours' => array(
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'difficulty_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'tour_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'difficulty_id' => array('column' => 'difficulty_id', 'unique' => 0),
 						'tour_id' => array('column' => 'tour_id', 'unique' => 0),
 					),
@@ -90,9 +94,11 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'privileges_roles' => array(
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'privilege_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'role_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'privilege_id' => array('column' => 'privilege_id', 'unique' => 0),
 						'role_id' => array('column' => 'role_id', 'unique' => 0),
 					),
@@ -112,9 +118,11 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'roles_users' => array(
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'role_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'user_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'role_id' => array('column' => 'role_id', 'unique' => 0),
 						'user_id' => array('column' => 'user_id', 'unique' => 0),
 					),
@@ -143,9 +151,11 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 					'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB'),
 				),
 				'tour_types_tours' => array(
+					'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'tour_type_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'tour_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 					'indexes' => array(
+						'PRIMARY' => array('column' => 'id', 'unique' => 1),
 						'tour_type_id' => array('column' => 'tour_type_id', 'unique' => 0),
 						'tour_id' => array('column' => 'tour_id', 'unique' => 0),
 					),
@@ -714,60 +724,25 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 
 	private function setupRoles()
 	{
-		if(!class_exists('Role'))
-		{
-			App::import('Model', 'Role');
-			
-		}
-
-		$Role = new Role();
-		$rolesPrivileges = array(
+		$PrivilegesRoles = $this->generateModel('PrivilegesRoles');
+		$privilegeRoles = array(
 			// Systemadmin
-			array(
-				'Role' => array(
-					'id' => '4dcafc83-fe44-4643-9b20-08b41b2c2a9b'
-				),
-				'Privilege' => array(
-					'4dfe0356-3dbc-46ab-b776-12201b2c2a9b', '4dfe00da-fca0-4907-9f06-12201b2c2a9b',
-					'4dfe066d-f32c-42fa-b2cf-12201b2c2a9b', '4dfe0681-ea4c-48d3-ad78-12201b2c2a9b',
-				)
-			),
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-fe44-4643-9b20-08b41b2c2a9b', 'privilege_id' => '4dfe0356-3dbc-46ab-b776-12201b2c2a9b')),
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-fe44-4643-9b20-08b41b2c2a9b', 'privilege_id' => '4dfe00da-fca0-4907-9f06-12201b2c2a9b')),
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-fe44-4643-9b20-08b41b2c2a9b', 'privilege_id' => '4dfe066d-f32c-42fa-b2cf-12201b2c2a9b')),
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-fe44-4643-9b20-08b41b2c2a9b', 'privilege_id' => '4dfe0681-ea4c-48d3-ad78-12201b2c2a9b')),
 			// Tourchief
-			array(
-				'Role' => array(
-					'id' => '4dcafc83-23a4-446c-b974-08b41b2c2a9b'
-				),
-				'Privilege' => array(
-					'4e271b48-1940-4c81-be78-14e41b2c2a9b'
-				)
-			),
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-23a4-446c-b974-08b41b2c2a9b', 'privilege_id' => '4e271b48-1940-4c81-be78-14e41b2c2a9b')),
 			// Tourleader
-			array(
-				'Role' => array(
-					'id' => '4dcafc83-fd30-4786-a214-08b41b2c2a9b'
-				),
-				'Privilege' => array(
-					'4dcd943d-de10-4f50-886f-11e81b2c2a9b', '4e00ffca-57d4-471f-bd46-10781b2c2a9b',
-					'4e05e696-a1e0-4e43-8e95-13781b2c2a9b', '4e0a48d6-200c-4ff4-b597-03dc1b2c2a9b',
-					'4e1097a1-b92c-4d2b-ac3a-134c1b2c2a9b'
-					
-				)
-			),
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-fd30-4786-a214-08b41b2c2a9b', 'privilege_id' => '4dcd943d-de10-4f50-886f-11e81b2c2a9b')),
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-fd30-4786-a214-08b41b2c2a9b', 'privilege_id' => '4e00ffca-57d4-471f-bd46-10781b2c2a9b')),
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-fd30-4786-a214-08b41b2c2a9b', 'privilege_id' => '4e05e696-a1e0-4e43-8e95-13781b2c2a9b')),
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-fd30-4786-a214-08b41b2c2a9b', 'privilege_id' => '4e0a48d6-200c-4ff4-b597-03dc1b2c2a9b')),
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-fd30-4786-a214-08b41b2c2a9b', 'privilege_id' => '4e1097a1-b92c-4d2b-ac3a-134c1b2c2a9b')),
 			// User
-			array(
-				'Role' => array(
-					'id' => '4dcafc83-8744-4e1c-983f-08b41b2c2a9b'
-				),
-				'Privilege' => array(
-					'4e4020f3-5234-425b-8c6b-12f41b2c2a9b'
-				)
-			)
+			array('PrivilegesRoles' => array('role_id' => '4dcafc83-8744-4e1c-983f-08b41b2c2a9b', 'privilege_id' => '4e4020f3-5234-425b-8c6b-12f41b2c2a9b')),
 		);
-
-		foreach($rolesPrivileges as $rolesPrivilege)
-		{
-			$Role->saveAll($rolesPrivilege);
-		}
+		$PrivilegesRoles->saveAll($privilegeRoles);
 	}
 
 	private function addSystemAdmin()
@@ -782,12 +757,7 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 			App::import('Core', 'Security');
 		}
 
-		if(!class_exists('User'))
-		{
-			App::import('Model', 'User');
-		}
-
-		$User = new User();
+		$User = $this->generateModel('User');
 		$salt = SecurityTools::generateRandomString();
 		$user = array(
 			'User' => array(
@@ -797,13 +767,16 @@ class M4e3d23d689bc46578daa11d01b2c2a9b extends CakeMigration {
 				'password' => Security::hash($salt . 'superadmin', 'sha1', false),
 				'email' => 'superadmin@localhost.ch',
 				'active' => 1
-			),
-			'Role' => array(
-				'4dcafc83-fe44-4643-9b20-08b41b2c2a9b',	// Systemadmin
-				'4dcafc83-8744-4e1c-983f-08b41b2c2a9b'	// User
 			)
 		);
 		$User->save($user);
+
+		$RolesUsers = $this->generateModel('RolesUsers');
+		$rolesUsers = array(
+			array('RolesUsers' => array('user_id' => 'superadmin', 'role_id' => '4dcafc83-fe44-4643-9b20-08b41b2c2a9b')), // Systemadmin
+			array('RolesUsers' => array('user_id' => 'superadmin', 'role_id' => '4dcafc83-8744-4e1c-983f-08b41b2c2a9b'))  // User
+		);
+		$RolesUsers->saveAll($rolesUsers);
 	}
 }
 ?>
