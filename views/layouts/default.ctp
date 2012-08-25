@@ -17,9 +17,9 @@
     <div id="page">
       <div id="container">
         <div id="header">
-          <?php echo $this->Html->link($this->Html->image('sac_logo.png'), 'http://www.sac-albis.ch/', array('escape' => false, 'class' => 'saclogo', 'target' => '_blank')); ?>
+          <?php echo $this->Html->link($this->Html->image('sac_logo.png'), 'http://www.sac-baldern.ch/', array('escape' => false, 'class' => 'saclogo', 'target' => '_blank')); ?>
         </div>
-  
+
         <div id="topnav">
           <div id="login_box">
 <?php
@@ -41,7 +41,7 @@
           <div class="inner">
             <?php echo $this->Html->link($this->Html->image('tourdb_logo.png'), array('controller' => 'tours', 'action' => 'search'), array('escape' => false, 'class' => 'sitelogo')); ?>
           </div>
-        </div>  
+        </div>
         <div id="contentheader">
           <div class="inner">
             <div id="breadcrumbs"><?php echo $this->Html->getCrumbs(' › ', __('Tourenangebot', true)); ?></div>
@@ -75,17 +75,17 @@
 
         <div id="footer">
           <div class="globallinks">
-            <?php echo $this->Html->link(__('Kontakte', true), 'http://www.sac-albis.ch/club/kontakte/', array('target' => '_blank') ); ?>
+            <?php echo $this->Html->link(__('Kontakte', true), 'mailto:info@sac-baldern.ch', array('target' => '_blank') ); ?>
 		    <?php echo $this->Html->link(__('Datenschutzbestimmungen', true), array('controller' => 'pages', 'action' => 'display', 'data_privacy_statement')); ?>
 		  </div>
-          <?php __('©2011-2012 Tourenangebot für SAC, Sektion Am Albis'); ?>
+          <?php __('©2011-2012 Tourenangebot für SAC Sektion Baldern, Zürich'); ?>
         </div>
       </div>
     </div>
 <?php
 	if(isset($this->Js))
 	{
-		echo $this->Js->writeBuffer(); 
+		echo $this->Js->writeBuffer();
 	}
 ?>
   </body>

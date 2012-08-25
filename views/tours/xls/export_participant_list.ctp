@@ -12,7 +12,7 @@ $endColumn = $emergencyContactsOffset + ($exportEmergencyContacts ? 3 : 0) + ($e
 /* sac section name */
 $rowOffset = 2;
 
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow(1, $rowOffset, __('SAC, Sektion Am Albis', true));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow(1, $rowOffset, __('SAC Sektion Baldern, Zürich', true));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow(1, $rowOffset)->applyFromArray(array('font' => array('size' => 14, 'bold' => true)));
 $this->Excel->getActiveSheet()->mergeCells(sprintf('B%1$d:G%1$d', $rowOffset));
 
@@ -216,7 +216,7 @@ $index = 0;
 foreach($tourParticipations as $tourParticipation)
 {
 	$cell = 0;
-	
+
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($index + 1));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['lastname']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['firstname']);
