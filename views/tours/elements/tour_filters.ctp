@@ -92,43 +92,43 @@ if(in_array('Difficulty', $activeFilters))
 	$searchFilters .= $this->Html->div('input select',
 		$this->Form->label(__('Schwierigkeit', true))
 		. $this->Html->div('difficulty-select checkbox-container',
-			$this->Html->div('diff-s diff-h',
+			$this->Html->div(sprintf('diff-%s diff-%s', TourType::SKI_TOUR, TourType::ALPINE_TOUR),
 				$this->Form->input('Tour.Difficulty', array(
 					'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesSkiAndAlpineTour,
 					'after' => $this->Html->div('', '', array('style' => 'clear: left'))
 				))
 			)
-			. $this->Html->div('diff-h', $this->Widget->stripHidden(
+			. $this->Html->div(sprintf('diff-%s', TourType::ALPINE_TOUR), $this->Widget->stripHidden(
 				$this->Form->input('Tour.Difficulty', array(
 					'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesAlpineTour,
 					'after' => $this->Html->div('', '', array('style' => 'clear: left'))
 				))
 			))
-			. $this->Html->div('diff-w', $this->Widget->stripHidden(
+			. $this->Html->div(sprintf('diff-%s', TourType::HIKE), $this->Widget->stripHidden(
 				$this->Form->input('Tour.Difficulty', array(
 					'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesHike,
 					'after' => $this->Html->div('', '', array('style' => 'clear: left'))
 				))
 			))
-			. $this->Html->div('diff-ss', $this->Widget->stripHidden(
+			. $this->Html->div(sprintf('diff-%s', TourType::SNOWSHOE_TOUR), $this->Widget->stripHidden(
 				$this->Form->input('Tour.Difficulty', array(
 					'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesSnowshowTour,
 					'after' => $this->Html->div('', '', array('style' => 'clear: left'))
 				))
 			))
-			. $this->Html->div('diff-ks', $this->Widget->stripHidden(
+			. $this->Html->div(sprintf('diff-%s', TourType::VIA_FERRATA), $this->Widget->stripHidden(
 				$this->Form->input('Tour.Difficulty', array(
 					'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesViaFerrata,
 					'after' => $this->Html->div('', '', array('style' => 'clear: left'))
 				))
 			))
-			. $this->Html->div('diff-k diff-p', $this->Widget->stripHidden(
+			. $this->Html->div(sprintf('diff-%s diff-%s', TourType::ROCK_CLIMBING, TourType::PLAISIR_CLIMBING), $this->Widget->stripHidden(
 				$this->Form->input('Tour.Difficulty', array(
 					'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesRockClimbing,
 					'after' => $this->Html->div('', '', array('style' => 'clear: left'))
 				))
 			))
-			. $this->Html->div('diff-e', $this->Widget->stripHidden(
+			. $this->Html->div(sprintf('diff-%s', TourType::ICE_CLIMBING), $this->Widget->stripHidden(
 				$this->Form->input('Tour.Difficulty', array(
 					'label' => false, 'multiple' => 'checkbox', 'options' => $difficultiesIceClimbing,
 					'after' =>  $this->Html->div('', '', array('style' => 'clear: left'))
