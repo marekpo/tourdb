@@ -185,19 +185,28 @@ class ToursController extends AppController
 	{
 		if(!empty($this->data) && $this->data['Tour']['confirm'])
 		{
+			if($this->Session->check('referer.tours.delete'))
+			{
+				$redirect = $this->Session->read('referer.tours.delete');
+				$this->Session->delete('referer.tours.delete');
+			}
+			else
+			{
+				$redirect = array('action' => 'index');
+			}
+
+			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
+			{
+				$this->redirect($redirect);
+			}
+
 			if(!$this->Tour->delete($id))
 			{
 				$this->Session->setFlash(__('Die Tour konnte nicht gelöscht werden.', true));
 			}
 
-			if($this->Session->check('referer.tours.delete'))
-			{
-				$redirect = $this->Session->read('referer.tours.delete');
-				$this->Session->delete('referer.tours.delete');
-				$this->redirect($redirect);
-			}
-
-			$this->redirect(array('action' => 'index'));
+			$this->Session->setFlash(__('Die Tour wurde gelöscht.', true));
+			$this->redirect($redirect);
 		}
 
 		$this->Session->write('referer.tours.delete', $this->referer(null, true));
@@ -490,12 +499,19 @@ class ToursController extends AppController
 	{
 		if(!empty($this->data))
 		{
+			$redirect = array('action' => 'view', $id);
+
+			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
+			{
+				$this->redirect($redirect);
+			}
+
 			$registrationClosedStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::REGISTRATION_CLOSED));
 
 			$this->__changeTourStatus($id, $registrationClosedStatusId);
 
 			$this->Session->setFlash(__('Die Anmeldung für diese Tour wurde geschlossen.', true));
-			$this->redirect(array('action' => 'view', $id));
+			$this->redirect($redirect);
 		}
 		else
 		{
@@ -521,6 +537,13 @@ class ToursController extends AppController
 
 		if(!empty($this->data))
 		{
+			$redirect = array('action' => 'view', $id);
+
+			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
+			{
+				$this->redirect($redirect);
+			}
+
 			$canceledStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::CANCELED));
 
 			$this->__changeTourStatus($id, $canceledStatusId);
@@ -551,7 +574,7 @@ class ToursController extends AppController
 			}
 
 			$this->Session->setFlash(__('Die Tour wurde abgesagt.', true));
-			$this->redirect($this->referer(null, true));
+			$this->redirect($redirect);
 		}
 		else
 		{
@@ -759,10 +782,12 @@ class ToursController extends AppController
 
 		if(!empty($this->data) && $this->data['Tour']['confirm'])
 		{
-			$tour = $this->Tour->find('first', array(
-				'conditions' => array('Tour.id' => $id),
-				'contain' => array('TourGuide', 'TourGuide.Profile')
-			));
+			$redirect = array('action' => 'listToursWithoutReport');
+
+			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
+			{
+				$this->redirect($redirect);
+			}
 
 			$this->set(array('tour' => $tour));
 
@@ -773,7 +798,7 @@ class ToursController extends AppController
 			);
 
 			$this->Session->setFlash(__('Die E-Mail wurde verschickt.', true));
-			$this->redirect(array('action' => 'listToursWithoutReport'));
+			$this->redirect($redirect);
 		}
 		else
 		{

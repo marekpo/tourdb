@@ -43,14 +43,19 @@ TourDB.Util = {
 	confirmationDialog: function(event) {
 		var url = this.href;
 		var confirmDialogId = event.data.id;
-		var confirmDialogElement = $(confirmDialogId);
+		var confirmDialogElement = $('#' + confirmDialogId);
 
 		if(confirmDialogElement.length == 0) {
 			confirmDialogElement = $('<div id="' + confirmDialogId + '" style="display: hidden" />').appendTo('body');
 		}
 
 		confirmDialogElement.load(url, {}, function(responseText, status, request) {
-			confirmDialogElement.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title });
+			confirmDialogElement.dialog({ width: 464, draggable: false, modal: true, resizable: false, title: event.data.title })
+					.find('input.cancel')
+					.click(function(event) {
+						confirmDialogElement.dialog('close');
+						event.preventDefault();
+					});
 		});
 
 		event.preventDefault();

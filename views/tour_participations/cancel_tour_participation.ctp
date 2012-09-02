@@ -11,4 +11,7 @@ echo $this->Html->para('', __('Wenn du möchtest, kannst du dem Tourenleiter noc
 
 echo $this->Form->input('TourParticipation.message', array('type' => 'textarea', 'label' => __('Nachricht', true)));
 
-echo $this->Form->end(__('Speichern', true));
+echo $this->Html->div('submit',
+	$this->Form->submit(__('Abbrechen', true), array('name' => 'data[Tour][cancel]', 'div' => false, 'class' => 'cancel'))
+	. $this->Form->submit(__('Speichern', true), array('div' => false))
+);

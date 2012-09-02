@@ -19,7 +19,7 @@ if(count($tours))
 		__('Code', true),
 		''
 	);
-	
+
 	$tableCells = array();
 
 	foreach($tours as $tour)
@@ -73,7 +73,7 @@ if(count($tours))
 			)
 		);
 
-		$this->Js->buffer(sprintf("$('#%1\$s').click({ id: '%1\$s', title: '%2\$s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $tour['Tour']['id']), __('Tour löschen', true)));
+		$this->Js->buffer(sprintf("$('#%s').click({ id: '%s', title: '%s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $tour['Tour']['id']), sprintf('delete-dialog-%s', $tour['Tour']['id']), __('Tour löschen', true)));
 	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);

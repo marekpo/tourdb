@@ -24,13 +24,13 @@ if(count($tours))
 			'class' => 'iconaction email',
 			'id' => sprintf('email-%s', $tour['Tour']['id']),
 			'title' => __('E-Mail verschicken', true)
-		));		
+		));
 
 		$tableCells[] = array(
 			array(
 				$tour['TourStatus']['statusname'],
 				array('class' => 'status')
-			),		
+			),
 			array(
 				$this->Html->link($tour['Tour']['title'], array('action' => 'edit', $tour['Tour']['id'])),
 				array('class' => 'title')
@@ -65,7 +65,7 @@ if(count($tours))
 			)
 		);
 
-		$this->Js->buffer(sprintf("$('#%1\$s').click({ id: '%1\$s', title: '%2\$s'}, TourDB.Util.confirmationDialog);", sprintf('email-%s', $tour['Tour']['id']), __('E-Mail verschicken', true)));
+		$this->Js->buffer(sprintf("$('#%s').click({ id: '%s', title: '%s'}, TourDB.Util.confirmationDialog);", sprintf('email-%s', $tour['Tour']['id']), sprintf('email-dialog-%s', $tour['Tour']['id']), __('E-Mail verschicken', true)));
 	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);
