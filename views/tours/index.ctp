@@ -33,6 +33,9 @@ if(count($tours))
 				))
 			: '';
 
+		$editLink = $this->Authorization->link($tour['Tour']['title'], array('action' => 'edit', $tour['Tour']['id']));
+		$tourTitle = $editLink !== false ? $editLink : $tour['Tour']['title'];
+
 		$tableCells[] = array(
 			array(
 				$tour['TourStatus']['statusname'],
@@ -43,7 +46,7 @@ if(count($tours))
 				array('class' => 'tourgroup')
 			),
 			array(
-				$this->Html->link($tour['Tour']['title'], array('action' => 'edit', $tour['Tour']['id'])),
+				$tourTitle,
 				array('class' => 'title')
 			),
 
