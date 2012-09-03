@@ -529,10 +529,11 @@ class ToursController extends AppController
 	function cancel($id)
 	{
 		$tour = $this->Tour->find('first', array(
-			'fields' => array('Tour.id', 'Tour.title'),
+			'fields' => array('Tour.id', 'Tour.title', 'TourGroup.tourgroupname'),
 			'conditions' => array('Tour.id' => $id),
-			'contain' => false
+			'contain' => array('TourGroup')
 		));
+
 		$this->set(compact('tour'));
 
 		if(!empty($this->data))
@@ -560,8 +561,6 @@ class ToursController extends AppController
 				),
 				'contain' => array('User', 'User.Profile')
 			));
-
-			$this->set(compact('tour'));
 
 			foreach($tourParticipations as $tourParticipation)
 			{
