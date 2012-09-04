@@ -181,7 +181,7 @@ class Tour extends AppModel
 			$this->data['Tour']['tour_status_id'] = $this->TourStatus->field('id', array('key' => TourStatus::NEW_));
 		}
 
-		if($this->data['Tour']['meetingtime'] == '00:00:00')
+		if(isset($this->data['Tour']['meetingtime']) && $this->data['Tour']['meetingtime'] == '00:00:00')
 		{
 			$this->data['Tour']['meetingtime'] = null;
 		}
