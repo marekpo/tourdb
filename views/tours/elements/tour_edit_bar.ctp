@@ -16,15 +16,14 @@ if($tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
 	}
 
 	if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED))
-		&& time() < strtotime($tour['Tour']['startdate'])
-		&& $tour['Tour']['signuprequired'])
+		&& time() < strtotime($tour['Tour']['startdate']))
 	{
 		$actions[] = $this->Html->link(__('Tour absagen', true), array('action' => 'cancel', $tour['Tour']['id']), array('class' => 'action cancel'));
 	}
 
 	if(time() > strtotime($tour['Tour']['enddate']))
 	{
-		if(!empty($tour['TourGuideReport']['id']))		
+		if(!empty($tour['TourGuideReport']['id']))
 		{
 			$actions[] = $this->Html->link(__('Tourenrapport anpassen', true), array('controller' => 'tour_guide_reports', 'action' => 'edit', $tour['Tour']['id']), array('class' => 'action edit'));
 			$actions[] = $this->Html->link(__('Tourenrapport exportieren', true), array('controller' => 'tour_guide_reports', 'action' => 'exportTourguideReport', $tour['Tour']['id']), array('class' => 'action exportTourguideReport'));
