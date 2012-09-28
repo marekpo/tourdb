@@ -145,7 +145,12 @@ class Profile extends AppModel
 				'rule' => 'numeric',
 				'allowEmpty' => true
 			)
-		)
+		),
+		'sac_member' => array(
+				'notEmpty' => array(
+						'rule' => 'notEmpty'
+				)
+		),		
 	);
 
 	function beforeSave($options = array())

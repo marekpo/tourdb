@@ -2,7 +2,14 @@
   <fieldset class="sacmembership">
     <legend><?php __('SAC Mitgliedschaft'); ?></legend>
 <?php
-echo $this->Form->input('Profile.sac_member', array('label' => __('SAC Mitglied', true)));
+
+echo $this->Form->input('Profile.sac_member', array('label' => __('SAC Mitglied', true),
+													'options' => $this->Display->getSacMemberOptions(),
+													'empty' => __('Bitte wählen', true),
+													'error' => array('notEmpty' => __('Bitte wähle eine Möglichkeit aus.', true))
+													)
+); 
+
 
 echo $this->Html->div('', 
 	$this->Form->input('Profile.sac_membership_number', array('label' => __('Mitgliedernummer', true)))
@@ -12,8 +19,6 @@ echo $this->Html->div('',
 	. $this->Form->input('Profile.sac_additional_section3_id', array('label' => __('Viertsektion', true), 'options' => $sacSections, 'empty' => '')),
 	array('id' => 'sacmembershipfields')
 );
-$this->Js->buffer("$('#ProfileSacMember').click(function(event) { if(event.target.checked) { $('#sacmembershipfields').show(); } else { $('#sacmembershipfields').hide(); } });");
-$this->Js->buffer("if($('#ProfileSacMember').prop('checked')) { $('#sacmembershipfields').show(); } else { $('#sacmembershipfields').hide(); }");
 ?>
   </fieldset>
 </div>

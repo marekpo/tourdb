@@ -46,15 +46,20 @@ if(!empty($profile['Profile']['emergencycontact1_address']) || ! empty($profile[
 	}
 }
 
-if($profile['Profile']['sac_member'])
+echo $this->Html->tag('h2', __('SAC Mitgliedschaft', true));
+$sacMembershipRows = array();
+if($profile['Profile']['sac_member'] <= 1) {
+	$sacMembershipRows[] = array(__('SAC Mitglied:', true), $this->Display->displaySacMember($profile['Profile']['sac_member']));
+}
+else {
+	$sacMembershipRows[] = array(__('SAC Mitglied:', true), __('Keine Angaben', true));
+}
+
+if($profile['Profile']['sac_member'] == 1)
 {
-	echo $this->Html->tag('h2', __('SAC Mitgliedschaft', true));
-
-	$sacMembershipRows = array();
-
 	if(!empty($profile['Profile']['sac_membership_number']))
 	{
-		$sacMembershipRows[] = array(__('Mitgliedernummer', true), $profile['Profile']['sac_membership_number']);
+		$sacMembershipRows[] = array(__('Mitgliedernummer:', true), $profile['Profile']['sac_membership_number']);
 	}
 
 	$sections = array();
@@ -82,12 +87,12 @@ if($profile['Profile']['sac_member'])
 	if(!empty($sections))
 	{
 		$sacMembershipRows[] = array(
-			__n('Sektion', 'Sektionen', count($sections), true), implode(', ', $sections)
+			__n('Sektion:', 'Sektionen:', count($sections), true), implode(', ', $sections)
 		);
 	}
-
-	echo $this->Html->tag('table', $this->Html->tableCells($sacMembershipRows));
 }
+echo $this->Html->tag('table', $this->Html->tableCells($sacMembershipRows));
+
 
 echo $this->Html->tag('h2', __('Erfahrungen', true));
 
