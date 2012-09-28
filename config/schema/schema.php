@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2012-09-28 14:22:49 : 1348834969*/
+/* Tourdb schema generated on: 2012-09-28 14:49:39 : 1348836579*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
