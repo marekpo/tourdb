@@ -94,7 +94,7 @@ foreach($tours as $tour)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tour['Tour']['withmountainguide'] == true ? 'Ja' : ''));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getClassification($tour, array('span' => false)));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getTourGuide($tour));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('d.m.Y', $tour['Tour']['deadline_calculated'] ));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getDeadlineText($tour));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayUsersPhoneContact($tour['TourGuide']['Profile']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tour['Tour']['meetingplace']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tour['Tour']['meetingtime'] !== null ? sprintf(__('%s Uhr', true), $this->Time->format('H:i', $tour['Tour']['meetingtime'])) : ''));
