@@ -81,11 +81,6 @@ echo $this->Html->div('columncontainer',
 			'tabindex' => 10,
 			'error' => array('decnum' => $decnumText)
 		))
-		. $this->Form->input('TourGuideReport.paid_donation', array(
-					'type' => 'text',
-					'label' => __('Spende zu Gunsten Seniorenkasse', true),
-					'tabindex' => 12
-			))
 		)		
 		. $this->Html->div('half',
 			$this->Form->input('TourGuideReport.expenses_others1_text', array(
@@ -100,6 +95,15 @@ echo $this->Html->div('columncontainer',
 		))
 		)			
 );
+
+if($tour['TourGroup']['key'] == TourGroup::SENIORS)
+{
+echo $this->Form->input('TourGuideReport.paid_donation', array(
+		'type' => 'text',
+		'label' => __('Spende zu Gunsten Seniorenkasse', true),
+		'tabindex' => 12
+));
+}
 ?>
   </fieldset>
 </div>

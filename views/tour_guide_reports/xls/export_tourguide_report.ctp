@@ -264,8 +264,11 @@ $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset + 7, sprintf('=SUM(%3$s%1$d:%3$s%2$d)', $rowOffset + 1 , $rowOffset + 6, PHPExcel_Cell::stringFromColumnIndex($labelColumn2) ));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset + 7)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => true)));
 
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 8 , __('Spende:', true));
+
+if($tour['TourGroup']['key'] == TourGroup::SENIORS) {
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 8 , __('Spende Seniorenkasse:', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset + 8 , $tour['TourGuideReport']['paid_donation']);
+}
 
 /*Zahlen formatieren alle in einem Schritt*/
 $this->Excel->getActiveSheet()->getStyle(sprintf('%1s%2$d:%1$s%3$d', PHPExcel_Cell::stringFromColumnIndex($labelColumn2), $rowOffset + 1, $rowOffset + 8))
