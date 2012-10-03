@@ -76,7 +76,5 @@ $map = array(
 		'037_add_appointment_model' => 'M4fc511d086284e15b77f06881b2c2a9b'),
 	38 => array(
 		'038_add_upcoming_appointments' => 'M50234f26cd3042e2b1f50b181b2c2a9b'),
-	39 => array(
-		'039_update_tour_status_names' => 'M5052403ee05c45ca85a018b01b2c2a9b'),
 );
 ?>
