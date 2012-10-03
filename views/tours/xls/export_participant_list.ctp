@@ -190,10 +190,10 @@ if($exportExperienceInformation)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $this->Display->displayExperience($tour['TourGuide']['Profile']['experience_rope_handling']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $this->Display->displayExperience($tour['TourGuide']['Profile']['experience_avalanche_training']));
 
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (isset($tour['TourGuide']['Profile']['LeadClimbNiveau']) ? $tour['TourGuide']['Profile']['LeadClimbNiveau']['name'] : ''));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (isset($tour['TourGuide']['Profile']['SecondClimbNiveau']) ? $tour['TourGuide']['Profile']['SecondClimbNiveau']['name']: ''));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (isset($tour['TourGuide']['Profile']['AlpineTourNiveau']) ? $tour['TourGuide']['Profile']['AlpineTourNiveau']['name'] : ''));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (isset($tour['TourGuide']['Profile']['SkiTourNiveau']) ? $tour['TourGuide']['Profile']['SkiTourNiveau']['name'] : ''));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (!empty($tour['TourGuide']['Profile']['LeadClimbNiveau']) ? $tour['TourGuide']['Profile']['LeadClimbNiveau']['name'] : ''));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (!empty($tour['TourGuide']['Profile']['SecondClimbNiveau']) ? $tour['TourGuide']['Profile']['SecondClimbNiveau']['name']: ''));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (!empty($tour['TourGuide']['Profile']['AlpineTourNiveau']) ? $tour['TourGuide']['Profile']['AlpineTourNiveau']['name'] : ''));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (!empty($tour['TourGuide']['Profile']['SkiTourNiveau']) ? $tour['TourGuide']['Profile']['SkiTourNiveau']['name'] : ''));
 }
 
 if($exportAdditionalInformation)
@@ -216,7 +216,7 @@ $index = 0;
 foreach($tourParticipations as $tourParticipation)
 {
 	$cell = 0;
-	
+
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($index + 1));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['lastname']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['firstname']);
@@ -242,10 +242,10 @@ foreach($tourParticipations as $tourParticipation)
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayExperience($tourParticipation['User']['Profile']['experience_rope_handling']));
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayExperience($tourParticipation['User']['Profile']['experience_avalanche_training']));
 
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['LeadClimbNiveau']['name']);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['SecondClimbNiveau']['name']);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['AlpineTourNiveau']['name']);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['SkiTourNiveau']['name']);
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['LeadClimbNiveau']) ? $tourParticipation['User']['Profile']['LeadClimbNiveau']['name'] : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['SecondClimbNiveau']) ? $tourParticipation['User']['Profile']['SecondClimbNiveau']['name'] : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['AlpineTourNiveau']) ? $tourParticipation['User']['Profile']['AlpineTourNiveau']['name'] : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['SkiTourNiveau']) ? $tourParticipation['User']['Profile']['SkiTourNiveau']['name'] : ''));
 	}
 
 	if($exportAdditionalInformation)
