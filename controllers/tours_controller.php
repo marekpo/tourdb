@@ -389,7 +389,7 @@ class ToursController extends AppController
 		}
 
 		$tourIds = $this->Tour->searchTours($this->params['url'], array(
-			'TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)
+			'TourStatus.key' => array(TourStatus::FIXED, TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)
 		));
 
 		$this->paginate = array_merge($this->paginate, array(
@@ -432,9 +432,9 @@ class ToursController extends AppController
 			'contain' => array('TourGroup', 'TourStatus', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty', 'TourGuide.Profile', 'TourGuideReport.id')
 		));
 
-		$publishedTourStatus = $this->Tour->TourStatus->findByKey(TourStatus::PUBLISHED);
+		$fixedTourStatus = $this->Tour->TourStatus->findByKey(TourStatus::FIXED);
 
-		if(empty($tour) || $tour['TourStatus']['rank'] < $publishedTourStatus['TourStatus']['rank'])
+		if(empty($tour) || $tour['TourStatus']['rank'] < $fixedTourStatus['TourStatus']['rank'])
 		{
 			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
 			$this->redirect('/');
@@ -489,7 +489,7 @@ class ToursController extends AppController
 
 		$tourStatusVisible = $this->Tour->TourStatus->find('all', array(
 			'fields' => array('TourStatus.id', 'TourStatus.statusname'),
-			'conditions' => array('TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)),
+			'conditions' => array('TourStatus.key' => array(TourStatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)),
 			'contain' => array()
 		));
 

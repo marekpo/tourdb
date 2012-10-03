@@ -478,7 +478,7 @@ class Tour extends AppModel
 		return array(
 			'tourStatuses' => $this->TourStatus->find('list', array(
 				'conditions' => array('TourStatus.key' => array(
-					TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)
+					TourStatus::FIXED, TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)
 				),
 				'order' => array('TourStatus.rank' => 'ASC')
 			))
