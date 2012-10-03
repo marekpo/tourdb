@@ -57,15 +57,14 @@ $objDrawing->setWorksheet($this->Excel->getActiveSheet());
 /*Tour und Ersatztour*/
 if(empty($tour['TourGuideReport']['substitute_tour'])) 
 {
-	$madeTour = $tour['Tour']['title'];
+	$madeTour = $tour['Tour']['title'] . ' (' . $this->TourDisplay->getClassification($tour, array('span' => false)) . ')';
 	$planedTour = "";  
 }
 else 
 {
 	$madeTour = $tour['TourGuideReport']['substitute_tour'];
-	$planedTour = $tour['Tour']['title'];
+	$planedTour = $tour['Tour']['title'] . ' (' . $this->TourDisplay->getClassification($tour, array('span' => false)) . ')';
 }		
-$madeTour .=  ' ' . $this->TourDisplay->getClassification($tour, array('span' => false));
 
  /*durchgeführt*/
  $rowOffset = 5;
