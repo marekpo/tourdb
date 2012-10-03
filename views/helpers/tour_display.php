@@ -114,4 +114,58 @@ class TourDisplayHelper extends AppHelper
 		return $deadLineText;
 	}
 	
+	function getStatusLink($tour,$action)
+	{
+	
+		$statusIcon = '';
+		$statusText = '';
+		$statusLink = '';
+	
+		if(isset($tour['TourStatus'])) {
+			if($tour['TourStatus']['key'] == TourStatus::NEW_ )
+			{
+				$statusIcon = 'white';
+				$statusText = __('Neue Tour editieren.', true);
+			
+			}
+			elseif($tour['TourStatus']['key'] == TourStatus::FIXED )
+			{
+				$statusIcon = 'orange';
+				$statusText = __('Anmeldung noch nicht möglich.', true);
+				
+			}
+			elseif($tour['TourStatus']['key'] == TourStatus::PUBLISHED )
+			{
+				$statusIcon = 'green';
+				$statusText = __('Anmeldung möglich.', true);
+			}
+			elseif($tour['TourStatus']['key'] == TourStatus::CANCELED )
+			{
+				$statusIcon = 'red';
+				$statusText = __('Keine Anmeldung möglich. Tour wurde abgesagt.', true);
+			}
+			elseif($tour['TourStatus']['key'] == TourStatus::REGISTRATION_CLOSED )
+			{
+				$statusIcon = 'red';
+				$statusText = __('Keine Anmeldung mehr möglich. Anmeldung wurde geschlossen.', true);
+			}			
+			else
+			{
+				$statusIcon = 'white';
+				$statusText = __('Tour liegt in der Vergangenheit.', true);
+			}	
+			
+		}
+	
+		$statusLink = $this->Html->link('', array('controller' => 'tours', 'action' => $action, $tour['Tour']['id']), array(
+						'class' => sprintf('iconstatus %s', $statusIcon),
+						'id' => sprintf('edit-%s', $tour['Tour']['id']),
+						'title' => $statusText
+				));
+		
+		return $statusLink; 			
+		;
+	}
+	
+	
 }

@@ -121,6 +121,13 @@ a.iconaction			{ width: 16px; height: 16px; display: block; float: left; margin-
 a.iconaction.delete		{ background-image: url(../img/bin_closed.png); }
 a.iconaction.email		{ background-image: url(../img/email_go.png); }
 
+/* status */
+a.iconstatus			{ width: 16px; height: 16px; display: block; float: left; margin-right: 4px; background: center center no-repeat; }
+a.iconstatus.green		{ background-image: url(../img/tag_green.png); }
+a.iconstatus.orange		{ background-image: url(../img/tag_orange.png); }
+a.iconstatus.red		{ background-image: url(../img/tag_red.png); }
+a.iconstatus.white		{ background-image: url(../img/tag_white.png); }
+
 /* forms */
 .input				{ clear: left; margin-bottom: 15px; }
 .input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label, .input.radio label:FIRST-CHILD, .input.time label
