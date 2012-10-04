@@ -8,7 +8,7 @@ if($tour['Tour']['signuprequired'])
 
 if($tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
 {
-	if(!in_array($tour['TourStatus']['key'], array(TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT))
+	if(!in_array($tour['TourStatus']['key'], array(TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT))
 		&& time() < strtotime($tour['Tour']['startdate'])
 		&& $tour['Tour']['signuprequired'])
 	{
