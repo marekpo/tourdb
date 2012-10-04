@@ -329,9 +329,15 @@ class ToursController extends AppController
 				$valid = false;
 			}
 
+			if(empty($this->data['Tour']['tour_status_id']))
+			{
+				$this->Tour->invalidate('tour_status_id', 'notEmpty');
+				$valid = false;
+			}
+
 			if($valid)
 			{
-				$searchConditions['TourStatus.key'] = array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED);
+				$searchConditions['Tour.tour_status_id'] = $this->data['Tour']['tour_status_id'];
 				$searchConditions['Tour.startdate >='] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
 				$searchConditions['Tour.enddate <='] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
 
@@ -360,6 +366,16 @@ class ToursController extends AppController
 		}
 
 		$this->set($this->Tour->getWidgetData(array(Tour::WIDGET_TOUR_GROUP)));
+		$this->set(array(
+			'tourStatuses' => $this->Tour->TourStatus->find('list', array(
+				'conditions' => array('TourStatus.key' => array(TourStatus::NEW_, TourStatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED)),
+				'order' => array('TourStatus.rank' => 'ASC')
+			)),
+			'tourStatusDefault' => array_keys($this->Tour->TourStatus->find('list', array(
+				'conditions' => array('TourStatus.key' => array(Tourstatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED)),
+				'order' => array('TourStatus.rank' => 'ASC')
+			)))
+		));
 	}
 
 	/**
@@ -373,7 +389,7 @@ class ToursController extends AppController
 		}
 
 		$tourIds = $this->Tour->searchTours($this->params['url'], array(
-			'TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)
+			'TourStatus.key' => array(TourStatus::FIXED, TourStatus::PUBLISHED, TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)
 		));
 
 		$this->paginate = array_merge($this->paginate, array(
@@ -416,9 +432,9 @@ class ToursController extends AppController
 			'contain' => array('TourGroup', 'TourStatus', 'TourGuide', 'TourType', 'ConditionalRequisite', 'Difficulty', 'TourGuide.Profile', 'TourGuideReport.id')
 		));
 
-		$publishedTourStatus = $this->Tour->TourStatus->findByKey(TourStatus::PUBLISHED);
+		$fixedTourStatus = $this->Tour->TourStatus->findByKey(TourStatus::FIXED);
 
-		if(empty($tour) || $tour['TourStatus']['rank'] < $publishedTourStatus['TourStatus']['rank'])
+		if(empty($tour) || $tour['TourStatus']['rank'] < $fixedTourStatus['TourStatus']['rank'])
 		{
 			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
 			$this->redirect('/');
@@ -473,7 +489,7 @@ class ToursController extends AppController
 
 		$tourStatusVisible = $this->Tour->TourStatus->find('all', array(
 			'fields' => array('TourStatus.id', 'TourStatus.statusname'),
-			'conditions' => array('TourStatus.key' => array(TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)),
+			'conditions' => array('TourStatus.key' => array(TourStatus::FIXED, TourStatus::PUBLISHED, TourStatus::CANCELED, TourStatus::REGISTRATION_CLOSED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)),
 			'contain' => array()
 		));
 
