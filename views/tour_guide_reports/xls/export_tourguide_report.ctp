@@ -284,8 +284,8 @@ $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset
 
 /*Seite für Druck vorbereiten*/
 
-$this->Excel->getActiveSheet()->getPageMargins()->setTop(0.5);
-$this->Excel->getActiveSheet()->getPageMargins()->setBottom(0.5);
+$this->Excel->getActiveSheet()->getPageMargins()->setTop(0.195); /*Inches*/
+$this->Excel->getActiveSheet()->getPageMargins()->setBottom(0.195); /*Inches*/
 $this->Excel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&D&R&P/&N'); /*Datum links, Seitenzahl rechts*/
 $this->Excel->getActiveSheet()->getHeaderFooter()->setEvenFooter('&L&D&R&P/&N'); 
 $this->Excel->getActiveSheet()->getPageSetup()->setFitToWidth(1);
