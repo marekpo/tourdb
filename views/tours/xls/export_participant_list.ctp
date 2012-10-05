@@ -18,20 +18,20 @@ $this->Excel->getActiveSheet()->mergeCells(sprintf('B%1$d:G%1$d', $rowOffset));
 
 /* tour guide */
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow(7, $rowOffset, sprintf(__('Leiter: %s', true), $this->TourDisplay->getTourGuide($tour)));
-$this->Excel->getActiveSheet()->getStyleByColumnAndRow(7, $rowOffset)->applyFromArray(array('font' => array('size' => 9, 'bold' => true)));
+$this->Excel->getActiveSheet()->getStyleByColumnAndRow(7, $rowOffset)->applyFromArray(array('font' => array('size' => 14, 'bold' => true)));
 $this->Excel->getActiveSheet()->mergeCells(sprintf('H%1$d:J%1$d', $rowOffset));
 
 /* tour title */
 $rowOffset = 3;
 
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow(1, $rowOffset, $tour['Tour']['title']);
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow(1, $rowOffset, $tour['Tour']['title'] . ' ' . $this->TourDisplay->getClassification($tour, array('span' => false)));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow(1, $rowOffset)->applyFromArray(array('font' => array('size' => 14, 'bold' => true), 'alignment' => array('vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER)));
 $this->Excel->getActiveSheet()->getRowDimension($rowOffset)->setRowHeight(35);
 $this->Excel->getActiveSheet()->mergeCells(sprintf('B%1$d:G%1$d', $rowOffset));
 
 /* tour group */
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow(7, $rowOffset, sprintf(__('Gruppe: %s', true), $tour['TourGroup']['tourgroupname']));
-$this->Excel->getActiveSheet()->getStyleByColumnAndRow(7, $rowOffset)->applyFromArray(array('font' => array('size' => 9, 'bold' => true), 'alignment' => array('vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER)));
+$this->Excel->getActiveSheet()->getStyleByColumnAndRow(7, $rowOffset)->applyFromArray(array('font' => array('size' => 14, 'bold' => true), 'alignment' => array('vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER)));
 $this->Excel->getActiveSheet()->mergeCells(sprintf('H%1$d:J%1$d', $rowOffset));
 
 /* date */
@@ -303,5 +303,18 @@ if($exportAdditionalInformation)
 		'borders' => array('left' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM)),
 	));
 }
+
+/*Seite für Druck vorbereiten*/
+
+$this->Excel->getActiveSheet()->getPageMargins()->setTop(0.195);
+$this->Excel->getActiveSheet()->getPageMargins()->setBottom(0.195);
+$this->Excel->getActiveSheet()->getPageMargins()->setLeft(0.195);
+$this->Excel->getActiveSheet()->getPageMargins()->setRight(0.195);
+$this->Excel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&D&R&P/&N'); /*Datum links, Seitenzahl rechts*/
+$this->Excel->getActiveSheet()->getHeaderFooter()->setEvenFooter('&L&D&R&P/&N');
+$this->Excel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+$this->Excel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+$this->Excel->getActiveSheet()->getPageSetup()->setFitToWidth(1);
+$this->Excel->getActiveSheet()->getPageSetup()->setFitToHeight(0);
 
 $this->Excel->outputDocument();
