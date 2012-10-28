@@ -80,5 +80,7 @@ $map = array(
 		'039_update_tour_guide_reports_table' => 'M50653ec43e444357a21912f41b2c2a9b'),
 	40 => array(
 		'040_add_new_countries' => 'M506553e6c86c4195919715fc1b2c2a9b'),
+	41 => array(
+		'041_add_sac_members' => 'M50659d828130409d8af31be41b2c2a9b'),
 );
 ?>
