@@ -28,7 +28,7 @@ if(count($tours))
 
 		$tableCells[] = array(
 			array(
-				$tour['TourStatus']['statusname'],
+				$this->TourDisplay->getStatusIcon($tour),
 				array('class' => 'status')
 			),
 			array(

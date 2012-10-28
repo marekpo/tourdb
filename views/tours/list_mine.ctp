@@ -44,7 +44,7 @@ if(count($tours))
 				array('class' => 'title')
 			),
 			array(
-				$tour['TourStatus']['statusname'],
+				$this->TourDisplay->getStatusIcon($tour),
 				array('class' => 'status')
 			),
 			array(

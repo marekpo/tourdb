@@ -113,68 +113,79 @@ class TourDisplayHelper extends AppHelper
 		
 		return $deadLineText;
 	}
-	
-	function getStatusLink($tour,$action)
+
+	function getStatusLink($tour, $action)
 	{
-		$statusColor = '';
-		$statusText = '';
-	
-		if(isset($tour['TourStatus'])) {
-			
-			If(time() >= strtotime($tour['Tour']['startdate']))
+		list($linkClass, $linkTitle) = $this->__getStatusClassAndTitle($tour);
+
+		if(array_key_exists('Tour', $tour))
+		{
+			$tour = $tour['Tour'];
+		}
+
+		return $this->Html->link('', array('controller' => 'tours', 'action' => $action, $tour['id']), array(
+			'class' => sprintf('tourstatus %s', $linkClass), 'id' => sprintf('view-%s', $tour['id']), 'title' => $linkTitle
+		));;
+	}
+
+	function getStatusIcon($tour)
+	{
+		list($iconClass, $iconTitle) = $this->__getStatusClassAndTitle($tour);
+
+		return $this->Html->div(sprintf('tourstatus %s', $iconClass), '', array('title' => $iconTitle));
+	}
+
+	function __getStatusClassAndTitle($tour)
+	{
+		$statusClass = '';
+		$statusTitle = '';
+
+		$tourStatus = $tour['TourStatus'];
+
+		if(array_key_exists('Tour', $tour))
+		{
+			$tour = $tour['Tour'];
+		}
+
+		if(isset($tourStatus))
+		{
+			if(time() >= strtotime($tour['startdate']))
 			{
-				$statusColor = 'white';
-				$statusText = __('Tour liegt in der Vergangenheit.', true);
-				
-			}  
-			else{
-				if($tour['TourStatus']['key'] == TourStatus::FIXED )
+				$statusClass = 'past';
+				$statusTitle = __('Tour liegt in der Vergangenheit.', true);
+			}
+			else
+			{
+				switch($tourStatus['key'])
 				{
-					$statusColor = 'orange';
-					$statusText = __('Anmeldung ist noch nicht möglich.', true);
-				}
-				elseif($tour['TourStatus']['key'] == TourStatus::PUBLISHED )
-				{
-					if(!$tour['Tour']['signuprequired'])
-					{
-						$statusColor = 'green';
-						$statusText = __('Anmeldung ist nicht nötig.', true);
-					}
-					else
-					{
-						if(strtotime($tour['Tour']['deadline_calculated']) >= strtotime(date('Y-m-d')))
+					case TourStatus::FIXED:
+						$statusClass = 'fixed';
+						$statusTitle = __('Anmeldung ist noch nicht möglich.', true);
+						break;
+					case TourStatus::PUBLISHED:
+						if(strtotime($tour['deadline_calculated']) >= strtotime(date('Y-m-d')))
 						{
-							$statusColor = 'green';
-							$statusText = __('Anmeldung ist möglich.', true);
-								
+							$statusClass = 'signup_open';
+							$statusTitle = $tour['signuprequired'] ? __('Anmeldung ist möglich.', true) : __('Anmeldung ist nicht nötig.', true);
 						}
 						else
 						{
-							$statusColor = 'red';
-							$statusText = __('Anmeldung ist abgelaufen.', true);
+							$statusClass = 'signup_closed';
+							$statusTitle = __('Anmeldung ist abgelaufen.', true);
 						}
-					}
+						break;
+					case TourStatus::CANCELED:
+						$statusClass = 'signup_closed';
+						$statusTitle = __('Keine Anmeldung möglich. Tour wurde abgesagt.', true);
+						break;
+					case TourStatus::REGISTRATION_CLOSED:
+						$statusClass = 'signup_closed';
+						$statusTitle = __('Keine Anmeldung möglich. Anmeldung wurde geschlossen.', true);
+						break;
 				}
-				elseif($tour['TourStatus']['key'] == TourStatus::CANCELED )
-				{
-					$statusColor = 'red';
-					$statusText = __('Keine Anmeldung möglich. Tour wurde abgesagt.', true);
-				}
-				elseif($tour['TourStatus']['key'] == TourStatus::REGISTRATION_CLOSED )
-				{
-					$statusColor = 'red';
-					$statusText = __('Keine Anmeldung möglich. Anmeldung wurde geschlossen.', true);
-				}
-			} 
+			}
 		}
-			
-		$statusLink = $this->Html->link('', array('controller' => 'tours', 'action' => $action, $tour['Tour']['id']), array(
-						'class' => sprintf('iconstatus %s', $statusColor),
-						'id' => sprintf('view-%s', $tour['Tour']['id']),
-						'title' => $statusText
-				));
-		
-		return $statusLink; 			
+
+		return array($statusClass, $statusTitle);
 	}
-	
 }
