@@ -31,7 +31,7 @@ echo $this->Form->input('TourGuideReport.description', array(
   <fieldset class="substitutetour">
     <legend><?php __('Bei Änderung, Bezeichnung der Ersatztour'); ?></legend>
 <?php
-echo $this->Form->input('TourGuideReport.substitute_tour', array('type' => 'text', 'tabindex' => 3, 'label' => __('Ersatztour', true)));
+echo $this->Form->input('TourGuideReport.substitute_tour', array('type' => 'text', 'tabindex' => 3, 'label' => __('Ersatztour inkl. Tourencode', true)));
 ?>
   </fieldset>
 

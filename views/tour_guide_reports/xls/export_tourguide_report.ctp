@@ -57,15 +57,14 @@ $objDrawing->setWorksheet($this->Excel->getActiveSheet());
 /*Tour und Ersatztour*/
 if(empty($tour['TourGuideReport']['substitute_tour']))
 {
-	$madeTour = $tour['Tour']['title'];
+	$madeTour = $tour['Tour']['title'] . ' (' . $this->TourDisplay->getClassification($tour, array('span' => false)) . ')';
 	$planedTour = "";
 }
 else
 {
 	$madeTour = $tour['TourGuideReport']['substitute_tour'];
-	$planedTour = $tour['Tour']['title'];
+	$planedTour = $tour['Tour']['title'] . ' (' . $this->TourDisplay->getClassification($tour, array('span' => false)) . ')';
 }
-$madeTour .=  ' ' . $this->TourDisplay->getClassification($tour, array('span' => false));
 
  /*durchgeführt*/
  $rowOffset = 5;
@@ -279,8 +278,8 @@ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOf
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 14, __('Sektion Am Albis, Tourenkommision', true));
 
 /*Seite für Druck vorbereiten*/
-$this->Excel->getActiveSheet()->getPageMargins()->setTop(0.5);
-$this->Excel->getActiveSheet()->getPageMargins()->setBottom(0.5);
+$this->Excel->getActiveSheet()->getPageMargins()->setTop(0.195); /*Inches*/
+$this->Excel->getActiveSheet()->getPageMargins()->setBottom(0.195); /*Inches*/
 $this->Excel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&D&R&P/&N'); /*Datum links, Seitenzahl rechts*/
 $this->Excel->getActiveSheet()->getHeaderFooter()->setEvenFooter('&L&D&R&P/&N');
 $this->Excel->getActiveSheet()->getPageSetup()->setFitToWidth(1);
