@@ -172,18 +172,15 @@ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, 
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['zip']);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['city']);
 
-
-/*$this->Excel->getActiveSheet()->getStyle(sprintf('%1$s%2$d', PHPExcel_Cell::stringFromColumnIndex($cell), $rowOffset))->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);*/
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, " " . $tour['TourGuide']['Profile']['phoneprivate']);
-
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, " " . $tour['TourGuide']['Profile']['cellphone']);
+$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset))->setValueExplicit($tour['TourGuide']['Profile']['phoneprivate'], PHPExcel_Cell_DataType::TYPE_STRING);
+$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset))->setValueExplicit($tour['TourGuide']['Profile']['cellphone'], PHPExcel_Cell_DataType::TYPE_STRING);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['email']);
 
 if($exportEmergencyContacts)
 {
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['emergencycontact1_address']);
 	$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset)->getAlignment()->setWrapText(true);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, " " . $tour['TourGuide']['Profile']['emergencycontact1_phone']);
+	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset))->setValueExplicit($tour['TourGuide']['Profile']['emergencycontact1_phone'], PHPExcel_Cell_DataType::TYPE_STRING);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['emergencycontact1_email']);
 }
 
@@ -227,15 +224,16 @@ foreach($tourParticipations as $tourParticipation)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, sprintf('%s %s', $tourParticipation['User']['Profile']['street'], $tourParticipation['User']['Profile']['housenumber']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['zip']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['city']);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, " " . $tourParticipation['User']['Profile']['phoneprivate']);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, " " . $tourParticipation['User']['Profile']['cellphone']);
+
+	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['User']['Profile']['phoneprivate'], PHPExcel_Cell_DataType::TYPE_STRING);
+	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['User']['Profile']['cellphone'], PHPExcel_Cell_DataType::TYPE_STRING);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['email']);
 
 	if($exportEmergencyContacts)
 	{
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact1_address']);
 		$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset + $index)->getAlignment()->setWrapText(true);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, " " . $tourParticipation['User']['Profile']['emergencycontact1_phone']);
+		$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['User']['Profile']['emergencycontact1_phone'], PHPExcel_Cell_DataType::TYPE_STRING);
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact1_email']);
 	}
 
