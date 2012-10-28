@@ -6,9 +6,9 @@ echo $this->Form->create();
 
 echo $this->element('../profiles/elements/contact_data');
 
-echo $this->element('../profiles/elements/experience_data');
-
 echo $this->element('../profiles/elements/sac_membership_data');
+
+echo $this->element('../profiles/elements/experience_data');
 ?>
 <div class="profiles">
   <fieldset class="mobility">

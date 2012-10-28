@@ -82,5 +82,7 @@ $map = array(
 		'040_add_new_countries' => 'M506553e6c86c4195919715fc1b2c2a9b'),
 	41 => array(
 		'041_add_sac_members' => 'M50659d828130409d8af31be41b2c2a9b'),
+	42 => array(
+		'042_sac_member_mandatory' => 'M5065eb2f50e44e7c92eb15401b2c2a9b'),
 );
 ?>
