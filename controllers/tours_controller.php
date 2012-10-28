@@ -729,7 +729,8 @@ class ToursController extends AppController
 				'contain' => array(
 					'TourGroup', 'TourGuide', 'TourGuide.Profile', 'TourGuide.Profile.SacMainSection',
 					'TourGuide.Profile.LeadClimbNiveau', 'TourGuide.Profile.SecondClimbNiveau',
-					'TourGuide.Profile.AlpineTourNiveau', 'TourGuide.Profile.SkiTourNiveau'
+					'TourGuide.Profile.AlpineTourNiveau', 'TourGuide.Profile.SkiTourNiveau',
+					'ConditionalRequisite', 'TourType', 'Difficulty'
 				)
 			));
 
@@ -740,7 +741,7 @@ class ToursController extends AppController
 				'contain' => array(
 					'User', 'User.Profile', 'User.Profile.LeadClimbNiveau', 'User.Profile.SecondClimbNiveau',
 					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau', 'User.Profile.SacMainSection',
-					'TourParticipationStatus'
+					'TourParticipationStatus' 
 				)
 			));
 
