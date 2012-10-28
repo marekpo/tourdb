@@ -1,7 +1,7 @@
 <?php
 class TourDisplayHelper extends AppHelper
 {
-	var $helpers = array('Html','Time');
+	var $helpers = array('Html', 'Time');
 
 	function getTourGuide($tour)
 	{
@@ -94,24 +94,24 @@ class TourDisplayHelper extends AppHelper
 
 		return $result;
 	}
-	
+
 	function getDeadlineText($tour)
 	{
-		
 		$deadLineText = '';
 
-		if(isset($tour['Tour'])) {		
+		if(isset($tour['Tour']))
+		{
 			if($tour['Tour']['signuprequired'])
 			{
-				$deadLineText = $this->Time->format('d.m.Y', $tour['Tour']['deadline_calculated']); 
+				$deadLineText = $this->Time->format('d.m.Y', $tour['Tour']['deadline_calculated']);
 			}
 			else
 			{
 				$deadLineText = __('ohne', True);
 			}
 		}
-		
+
 		return $deadLineText;
 	}
-	
+
 }
