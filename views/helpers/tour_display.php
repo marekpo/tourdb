@@ -3,7 +3,7 @@ class TourDisplayHelper extends AppHelper
 {
 	var $helpers = array('Html', 'Time');
 
-	function getTourGuide($tour)
+	function getTourGuide($tour, $lastNameFirst = false)
 	{
 		$tourGuideProfile = null;
 
@@ -30,7 +30,14 @@ class TourDisplayHelper extends AppHelper
 			return $tour['TourGuide']['username'];
 		}
 
-		return sprintf('%s %s', $tourGuideProfile['firstname'], $tourGuideProfile['lastname']);
+		if($lastNameFirst)
+		{
+			return sprintf('%s, %s', $tourGuideProfile['lastname'], $tourGuideProfile['firstname']);
+		}
+		else
+		{
+			return sprintf('%s %s', $tourGuideProfile['firstname'], $tourGuideProfile['lastname']);
+		}
 	}
 
 	function getClassification($tour, $options = array())
