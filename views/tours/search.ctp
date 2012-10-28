@@ -9,7 +9,7 @@ echo $this->element('../tours/elements/tour_filters', array('activeFilters' => a
 if(count($tours))
 {
 	$tableHeaders = array(
-		$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
+		'',
 		$this->Paginator->sort(__('Gruppe', true), 'TourGroup.tourgroupname'),
 		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
 		$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
@@ -26,8 +26,8 @@ if(count($tours))
 	{
 		$tableRows[] = array(
 			array(
-				$tour['TourStatus']['statusname'],
-				array('class' => 'tourstatus')
+				$this->TourDisplay->getStatusLink($tour,'view'),
+				array('class' => 'iconstatus')
 			),
 			array(
 				$tour['TourGroup']['tourgroupname'],

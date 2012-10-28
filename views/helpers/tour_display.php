@@ -114,4 +114,78 @@ class TourDisplayHelper extends AppHelper
 		return $deadLineText;
 	}
 
+	function getStatusLink($tour, $action)
+	{
+		list($linkClass, $linkTitle) = $this->__getStatusClassAndTitle($tour);
+
+		if(array_key_exists('Tour', $tour))
+		{
+			$tour = $tour['Tour'];
+		}
+
+		return $this->Html->link('', array('controller' => 'tours', 'action' => $action, $tour['id']), array(
+			'class' => sprintf('tourstatus %s', $linkClass), 'id' => sprintf('view-%s', $tour['id']), 'title' => $linkTitle
+		));;
+	}
+
+	function getStatusIcon($tour)
+	{
+		list($iconClass, $iconTitle) = $this->__getStatusClassAndTitle($tour);
+
+		return $this->Html->div(sprintf('tourstatus %s', $iconClass), '', array('title' => $iconTitle));
+	}
+
+	function __getStatusClassAndTitle($tour)
+	{
+		$statusClass = '';
+		$statusTitle = '';
+
+		$tourStatus = $tour['TourStatus'];
+
+		if(array_key_exists('Tour', $tour))
+		{
+			$tour = $tour['Tour'];
+		}
+
+		if(isset($tourStatus))
+		{
+			if(time() >= strtotime($tour['startdate']))
+			{
+				$statusClass = 'past';
+				$statusTitle = __('Tour liegt in der Vergangenheit.', true);
+			}
+			else
+			{
+				switch($tourStatus['key'])
+				{
+					case TourStatus::FIXED:
+						$statusClass = 'fixed';
+						$statusTitle = __('Anmeldung ist noch nicht möglich.', true);
+						break;
+					case TourStatus::PUBLISHED:
+						if(strtotime($tour['deadline_calculated']) >= strtotime(date('Y-m-d')))
+						{
+							$statusClass = 'signup_open';
+							$statusTitle = $tour['signuprequired'] ? __('Anmeldung ist möglich.', true) : __('Anmeldung ist nicht nötig.', true);
+						}
+						else
+						{
+							$statusClass = 'signup_closed';
+							$statusTitle = __('Anmeldung ist abgelaufen.', true);
+						}
+						break;
+					case TourStatus::CANCELED:
+						$statusClass = 'signup_closed';
+						$statusTitle = __('Keine Anmeldung möglich. Tour wurde abgesagt.', true);
+						break;
+					case TourStatus::REGISTRATION_CLOSED:
+						$statusClass = 'signup_closed';
+						$statusTitle = __('Keine Anmeldung möglich. Anmeldung wurde geschlossen.', true);
+						break;
+				}
+			}
+		}
+
+		return array($statusClass, $statusTitle);
+	}
 }

@@ -182,7 +182,7 @@ if(count($ownTours))
 	echo $this->Html->tag('h2', __('Ausgeschriebene Touren', true));
 
 	$ownTourHeaders = array(
-		__('Status', true), __('Tourbezeichnung', true), __('Datum von', true), __('Datum bis', true), __('Code', true)
+		'', __('Tourbezeichnung', true), __('Datum von', true), __('Datum bis', true), __('Code', true)
 	);
 
 	$ownTourRows = array();
@@ -190,7 +190,7 @@ if(count($ownTours))
 	foreach($ownTours as $ownTour)
 	{
 		$ownTourRows[] = array(
-			$ownTour['TourStatus']['statusname'],
+			$this->TourDisplay->getStatusLink($ownTour, 'view'),
 			$this->Html->link($ownTour['Tour']['title'], array('controller' => 'tours', 'action' => 'view', $ownTour['Tour']['id'])),
 			$this->Time->format('d.m.Y', $ownTour['Tour']['startdate']),
 			$this->Time->format('d.m.Y', $ownTour['Tour']['enddate']),
@@ -206,7 +206,7 @@ if(count($tourParticipations))
 	echo $this->Html->tag('h2', __('Bestätigte Tourenanmeldungen', true));
 
 	$tourParticipationHeaders = array(
-		__('Status', true), __('Tourbezeichnung', true), __('Datum von', true), __('Datum bis', true), __('Code', true)
+		'', __('Tourbezeichnung', true), __('Datum von', true), __('Datum bis', true), __('Code', true)
 	);
 
 	$tourParticipationRows = array();
@@ -214,7 +214,7 @@ if(count($tourParticipations))
 	foreach($tourParticipations as $tourParticipation)
 	{
 		$tourParticipationRows[] = array(
-			$tourParticipation['Tour']['TourStatus']['statusname'],
+			$this->TourDisplay->getStatusLink($tourParticipation['Tour'], 'view'),
 			$this->Html->link($tourParticipation['Tour']['title'], array('controller' => 'tours', 'action' => 'view', $tourParticipation['Tour']['id'])),
 			$this->Time->format('d.m.Y', $tourParticipation['Tour']['startdate']),
 			$this->Time->format('d.m.Y', $tourParticipation['Tour']['enddate']),
