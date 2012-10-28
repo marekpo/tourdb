@@ -8,7 +8,7 @@ echo $this->Form->create('TourGuideReport', array('url' => array($tour['Tour']['
 ?>
 
 <div class="tourguidereports">
-<?php 
+<?php
 echo $this->Form->input('Tour.tour_status_id', array(
 	'type' => 'radio',
 	'tabindex' => 1,
@@ -43,7 +43,7 @@ echo $this->Form->input('TourGuideReport.expenses_organsiation', array(
 	'type' => 'text',
 	'tabindex' => 4,
 	'label' => __('Spesen Telefon, Porti etc.', true),
-	'error' => array('decnum' => $decnumText) 
+	'error' => array('decnum' => $decnumText)
 ));
 
 echo $this->Form->input('TourGuideReport.driven_km', array(
@@ -81,25 +81,29 @@ echo $this->Html->div('columncontainer',
 			'tabindex' => 10,
 			'error' => array('decnum' => $decnumText)
 		))
-		. $this->Form->input('TourGuideReport.paid_donation', array(
-					'type' => 'text',
-					'label' => __('Spende zu Gunsten Seniorenkasse', true),
-					'tabindex' => 12
-			))
-		)		
-		. $this->Html->div('half',
-			$this->Form->input('TourGuideReport.expenses_others1_text', array(
-			    'type' => 'text',
-				'label' => __('Begründung zu Sonstiges1 (z.B. Bergführer Honorar)', true),
-			    'tabindex' => 9
+	)
+	. $this->Html->div('half',
+		$this->Form->input('TourGuideReport.expenses_others1_text', array(
+		    'type' => 'text',
+			'label' => __('Begründung zu Sonstiges1 (z.B. Bergführer Honorar)', true),
+		    'tabindex' => 9
 		))
 		. $this->Form->input('TourGuideReport.expenses_others2_text', array(
-				'type' => 'text',
-				'label' => __('Begründung zu Sonstiges2', true),
-				'tabindex' => 11
+			'type' => 'text',
+			'label' => __('Begründung zu Sonstiges2', true),
+			'tabindex' => 11
 		))
-		)			
+	)
 );
+
+if($tour['TourGroup']['key'] == TourGroup::SENIORS)
+{
+	echo $this->Form->input('TourGuideReport.paid_donation', array(
+		'type' => 'text',
+		'label' => __('Spende zu Gunsten Seniorenkasse', true),
+		'tabindex' => 12
+	));
+}
 ?>
   </fieldset>
 </div>
