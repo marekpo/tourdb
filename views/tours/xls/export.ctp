@@ -1,7 +1,7 @@
 <?php
 
 $startColumn = 0;
-$endColumn = 23;
+$endColumn = 24;
 
 $this->Excel->startNewDocument(true);
 $this->Excel->setFilename('touren');
