@@ -29,7 +29,7 @@ foreach($tourParticipations as $tourParticipation)
 
 $this->Excel->startNewDocument(true);
 
-$this->Excel->setFilename(sprintf('%d_%s_Rapport', $this->Time->format($tour['Tour']['startdate'], '%Y'), $tour['Tour']['title']));
+$this->Excel->setFilename(sprintf('%1s_%2s_Rapport', $this->Time->format($tour['Tour']['startdate'], '%Y_%m_%d'), $tour['Tour']['title']));
 
 /* Tourenrapport */
 $rowOffset = 2;
@@ -68,7 +68,7 @@ else
 
  /*durchgeführt*/
  $rowOffset = 5;
- $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Durchgeführe Tour:', true));
+ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Durchgeführte Tour:', true));
  $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => false)));
  $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset, $madeTour);
  $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeHeader, 'bold' => true)));
@@ -275,7 +275,7 @@ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOf
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 13, __('Sektion -> tourenrapport.sektion@sac-albis.ch', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 13, __('Schweizer Alpen-Club SAC', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 14, __('Senioren -> tourenrapport.senioren@sac-albis.ch', true));
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 14, __('Sektion Am Albis, Tourenkommision', true));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 14, __('Sektion Am Albis, Tourenkommission', true));
 
 /*Seite für Druck vorbereiten*/
 $this->Excel->getActiveSheet()->getPageMargins()->setTop(0.195); /*Inches*/
