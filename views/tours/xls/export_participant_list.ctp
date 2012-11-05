@@ -1,7 +1,7 @@
 <?php
 $this->Excel->startNewDocument(true);
 
-$this->Excel->setFilename(sprintf('%d_%s', $this->Time->format($tour['Tour']['startdate'], '%Y'), $tour['Tour']['title']));
+$this->Excel->setFilename(sprintf('%1s_%2s', $this->Time->format($tour['Tour']['startdate'], '%Y_%m_%d'), $tour['Tour']['title']));
 
 $emergencyContactsOffset = 9;
 $experienceInformationOffset = $exportEmergencyContacts ? $emergencyContactsOffset + 3 : $emergencyContactsOffset;
@@ -205,7 +205,16 @@ if($exportAdditionalInformation)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['freeseatsinpassengercar']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, ($tour['TourGuide']['Profile']['ownsinglerope'] ? sprintf('%dm', $tour['TourGuide']['Profile']['lengthsinglerope']) : ''));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, ($tour['TourGuide']['Profile']['ownhalfrope'] ? sprintf('%dm', $tour['TourGuide']['Profile']['lengthhalfrope']) : ''));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, ($tour['TourGuide']['Profile']['sac_main_section_id'] ? $tour['TourGuide']['Profile']['SacMainSection']['title'] : ''));
+	/*SAC Membership*/
+	$sacMembershipCell = "";
+	if($tour['TourGuide']['Profile']['sac_member'] <= 1) {
+		$sacMembershipCell = $this->Display->displaySacMember($tour['TourGuide']['Profile']['sac_member']);
+		if(!empty($tour['TourGuide']['Profile']['sac_main_section_id']))
+		{
+			$sacMembershipCell = $sacMembershipCell . " " . $tour['TourGuide']['Profile']['SacMainSection']['title'];
+		}
+	}
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $sacMembershipCell);
 }
 
 $this->Excel->getActiveSheet()->getStyle(sprintf('A%1$d:%2$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($endColumn)))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
@@ -260,7 +269,17 @@ foreach($tourParticipations as $tourParticipation)
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['freeseatsinpassengercar']);
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['User']['Profile']['ownsinglerope'] ? sprintf('%dm', $tourParticipation['User']['Profile']['lengthsinglerope']) : ''));
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['User']['Profile']['ownhalfrope'] ? sprintf('%dm', $tourParticipation['User']['Profile']['lengthhalfrope']) : ''));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['User']['Profile']['sac_main_section_id'] ? $tourParticipation['User']['Profile']['SacMainSection']['title'] : ''));
+		/*SAC Membership*/
+		$sacMembershipCell = "";
+		if($tourParticipation['User']['Profile']['sac_member'] <= 1) {
+			$sacMembershipCell = $this->Display->displaySacMember($tourParticipation['User']['Profile']['sac_member']);
+			if(!empty($tourParticipation['User']['Profile']['sac_main_section_id']))
+			{
+				$sacMembershipCell .= " " . $tourParticipation['User']['Profile']['SacMainSection']['title'];
+			}
+		}
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $sacMembershipCell);
+		
 	}
 
 	$this->Excel->getActiveSheet()->getStyle(sprintf('A%1$d:%2$s%1$d', $rowOffset + $index, PHPExcel_Cell::stringFromColumnIndex($endColumn)))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
