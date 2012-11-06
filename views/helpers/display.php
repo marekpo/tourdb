@@ -134,6 +134,11 @@ class DisplayHelper extends AppHelper
 	
 	function displaySacMember($value)
 	{
+		if($value == null)
+		{
+			return __('Unbekannt', true);
+		}
+
 		return $this->sacMemberLabels[$value];
 	}
 	
