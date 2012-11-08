@@ -123,10 +123,13 @@ a.iconaction.email		{ background-image: url(../img/email_go.png); }
 
 /* status */
 .tourstatus					{ width: 16px; height: 16px; display: block; float: left; background: center center no-repeat; }
+.tourstatus.new				{ background-image: url(../img/tourstatus_new.png); }
 .tourstatus.signup_open		{ background-image: url(../img/tourstatus_signup_open.png); }
 .tourstatus.fixed			{ background-image: url(../img/tourstatus_fixed.png); }
 .tourstatus.signup_closed	{ background-image: url(../img/tourstatus_signup_closed.png); }
 .tourstatus.past			{ background-image: url(../img/tourstatus_past.png); }
+.tourstatus.carried_out		{ background-image: url(../img/tourstatus_carried_out.png); }
+.tourstatus.not_carried_out	{ background-image: url(../img/tourstatus_not_carried_out.png); }
 
 /* forms */
 .input				{ clear: left; margin-bottom: 15px; }
