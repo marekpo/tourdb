@@ -9,9 +9,9 @@ echo $this->element('../tours/elements/tour_filters', array('activeFilters' => a
 if(count($tours))
 {
 	$tableHeaders = array(
+		'',
 		$this->Paginator->sort(__('Gruppe', true), 'TourGroup.tourgroupname'),
 		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
-		$this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
 		$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
 		$this->Paginator->sort(__('Datum bis', true), 'Tour.enddate'),
 		$this->Paginator->sort(__('TW', true), 'Tour.tourweek', array('title' => __('Tourenwoche', true))),
@@ -19,7 +19,7 @@ if(count($tours))
 		__('Code', true),
 		''
 	);
-	
+
 	$tableCells = array();
 
 	foreach($tours as $tour)
@@ -36,16 +36,16 @@ if(count($tours))
 
 		$tableCells[] = array(
 			array(
+					$this->TourDisplay->getStatusIcon($tour),
+					array('class' => 'status')
+			),
+			array(
 				$tour['TourGroup']['tourgroupname'],
 				array('class' => 'tourgroup')
 			),
 			array(
 				$this->Html->link($tour['Tour']['title'], array('action' => $linkAction, $tour['Tour']['id'])),
 				array('class' => 'title')
-			),
-			array(
-				$tour['TourStatus']['statusname'],
-				array('class' => 'status')
 			),
 			array(
 				$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
@@ -73,7 +73,7 @@ if(count($tours))
 			)
 		);
 
-		$this->Js->buffer(sprintf("$('#%1\$s').click({ id: '%1\$s', title: '%2\$s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $tour['Tour']['id']), __('Tour löschen', true)));
+		$this->Js->buffer(sprintf("$('#%s').click({ id: '%s', title: '%s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $tour['Tour']['id']), sprintf('delete-dialog-%s', $tour['Tour']['id']), __('Tour löschen', true)));
 	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);

@@ -43,7 +43,7 @@ if(count($appointments))
 			)
 		);
 
-		$this->Js->buffer(sprintf("$('#%1\$s').click({ id: '%1\$s', title: '%2\$s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $appointment['Appointment']['id']), __('Anlass löschen', true)));
+		$this->Js->buffer(sprintf("$('#%s').click({ id: '%s', title: '%s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $appointment['Appointment']['id']), sprintf('delete-dialog-%s', $appointment['Appointment']['id']), __('Anlass löschen', true)));
 	}
 
 	echo $this->Widget->table($headers, $rows);

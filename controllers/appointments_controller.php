@@ -90,12 +90,20 @@ class AppointmentsController extends AppController
 	{
 		if(!empty($this->data) && $this->data['Appointment']['confirm'])
 		{
-			if($this->Appointment->delete($id))
+			$redirect = array('action' => 'index');
+
+			if(isset($this->data['Appointment']['cancel']) && $this->data['Appointment']['cancel'])
 			{
-				$this->Session->setFlash(__('Der Anlass wurde gelöscht.', true));
+				$this->redirect($redirect);
 			}
 
-			$this->redirect(array('action' => 'index'));
+			if(!$this->Appointment->delete($id))
+			{
+				$this->Session->setFlash(__('Der Anlass konnte nicht gelöscht werden.', true));
+			}
+
+			$this->Session->setFlash(__('Der Anlass wurde gelöscht.', true));
+			$this->redirect($redirect);
 		}
 
 		$this->data = $this->Appointment->find('first', array(

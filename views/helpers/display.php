@@ -12,6 +12,8 @@ class DisplayHelper extends AppHelper
 	var $sexLabels;
 
 	var $transportLabels;
+	
+	var $sacMemberLabels;
 
 	function __construct()
 	{
@@ -20,6 +22,7 @@ class DisplayHelper extends AppHelper
 		$this->publicTransportSubscriptionLabels = array(__('1/2 Tax', true), __('GA', true));
 		$this->sexLabels = array(__('weiblich', true), __('männlich', true));
 		$this->transportLabels = array(__('ÖV (Bus, Bahn)', true), __('PKW', true), __('Taxi', true));
+		$this->sacMemberLabels = array(__('Nein (Gast)', true), __('Ja (Mitglied)', true));
 	}
 
 	function displayFlag($flag)
@@ -124,6 +127,21 @@ class DisplayHelper extends AppHelper
 		return '';
 	}
 
+	function getSacMemberOptions()
+	{
+		return $this->sacMemberLabels;
+	}
+	
+	function displaySacMember($value)
+	{
+		if($value == null)
+		{
+			return __('Unbekannt', true);
+		}
+
+		return $this->sacMemberLabels[$value];
+	}
+	
 	function __replaceUrlCallback($match)
 	{
 		return $this->Html->link($match[0], $match[0], array('target' => '_blank'));

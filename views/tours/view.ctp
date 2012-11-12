@@ -20,7 +20,7 @@ echo $this->Html->div('columncontainer',
 		)
 		. $this->Html->div('infoitem',
 			$this->Html->div('label', __('Anmeldeschluss', true))
-			. $this->Html->div('content', $this->Time->format('d.m.Y', $tour['Tour']['deadline_calculated']))
+			. $this->Html->div('content', $this->TourDisplay->getDeadlineText($tour))
 		)
 		. $this->Html->div('infoitem',
 			$this->Html->div('label', __('Tourencode', true))

@@ -9,7 +9,7 @@ echo $this->element('../tours/elements/tour_filters', array('activeFilters' => a
 if(count($tours))
 {
 	$tableHeaders = array(
-	    $this->Paginator->sort(__('Status', true), 'TourStatus.rank'),
+		'',
 		$this->Paginator->sort(__('Gruppe', true), 'TourGroup.tourgroupname'),
 		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
 		$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
@@ -33,9 +33,12 @@ if(count($tours))
 				))
 			: '';
 
+		$editLink = $this->Authorization->link($tour['Tour']['title'], array('action' => 'edit', $tour['Tour']['id']));
+		$tourTitle = $editLink !== false ? $editLink : $tour['Tour']['title'];
+
 		$tableCells[] = array(
 			array(
-				$tour['TourStatus']['statusname'],
+				$this->TourDisplay->getStatusIcon($tour),
 				array('class' => 'status')
 			),
 			array(
@@ -43,7 +46,7 @@ if(count($tours))
 				array('class' => 'tourgroup')
 			),
 			array(
-				$this->Html->link($tour['Tour']['title'], array('action' => 'edit', $tour['Tour']['id'])),
+				$tourTitle,
 				array('class' => 'title')
 			),
 
@@ -77,7 +80,7 @@ if(count($tours))
 			)
 		);
 
-		$this->Js->buffer(sprintf("$('#%1\$s').click({ id: '%1\$s', title: '%2\$s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $tour['Tour']['id']), __('Tour löschen', true)));
+		$this->Js->buffer(sprintf("$('#%s').click({ id: '%s', title: '%s'}, TourDB.Util.confirmationDialog);", sprintf('delete-%s', $tour['Tour']['id']), sprintf('delete-dialog-%s', $tour['Tour']['id']), __('Tour löschen', true)));
 	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);

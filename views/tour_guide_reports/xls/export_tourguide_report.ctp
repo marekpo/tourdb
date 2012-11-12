@@ -29,7 +29,7 @@ foreach($tourParticipations as $tourParticipation)
 
 $this->Excel->startNewDocument(true);
 
-$this->Excel->setFilename(sprintf('%d_%s_Rapport', $this->Time->format($tour['Tour']['startdate'], '%Y'), $tour['Tour']['title']));
+$this->Excel->setFilename(sprintf('%1s_%2s_Rapport', $this->Time->format($tour['Tour']['startdate'], '%Y_%m_%d'), $tour['Tour']['title']));
 
 /* Tourenrapport */
 $rowOffset = 2;
@@ -57,18 +57,18 @@ $objDrawing->setWorksheet($this->Excel->getActiveSheet());
 /*Tour und Ersatztour*/
 if(empty($tour['TourGuideReport']['substitute_tour']))
 {
-	$madeTour = $tour['Tour']['title'];
+	$madeTour = $tour['Tour']['title'] . ' (' . $this->TourDisplay->getClassification($tour, array('span' => false)) . ')';
 	$planedTour = "";
 }
 else
 {
 	$madeTour = $tour['TourGuideReport']['substitute_tour'];
-	$planedTour = $tour['Tour']['title'];
+	$planedTour = $tour['Tour']['title'] . ' (' . $this->TourDisplay->getClassification($tour, array('span' => false)) . ')';
 }
 
  /*durchgeführt*/
  $rowOffset = 5;
- $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Durchgeführe Tour:', true));
+ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Durchgeführte Tour:', true));
  $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => false)));
  $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset, $madeTour);
  $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeHeader, 'bold' => true)));
@@ -130,7 +130,6 @@ $this->Excel->getActiveSheet()->getStyle(sprintf('%1s%3$d:%2$s%3$d', PHPExcel_Ce
 	'borders' => array('bottom' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM))
 ));
 
-
 $rowOffset = 14;
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset, __('Total', true));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => true)));
@@ -153,7 +152,10 @@ $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset
 	'font' => array('size' => $fontSizeNormal, 'bold' => false),
 	'alignment' => array('vertical' => PHPExcel_Style_Alignment::VERTICAL_TOP)
 ));
+
 $this->Excel->getActiveSheet()->mergeCells(sprintf('%1s%3$d:%2$s%4$d', PHPExcel_Cell::stringFromColumnIndex($labelColumn1), PHPExcel_Cell::stringFromColumnIndex($endColumn), $rowOffset, $rowOffset + 9 ));
+$this->Excel->getActiveSheet()->getStyle(sprintf('%1s%3$d:%2$s%4$d', PHPExcel_Cell::stringFromColumnIndex($labelColumn1), PHPExcel_Cell::stringFromColumnIndex($endColumn), $rowOffset, $rowOffset + 9 ))
+->getAlignment()->setWrapText(true);
 
 /*Teilnehmerliste*/
 $rowOffset = 28;
@@ -231,10 +233,21 @@ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOf
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 4, __('Hütte:', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset + 4 , $tour['TourGuideReport']['expenses_accommodation']);
 
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 5, __('Bergführer:', true));
+if(!empty($tour['TourGuideReport']['expenses_others1_text'])) {
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 5, $tour['TourGuideReport']['expenses_others1_text'] . ':');
+}
+else
+{
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 5, __('Sonstiges 1:', true));
+}
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset + 5 , $tour['TourGuideReport']['expenses_others1']);
-
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 6, __('Sonstiges:', true));
+if(!empty($tour['TourGuideReport']['expenses_others2_text'])) {
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 6, $tour['TourGuideReport']['expenses_others2_text'] . ':');
+}
+else
+{
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 6, __('Sonstiges 2:', true));
+}
 $this->Excel->getActiveSheet()->getStyle(sprintf('%1s%3$d:%2$s%3$d', PHPExcel_Cell::stringFromColumnIndex($labelColumn1), PHPExcel_Cell::stringFromColumnIndex($labelColumn2), $rowOffset + 6))->applyFromArray(array(
 	'borders' => array('bottom' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM))
 ));
@@ -248,17 +261,28 @@ $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset + 7, sprintf('=SUM(%3$s%1$d:%3$s%2$d)', $rowOffset + 1 , $rowOffset + 6, PHPExcel_Cell::stringFromColumnIndex($labelColumn2) ));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset + 7)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => true)));
 
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 8 , __('Spende:', true));
+if($tour['TourGroup']['key'] == TourGroup::SENIORS) {
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 8 , __('Spende Seniorenkasse:', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset + 8 , $tour['TourGuideReport']['paid_donation']);
+}
+
+/*Zahlen formatieren alle in einem Schritt*/
+$this->Excel->getActiveSheet()->getStyle(sprintf('%1s%2$d:%1$s%3$d', PHPExcel_Cell::stringFromColumnIndex($labelColumn2), $rowOffset + 1, $rowOffset + 8))
+->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
 /*Fusszeile*/
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 11, __('Diesen Rapport bitte umgehend nach der Tour - auch im Falle einer Absage der Tour - an die entsprechende E-Mail-Adresse schicken:', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 13, __('Sommertouren -> tourenrapport.sommer@sac-baldern.ch', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 13, __('Schweizer Alpen-Club SAC', true));
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 14, __('Wintertouren -> tourenrapport.winter@sac-baldern.ch', true));
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 14, __('SAC Sektion Baldern, Zürich, Tourenkommision', true));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 14, __('Senioren -> tourenrapport.senioren@sac-albis.ch', true));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 14, __('Sektion Am Albis, Tourenkommission', true));
 
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 16, __('Rapport erstellt am: ', true) . $this->Time->format('d.m.Y', time()));
-$this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset + 16)->applyFromArray(array('font' => array('size' => 8, 'bold' => false)));
+/*Seite für Druck vorbereiten*/
+$this->Excel->getActiveSheet()->getPageMargins()->setTop(0.195); /*Inches*/
+$this->Excel->getActiveSheet()->getPageMargins()->setBottom(0.195); /*Inches*/
+$this->Excel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&D&R&P/&N'); /*Datum links, Seitenzahl rechts*/
+$this->Excel->getActiveSheet()->getHeaderFooter()->setEvenFooter('&L&D&R&P/&N');
+$this->Excel->getActiveSheet()->getPageSetup()->setFitToWidth(1);
+$this->Excel->getActiveSheet()->getPageSetup()->setFitToHeight(0);
 
 $this->Excel->outputDocument();

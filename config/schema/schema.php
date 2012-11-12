@@ -1,5 +1,5 @@
 <?php 
-/* Tourdb schema generated on: 2012-06-16 11:42:15 : 1339839735*/
+/* Tourdb schema generated on: 2012-09-28 20:45:41 : 1348857941*/
 class TourdbSchema extends CakeSchema {
 	var $name = 'Tourdb';
 
@@ -10,6 +10,18 @@ class TourdbSchema extends CakeSchema {
 	function after($event = array()) {
 	}
 
+	var $appointments = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'location' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'startdate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'enddate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
 	var $conditional_requisites = array(
 		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'title' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
@@ -21,9 +33,10 @@ class TourdbSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $conditional_requisites_tours = array(
-		'conditional_requisite_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'conditional_requisite_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'tour_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'indexes' => array('conditional_requisite_id' => array('column' => 'conditional_requisite_id', 'unique' => 0), 'tour_id' => array('column' => 'tour_id', 'unique' => 0)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'conditional_requisite_id' => array('column' => 'conditional_requisite_id', 'unique' => 0), 'tour_id' => array('column' => 'tour_id', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $countries = array(
@@ -47,9 +60,10 @@ class TourdbSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $difficulties_tours = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'difficulty_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'tour_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'indexes' => array('difficulty_id' => array('column' => 'difficulty_id', 'unique' => 0), 'tour_id' => array('column' => 'tour_id', 'unique' => 0)),
+		'tour_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'difficulty_id' => array('column' => 'difficulty_id', 'unique' => 0), 'tour_id' => array('column' => 'tour_id', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $menus = array(
@@ -107,7 +121,7 @@ class TourdbSchema extends CakeSchema {
 		'emergencycontact2_address' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'emergencycontact2_phone' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 24, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'emergencycontact2_email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'sac_member' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+		'sac_member' => array('type' => 'boolean', 'null' => false, 'default' => NULL),
 		'sac_membership_number' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'sac_main_section_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'sac_additional_section1_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
@@ -149,9 +163,50 @@ class TourdbSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $roles_users = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'role_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'user_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'indexes' => array('role_id' => array('column' => 'role_id', 'unique' => 0), 'user_id' => array('column' => 'user_id', 'unique' => 0)),
+		'user_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'role_id' => array('column' => 'role_id', 'unique' => 0), 'user_id' => array('column' => 'user_id', 'unique' => 0)),
+		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
+	);
+	var $sac_members = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'sac_membership_number' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'sac_membership_number_family' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'sac_section_id' => array('type' => 'integer', 'null' => false, 'default' => NULL),
+		'lastname' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'firstname' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'extraaddressline' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'addressline' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'pobox' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'zip' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'city' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 128, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'country_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'birthdate' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'phonebusiness' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 24, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'phoneprivate' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 24, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'phoneinternal' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 24, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'cellphone' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 24, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'fax' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 24, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'email' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'sex' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'job' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'language' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'membership_since' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 4),
+		'beneficiary_section' => array('type' => 'boolean', 'null' => true, 'default' => NULL),
+		'honorary_member' => array('type' => 'boolean', 'null' => true, 'default' => NULL),
+		'category_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'info1' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'info2' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'info3' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'notice' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'balance' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'member_status' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'quantity_magazine' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'quantity_bulletin' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $sac_sections = array(
@@ -181,10 +236,13 @@ class TourdbSchema extends CakeSchema {
 		'expenses_transport' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
 		'expenses_accommodation' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
 		'expenses_others1' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'expenses_others1_text' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'expenses_others2' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'expenses_others2_text' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'driven_km' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 5),
 		'paid_tourguide' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
 		'paid_donation' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
+		'paid_donation_text' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 50, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'paid_date' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -233,9 +291,10 @@ class TourdbSchema extends CakeSchema {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $tour_types_tours = array(
+		'id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'tour_type_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'tour_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'primary', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'indexes' => array('tour_type_id' => array('column' => 'tour_type_id', 'unique' => 0), 'tour_id' => array('column' => 'tour_id', 'unique' => 0)),
+		'tour_id' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 36, 'key' => 'index', 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'tour_type_id' => array('column' => 'tour_type_id', 'unique' => 0), 'tour_id' => array('column' => 'tour_id', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $tours = array(
@@ -262,7 +321,7 @@ class TourdbSchema extends CakeSchema {
 		'travelcosts' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
 		'accomodationcosts' => array('type' => 'float', 'null' => true, 'default' => NULL, 'length' => '5,2'),
 		'accomodation' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'altitudedifference' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+		'altitudedifference' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'planneddeparture' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),

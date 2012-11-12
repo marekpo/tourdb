@@ -38,7 +38,7 @@ class TourGuideReportsController extends AppController
 
 		$tour = $this->TourGuideReport->Tour->find('first', array(
 			'conditions' => array('Tour.id' => $tourId),
-			'contain' => array()
+			'contain' => array('TourGroup')
 		));
 
 		$reportStatusOptions = $this->TourGuideReport->getReportStatusOptions();
@@ -59,7 +59,7 @@ class TourGuideReportsController extends AppController
 			$tour = $this->TourGuideReport->Tour->find('first', array(
 				'conditions' => array('Tour.id' => $tourId),
 				'contain' => array(
-					'TourGuideReport', 'TourGuide', 'TourGuide.Profile', 'TourGuide.Profile.SacMainSection', 'TourGroup'
+					'TourGuideReport', 'TourGuide', 'TourGuide.Profile', 'TourGuide.Profile.SacMainSection', 'TourGroup', 'ConditionalRequisite', 'TourType', 'Difficulty'
 				)
 			));
 

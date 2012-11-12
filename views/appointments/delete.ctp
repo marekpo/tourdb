@@ -12,4 +12,7 @@ echo $this->Html->para('', __('Möchtest du fortfahren?', true));
 
 echo $this->Form->create();
 echo $this->Form->input('Appointment.confirm', array('type' => 'hidden', 'value' => 1));
-echo $this->Form->end(__('Anlass löschen', true));
+echo $this->Html->div('submit',
+	$this->Form->submit(__('Abbrechen', true), array('name' => 'data[Appointment][cancel]', 'div' => false, 'class' => 'cancel'))
+	. $this->Form->submit(__('Anlass löschen', true), array('div' => false))
+);

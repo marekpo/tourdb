@@ -24,5 +24,12 @@ echo $this->Form->input('Tour.tour_group_id', array(
 		'empty' => ''
 ));
 
+echo $this->Form->input('Tour.tour_status_id', array(
+	'label' => __('Tourenstatus', true), 'multiple' => 'checkbox', 'default' => $tourStatusDefault,
+	'after' => $this->Html->div('', '', array('style' => 'clear: left')), 'error' => array(
+		'notEmpty' => __('Es muss mindestens ein Tourenstatus ausgewählt sein.', true)
+	)
+));
+
 echo $this->Form->end(__('Exportieren', true));
 $this->Js->buffer("$('#TourStartdate').datepicker('option', 'onSelect', function(dateText, datepicker) { $('#TourEnddate').datepicker('option', 'minDate', dateText); });");

@@ -9,9 +9,9 @@ echo $this->Form->create(false, array('url' => array($tour['Tour']['id'])));
 
 echo $this->element('../profiles/elements/contact_data');
 
-echo $this->element('../profiles/elements/experience_data');
-
 echo $this->element('../profiles/elements/sac_membership_data');
+
+echo $this->element('../profiles/elements/experience_data');
 ?>
 <fieldset class="experience">
   <legend><?php __('Mitteilung an den Tourenleiter/die Tourenleiterin'); ?></legend>

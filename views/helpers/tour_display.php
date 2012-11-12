@@ -1,9 +1,9 @@
 <?php
 class TourDisplayHelper extends AppHelper
 {
-	var $helpers = array('Html');
+	var $helpers = array('Html', 'Time');
 
-	function getTourGuide($tour)
+	function getTourGuide($tour, $lastNameFirst = false)
 	{
 		$tourGuideProfile = null;
 
@@ -30,7 +30,14 @@ class TourDisplayHelper extends AppHelper
 			return $tour['TourGuide']['username'];
 		}
 
-		return sprintf('%s %s', $tourGuideProfile['firstname'], $tourGuideProfile['lastname']);
+		if($lastNameFirst)
+		{
+			return sprintf('%s, %s', $tourGuideProfile['lastname'], $tourGuideProfile['firstname']);
+		}
+		else
+		{
+			return sprintf('%s %s', $tourGuideProfile['firstname'], $tourGuideProfile['lastname']);
+		}
 	}
 
 	function getClassification($tour, $options = array())
@@ -93,5 +100,119 @@ class TourDisplayHelper extends AppHelper
 		}
 
 		return $result;
+	}
+
+	function getDeadlineText($tour)
+	{
+		$deadLineText = '';
+
+		if(isset($tour['Tour']))
+		{
+			if($tour['Tour']['signuprequired'])
+			{
+				$deadLineText = $this->Time->format('d.m.Y', $tour['Tour']['deadline_calculated']);
+			}
+			else
+			{
+				$deadLineText = __('ohne', True);
+			}
+		}
+
+		return $deadLineText;
+	}
+
+	function getStatusLink($tour, $action)
+	{
+		list($linkClass, $linkTitle) = $this->__getStatusClassAndTitle($tour);
+
+		if(array_key_exists('Tour', $tour))
+		{
+			$tour = $tour['Tour'];
+		}
+
+		return $this->Html->link('', array('controller' => 'tours', 'action' => $action, $tour['id']), array(
+			'class' => sprintf('tourstatus %s', $linkClass), 'id' => sprintf('view-%s', $tour['id']), 'title' => $linkTitle
+		));;
+	}
+
+	function getStatusIcon($tour)
+	{
+		list($iconClass, $iconTitle) = $this->__getStatusClassAndTitle($tour);
+
+		return $this->Html->div(sprintf('tourstatus %s', $iconClass), '', array('title' => $iconTitle));
+	}
+
+	function __getStatusClassAndTitle($tour)
+	{
+		$statusClass = '';
+		$statusTitle = '';
+
+		$tourStatus = $tour['TourStatus'];
+
+		if(array_key_exists('Tour', $tour))
+		{
+			$tour = $tour['Tour'];
+		}
+
+		if(isset($tourStatus))
+		{
+			if(time() >= strtotime($tour['startdate']))
+			{
+				$statusClass = 'past';
+				$statusTitle = __('Die Tour liegt in der Vergangenheit.', true);
+								
+				switch($tourStatus['key'])
+				{				
+					case TourStatus::CARRIED_OUT:
+						$statusClass = 'carried_out';
+						$statusTitle = __('Die Tour wurde durchgeführt.', true);
+						break;
+					case TourStatus::NOT_CARRIED_OUT:
+						$statusClass = 'not_carried_out';
+						$statusTitle = __('Die Tour wurde nicht durchgeführt.', true);
+						break;			
+					case TourStatus::CANCELED:
+						$statusClass = 'not_carried_out';
+						$statusTitle = __('Die Tour wurde abgesagt.', true);
+						break;
+				}
+			}
+			else
+			{
+				switch($tourStatus['key'])
+				{
+					case TourStatus::NEW_:
+						$statusClass = 'new';
+						$statusTitle = __('Neue Tour. Noch nicht publiziert.', true);
+						break;							
+					case TourStatus::FIXED:
+						$statusClass = 'fixed';
+						$statusTitle = __('Anmeldung ist noch nicht möglich.', true);
+						break;
+					case TourStatus::PUBLISHED:
+						if(strtotime($tour['deadline_calculated']) >= strtotime(date('Y-m-d')))
+						{
+							$statusClass = 'signup_open';
+							$statusTitle = $tour['signuprequired'] ? __('Anmeldung ist möglich.', true) : __('Anmeldung ist nicht nötig.', true);
+						}
+						else
+						{
+							$statusClass = 'signup_closed';
+							$statusTitle = __('Anmeldung ist abgelaufen.', true);
+						}
+						break;
+					case TourStatus::CANCELED:
+						$statusClass = 'signup_closed';
+						$statusTitle = __('Keine Anmeldung möglich. Tour wurde abgesagt.', true);
+						break;
+					case TourStatus::REGISTRATION_CLOSED:
+						$statusClass = 'signup_closed';
+						$statusTitle = __('Keine Anmeldung möglich. Anmeldung wurde geschlossen.', true);
+						break;
+				}
+			}
+		}
+
+		return array($statusClass, $statusTitle);
 	}
 }

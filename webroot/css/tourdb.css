@@ -121,6 +121,16 @@ a.iconaction			{ width: 16px; height: 16px; display: block; float: left; margin-
 a.iconaction.delete		{ background-image: url(../img/bin_closed.png); }
 a.iconaction.email		{ background-image: url(../img/email_go.png); }
 
+/* status */
+.tourstatus					{ width: 16px; height: 16px; display: block; float: left; background: center center no-repeat; }
+.tourstatus.new				{ background-image: url(../img/tourstatus_new.png); }
+.tourstatus.signup_open		{ background-image: url(../img/tourstatus_signup_open.png); }
+.tourstatus.fixed			{ background-image: url(../img/tourstatus_fixed.png); }
+.tourstatus.signup_closed	{ background-image: url(../img/tourstatus_signup_closed.png); }
+.tourstatus.past			{ background-image: url(../img/tourstatus_past.png); }
+.tourstatus.carried_out		{ background-image: url(../img/tourstatus_carried_out.png); }
+.tourstatus.not_carried_out	{ background-image: url(../img/tourstatus_not_carried_out.png); }
+
 /* forms */
 .input				{ clear: left; margin-bottom: 15px; }
 .input.text label, .input.password label, .input.textarea label, .input.select > label, .input.datetime label, .input.radio label:FIRST-CHILD, .input.time label
@@ -149,10 +159,11 @@ a.iconaction.email		{ background-image: url(../img/email_go.png); }
 
 select	{ border: 1px solid #808080; }
 
-.submit	{ margin: 20px 0; text-align: right; }
+.submit			{ margin: 20px 0; text-align: right; }
+.submit input	{ margin-left: 10px; }
 
 .submit.obtrusive							{ text-align: left; }
-.submit.obtrusive input[type=submit]		{ padding: 10px; background-color: #689cd3; border: 0; border-radius: 5px; font-weight: bold; }
+.submit.obtrusive input[type=submit]		{ padding: 10px; background-color: #689cd3; border: 0; border-radius: 5px; font-weight: bold; margin: 0; }
 .submit.obtrusive input[disabled=disabled]	{ background-color: #dddddd; }
 .obtrusive.links							{ margin-top: 25px; text-align: right; }
 .obtrusive.text								{ margin-top: 20px; }

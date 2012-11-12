@@ -46,15 +46,20 @@ if(!empty($profile['Profile']['emergencycontact1_address']) || ! empty($profile[
 	}
 }
 
-if($profile['Profile']['sac_member'])
+echo $this->Html->tag('h2', __('SAC Mitgliedschaft', true));
+$sacMembershipRows = array();
+if($profile['Profile']['sac_member'] <= 1) {
+	$sacMembershipRows[] = array(__('SAC Mitglied:', true), $this->Display->displaySacMember($profile['Profile']['sac_member']));
+}
+else {
+	$sacMembershipRows[] = array(__('SAC Mitglied:', true), __('Keine Angaben', true));
+}
+
+if($profile['Profile']['sac_member'] == 1)
 {
-	echo $this->Html->tag('h2', __('SAC Mitgliedschaft', true));
-
-	$sacMembershipRows = array();
-
 	if(!empty($profile['Profile']['sac_membership_number']))
 	{
-		$sacMembershipRows[] = array(__('Mitgliedernummer', true), $profile['Profile']['sac_membership_number']);
+		$sacMembershipRows[] = array(__('Mitgliedernummer:', true), $profile['Profile']['sac_membership_number']);
 	}
 
 	$sections = array();
@@ -82,12 +87,12 @@ if($profile['Profile']['sac_member'])
 	if(!empty($sections))
 	{
 		$sacMembershipRows[] = array(
-			__n('Sektion', 'Sektionen', count($sections), true), implode(', ', $sections)
+			__n('Sektion:', 'Sektionen:', count($sections), true), implode(', ', $sections)
 		);
 	}
-
-	echo $this->Html->tag('table', $this->Html->tableCells($sacMembershipRows));
 }
+echo $this->Html->tag('table', $this->Html->tableCells($sacMembershipRows));
+
 
 echo $this->Html->tag('h2', __('Erfahrungen', true));
 
@@ -177,7 +182,7 @@ if(count($ownTours))
 	echo $this->Html->tag('h2', __('Ausgeschriebene Touren', true));
 
 	$ownTourHeaders = array(
-		__('Status', true), __('Tourbezeichnung', true), __('Datum von', true), __('Datum bis', true), __('Code', true)
+		'', __('Tourbezeichnung', true), __('Datum von', true), __('Datum bis', true), __('Code', true)
 	);
 
 	$ownTourRows = array();
@@ -185,7 +190,7 @@ if(count($ownTours))
 	foreach($ownTours as $ownTour)
 	{
 		$ownTourRows[] = array(
-			$ownTour['TourStatus']['statusname'],
+			$this->TourDisplay->getStatusLink($ownTour, 'view'),
 			$this->Html->link($ownTour['Tour']['title'], array('controller' => 'tours', 'action' => 'view', $ownTour['Tour']['id'])),
 			$this->Time->format('d.m.Y', $ownTour['Tour']['startdate']),
 			$this->Time->format('d.m.Y', $ownTour['Tour']['enddate']),
@@ -201,7 +206,7 @@ if(count($tourParticipations))
 	echo $this->Html->tag('h2', __('Bestätigte Tourenanmeldungen', true));
 
 	$tourParticipationHeaders = array(
-		__('Status', true), __('Tourbezeichnung', true), __('Datum von', true), __('Datum bis', true), __('Code', true)
+		'', __('Tourbezeichnung', true), __('Datum von', true), __('Datum bis', true), __('Code', true)
 	);
 
 	$tourParticipationRows = array();
@@ -209,7 +214,7 @@ if(count($tourParticipations))
 	foreach($tourParticipations as $tourParticipation)
 	{
 		$tourParticipationRows[] = array(
-			$tourParticipation['Tour']['TourStatus']['statusname'],
+			$this->TourDisplay->getStatusLink($tourParticipation['Tour'], 'view'),
 			$this->Html->link($tourParticipation['Tour']['title'], array('controller' => 'tours', 'action' => 'view', $tourParticipation['Tour']['id'])),
 			$this->Time->format('d.m.Y', $tourParticipation['Tour']['startdate']),
 			$this->Time->format('d.m.Y', $tourParticipation['Tour']['enddate']),

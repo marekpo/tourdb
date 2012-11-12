@@ -58,7 +58,7 @@ if(in_array('TourGuide', $activeFilters))
 
 	foreach($tourGuides as $tourGuide)
 	{
-		$tourGuideOptions[$tourGuide['TourGuide']['id']] = $this->TourDisplay->getTourGuide($tourGuide);
+		$tourGuideOptions[$tourGuide['TourGuide']['id']] = $this->TourDisplay->getTourGuide($tourGuide, true);
 	}
 
 	$searchFilters .= $this->Form->input('Tour.TourGuide', array(

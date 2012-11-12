@@ -1,7 +1,7 @@
 <?php
 $this->Excel->startNewDocument(true);
 
-$this->Excel->setFilename(sprintf('%d_%s', $this->Time->format($tour['Tour']['startdate'], '%Y'), $tour['Tour']['title']));
+$this->Excel->setFilename(sprintf('%s_%s', $this->Time->format($tour['Tour']['startdate'], '%Y_%m_%d'), $tour['Tour']['title']));
 
 $emergencyContactsOffset = 9;
 $experienceInformationOffset = $exportEmergencyContacts ? $emergencyContactsOffset + 3 : $emergencyContactsOffset;
@@ -18,20 +18,20 @@ $this->Excel->getActiveSheet()->mergeCells(sprintf('B%1$d:G%1$d', $rowOffset));
 
 /* tour guide */
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow(7, $rowOffset, sprintf(__('Leiter: %s', true), $this->TourDisplay->getTourGuide($tour)));
-$this->Excel->getActiveSheet()->getStyleByColumnAndRow(7, $rowOffset)->applyFromArray(array('font' => array('size' => 9, 'bold' => true)));
+$this->Excel->getActiveSheet()->getStyleByColumnAndRow(7, $rowOffset)->applyFromArray(array('font' => array('size' => 14, 'bold' => true)));
 $this->Excel->getActiveSheet()->mergeCells(sprintf('H%1$d:J%1$d', $rowOffset));
 
 /* tour title */
 $rowOffset = 3;
 
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow(1, $rowOffset, $tour['Tour']['title']);
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow(1, $rowOffset, $tour['Tour']['title'] . ' ' . $this->TourDisplay->getClassification($tour, array('span' => false)));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow(1, $rowOffset)->applyFromArray(array('font' => array('size' => 14, 'bold' => true), 'alignment' => array('vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER)));
 $this->Excel->getActiveSheet()->getRowDimension($rowOffset)->setRowHeight(35);
 $this->Excel->getActiveSheet()->mergeCells(sprintf('B%1$d:G%1$d', $rowOffset));
 
 /* tour group */
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow(7, $rowOffset, sprintf(__('Gruppe: %s', true), $tour['TourGroup']['tourgroupname']));
-$this->Excel->getActiveSheet()->getStyleByColumnAndRow(7, $rowOffset)->applyFromArray(array('font' => array('size' => 9, 'bold' => true), 'alignment' => array('vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER)));
+$this->Excel->getActiveSheet()->getStyleByColumnAndRow(7, $rowOffset)->applyFromArray(array('font' => array('size' => 14, 'bold' => true), 'alignment' => array('vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER)));
 $this->Excel->getActiveSheet()->mergeCells(sprintf('H%1$d:J%1$d', $rowOffset));
 
 /* date */
@@ -148,7 +148,7 @@ if($exportAdditionalInformation)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Eigenes Halbseilpaar', true));
 	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(6.75);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('SAC-Sektion', true));
-	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(11.75);
+	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(22.75);
 
 	$this->Excel->getActiveSheet()->getStyle(sprintf(
 			'%2$s%1$d:%3$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($additionalInformationOffset + 2), PHPExcel_Cell::stringFromColumnIndex($additionalInformationOffset + 6)
@@ -171,15 +171,16 @@ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, 
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, sprintf('%s %s', $tour['TourGuide']['Profile']['street'], $tour['TourGuide']['Profile']['housenumber']));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['zip']);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['city']);
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['phoneprivate']);
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['cellphone']);
+
+$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset))->setValueExplicit($tour['TourGuide']['Profile']['phoneprivate'], PHPExcel_Cell_DataType::TYPE_STRING);
+$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset))->setValueExplicit($tour['TourGuide']['Profile']['cellphone'], PHPExcel_Cell_DataType::TYPE_STRING);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['email']);
 
 if($exportEmergencyContacts)
 {
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['emergencycontact1_address']);
 	$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset)->getAlignment()->setWrapText(true);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['emergencycontact1_phone']);
+	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset))->setValueExplicit($tour['TourGuide']['Profile']['emergencycontact1_phone'], PHPExcel_Cell_DataType::TYPE_STRING);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['emergencycontact1_email']);
 }
 
@@ -190,10 +191,10 @@ if($exportExperienceInformation)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $this->Display->displayExperience($tour['TourGuide']['Profile']['experience_rope_handling']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $this->Display->displayExperience($tour['TourGuide']['Profile']['experience_avalanche_training']));
 
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (isset($tour['TourGuide']['Profile']['LeadClimbNiveau']) ? $tour['TourGuide']['Profile']['LeadClimbNiveau']['name'] : ''));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (isset($tour['TourGuide']['Profile']['SecondClimbNiveau']) ? $tour['TourGuide']['Profile']['SecondClimbNiveau']['name']: ''));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (isset($tour['TourGuide']['Profile']['AlpineTourNiveau']) ? $tour['TourGuide']['Profile']['AlpineTourNiveau']['name'] : ''));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (isset($tour['TourGuide']['Profile']['SkiTourNiveau']) ? $tour['TourGuide']['Profile']['SkiTourNiveau']['name'] : ''));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (!empty($tour['TourGuide']['Profile']['LeadClimbNiveau']) ? $tour['TourGuide']['Profile']['LeadClimbNiveau']['name'] : ''));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (!empty($tour['TourGuide']['Profile']['SecondClimbNiveau']) ? $tour['TourGuide']['Profile']['SecondClimbNiveau']['name']: ''));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (!empty($tour['TourGuide']['Profile']['AlpineTourNiveau']) ? $tour['TourGuide']['Profile']['AlpineTourNiveau']['name'] : ''));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, (!empty($tour['TourGuide']['Profile']['SkiTourNiveau']) ? $tour['TourGuide']['Profile']['SkiTourNiveau']['name'] : ''));
 }
 
 if($exportAdditionalInformation)
@@ -204,7 +205,19 @@ if($exportAdditionalInformation)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['freeseatsinpassengercar']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, ($tour['TourGuide']['Profile']['ownsinglerope'] ? sprintf('%dm', $tour['TourGuide']['Profile']['lengthsinglerope']) : ''));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, ($tour['TourGuide']['Profile']['ownhalfrope'] ? sprintf('%dm', $tour['TourGuide']['Profile']['lengthhalfrope']) : ''));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, ($tour['TourGuide']['Profile']['sac_main_section_id'] ? $tour['TourGuide']['Profile']['SacMainSection']['title'] : ''));
+	/*SAC Membership*/
+	$sacMembershipCell = "";
+	if($tour['TourGuide']['Profile']['sac_member'] <= 1)
+	{
+		$sacMembershipCell = $this->Display->displaySacMember($tour['TourGuide']['Profile']['sac_member']);
+
+		if(!empty($tour['TourGuide']['Profile']['sac_main_section_id']))
+		{
+			$sacMembershipCell = $sacMembershipCell . " " . $tour['TourGuide']['Profile']['SacMainSection']['title'];
+		}
+	}
+
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $sacMembershipCell);
 }
 
 $this->Excel->getActiveSheet()->getStyle(sprintf('A%1$d:%2$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($endColumn)))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
@@ -223,15 +236,16 @@ foreach($tourParticipations as $tourParticipation)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, sprintf('%s %s', $tourParticipation['User']['Profile']['street'], $tourParticipation['User']['Profile']['housenumber']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['zip']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['city']);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['phoneprivate']);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['cellphone']);
+
+	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['User']['Profile']['phoneprivate'], PHPExcel_Cell_DataType::TYPE_STRING);
+	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['User']['Profile']['cellphone'], PHPExcel_Cell_DataType::TYPE_STRING);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['email']);
 
 	if($exportEmergencyContacts)
 	{
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact1_address']);
 		$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset + $index)->getAlignment()->setWrapText(true);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact1_phone']);
+		$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['User']['Profile']['emergencycontact1_phone'], PHPExcel_Cell_DataType::TYPE_STRING);
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact1_email']);
 	}
 
@@ -242,10 +256,10 @@ foreach($tourParticipations as $tourParticipation)
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayExperience($tourParticipation['User']['Profile']['experience_rope_handling']));
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayExperience($tourParticipation['User']['Profile']['experience_avalanche_training']));
 
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['LeadClimbNiveau']['name']);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['SecondClimbNiveau']['name']);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['AlpineTourNiveau']['name']);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['SkiTourNiveau']['name']);
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['LeadClimbNiveau']) ? $tourParticipation['User']['Profile']['LeadClimbNiveau']['name'] : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['SecondClimbNiveau']) ? $tourParticipation['User']['Profile']['SecondClimbNiveau']['name'] : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['AlpineTourNiveau']) ? $tourParticipation['User']['Profile']['AlpineTourNiveau']['name'] : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['SkiTourNiveau']) ? $tourParticipation['User']['Profile']['SkiTourNiveau']['name'] : ''));
 	}
 
 	if($exportAdditionalInformation)
@@ -258,7 +272,19 @@ foreach($tourParticipations as $tourParticipation)
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['freeseatsinpassengercar']);
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['User']['Profile']['ownsinglerope'] ? sprintf('%dm', $tourParticipation['User']['Profile']['lengthsinglerope']) : ''));
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['User']['Profile']['ownhalfrope'] ? sprintf('%dm', $tourParticipation['User']['Profile']['lengthhalfrope']) : ''));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['User']['Profile']['sac_main_section_id'] ? $tourParticipation['User']['Profile']['SacMainSection']['title'] : ''));
+		/*SAC Membership*/
+		$sacMembershipCell = "";
+		if($tourParticipation['User']['Profile']['sac_member'] <= 1)
+		{
+			$sacMembershipCell = $this->Display->displaySacMember($tourParticipation['User']['Profile']['sac_member']);
+
+			if(!empty($tourParticipation['User']['Profile']['sac_main_section_id']))
+			{
+				$sacMembershipCell .= " " . $tourParticipation['User']['Profile']['SacMainSection']['title'];
+			}
+		}
+
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $sacMembershipCell);
 	}
 
 	$this->Excel->getActiveSheet()->getStyle(sprintf('A%1$d:%2$s%1$d', $rowOffset + $index, PHPExcel_Cell::stringFromColumnIndex($endColumn)))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
@@ -303,5 +329,18 @@ if($exportAdditionalInformation)
 		'borders' => array('left' => array('style' => PHPExcel_Style_Border::BORDER_MEDIUM)),
 	));
 }
+
+/*Seite für Druck vorbereiten*/
+
+$this->Excel->getActiveSheet()->getPageMargins()->setTop(0.195);
+$this->Excel->getActiveSheet()->getPageMargins()->setBottom(0.195);
+$this->Excel->getActiveSheet()->getPageMargins()->setLeft(0.195);
+$this->Excel->getActiveSheet()->getPageMargins()->setRight(0.195);
+$this->Excel->getActiveSheet()->getHeaderFooter()->setOddFooter('&L&D&R&P/&N'); /*Datum links, Seitenzahl rechts*/
+$this->Excel->getActiveSheet()->getHeaderFooter()->setEvenFooter('&L&D&R&P/&N');
+$this->Excel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+$this->Excel->getActiveSheet()->getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+$this->Excel->getActiveSheet()->getPageSetup()->setFitToWidth(1);
+$this->Excel->getActiveSheet()->getPageSetup()->setFitToHeight(0);
 
 $this->Excel->outputDocument();
