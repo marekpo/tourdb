@@ -210,10 +210,26 @@ class UsersController extends AppController
 	 */
 	function index()
 	{
+		if(!isset($this->params['url']['uesername']) && !isset($this->params['url']['email']))
+		{
+			$searchConditions = array();
+		}
+		else
+		{
+			$searchConditions = array('and' => array(
+				'User.username LIKE' => sprintf('%%%s%%', $this->params['url']['username']),
+				'User.email LIKE' => sprintf('%%%s%%', $this->params['url']['email']) 
+				));
+		}	 
+
 		$this->paginate = array_merge($this->paginate, array(
+			'conditions' => $searchConditions,
 			'contain' => array('Profile', 'Role')
 		));
 
+		$this->data['User'] = $this->params['url'];
+		unset($this->data['User']['url']);
+		
 		$this->set(array(
 			'users' => $this->paginate('User')
 		));
