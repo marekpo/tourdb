@@ -3,7 +3,7 @@ $this->set('title_for_layout', __('Meine Touren', true));
 $this->Html->addCrumb(__('Meine Touren', true));
 
 echo $this->element('../tours/elements/tour_filters', array('activeFilters' => array(
-	'title', 'TourGroup', 'date', 'TourType', 'ConditionalRequisite', 'Difficulty'
+	'title', 'TourGroup', 'range', 'date', 'TourType', 'ConditionalRequisite', 'Difficulty'
 )));
 
 if(count($tours))

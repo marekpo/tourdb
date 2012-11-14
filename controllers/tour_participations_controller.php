@@ -17,6 +17,12 @@ class TourParticipationsController extends AppController
 	 */
 	function listMine()
 	{
+		
+		if(!isset($this->params['url']['range']))
+		{
+			$this->params['url']['range'] = Tour::FILTER_RANGE_CURRENT;
+		}		
+		
 		$tourParticipationTourIds = $this->TourParticipation->find('all', array(
 			'fields' => array('TourParticipation.tour_id'),
 			'conditions' => array('TourParticipation.user_id' => $this->Auth->user('id')),
@@ -45,6 +51,7 @@ class TourParticipationsController extends AppController
 			'tours' => $this->paginate('TourParticipation'),
 			'tourParticipationCount' => count($tourParticipationTourIds),
 			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
+				&& $this->data['Tour']['range'] == Tour::FILTER_RANGE_CURRENT			
 				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
 				&& empty($this->data['Tour']['TourGuide'])

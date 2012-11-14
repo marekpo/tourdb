@@ -241,7 +241,7 @@ class Tour extends AppModel
 		if(isset($searchFilters['range']) && $searchFilters['range'] == Tour::FILTER_RANGE_CURRENT)
 		{
 			$searchConditions[] = array(
-				'Tour.startdate >=' => date('Y-m-d', strtotime('+1 day'))
+				'Tour.startdate >=' => date('Y-m-d', strtotime('last Saturday'))
 			);
 		}
 

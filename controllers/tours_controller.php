@@ -222,6 +222,12 @@ class ToursController extends AppController
 	 */
 	function listMine()
 	{
+		
+		if(!isset($this->params['url']['range']))
+		{
+			$this->params['url']['range'] = Tour::FILTER_RANGE_CURRENT;
+		}		
+		
 		$tourIds = $this->Tour->searchTours($this->params['url'], array(
 			'Tour.tour_guide_id' => $this->Auth->user('id')
 		));
@@ -243,6 +249,7 @@ class ToursController extends AppController
 				'contain' => array()
 			)),
 			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
+				&& $this->data['Tour']['range'] == Tour::FILTER_RANGE_CURRENT			
 				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
 				&& empty($this->data['Tour']['TourGuide'])
