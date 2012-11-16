@@ -1,6 +1,6 @@
 <?php
 $sektionName = "SAC Sektion Baldern, Zürich";
-$fontSizeHeader = 18;
+$fontSizeHeader = 16;
 $fontSizeNormal = 11;
 
 $labelColumn1 = 0;
@@ -274,8 +274,8 @@ $this->Excel->getActiveSheet()->getStyle(sprintf('%1s%2$d:%1$s%3$d', PHPExcel_Ce
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 11, __('Diesen Rapport bitte umgehend nach der Tour - auch im Falle einer Absage der Tour - an die entsprechende E-Mail-Adresse schicken:', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 13, __('Sommertouren -> tourenrapport.sommer@sac-baldern.ch', true));
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 13, __('Schweizer Alpen-Club SAC', true));
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 14, __('Senioren -> tourenrapport.senioren@sac-albis.ch', true));
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 14, __('Sektion Am Albis, Tourenkommission', true));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset + 14, __('Wintertouren -> tourenrapport.winter@sac-baldern.ch', true));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn3, $rowOffset + 14, __('SAC Sektion Baldern, Zürich, Tourenkommision', true));
 
 /*Seite für Druck vorbereiten*/
 $this->Excel->getActiveSheet()->getPageMargins()->setTop(0.195); /*Inches*/
