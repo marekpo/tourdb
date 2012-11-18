@@ -7,7 +7,7 @@ echo $this->element('../tours/elements/tour_edit_bar', array('tour' => $tour));
 echo $this->Html->div('columncontainer',
 	$this->Html->div('half',
 		$this->Html->div('infoitem',
-			$this->Html->div('label', __('Tourenleiter', true))
+			$this->Html->div('label', __('TourenleiterIn', true))
 			. $this->Html->div('content', $this->TourDisplay->getTourGuide($tour))
 		)
 		. $this->Html->div('infoitem',
@@ -200,16 +200,16 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 		switch($currentUsersTourParticipation['TourParticipationStatus']['key'])
 		{
 			case TourParticipationStatus::REGISTERED:
-				$tourParticipationStatusSentence = __('Du bist provisorisch zu dieser Tour angemeldet. Der Tourenleiter muss deine Anmeldung noch bearbeiten.', true);
+				$tourParticipationStatusSentence = __('Du bist provisorisch zu dieser Tour angemeldet. Der/die TourenleiterIn muss deine Anmeldung noch bearbeiten.', true);
 				break;
 			case TourParticipationStatus::WAITINGLIST:
-				$tourParticipationStatusSentence = __('Du bist bereits für diese Tour angemeldet. Der Tourenleiter hat dich auf die Warteliste gesetzt.', true);
+				$tourParticipationStatusSentence = __('Du bist bereits für diese Tour angemeldet. Der/die TourenleiterIn hat dich auf die Warteliste gesetzt.', true);
 				break;
 			case TourParticipationStatus::AFFIRMED:
-				$tourParticipationStatusSentence = __('Du bist bereits für diese Tour angemeldet und der Tourleiter hat deine Teilnahme bestätigt.', true);
+				$tourParticipationStatusSentence = __('Du bist bereits für diese Tour angemeldet und der/die TourleiterIn hat deine Teilnahme bestätigt.', true);
 				break;
 			case TourParticipationStatus::REJECTED:
-				$tourParticipationStatusSentence = __('Du hattest dich für diese Tour angemeldet, aber der Tourleiter hat deine Teilnahme abgelehnt.', true);
+				$tourParticipationStatusSentence = __('Du hattest dich für diese Tour angemeldet, aber der/die TourleiterIn hat deine Teilnahme abgelehnt.', true);
 				break;
 			case TourParticipationStatus::CANCELED:
 				$tourParticipationStatusSentence = __('Du hattest dich für diese Tour angemeldet aber deine Anmeldung wieder storniert.', true);
@@ -230,7 +230,7 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 			}
 			else
 			{
-				echo $this->Html->para('', __('Falls du doch nicht an der Tour teilnehmen kannst, wende dich bitte direkt an den Tourenleiter. Seine Kontaktdaten findest du in der E-Mail, die dir bei der Anmeldung zugegangen ist.', true));
+				echo $this->Html->para('', __('Falls du doch nicht an der Tour teilnehmen kannst, wende dich bitte direkt an den/die TourenleiterIn. Seine Kontaktdaten findest du in der E-Mail, die dir bei der Anmeldung zugegangen ist.', true));
 			}
 		}
 	}
@@ -282,4 +282,5 @@ if($tourParticipations)
 }
 
 echo $this->Js->buffer(sprintf("$('.tours .action.closeregistration').click({ id: 'closeRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung schliessen', true)));
+echo $this->Js->buffer(sprintf("$('.tours .action.reopenregistration').click({ id: 'reopenRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung wiedereröffnen', true)));
 echo $this->Js->buffer(sprintf("$('.tours .action.cancel').click({ id: 'cancelConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Tour absagen', true)));

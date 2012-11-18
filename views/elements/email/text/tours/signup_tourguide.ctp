@@ -67,14 +67,14 @@ Skitourenniveau: <?php echo (empty($user['Profile']['ski_tour_niveau_id']) ? __(
 
 <?php if(!empty($tourParticipation['TourParticipation']['note_participant'])): ?>
 
-Anmeldenotiz vom Teilnehmer:
+Anmeldenotiz:
 --------------------------------------------------------------------------------
 <?php echo $tourParticipation['TourParticipation']['note_participant']; ?>
 
 --------------------------------------------------------------------------------
 <?php endif; ?>
 
-Der/die Teilnehmer(in) hat eine E-Mail mit der Bestätigung seiner/ihrer provisorischen Anmeldung erhalten. Bitte bearbeite die Anmeldung um den/die Teilnehmer(in) entsprechend über seine/ihre Teilnahme zu informieren.
+Der/die TeilnehmerIn hat eine E-Mail mit der Bestätigung seiner/ihrer provisorischen Anmeldung erhalten. Bitte bearbeite die Anmeldung um den/die TeilnehmerIn entsprechend über seine/ihre Teilnahme zu informieren.
 
 Tourenlink: <?php echo $this->Html->url(array('controller' => 'tours', 'action' => 'view', $tour['Tour']['id']), true); ?>
 

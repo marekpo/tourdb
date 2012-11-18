@@ -79,7 +79,7 @@ Wir erfassen unter Umständen Informationen folgender Art:
 <h2>Persönliche Daten</h2>
 <p>
   Sie benötigen ein Tourenangebot Benutzerkonto und ein Tourenangebot Profil, um
-  sich für Touren anzumelden (oder falls Sie Tourenleiter sind, neue Touren
+  sich für Touren anzumelden (oder falls Sie TourenleiterIn sind, neue Touren
   auszuschreiben). Tourenangebot bittet Sie beim Erstellen eines Tourenangebot
   Benutzerkontos um einige persönliche Daten einschließlich Ihrer E-Mail-Adresse
   und eines Passworts, durch das Ihr Benutzerkonto vor unbefugtem Zugriff
@@ -87,7 +87,7 @@ Wir erfassen unter Umständen Informationen folgender Art:
 </p>
 <p>
   Veröffentlichte Touren können Sie sich in Tourenangebot ohne Benutzerkonto
-  ansehen, wenn sie nicht als privat von Tourenleiter gekennzeichnet sind.
+  ansehen, wenn sie nicht als privat von TourenleiterIn gekennzeichnet sind.
 </p>
 <p>
   In Tourenangebot werden Ihre Kontaktdaten, Touren, Fotos, und weitere
@@ -145,7 +145,7 @@ Wir erfassen unter Umständen Informationen folgender Art:
 <p>
   Wenn Sie gewisse Informationen in Ihrem Profil als "öffentlich" definieren,
   kann es jeder betrachten, der Ihr öffentliches Profil besucht oder Ihre Touren
-  anschaut. Sonst werden die Daten nur für interne Zweckes des Tourenleiters
+  anschaut. Sonst werden die Daten nur für interne Zwecke des/der Tourenleiters/in
   oder der Sektion benutzt. Standardmäßig werden Ihre persönlichen Daten nicht
   als öffentlich deklariert. Sie müssen diese Entscheidung treffen die Daten als
   öffentlich zu deklarieren.
