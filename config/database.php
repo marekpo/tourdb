@@ -8,7 +8,7 @@ class DATABASE_CONFIG
 		'host' => 'localhost',
 		'login' => 'tourdb',
 		'password' => 'tourdb',
-		'database' => 'tourdb',
+		'database' => 'tourdb_18',
 		'prefix' => 'tdb_',
 		'encoding' => 'utf8'
 	);
