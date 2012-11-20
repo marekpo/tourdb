@@ -16,7 +16,7 @@ class ToursController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('search', 'view', 'calendar');
+		$this->Auth->allow('search', 'view', 'calendar', 'sendEmailTourLeader');
 	}
 
 	/**
@@ -903,12 +903,11 @@ class ToursController extends AppController
 	
 		if(!empty($this->data))
 		{
-			$redirect = array('action' => 'view', $id);
-	
-			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
-			{
-				$this->redirect($redirect);
-			}
+			$tour = $this->Tour->find('first', array(
+					'conditions' => array('Tour.id' => $id),
+					'contain' => array('TourGuide.email')
+			));
+
 			$tourParticipations = $this->Tour->TourParticipation->find('all', array(
 					'conditions' => array(
 							'TourParticipation.tour_id' => $id,
@@ -922,7 +921,7 @@ class ToursController extends AppController
 			{
 				$tourParticipationEmails[] = $tourParticipation['User']['email'];
 			}
-			$this->redirect(sprintf('mailto:%s?subject=%s: %s', implode(',', $tourParticipationEmails), __('Tour',true), $tour['Tour']['title']));
+			$this->redirect(sprintf('mailto:%s?bcc=%s&subject=%s: %s', $tour['TourGuide']['email'], implode(';', $tourParticipationEmails), __('Tour',true), $tour['Tour']['title']));
 		}
 		else
 		{
@@ -937,11 +936,18 @@ class ToursController extends AppController
 							'order' => array('TourParticipationStatus.rank' => 'ASC')
 					)))
 			));
-				
-			
-			
-			
 		}
 	}	
 	
+	/**
+	 * @auth:allowed()
+	 */
+	function sendEmailTourLeader($id)
+	{
+		$tour = $this->Tour->find('first', array(
+				'conditions' => array('Tour.id' => $id),
+				'contain' => array('TourGuide')
+		));
+		$this->redirect(sprintf('mailto:%s?subject=%s: %s',$tour['TourGuide']['email'], __('Tour',true), $tour['Tour']['title']));
+	}
 }
