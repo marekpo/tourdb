@@ -675,48 +675,48 @@ class ToursController extends AppController
 
 		if(!empty($this->data))
 		{
-			$this->data['Profile']['user_id'] = $this->Auth->user('id');
+			$profileData = array('Profile' => $this->data['Profile']);
+			$profileData['Profile']['user_id'] = $this->Auth->user('id');
 			$profileId = $this->Profile->field('id', array('user_id' => $this->Auth->user('id')));
 
 			if($profileId)
 			{
-				$this->data['Profile']['id'] = $profileId;
+				$profileData['Profile']['id'] = $profileId;
 			}
 
-			if($this->Profile->save($this->data))
+			if($this->Profile->save($profileData))
 			{
-				if($tourParticipation = $this->Tour->TourParticipation->createTourParticipation($id, $this->Auth->user('id'), $this->data['TourParticipation']))
+				$tourParticipationData = array_merge($this->data['TourParticipation'], $this->data['Profile']);
+
+				$tourParticipation = $this->Tour->TourParticipation->createTourParticipation(
+						$id, $this->Auth->user('id'), $this->Auth->user('id'),
+						$this->Auth->user('email'), $tourParticipationData
+				);
+
+				if($tourParticipation)
 				{
-					$this->loadModel('User');
-
-					$tour = $this->Tour->find('first', array(
-						'conditions' => array('Tour.id' => $id),
-						'contain' => array('TourGroup', 'TourGuide', 'TourGuide.Profile', 'TourType')
-					));
-
-					$user = $this->User->find('first', array(
-						'conditions' => array('User.id' => $this->Auth->user('id')),
+					$tourParticipation = $this->Tour->TourParticipation->find('first', array(
+						'conditions' => array('TourParticipation.id' => $this->Tour->TourParticipation->id),
 						'contain' => array(
-							'Profile', 'Profile.Country', 'Profile.LeadClimbNiveau', 'Profile.SecondClimbNiveau',
-							'Profile.AlpineTourNiveau', 'Profile.SkiTourNiveau', 'Profile.SacMainSection', 'Profile.SacAdditionalSection1'
+							'User', 'Tour', 'Tour.TourGuide', 'Tour.TourGuide.Profile', 'Tour.TourGroup',
+							'Tour.TourType', 'Country', 'LeadClimbNiveau', 'SecondClimbNiveau', 'AlpineTourNiveau',
+							'SkiTourNiveau', 'SacMainSection', 'SacAdditionalSection1', 'SacAdditionalSection2', 'SacAdditionalSection3'
 						)
 					));
 
 					$this->set(array(
-						'user' => $user,
-						'tour' => $tour,
 						'tourParticipation' => $tourParticipation
 					));
 
 					$this->_sendEmail(
 						$this->Auth->user('email'),
-						sprintf(__('Deine Touranmeldung zu "%s"', true), $tour['Tour']['title']),
+						sprintf(__('Deine Touranmeldung zu "%s"', true), $tourParticipation['Tour']['title']),
 						'tours/signup_participant'
 					);
 
 					$this->_sendEmail(
-						$tour['TourGuide']['email'],
-						sprintf(__('Neue Anmeldung zu "%s"', true), $tour['Tour']['title']),
+						$tourParticipation['Tour']['TourGuide']['email'],
+						sprintf(__('Neue Anmeldung zu "%s"', true), $tourParticipation['Tour']['title']),
 						'tours/signup_tourguide'
 					);
 

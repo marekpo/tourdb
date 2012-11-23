@@ -3,9 +3,41 @@ class TourParticipation extends AppModel
 {
 	var $name = 'TourParticipation';
 
-	var $belongsTo = array('Tour', 'User', 'TourParticipationStatus');
+	var $belongsTo = array(
+		'Tour',
+		'User',
+		'SignupUser' => array(
+			'className' => 'User'
+		),
+		'TourParticipationStatus',
+		'Country',
+		'LeadClimbNiveau' => array(
+			'className' => 'Difficulty',
+		),
+		'SecondClimbNiveau' => array(
+			'className' => 'Difficulty',
+		),
+		'AlpineTourNiveau' => array(
+			'className' => 'Difficulty',
+		),
+		'SkiTourNiveau' => array(
+			'className' => 'Difficulty',
+		),
+		'SacMainSection' => array(
+			'className' => 'SacSection'
+		),
+		'SacAdditionalSection1' => array(
+			'className' => 'SacSection'
+		),
+		'SacAdditionalSection2' => array(
+			'className' => 'SacSection'
+		),
+		'SacAdditionalSection3' => array(
+			'className' => 'SacSection'
+		)
+	);
 
-	function createTourParticipation($tourId, $userId, $data = array())
+	function createTourParticipation($tourId, $userId, $signupUserId, $email, $data = array())
 	{
 		$tourParticipationStatusId = $this->TourParticipationStatus->field('id', array('key' => TourParticipationStatus::REGISTERED));
 
@@ -13,6 +45,8 @@ class TourParticipation extends AppModel
 			'TourParticipation' => array_merge($data, array(
 				'tour_id' => $tourId,
 				'user_id' => $userId,
+				'signup_user_id' => $signupUserId,
+				'email' => $email,
 				'tour_participation_status_id' => $tourParticipationStatusId
 			))
 		));
