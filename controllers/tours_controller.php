@@ -950,4 +950,109 @@ class ToursController extends AppController
 		));
 		$this->redirect(sprintf('mailto:%s?subject=%s: %s',$tour['TourGuide']['email'], __('Tour',true), $tour['Tour']['title']));
 	}
+	
+	/**
+	 * @auth:requireRole(tourchief)
+	 * @auth:requireRole(bookkeeper)
+	 */
+	function exportStatisticsToursOverview()
+	{
+		if(!empty($this->data))
+		{
+			$valid = true;
+		
+			if(!isset($this->data['Tour']['startdate']) || empty($this->data['Tour']['startdate']) || strtotime($this->data['Tour']['startdate']) === false)
+			{
+				$this->Tour->invalidate('startdate', 'correctDate');
+				$valid = false;
+			}
+		
+			if(!isset($this->data['Tour']['enddate']) || empty($this->data['Tour']['enddate']) || strtotime($this->data['Tour']['enddate']) === false)
+			{
+				$this->Tour->invalidate('enddate', 'correctDate');
+				$valid = false;
+			}
+		
+			if($valid && strtotime($this->data['Tour']['startdate']) > strtotime($this->data['Tour']['enddate']))
+			{
+				$this->Tour->invalidate('enddate', 'greaterOrEqualStartDate');
+				$valid = false;
+			}
+		
+			if(empty($this->data['Tour']['tour_status_id']))
+			{
+				$this->Tour->invalidate('tour_status_id', 'notEmpty');
+				$valid = false;
+			}
+		
+			if($valid)
+			{
+				$searchConditions['Tour.tour_status_id'] = $this->data['Tour']['tour_status_id'];
+				$searchConditions['Tour.startdate >='] = date('Y-m-d', strtotime($this->data['Tour']['startdate']));
+				$searchConditions['Tour.enddate <='] = date('Y-m-d', strtotime($this->data['Tour']['enddate']));
+		
+				if(isset($this->data['Tour']['tour_group_id']) && !empty($this->data['Tour']['tour_group_id']))
+				{
+					$searchConditions['Tour.tour_group_id'] = $this->data['Tour']['tour_group_id'];
+				}
+		
+				$tours = $this->Tour->find('all', array(
+						'recursive' => 2,
+						'conditions' => array('AND' => $searchConditions),
+						'order' => array('startdate' => 'ASC'),
+						'contain' => array('TourGroup', 'TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty', 'TourStatus')
+				));
+				
+				foreach($tours as $index => $tour)
+				{
+					$tours[$index]['Tour']['members'] = 0;
+					$tours[$index]['Tour']['others'] = 0;
+					if($tour['TourStatus']['key'] == TourStatus::CARRIED_OUT) {
+						$tourParticipations = $this->Tour->TourParticipation->find('all', array(
+								'conditions' => array('TourParticipation.tour_id' => $tour['Tour']['id'], 'TourParticipationStatus.key' => 'affirmed'),
+								'contain' => array(
+										'User', 'User.Profile', 'User.Profile.SacMainSection','TourParticipationStatus'
+								)
+						));
+						$tours[$index]['Tour']['members'] = $tours[$index]['Tour']['members'] + 1;
+						foreach($tourParticipations as $tourParticipation)
+						{
+							if($tourParticipation['User']['Profile']['sac_member'] == 1)
+							{
+								$tours[$index]['Tour']['members'] = $tours[$index]['Tour']['members'] + 1;
+							}
+							else
+							{
+								$tours[$index]['Tour']['others'] = $tours[$index]['Tour']['others'] + 1;
+							}
+						}
+					}
+				}
+				
+				if(empty($tours))
+				{
+					$this->Session->setFlash(__('Für die angegebenen Kriterien wurden keine Touren gefunden.', true));
+				}
+				else
+				{
+					$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
+					$this->set(compact('tours'));
+				}
+			}
+		}
+		
+		$this->set($this->Tour->getWidgetData(array(Tour::WIDGET_TOUR_GROUP)));
+		$this->set(array(
+				'tourStatuses' => $this->Tour->TourStatus->find('list', array(
+						'conditions' => array('TourStatus.key' => array(TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)),
+						'order' => array('TourStatus.rank' => 'ASC')
+				)),
+				'tourStatusDefault' => array_keys($this->Tour->TourStatus->find('list', array(
+						'conditions' => array('TourStatus.key' => array(TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)),
+						'order' => array('TourStatus.rank' => 'ASC')
+				)))
+		));
+		
+	}
+	
 }
