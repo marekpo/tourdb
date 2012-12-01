@@ -121,6 +121,52 @@ class TourDisplayHelper extends AppHelper
 		return $deadLineText;
 	}
 
+	function getDayOfWeekText($tour)
+	{
+		$dayOfWeekText = '';
+	
+		if(isset($tour['Tour']))
+		{
+			$startTime = strtotime($tour['Tour']['startdate']);
+			$endTime = strtotime($tour['Tour']['enddate']);
+			$dayOfWeekText = $this->Time->format($startTime, '%a');
+			
+			$duration = $endTime - $startTime;
+			if($duration > 0)
+			{
+				$dayOfWeekText = sprintf('%s-%s', $dayOfWeekText, $this->Time->format($endTime, '%a'));
+			}
+		}
+	
+		return $dayOfWeekText;
+	}
+	
+	function getDateRangeText($tour,$year = false,$onlyStartDate = false)
+	{
+		$dateRangeText = '';
+	
+		if(isset($tour['Tour']))
+		{
+			$startTime = strtotime($tour['Tour']['startdate']);
+			$endTime = strtotime($tour['Tour']['enddate']);
+			$dateRangeText = $this->Time->format($startTime, '%#d.') . $this->Time->format($startTime, '%#m.');
+			if($year) {
+				$dateRangeText = $dateRangeText . $this->Time->format($startTime, '%#Y');
+			}
+			
+			$duration = $endTime - $startTime;
+			if($duration > 0 && !$onlyStartDate)
+			{
+				$dateRangeText = sprintf('%s-%s', $dateRangeText, $this->Time->format($endTime, '%#d.') . $this->Time->format($endTime, '%#m.'));
+				if($year) {
+					$dateRangeText = $dateRangeText . $this->Time->format($endTime, '%#Y');
+				}
+			}
+		}
+	
+		return $dateRangeText;
+	}	
+	
 	function getStatusLink($tour, $action)
 	{
 		list($linkClass, $linkTitle) = $this->__getStatusClassAndTitle($tour);

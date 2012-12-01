@@ -12,11 +12,7 @@ echo $this->Html->div('columncontainer',
 		)
 		. $this->Html->div('infoitem',
 			$this->Html->div('label', __('Datum', true))
-			. $this->Html->div('content', 
-				($tour['Tour']['startdate'] == $tour['Tour']['enddate']
-					? $this->Time->format('d.m.Y', $tour['Tour']['startdate'])
-					: sprintf('%s - %s', $this->Time->format('d.m.Y', $tour['Tour']['startdate']), $this->Time->format('d.m.Y', $tour['Tour']['enddate'])))
-			)
+			. $this->Html->div('content',sprintf('%s [%s]',$this->TourDisplay->getDateRangeText($tour,true),$this->TourDisplay->getDayOfWeekText($tour)))
 		)
 		. $this->Html->div('infoitem',
 			$this->Html->div('label', __('Anmeldeschluss', true))

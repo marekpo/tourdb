@@ -73,17 +73,11 @@ foreach($tours as $tour)
 	$cell = 0;
 	$startTime = strtotime($tour['Tour']['startdate']);
 	$endTime = strtotime($tour['Tour']['enddate']);
-	$dateColumn = $this->Time->format($startTime, '%#d.') . $this->Time->format($startTime, '%#m.') . $this->Time->format($startTime, '%#Y');
-	$dayColumn = $this->Time->format($startTime, '%a');
 	$duration = ($endTime - $startTime);
 	$participantsDays = (($duration / 86400) + 1) * ($tour['Tour']['members'] + $tour['Tour']['others']);
-	if($duration > 0)
-	{
-		$dayColumn = sprintf('%s-%s', $dayColumn, $this->Time->format($endTime, '%a'));
-	}
 	
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $dateColumn);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $dayColumn);
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getDateRangeText($tour,true,true));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getDayOfWeekText($tour));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tour['TourGroup']['tourgroupname']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tour['Tour']['title']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getClassification($tour, array('span' => false)));
