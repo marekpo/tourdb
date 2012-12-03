@@ -1000,7 +1000,7 @@ class ToursController extends AppController
 						'recursive' => 2,
 						'conditions' => array('AND' => $searchConditions),
 						'order' => array('startdate' => 'ASC'),
-						'contain' => array('TourGroup', 'TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty', 'TourStatus')
+						'contain' => array('TourGroup', 'TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty', 'TourStatus', 'TourGuideReport')
 				));
 				
 				foreach($tours as $index => $tour)
@@ -1036,7 +1036,10 @@ class ToursController extends AppController
 				else
 				{
 					$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
-					$this->set(compact('tours'));
+					$this->set(array(
+						'tours' => $tours,
+						'exportExpenses' => $this->data['Tour']['exportExpenses']
+						));
 				}
 			}
 		}
