@@ -62,7 +62,7 @@ if(in_array('TourGuide', $activeFilters))
 	}
 
 	$searchFilters .= $this->Form->input('Tour.TourGuide', array(
-		'type' => 'select', 'options' => $tourGuideOptions, 'label' => __('Tourenleiter', true),
+		'type' => 'select', 'options' => $tourGuideOptions, 'label' => __('TourenleiterIn', true),
 		'empty' => ''
 	));
 }

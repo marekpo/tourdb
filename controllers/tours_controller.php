@@ -548,6 +548,38 @@ class ToursController extends AppController
 	/**
 	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
 	 */
+	function reopenRegistration($id)
+	{
+		if(!empty($this->data))
+		{
+			$redirect = array('action' => 'view', $id);
+
+			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
+			{
+				$this->redirect($redirect);
+			}
+
+			$publishedStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::PUBLISHED));
+
+			$this->__changeTourStatus($id, $publishedStatusId);
+
+			$this->Session->setFlash(__('Die Anmeldung für diese Tour wurde wiedereröffnet.', true));
+			$this->redirect($redirect);
+		}
+		else
+		{
+			$this->data = $this->Tour->find('first', array(
+					'fields' => array('Tour.id', 'Tour.title'),
+					'conditions' => array('Tour.id' => $id),
+					'contain' => false
+			));
+		}
+	}
+
+
+	/**
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 */
 	function cancel($id)
 	{
 		$tour = $this->Tour->find('first', array(
@@ -852,6 +884,58 @@ class ToursController extends AppController
 		{
 			$this->Session->setFlash(__('Beim Ändern des Tourstatus ist ein Fehler aufgetreten.', true));
 			$this->redirect($this->referer(null, true));
+		}
+	}
+
+	/**
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 */
+	function sendEmailAllSelected($id)
+	{
+		$tour = $this->Tour->find('first', array(
+			'fields' => array('Tour.id', 'Tour.title'),
+			'conditions' => array('Tour.id' => $id),
+			'contain' => array()
+		));
+
+		$this->set(compact('tour'));
+
+		if(!empty($this->data))
+		{
+			$redirect = array('action' => 'view', $id);
+
+			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
+			{
+				$this->redirect($redirect);
+			}
+			$tourParticipations = $this->Tour->TourParticipation->find('all', array(
+				'conditions' => array(
+					'TourParticipation.tour_id' => $id,
+					'TourParticipation.tour_participation_status_id' => $this->data['Tour']['participationStatuses']
+				),
+				'contain' => array('User.email')
+			));
+
+			$tourParticipationEmails = array();
+			foreach($tourParticipations as $tourParticipation)
+			{
+				$tourParticipationEmails[] = $tourParticipation['User']['email'];
+			}
+			$this->redirect(sprintf('mailto:%s?subject=%s: %s', implode(',', $tourParticipationEmails), __('Tour',true), $tour['Tour']['title']));
+		}
+		else
+		{
+			$this->data = $tour;
+			$this->set(array(
+				'participationStatuses' => $this->Tour->TourParticipation->TourParticipationStatus->find('list', array(
+					'conditions' => array('TourParticipationStatus.key' => array(TourParticipationStatus::REGISTERED, TourParticipationStatus::AFFIRMED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::CANCELED, TourParticipationStatus::REJECTED)),
+					'order' => array('TourParticipationStatus.rank' => 'ASC')
+				)),
+				'participationStatusDefault' => array_keys($this->Tour->TourParticipation->TourParticipationStatus->find('list', array(
+					'conditions' => array('TourParticipationStatus.key' => array(TourParticipationStatus::AFFIRMED)),
+					'order' => array('TourParticipationStatus.rank' => 'ASC')
+				)))
+			));
 		}
 	}
 }

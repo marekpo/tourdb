@@ -162,7 +162,7 @@ class TourParticipationsController extends AppController
 
 			$this->_sendEmail($tourParticipationInfo['Tour']['TourGuide']['email'], __('Anmeldung storniert', true), 'tours/cancel_tour_participation_tourguide');
 
-			$this->Session->setFlash(__('Der Tourenleiter wurde über deine Absage informiert.', true));
+			$this->Session->setFlash(__('TourenleiterIn wurde über deine Absage informiert.', true));
 			$this->redirect($redirect);
 		}
 		else

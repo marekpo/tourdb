@@ -8,11 +8,20 @@ if($tour['Tour']['signuprequired'])
 
 if($tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
 {
+	$actions[] = $this->Html->link(__('E-Mail an Alle', true), array('action' => 'sendEmailAllSelected', $tour['Tour']['id']), array('class' => 'action sendEmailAllSelected'));
+
 	if(!in_array($tour['TourStatus']['key'], array(TourStatus::REGISTRATION_CLOSED, TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT))
 		&& time() < strtotime($tour['Tour']['startdate'])
 		&& $tour['Tour']['signuprequired'])
 	{
 		$actions[] = $this->Html->link(__('Anmeldung schliessen', true), array('action' => 'closeRegistration', $tour['Tour']['id']), array('class' => 'action closeregistration'));
+	}
+
+	if(in_array($tour['TourStatus']['key'], array(TourStatus::REGISTRATION_CLOSED))
+			&& time() < strtotime($tour['Tour']['startdate'])
+			&& $tour['Tour']['signuprequired'])
+	{
+		$actions[] = $this->Html->link(__('Anmeldung wiedereröffnen', true), array('action' => 'reopenRegistration', $tour['Tour']['id']), array('class' => 'action reopenregistration'));
 	}
 
 	if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED))

@@ -535,7 +535,7 @@ class WidgetHelper extends AppHelper
 		$rows = array(
 			array(
 				array(
-					__('Tourenleiter', true),
+					__('TourenleiterIn', true),
 					array('class' => 'label')
 				),
 				$this->TourDisplay->getTourGuide($appointment['event'])
