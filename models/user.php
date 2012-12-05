@@ -147,7 +147,7 @@ class User extends AppModel
 				'active' => 1
 			)
 		);
-		
+
 		$roles = $this->getRoles($id);
 		$userRole = Set::extract(sprintf('/Role[key=%s]', Role::USER), $roles);
 
@@ -202,7 +202,7 @@ class User extends AppModel
 	{
 		if($id == null)
 		{
-			$id = $this->id; 
+			$id = $this->id;
 		}
 
 		return $this->field('active', array('User.id' => $id)) == 1;
@@ -266,5 +266,27 @@ class User extends AppModel
 		}
 
 		return $users;
+	}
+
+	function getFilterConditions($filters)
+	{
+		if(!is_array($filters))
+		{
+			$filters = array();
+		}
+
+		$conditions = array();
+
+		if(isset($filters['username']) && !empty($filters['username']))
+		{
+			$conditions[] = array('User.username LIKE' => sprintf('%%%s%%', $filters['username']));
+		}
+
+		if(isset($filters['email']) && !empty($filters['email']))
+		{
+			$conditions[] = array('User.email LIKE' => sprintf('%%%s%%', $filters['email']));
+		}
+
+		return $conditions;
 	}
 }
