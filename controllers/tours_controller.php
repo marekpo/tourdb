@@ -222,12 +222,12 @@ class ToursController extends AppController
 	 */
 	function listMine()
 	{
-		
+
 		if(!isset($this->params['url']['range']))
 		{
 			$this->params['url']['range'] = Tour::FILTER_RANGE_CURRENT;
-		}		
-		
+		}
+
 		$tourIds = $this->Tour->searchTours($this->params['url'], array(
 			'Tour.tour_guide_id' => $this->Auth->user('id')
 		));
@@ -249,7 +249,7 @@ class ToursController extends AppController
 				'contain' => array()
 			)),
 			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
-				&& $this->data['Tour']['range'] == Tour::FILTER_RANGE_CURRENT			
+				&& $this->data['Tour']['range'] == Tour::FILTER_RANGE_CURRENT
 				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
 				&& empty($this->data['Tour']['TourGuide'])
@@ -545,7 +545,7 @@ class ToursController extends AppController
 			));
 		}
 	}
-	
+
 	/**
 	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
 	 */
@@ -554,16 +554,16 @@ class ToursController extends AppController
 		if(!empty($this->data))
 		{
 			$redirect = array('action' => 'view', $id);
-	
+
 			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
 			{
 				$this->redirect($redirect);
 			}
-	
+
 			$publishedStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::PUBLISHED));
-	
+
 			$this->__changeTourStatus($id, $publishedStatusId);
-	
+
 			$this->Session->setFlash(__('Die Anmeldung für diese Tour wurde wiedereröffnet.', true));
 			$this->redirect($redirect);
 		}
@@ -576,7 +576,7 @@ class ToursController extends AppController
 			));
 		}
 	}
-	
+
 
 	/**
 	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
@@ -780,7 +780,7 @@ class ToursController extends AppController
 				'contain' => array(
 					'User', 'User.Profile', 'User.Profile.LeadClimbNiveau', 'User.Profile.SecondClimbNiveau',
 					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau', 'User.Profile.SacMainSection',
-					'TourParticipationStatus' 
+					'TourParticipationStatus'
 				)
 			));
 
@@ -887,35 +887,35 @@ class ToursController extends AppController
 			$this->redirect($this->referer(null, true));
 		}
 	}
-	
+
 	/**
 	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
 	 */
 	function sendEmailAllSelected($id)
 	{
 		$tour = $this->Tour->find('first', array(
-				'fields' => array('Tour.id', 'Tour.title'),
-				'conditions' => array('Tour.id' => $id),
-				'contain' => array()
+			'fields' => array('Tour.id', 'Tour.title'),
+			'conditions' => array('Tour.id' => $id),
+			'contain' => array()
 		));
-	
+
 		$this->set(compact('tour'));
-	
+
 		if(!empty($this->data))
 		{
 			$tour = $this->Tour->find('first', array(
-					'conditions' => array('Tour.id' => $id),
-					'contain' => array('TourGuide.email')
+				'conditions' => array('Tour.id' => $id),
+				'contain' => array('TourGuide.email')
 			));
 
 			$tourParticipations = $this->Tour->TourParticipation->find('all', array(
-					'conditions' => array(
-							'TourParticipation.tour_id' => $id,
-							'TourParticipation.tour_participation_status_id' => $this->data['Tour']['participationStatuses']
-					),
-					'contain' => array('User.email')
+				'conditions' => array(
+					'TourParticipation.tour_id' => $id,
+					'TourParticipation.tour_participation_status_id' => $this->data['Tour']['participationStatuses']
+				),
+				'contain' => array('User.email')
 			));
-			
+
 			$tourParticipationEmails = array();
 			foreach($tourParticipations as $tourParticipation)
 			{
@@ -927,26 +927,26 @@ class ToursController extends AppController
 		{
 			$this->data = $tour;
 			$this->set(array(
-					'participationStatuses' => $this->Tour->TourParticipation->TourParticipationStatus->find('list', array(
-							'conditions' => array('TourParticipationStatus.key' => array(TourParticipationStatus::REGISTERED, TourParticipationStatus::AFFIRMED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::CANCELED, TourParticipationStatus::REJECTED)),
-							'order' => array('TourParticipationStatus.rank' => 'ASC')
-					)),
-					'participationStatusDefault' => array_keys($this->Tour->TourParticipation->TourParticipationStatus->find('list', array(
-							'conditions' => array('TourParticipationStatus.key' => array(TourParticipationStatus::AFFIRMED)),
-							'order' => array('TourParticipationStatus.rank' => 'ASC')
-					)))
+				'participationStatuses' => $this->Tour->TourParticipation->TourParticipationStatus->find('list', array(
+					'conditions' => array('TourParticipationStatus.key' => array(TourParticipationStatus::REGISTERED, TourParticipationStatus::AFFIRMED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::CANCELED, TourParticipationStatus::REJECTED)),
+					'order' => array('TourParticipationStatus.rank' => 'ASC')
+				)),
+				'participationStatusDefault' => array_keys($this->Tour->TourParticipation->TourParticipationStatus->find('list', array(
+					'conditions' => array('TourParticipationStatus.key' => array(TourParticipationStatus::AFFIRMED)),
+					'order' => array('TourParticipationStatus.rank' => 'ASC')
+				)))
 			));
 		}
-	}	
-	
+	}
+
 	/**
 	 * @auth:allowed()
 	 */
 	function sendEmailTourLeader($id)
 	{
 		$tour = $this->Tour->find('first', array(
-				'conditions' => array('Tour.id' => $id),
-				'contain' => array('TourGuide')
+			'conditions' => array('Tour.id' => $id),
+			'contain' => array('TourGuide')
 		));
 		$this->redirect(sprintf('mailto:%s?subject=%s: %s',$tour['TourGuide']['email'], __('Tour',true), $tour['Tour']['title']));
 	}
