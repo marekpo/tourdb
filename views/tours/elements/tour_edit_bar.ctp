@@ -43,6 +43,10 @@ if($tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
 		}
 	}
 }
+else
+{
+	$actions[] = $this->Html->link(__('E-Mail an TourenleiterIn', true), array('action' => 'sendEmailTourLeader', $tour['Tour']['id']), array('class' => 'action sendEmailTourLeader'));
+}
 
 if(!empty($actions))
 {
