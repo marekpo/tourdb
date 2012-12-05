@@ -12,7 +12,9 @@ if(!class_exists('Security'))
 class TourDBShell extends Shell
 {
 	var $uses = array('User', 'Role', 'Tour', 'TourStatus');
-
+	
+	var $tasks = array('EmailNotify');
+	
 	function main()
 	{
 		$this->out('test');
@@ -203,4 +205,67 @@ class TourDBShell extends Shell
 			));
 		}
 	}
+	
+	function sendTourChangesNotifications()
+	{
+		$this->out('This will send notification E-Mails when Tours was changed in last days.');
+	
+		/* changeslastdays */
+		if(empty($this->params['changeslastdays'])) {
+			$changeslastdays = 1;
+		}
+		else {
+			$changeslastdays = $this->params['changeslastdays'];
+			if(is_numeric($changeslastdays)){
+				if($changeslastdays == 0) {
+					$changeslastdays = 1;
+				}
+			}
+			else{
+				$this->error(sprintf('-changeslastdays %s must be number greater or equal 1 !', $changeslastdays ));
+				$this->_stop();
+			}
+		}
+		
+		/* base_url */
+		if(!empty($this->params['base_url'])) {
+			$base_url = $this->params['base_url'];
+			if(!defined('FULL_BASE_URL')) {
+				define('FULL_BASE_URL', $base_url);
+			}
+		}
+		
+		$dateFromQuery = date('Y-m-d', strtotime(sprintf('-%s day', $changeslastdays)));
+		$dateToQuery = date('Y-m-d', strtotime(sprintf('now', $changeslastdays)));
+		
+		$dateFromText = date('d.m.Y', strtotime(sprintf('-%s day', $changeslastdays)));
+		$dateToText = date('d.m.Y', strtotime(sprintf('now', $changeslastdays)));
+		
+		$tourStatusEditable = $this->Tour->TourStatus->find('all', array(
+				'fields' => array('TourStatus.id'),
+				'conditions' => array('TourStatus.key' => array(TourStatus::NEW_, TourStatus::FIXED)),
+				'contain' => array()
+		));
+		
+		$tours = $this->Tour->find('all', array(
+				'conditions' => array(
+						'AND' => array('Tour.modified >=' => $dateFromQuery,
+									   'Tour.modified <' => $dateToQuery,
+									   'Tour.tour_status_id' => Set::extract('/TourStatus/id', $tourStatusEditable))
+				),
+		));
+		
+		$recipient = implode(',', Set::extract('/User/email', $this->User->getUsersByRole(Role::EDITOR)));
+
+		$this->out('SET ChangesLastDays = ' . $changeslastdays );
+		$this->out('SET DateFrom = ' . $dateFromText );
+		$this->out('SET DateTo = ' . $dateToText );
+		$this->out('SET Recipiens = ' . $recipient);
+	
+		$subject = sprintf('Tourenangebot: geänderte Touren von: %s bis: %s', $dateFromText, $dateToText) ;
+		$from = 'TourDB <tourdb@tourdb.ch>';
+		$template = 'notificate_tour_changes';
+
+		$sent = $this->EmailNotify->sendEmail($recipient, $subject, $from, $template, $tours);
+	}	
 }
