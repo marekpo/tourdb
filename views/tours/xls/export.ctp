@@ -99,7 +99,6 @@ foreach($tours as $tour)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getTourGuide($tour));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getDeadlineText($tour));
 	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($this->Display->displayUsersPhoneContact($tour['TourGuide']['Profile']), PHPExcel_Cell_DataType::TYPE_STRING);
-	
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tour['Tour']['meetingplace']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tour['Tour']['meetingtime'] !== null ? sprintf(__('%s Uhr', true), $this->Time->format('H:i', $tour['Tour']['meetingtime'])) : ''));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tour['Tour']['transport'] !== null ? $this->Display->displayTransport($tour['Tour']['transport']) : ''));
