@@ -37,20 +37,8 @@ foreach($appointments as $appointment)
 {
 	$cell = 0;
 
-	$startTime = strtotime($appointment['Appointment']['startdate']);
-	$endTime = strtotime($appointment['Appointment']['enddate']);
-
-	$startDate = $this->Time->format($startTime, '%#d.') . $this->Time->format($startTime, '%#m.');
-	$endDate = $this->Time->format($endTime, '%#d.') . $this->Time->format($endTime, '%#m.');
-
-	$startDay = $this->Time->format($startTime, '%a');
-	$endDay = $this->Time->format($endTime, '%a');
-
-	$dateColumn = ($startDate == $endDate) ? $startDate : sprintf('%s-%s', $startDate, $endDate);
-	$dayColumn = ($startDate == $endDate) ? $startDay: sprintf('%s-%s', $startDay, $endDay);
-
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $dateColumn);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $dayColumn);
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->getDateRangeText($appointment['Appointment']['startdate'], $appointment['Appointment']['enddate']));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->getDayOfWeekText($appointment['Appointment']['startdate'], $appointment['Appointment']['enddate']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $appointment['Appointment']['title']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $appointment['Appointment']['description']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $appointment['Appointment']['location']);

@@ -121,52 +121,6 @@ class TourDisplayHelper extends AppHelper
 		return $deadLineText;
 	}
 
-	function getDayOfWeekText($tour)
-	{
-		$dayOfWeekText = '';
-	
-		if(isset($tour['Tour']))
-		{
-			$startTime = strtotime($tour['Tour']['startdate']);
-			$endTime = strtotime($tour['Tour']['enddate']);
-			$dayOfWeekText = $this->Time->format($startTime, '%a');
-			
-			$duration = $endTime - $startTime;
-			if($duration > 0)
-			{
-				$dayOfWeekText = sprintf('%s-%s', $dayOfWeekText, $this->Time->format($endTime, '%a'));
-			}
-		}
-	
-		return $dayOfWeekText;
-	}
-	
-	function getDateRangeText($tour,$year = false,$onlyStartDate = false)
-	{
-		$dateRangeText = '';
-	
-		if(isset($tour['Tour']))
-		{
-			$startTime = strtotime($tour['Tour']['startdate']);
-			$endTime = strtotime($tour['Tour']['enddate']);
-			$dateRangeText = $this->Time->format($startTime, '%#d.') . $this->Time->format($startTime, '%#m.');
-			if($year) {
-				$dateRangeText = $dateRangeText . $this->Time->format($startTime, '%#Y');
-			}
-			
-			$duration = $endTime - $startTime;
-			if($duration > 0 && !$onlyStartDate)
-			{
-				$dateRangeText = sprintf('%s-%s', $dateRangeText, $this->Time->format($endTime, '%#d.') . $this->Time->format($endTime, '%#m.'));
-				if($year) {
-					$dateRangeText = $dateRangeText . $this->Time->format($endTime, '%#Y');
-				}
-			}
-		}
-	
-		return $dateRangeText;
-	}	
-	
 	function getStatusLink($tour, $action)
 	{
 		list($linkClass, $linkTitle) = $this->__getStatusClassAndTitle($tour);
@@ -206,9 +160,9 @@ class TourDisplayHelper extends AppHelper
 			{
 				$statusClass = 'past';
 				$statusTitle = __('Die Tour liegt in der Vergangenheit.', true);
-								
+
 				switch($tourStatus['key'])
-				{				
+				{
 					case TourStatus::CARRIED_OUT:
 						$statusClass = 'carried_out';
 						$statusTitle = __('Die Tour wurde durchgeführt.', true);
@@ -216,7 +170,7 @@ class TourDisplayHelper extends AppHelper
 					case TourStatus::NOT_CARRIED_OUT:
 						$statusClass = 'not_carried_out';
 						$statusTitle = __('Die Tour wurde nicht durchgeführt.', true);
-						break;			
+						break;
 					case TourStatus::CANCELED:
 						$statusClass = 'not_carried_out';
 						$statusTitle = __('Die Tour wurde abgesagt.', true);
@@ -230,7 +184,7 @@ class TourDisplayHelper extends AppHelper
 					case TourStatus::NEW_:
 						$statusClass = 'new';
 						$statusTitle = __('Neue Tour. Noch nicht publiziert.', true);
-						break;							
+						break;
 					case TourStatus::FIXED:
 						$statusClass = 'fixed';
 						$statusTitle = __('Anmeldung ist noch nicht möglich.', true);

@@ -192,7 +192,7 @@ if(count($ownTours))
 		$ownTourRows[] = array(
 			$this->TourDisplay->getStatusLink($ownTour, 'view'),
 			$this->Time->format('d.m.Y', $ownTour['Tour']['startdate']),
-			$this->TourDisplay->getDayOfWeekText($ownTour),
+			$this->Display->getDayOfWeekText($ownTour['Tour']['startdate'], $ownTour['Tour']['enddate']),
 			$this->Html->link($ownTour['Tour']['title'], array('controller' => 'tours', 'action' => 'view', $ownTour['Tour']['id'])),
 			$this->TourDisplay->getClassification($ownTour)
 		);
@@ -216,7 +216,7 @@ if(count($tourParticipations))
 		$tourParticipationRows[] = array(
 			$this->TourDisplay->getStatusLink($tourParticipation['Tour'], 'view'),
 			$this->Time->format('d.m.Y', $tourParticipation['Tour']['startdate']),
-			$this->TourDisplay->getDayOfWeekText($tourParticipation),
+			$this->Display->getDayOfWeekText($tourParticipation['Tour']['startdate'], $tourParticipation['Tour']['enddate']),
 			$this->Html->link($tourParticipation['Tour']['title'], array('controller' => 'tours', 'action' => 'view', $tourParticipation['Tour']['id'])),
 			$this->TourDisplay->getClassification($tourParticipation)
 		);

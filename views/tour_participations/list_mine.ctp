@@ -15,7 +15,7 @@ if(count($tours))
 		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
 		$this->Paginator->sort(__('Gruppe', true), 'TourGroup.tourgroupname'),
 		__('Code', true),
-				$this->Paginator->sort(__('TourenleiterIn', true), 'TourGuide.username')
+		$this->Paginator->sort(__('TourenleiterIn', true), 'TourGuide.username')
 	);
 
 	$tableCells = array();
@@ -28,36 +28,35 @@ if(count($tours))
 				array('class' => 'tourparticipationstatus')
 			),
 			array(
-					$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
-					array('class' => 'startdate')
+				$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
+				array('class' => 'startdate')
 			),
 			array(
-					$this->TourDisplay->getDayOfWeekText($tour),
-					array('class' => 'dayofweek')
+				$this->Display->getDayOfWeekText($tour['Tour']['startdate'], $tour['Tour']['enddate']),
+				array('class' => 'dayofweek')
 			),
 			array(
-					$this->Html->link($this->Text->truncate($tour['Tour']['title'], 40), array(
-							'controller' => 'tours', 'action' => 'view', $tour['Tour']['id']
-					))
-					. ($tour['Tour']['tourweek'] == 1 ? sprintf(' %s', __('TW',true)) : '')
-					. ($tour['Tour']['withmountainguide'] == 1 ? sprintf(' %s', __('BGF',true)) : '')
-					,
-					array('class' => 'title')
+				$this->Html->link($this->Text->truncate($tour['Tour']['title'], 40), array(
+					'controller' => 'tours', 'action' => 'view', $tour['Tour']['id']
+				))
+				. ($tour['Tour']['tourweek'] == 1 ? sprintf(' %s', __('TW', true)) : '')
+				. ($tour['Tour']['withmountainguide'] == 1 ? sprintf(' %s', __('BGF', true)) : ''),
+				array('class' => 'title')
 			),
 			array(
 				$tour['Tour']['TourGroup']['tourgroupname'],
 				array('class' => 'tourgroup')
 			),
 			array(
-					$this->TourDisplay->getClassification($tour),
-					array('class' => 'classification')
+				$this->TourDisplay->getClassification($tour),
+				array('class' => 'classification')
 			),
 			array(
-					$this->TourDisplay->getTourGuide($tour),
-					array('class' => 'tourguide')
+				$this->TourDisplay->getTourGuide($tour),
+				array('class' => 'tourguide')
 			),
 		);
-	}	
+	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);
 }

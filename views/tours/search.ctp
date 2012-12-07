@@ -28,25 +28,24 @@ if(count($tours))
 				array('class' => 'iconstatus')
 			),
 			array(
-					$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
-					array('class' => 'startdate')
+				$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
+				array('class' => 'startdate')
 			),
 			array(
-					$this->TourDisplay->getDayOfWeekText($tour),
-					array('class' => 'dayofweek')
+				$this->Display->getDayOfWeekText($tour['Tour']['startdate'], $tour['Tour']['enddate']),
+				array('class' => 'dayofweek')
 			),
 			array(
 				$this->Html->link($this->Text->truncate($tour['Tour']['title'], 40), array(
 					'action' => 'view', $tour['Tour']['id']
 				))
-				. ($tour['Tour']['tourweek'] == 1 ? sprintf(' %s', __('TW',true)) : '')
-				. ($tour['Tour']['withmountainguide'] == 1 ? sprintf(' %s', __('BGF',true)) : '')
-				 ,
+				. ($tour['Tour']['tourweek'] == 1 ? sprintf(' %s', __('TW', true)) : '')
+				. ($tour['Tour']['withmountainguide'] == 1 ? sprintf(' %s', __('BGF', true)) : ''),
 				array('class' => 'title')
 			),
 			array(
-					$tour['TourGroup']['tourgroupname'],
-					array('class' => 'tourgroup')
+				$tour['TourGroup']['tourgroupname'],
+				array('class' => 'tourgroup')
 			),
 			array(
 				$this->TourDisplay->getClassification($tour),
