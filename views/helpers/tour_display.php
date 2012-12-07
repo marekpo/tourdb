@@ -160,9 +160,9 @@ class TourDisplayHelper extends AppHelper
 			{
 				$statusClass = 'past';
 				$statusTitle = __('Die Tour liegt in der Vergangenheit.', true);
-								
+
 				switch($tourStatus['key'])
-				{				
+				{
 					case TourStatus::CARRIED_OUT:
 						$statusClass = 'carried_out';
 						$statusTitle = __('Die Tour wurde durchgeführt.', true);
@@ -170,7 +170,7 @@ class TourDisplayHelper extends AppHelper
 					case TourStatus::NOT_CARRIED_OUT:
 						$statusClass = 'not_carried_out';
 						$statusTitle = __('Die Tour wurde nicht durchgeführt.', true);
-						break;			
+						break;
 					case TourStatus::CANCELED:
 						$statusClass = 'not_carried_out';
 						$statusTitle = __('Die Tour wurde abgesagt.', true);
@@ -184,7 +184,7 @@ class TourDisplayHelper extends AppHelper
 					case TourStatus::NEW_:
 						$statusClass = 'new';
 						$statusTitle = __('Neue Tour. Noch nicht publiziert.', true);
-						break;							
+						break;
 					case TourStatus::FIXED:
 						$statusClass = 'fixed';
 						$statusTitle = __('Anmeldung ist noch nicht möglich.', true);

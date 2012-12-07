@@ -10,12 +10,10 @@ if(count($tours))
 {
 	$tableHeaders = array(
 		'',
-		$this->Paginator->sort(__('Gruppe', true), 'TourGroup.tourgroupname'),
+		$this->Paginator->sort(__('Datum', true), 'Tour.startdate'),
+		__('Tag', true),
 		$this->Paginator->sort(__('Tourbezeichnung', true), 'Tour.title'),
-		$this->Paginator->sort(__('Datum von', true), 'Tour.startdate'),
-		$this->Paginator->sort(__('Datum bis', true), 'Tour.enddate'),
-		$this->Paginator->sort(__('TW', true), 'Tour.tourweek', array('title' => __('Tourenwoche', true))),
-		$this->Paginator->sort(__('BGF', true), 'Tour.withmountainguide', array('title' => __('mit Bergführer durchgeführte/r Tour/Kurs', true))),
+		$this->Paginator->sort(__('Gruppe', true), 'TourGroup.tourgroupname'),
 		__('Code', true),
 		$this->Paginator->sort(__('TourenleiterIn', true), 'TourGuide.username'),
 		''
@@ -33,7 +31,7 @@ if(count($tours))
 				))
 			: '';
 
-		$editLink = $this->Authorization->link($tour['Tour']['title'], array('action' => 'edit', $tour['Tour']['id']));
+		$editLink = $this->Authorization->link($this->Text->truncate($tour['Tour']['title'], 40), array('action' => 'edit', $tour['Tour']['id']));
 		$tourTitle = $editLink !== false ? $editLink : $tour['Tour']['title'];
 
 		$tableCells[] = array(
@@ -42,29 +40,22 @@ if(count($tours))
 				array('class' => 'status')
 			),
 			array(
-				$tour['TourGroup']['tourgroupname'],
-				array('class' => 'tourgroup')
-			),
-			array(
-				$tourTitle,
-				array('class' => 'title')
-			),
-
-			array(
 				$this->Time->format('d.m.Y', $tour['Tour']['startdate']),
 				array('class' => 'startdate')
 			),
 			array(
-				$this->Time->format('d.m.Y', $tour['Tour']['enddate']),
-				array('class' => 'enddate')
+				$this->Display->getDayOfWeekText($tour['Tour']['startdate'], $tour['Tour']['enddate']),
+				array('class' => 'dayofweek')
 			),
 			array(
-				$this->Display->displayFlag($tour['Tour']['tourweek']),
-				array('class' => 'tourweek')
+				$tourTitle
+				. ($tour['Tour']['tourweek'] == 1 ? sprintf(' %s', __('TW', true)) : '')
+				. ($tour['Tour']['withmountainguide'] == 1 ? sprintf(' %s', __('BGF', true)) : ''),
+				array('class' => 'title')
 			),
 			array(
-				$this->Display->displayFlag($tour['Tour']['withmountainguide']),
-				array('class' => 'withmountainguide')
+				$tour['TourGroup']['tourgroupname'],
+				array('class' => 'tourgroup')
 			),
 			array(
 				$this->TourDisplay->getClassification($tour),

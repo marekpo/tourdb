@@ -12,11 +12,7 @@ echo $this->Html->div('columncontainer',
 		)
 		. $this->Html->div('infoitem',
 			$this->Html->div('label', __('Datum', true))
-			. $this->Html->div('content', 
-				($tour['Tour']['startdate'] == $tour['Tour']['enddate']
-					? $this->Time->format('d.m.Y', $tour['Tour']['startdate'])
-					: sprintf('%s - %s', $this->Time->format('d.m.Y', $tour['Tour']['startdate']), $this->Time->format('d.m.Y', $tour['Tour']['enddate'])))
-			)
+			. $this->Html->div('content',sprintf('%s [%s]', $this->Display->getDateRangeText($tour['Tour']['startdate'], $tour['Tour']['enddate'], true), $this->Display->getDayOfWeekText($tour['Tour']['startdate'], $tour['Tour']['enddate'])))
 		)
 		. $this->Html->div('infoitem',
 			$this->Html->div('label', __('Anmeldeschluss', true))
@@ -156,9 +152,9 @@ if(!empty($tour['Tour']['accomodationcosts']))
 if(!empty($tour['Tour']['description']) || !empty($detailedInformation))
 {
 	echo $this->Html->tag('h2', __('Tourendetails', true));
-	
+
 	echo $this->Display->formatText($tour['Tour']['description']);
-	
+
 	$firstColumn = implode('', array_slice($detailedInformation, 0, ceil(count($detailedInformation) / 2)));
 	$secondColumn = implode('', array_slice($detailedInformation, ceil(count($detailedInformation) / 2), floor(count($detailedInformation) / 2)));
 
@@ -180,7 +176,7 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 	if($registrationOpen && !$currentUserAlreadySignedUp)
 	{
 		echo $this->Html->div('columncontainer',
-			$this->Html->div('third', 
+			$this->Html->div('third',
 				$this->Form->create(false, array('type' => 'GET', 'url' => array('action' => 'signUp', $tour['Tour']['id'])))
 				. $this->Form->submit(__('Zur Tour anmelden', true), array('div' => array('class' => 'submit obtrusive'), 'disabled' => !$this->Session->check('Auth.User')))
 				. $this->Form->end()
@@ -215,9 +211,9 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 				$tourParticipationStatusSentence = __('Du hattest dich für diese Tour angemeldet aber deine Anmeldung wieder storniert.', true);
 				break;
 		}
-	
+
 		echo $this->Html->para('', $tourParticipationStatusSentence);
-	
+
 		if(in_array($currentUsersTourParticipation['TourParticipationStatus']['key'], array(TourParticipationStatus::REGISTERED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::AFFIRMED))
 			&& !in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT)))
 		{
@@ -248,7 +244,7 @@ if($tourParticipations)
 
 	if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT)))
 	{
-		$tableHeaders[] = __('Aktionen', true); 
+		$tableHeaders[] = __('Aktionen', true);
 	}
 
 	$tableCells = array();
