@@ -13,8 +13,8 @@ echo $this->Widget->dateTime('enddate', array(
 	)
 ));
 echo $this->Form->input('Tour.tour_group_id', array(
-		'type' => 'select', 'label' => __('Tourengruppe', true),
-		'empty' => ''
+	'type' => 'select', 'label' => __('Tourengruppe', true),
+	'empty' => ''
 ));
 echo $this->Form->input('Tour.tour_status_id', array(
 	'label' => __('Tourenstatus', true), 'multiple' => 'checkbox', 'default' => $tourStatusDefault,
