@@ -949,4 +949,72 @@ class ToursController extends AppController
 		));
 		$this->redirect(sprintf('mailto:%s?subject=%s: %s',$tour['TourGuide']['email'], __('Tour',true), $tour['Tour']['title']));
 	}
+
+	/**
+	 * @auth:requireRole(tourchief)
+	 * @auth:requireRole(bookkeeper)
+	 */
+	function exportStatisticsToursOverview()
+	{
+		if(!empty($this->data))
+		{
+			$valid = true;
+
+			if(!isset($this->data['Tour']['startdate']) || empty($this->data['Tour']['startdate']) || strtotime($this->data['Tour']['startdate']) === false)
+			{
+				$this->Tour->invalidate('startdate', 'correctDate');
+				$valid = false;
+			}
+
+			if(!isset($this->data['Tour']['enddate']) || empty($this->data['Tour']['enddate']) || strtotime($this->data['Tour']['enddate']) === false)
+			{
+				$this->Tour->invalidate('enddate', 'correctDate');
+				$valid = false;
+			}
+
+			if($valid && strtotime($this->data['Tour']['startdate']) > strtotime($this->data['Tour']['enddate']))
+			{
+				$this->Tour->invalidate('enddate', 'greaterOrEqualStartDate');
+				$valid = false;
+			}
+
+			if(empty($this->data['Tour']['tour_status_id']))
+			{
+				$this->Tour->invalidate('tour_status_id', 'notEmpty');
+				$valid = false;
+			}
+
+			if($valid)
+			{
+				$tours = $this->Tour->getTourOverviewReportData(
+					$this->data['Tour']['startdate'], $this->data['Tour']['enddate'],
+					$this->data['Tour']['tour_group_id'], $this->data['Tour']['tour_status_id']
+				);
+
+				if(empty($tours))
+				{
+					$this->Session->setFlash(__('Für die angegebenen Kriterien wurden keine Touren gefunden.', true));
+				}
+				else
+				{
+					$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
+					$this->set(array(
+						'tours' => $tours,
+						'exportExpenses' => $this->data['Tour']['exportExpenses']
+					));
+				}
+			}
+		}
+
+		$selectableTourStatuses = $this->Tour->TourStatus->find('list', array(
+			'conditions' => array('TourStatus.key' => array(TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)),
+			'order' => array('TourStatus.rank' => 'ASC')
+		));
+
+		$this->set($this->Tour->getWidgetData(array(Tour::WIDGET_TOUR_GROUP)));
+		$this->set(array(
+			'tourStatuses' => $selectableTourStatuses,
+			'tourStatusDefault' => array_keys($selectableTourStatuses)
+		));
+	}
 }
