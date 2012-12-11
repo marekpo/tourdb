@@ -13,6 +13,8 @@ class TourDBShell extends Shell
 {
 	var $uses = array('User', 'Role', 'Tour', 'TourStatus');
 
+	var $tasks = array('Email');
+
 	function main()
 	{
 		$this->out('test');
@@ -202,5 +204,88 @@ class TourDBShell extends Shell
 				)
 			));
 		}
+	}
+
+	function sendTourChangesNotifications()
+	{
+		$this->out('This will send notification E-Mails when Tours was changed in last days.');
+
+		if(empty($this->params['reviewDays']))
+		{
+			$reviewDays = 1;
+		}
+		else
+		{
+			$reviewDays = $this->params['reviewDays'];
+
+			if(is_numeric($reviewDays))
+			{
+				if($reviewDays == 0)
+				{
+					$reviewDays = 1;
+				}
+			}
+			else
+			{
+				$this->error(sprintf('-reviewDays %s must be number greater or equal 1!', $reviewDays ));
+				$this->_stop();
+			}
+		}
+
+		if(empty($this->params['baseUrl']))
+		{
+			$this->error('Missing parameter -baseUrl.');
+			$this->_stop();
+		}
+		else
+		{
+			$baseUrl = $this->params['baseUrl'];
+
+			if(!defined('FULL_BASE_URL'))
+			{
+				define('FULL_BASE_URL', $baseUrl);
+			}
+		}
+
+		$dateFromQuery = date('Y-m-d', strtotime(sprintf('-%s day', $reviewDays)));
+		$dateToQuery = date('Y-m-d', strtotime(sprintf('now', $reviewDays)));
+
+		$dateFromText = date('d.m.Y', strtotime(sprintf('-%s day', $reviewDays)));
+		$dateToText = date('d.m.Y', strtotime(sprintf('now', $reviewDays)));
+
+		$tourStatusEditable = $this->Tour->TourStatus->find('all', array(
+			'fields' => array('TourStatus.id'),
+			'conditions' => array('TourStatus.key' => array(TourStatus::NEW_, TourStatus::FIXED)),
+			'contain' => array()
+		));
+
+		$tours = $this->Tour->find('all', array(
+			'conditions' => array(
+				'Tour.modified >=' => $dateFromQuery,
+				'Tour.modified <' => $dateToQuery,
+				'Tour.tour_status_id' => Set::extract('/TourStatus/id', $tourStatusEditable)
+			)
+		));
+
+		$this->out('SET ReviewDays = ' . $reviewDays );
+		$this->out('SET DateFrom = ' . $dateFromText );
+		$this->out('SET DateTo = ' . $dateToText );
+
+		if(empty($tours))
+		{
+			$this->out('No new or changed tours found. No notifications will be sent.');
+			$this->_stop();
+		}
+
+		$recipients = implode(',', Set::extract('/User/email', $this->User->getUsersByRole(Role::EDITOR)));
+
+		$this->out('SET Recipiens = ' . $recipients);
+		$this->out(sprintf('Sending notifications about %d new or changed tours.', count($tours)));
+
+		$subject = sprintf('Tourenangebot: geänderte Touren von: %s bis: %s', $dateFromText, $dateToText) ;
+
+		App::import('Core', 'Router');
+
+		$this->Email->sendEmail($recipients, $subject, 'notify_tour_changes', $tours);
 	}
 }
