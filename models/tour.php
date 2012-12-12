@@ -449,6 +449,62 @@ class Tour extends AppModel
 		return $widgetData;
 	}
 
+	function getTourOverviewReportData($startDate, $endDate, $tourGroupId, $tourStatusIds)
+	{
+		$filterConditions['Tour.startdate >='] = date('Y-m-d', strtotime($startDate));
+		$filterConditions['Tour.enddate <='] = date('Y-m-d', strtotime($endDate));
+		$filterConditions['Tour.tour_status_id'] = $tourStatusIds;
+
+		if(!empty($tourGroupId))
+		{
+			$filterConditions['Tour.tour_group_id'] = $tourGroupId;
+		}
+
+		$tours = $this->find('all', array(
+			'conditions' => $filterConditions,
+			'order' => array('Tour.startdate' => 'ASC'),
+			'contain' => array('TourGroup', 'TourGuide', 'TourGuide.Profile', 'ConditionalRequisite', 'TourType', 'Difficulty', 'TourStatus', 'TourGuideReport')
+		));
+
+		$dbo = $this->getDataSource();
+
+		foreach($tours as $index => $tour)
+		{
+			$memberStateCount = $this->TourParticipation->find('all', array(
+				'fields' => array('Profile.sac_member', 'COUNT(*) AS `count`'),
+				'conditions' => array('TourParticipation.tour_id' => $tour['Tour']['id']),
+				'group' => 'Profile.sac_member',
+				'contain' => array(),
+				'joins' => array(
+					array(
+						'alias' => 'User',
+						'table' =>  $dbo->fullTableName('users'),
+						'type' => 'LEFT',
+						'conditions' => array('`TourParticipation`.`user_id` = `User`.`id`')
+					),
+					array(
+						'alias' => 'Profile',
+						'table' =>  $dbo->fullTableName('profiles'),
+						'type' => 'LEFT',
+						'conditions' => array('`User`.`id` = `Profile`.`user_id`')
+					)
+				)
+			));
+
+			$nonMemberCountResult = Set::extract('/Profile[sac_member=0]/..', $memberStateCount);
+			$memberCountResult = Set::extract('/Profile[sac_member=1]/..', $memberStateCount);
+
+			$tours[$index]['Tour']['members'] = !empty($memberCountResult) ? $memberCountResult[0][0]['count'] : 0;
+			$tours[$index]['Tour']['others'] = !empty($nonMemberCountResult) ? $nonMemberCountResult[0][0]['count'] : 0;
+
+			$duration = strtotime($tour['Tour']['enddate']) - strtotime($tour['Tour']['startdate']);
+			$tours[$index]['Tour']['nights'] = $duration / 86400;
+			$tours[$index]['Tour']['participantDays'] = (($duration / 86400) + 1) * ($tours[$index]['Tour']['members'] + $tours[$index]['Tour']['others']);
+		}
+
+		return $tours;
+	}
+
 	function __calculateDeadline($tour)
 	{
 		if(array_key_exists('deadline', $tour))

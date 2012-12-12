@@ -1,5 +1,4 @@
 <?php
-echo $this->Form->create();
 echo $this->Widget->dateTime('startdate', array(
 	'label' => __('Startdatum', true),
 	'error' => array(
@@ -14,8 +13,8 @@ echo $this->Widget->dateTime('enddate', array(
 	)
 ));
 echo $this->Form->input('Tour.tour_group_id', array(
-		'type' => 'select', 'label' => __('Tourengruppe', true),
-		'empty' => ''
+	'type' => 'select', 'label' => __('Tourengruppe', true),
+	'empty' => ''
 ));
 echo $this->Form->input('Tour.tour_status_id', array(
 	'label' => __('Tourenstatus', true), 'multiple' => 'checkbox', 'default' => $tourStatusDefault,
@@ -23,6 +22,4 @@ echo $this->Form->input('Tour.tour_status_id', array(
 		'notEmpty' => __('Es muss mindestens ein Tourenstatus ausgewählt sein.', true)
 	)
 ));
-echo $this->Form->end(__('Exportieren', true));
-$this->Js->buffer("$('#TourStartdate').datepicker('option', 'onSelect', function(dateText, datepicker) { $('#TourEnddate').datepicker('option', 'minDate', dateText); });");
 ?>

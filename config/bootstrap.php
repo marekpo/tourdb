@@ -55,3 +55,5 @@ App::build(array(
 
 Configure::write('Config.language', 'deu');
 setlocale(LC_ALL, Configure::read('Config.language'));
+
+require 'email.php';

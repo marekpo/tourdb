@@ -92,10 +92,7 @@ $rowOffset = 9;
 /*Datum*/
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Ausgeführt am:', true));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => false)));
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset, sprintf('%s-%s [%s - %s]',
-	$this->Time->format($tour['Tour']['startdate'], '%d.%m.%Y'), $this->Time->format($tour['Tour']['enddate'], '%d.%m.%Y'),
-	$this->Time->format($tour['Tour']['startdate'], '%a'), $this->Time->format($tour['Tour']['enddate'], '%a')
-));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset, sprintf('%s [%s]', $this->Display->getDateRangeText($tour['Tour']['startdate'], $tour['Tour']['enddate'], true), $this->Display->getDayOfWeekText($tour['Tour']['startdate'], $tour['Tour']['enddate'])));
 $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => true)));
 
 /*Sektion/Jugend/Senioren*/
