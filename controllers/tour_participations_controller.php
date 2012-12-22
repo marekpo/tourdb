@@ -13,6 +13,31 @@ class TourParticipationsController extends AppController
 	);
 
 	/**
+	 * @auth:requireRole(safetycommittee)
+	 * @auth:Model.TourParticipation.isTourGuideOfRespectiveTour(#arg-0)
+	 */
+	function view($id = null)
+	{
+		if($id == null)
+		{
+			$this->cakeError('error404');
+		}
+
+		$tourParticipation = $this->TourParticipation->find('first', array(
+			'conditions' => array('TourParticipation.id' => $id),
+			'contain' => array(
+				'Tour', 'Country', 'SacMainSection', 'SacAdditionalSection1',
+				'SacAdditionalSection2', 'SacAdditionalSection3',
+				'LeadClimbNiveau', 'SecondClimbNiveau', 'AlpineTourNiveau', 'SkiTourNiveau'
+			)
+		));
+
+		$this->set(array(
+			'tourParticipation' => $tourParticipation
+		));
+	}
+
+	/**
 	 * @auth:requireRole(user)
 	 */
 	function listMine()

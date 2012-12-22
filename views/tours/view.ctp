@@ -237,7 +237,7 @@ if($tourParticipations)
 	echo $this->Html->tag('h2', __('Anmeldungen', true));
 
 	$tableHeaders = array(
-		__('Benutzer', true),
+		__('Teilnehmer', true),
 		$this->Paginator->sort(__('Anmeldedatum', true), 'TourParticipation.created'),
 		$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.rank'),
 	);
@@ -253,8 +253,8 @@ if($tourParticipations)
 	{
 		$row = array(
 			$this->Html->link(
-				$this->Display->displayUsersFullName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']),
-				array('controller' => 'profiles', 'action' => 'view', $tourParticipation['User']['id'])
+				sprintf('%s %s', $tourParticipation['TourParticipation']['firstname'], $tourParticipation['TourParticipation']['lastname']),
+				array('controller' => 'tour_participations', 'action' => 'view', $tourParticipation['TourParticipation']['id'])
 			),
 			$this->Time->format('d.m.Y', $tourParticipation['TourParticipation']['created']),
 			$tourParticipation['TourParticipationStatus']['statusname']

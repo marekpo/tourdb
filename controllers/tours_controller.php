@@ -458,7 +458,7 @@ class ToursController extends AppController
 			$currentUserAlreadySignedUp = $this->Auth->user() ? $this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id')) : false;
 
 			$this->paginate['TourParticipation'] = array(
-				'contain' => array('User.Profile', 'TourParticipationStatus'),
+				'contain' => array('TourParticipationStatus'),
 				'limit' => 1000
 			);
 			$tourParticipations = $tour['Tour']['tour_guide_id'] == $this->Auth->user('id') || $this->Authorization->hasRole(Role::SAFETYCOMMITTEE)
