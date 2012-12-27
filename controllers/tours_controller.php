@@ -911,13 +911,13 @@ class ToursController extends AppController
 					'TourParticipation.tour_id' => $id,
 					'TourParticipation.tour_participation_status_id' => $this->data['Tour']['participationStatuses']
 				),
-				'contain' => array('User.email')
+				'contain' => array()
 			));
 
 			$tourParticipationEmails = array();
 			foreach($tourParticipations as $tourParticipation)
 			{
-				$tourParticipationEmails[] = $tourParticipation['User']['email'];
+				$tourParticipationEmails[] = $tourParticipation['TourParticipation']['email'];
 			}
 			$this->redirect(sprintf('mailto:%s?bcc=%s&subject=%s: %s', $tour['TourGuide']['email'], implode(';', $tourParticipationEmails), __('Tour',true), $tour['Tour']['title']));
 		}
