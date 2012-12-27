@@ -777,9 +777,8 @@ class ToursController extends AppController
 			$tourParticipations = $this->Tour->TourParticipation->find('all', array(
 				'conditions' => array_merge(array('TourParticipation.tour_id' => $id), $conditions),
 				'contain' => array(
-					'User', 'User.Profile', 'User.Profile.LeadClimbNiveau', 'User.Profile.SecondClimbNiveau',
-					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau', 'User.Profile.SacMainSection',
-					'TourParticipationStatus'
+					'LeadClimbNiveau', 'SecondClimbNiveau', 'AlpineTourNiveau', 'SkiTourNiveau',
+					'SacMainSection', 'TourParticipationStatus', 'User.Profile'
 				)
 			));
 

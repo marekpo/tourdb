@@ -228,35 +228,35 @@ foreach($tourParticipations as $tourParticipation)
 	$cell = 0;
 
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($index + 1));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['lastname']);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['firstname']);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, sprintf('%s %s', $tourParticipation['User']['Profile']['street'], $tourParticipation['User']['Profile']['housenumber']));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['zip']);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['city']);
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipation']['lastname']);
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipation']['firstname']);
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, sprintf('%s %s', $tourParticipation['TourParticipation']['street'], $tourParticipation['TourParticipation']['housenumber']));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipation']['zip']);
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipation']['city']);
 
-	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['User']['Profile']['phoneprivate'], PHPExcel_Cell_DataType::TYPE_STRING);
-	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['User']['Profile']['cellphone'], PHPExcel_Cell_DataType::TYPE_STRING);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['email']);
+	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['TourParticipation']['phoneprivate'], PHPExcel_Cell_DataType::TYPE_STRING);
+	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['TourParticipation']['cellphone'], PHPExcel_Cell_DataType::TYPE_STRING);
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipation']['email']);
 
 	if($exportEmergencyContacts)
 	{
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact1_address']);
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipation']['emergencycontact1_address']);
 		$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset + $index)->getAlignment()->setWrapText(true);
-		$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['User']['Profile']['emergencycontact1_phone'], PHPExcel_Cell_DataType::TYPE_STRING);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['emergencycontact1_email']);
+		$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($tourParticipation['TourParticipation']['emergencycontact1_phone'], PHPExcel_Cell_DataType::TYPE_STRING);
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipation']['emergencycontact1_email']);
 	}
 
 	if($exportExperienceInformation)
 	{
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayYesNoDontKnow($tourParticipation['User']['Profile']['experience_rope_guide']));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayExperience($tourParticipation['User']['Profile']['experience_knot_technique']));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayExperience($tourParticipation['User']['Profile']['experience_rope_handling']));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayExperience($tourParticipation['User']['Profile']['experience_avalanche_training']));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayYesNoDontKnow($tourParticipation['TourParticipation']['experience_rope_guide']));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayExperience($tourParticipation['TourParticipation']['experience_knot_technique']));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayExperience($tourParticipation['TourParticipation']['experience_rope_handling']));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayExperience($tourParticipation['TourParticipation']['experience_avalanche_training']));
 
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['LeadClimbNiveau']) ? $tourParticipation['User']['Profile']['LeadClimbNiveau']['name'] : ''));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['SecondClimbNiveau']) ? $tourParticipation['User']['Profile']['SecondClimbNiveau']['name'] : ''));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['AlpineTourNiveau']) ? $tourParticipation['User']['Profile']['AlpineTourNiveau']['name'] : ''));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['User']['Profile']['SkiTourNiveau']) ? $tourParticipation['User']['Profile']['SkiTourNiveau']['name'] : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['LeadClimbNiveau']) ? $tourParticipation['LeadClimbNiveau']['name'] : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['SecondClimbNiveau']) ? $tourParticipation['SecondClimbNiveau']['name'] : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['AlpineTourNiveau']) ? $tourParticipation['AlpineTourNiveau']['name'] : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, (!empty($tourParticipation['SkiTourNiveau']) ? $tourParticipation['SkiTourNiveau']['name'] : ''));
 	}
 
 	if($exportAdditionalInformation)
@@ -271,13 +271,13 @@ foreach($tourParticipations as $tourParticipation)
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['User']['Profile']['ownhalfrope'] ? sprintf('%dm', $tourParticipation['User']['Profile']['lengthhalfrope']) : ''));
 		/*SAC Membership*/
 		$sacMembershipCell = "";
-		if($tourParticipation['User']['Profile']['sac_member'] <= 1)
+		if($tourParticipation['TourParticipation']['sac_member'] <= 1)
 		{
-			$sacMembershipCell = $this->Display->displaySacMember($tourParticipation['User']['Profile']['sac_member']);
+			$sacMembershipCell = $this->Display->displaySacMember($tourParticipation['TourParticipation']['sac_member']);
 
-			if(!empty($tourParticipation['User']['Profile']['sac_main_section_id']))
+			if(!empty($tourParticipation['TourParticipation']['sac_main_section_id']))
 			{
-				$sacMembershipCell .= " " . $tourParticipation['User']['Profile']['SacMainSection']['title'];
+				$sacMembershipCell .= " " . $tourParticipation['SacMainSection']['title'];
 			}
 		}
 
