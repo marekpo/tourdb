@@ -613,7 +613,7 @@ class ToursController extends AppController
 					'TourParticipation.tour_id' => $id,
 					'TourParticipation.tour_participation_status_id' => Set::extract('/TourParticipationStatus/id', $tourParticipationStatuses)
 				),
-				'contain' => array('User', 'User.Profile')
+				'contain' => array()
 			));
 
 			foreach($tourParticipations as $tourParticipation)
@@ -623,7 +623,7 @@ class ToursController extends AppController
 					'message' => $this->data['Tour']['message']
 				));
 
-				$this->_sendEmail($tourParticipation['User']['email'], sprintf(__('Die Tour "%s" wurde abgesagt', true), $tour['Tour']['title']), 'tours/cancel_tour_participant');
+				$this->_sendEmail($tourParticipation['TourParticipation']['email'], sprintf(__('Die Tour "%s" wurde abgesagt', true), $tour['Tour']['title']), 'tours/cancel_tour_participant');
 			}
 
 			$this->Session->setFlash(__('Die Tour wurde abgesagt.', true));
