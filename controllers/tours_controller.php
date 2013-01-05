@@ -686,11 +686,10 @@ class ToursController extends AppController
 
 			if($this->Profile->save($profileData))
 			{
-				$tourParticipationData = array_merge($this->data['TourParticipation'], $this->data['Profile']);
+				$tourParticipationData = array_merge($this->data['TourParticipation'], $this->data['Profile'], array('email' => $this->Auth->user('email')));
 
 				$tourParticipation = $this->Tour->TourParticipation->createTourParticipation(
-						$id, $this->Auth->user('id'), $this->Auth->user('id'),
-						$this->Auth->user('email'), $tourParticipationData
+					$id, $this->Auth->user('id'), $this->Auth->user('id'), $tourParticipationData
 				);
 
 				if($tourParticipation)
@@ -698,7 +697,7 @@ class ToursController extends AppController
 					$tourParticipation = $this->Tour->TourParticipation->find('first', array(
 						'conditions' => array('TourParticipation.id' => $this->Tour->TourParticipation->id),
 						'contain' => array(
-							'User', 'Tour', 'Tour.TourGuide', 'Tour.TourGuide.Profile', 'Tour.TourGroup',
+							'Tour', 'Tour.TourGuide', 'Tour.TourGuide.Profile', 'Tour.TourGroup',
 							'Tour.TourType', 'Country', 'LeadClimbNiveau', 'SecondClimbNiveau', 'AlpineTourNiveau',
 							'SkiTourNiveau', 'SacMainSection', 'SacAdditionalSection1', 'SacAdditionalSection2', 'SacAdditionalSection3'
 						)

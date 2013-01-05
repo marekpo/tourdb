@@ -237,7 +237,7 @@ if($tourParticipations)
 	echo $this->Html->tag('h2', __('Anmeldungen', true));
 
 	$tableHeaders = array(
-		__('Teilnehmer', true),
+		$this->Paginator->sort(__('Teilnehmer', true), 'TourParticipation.firstname'),
 		$this->Paginator->sort(__('Anmeldedatum', true), 'TourParticipation.created'),
 		$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.rank'),
 	);
@@ -277,6 +277,6 @@ if($tourParticipations)
 	$this->Js->buffer(sprintf("$('.changeStatus').click({ id: 'changeTourparticipationStatusDialog', title: '%s' }, TourDB.Util.confirmationDialog);", __('Anmeldestatus ändern', true)));
 }
 
-echo $this->Js->buffer(sprintf("$('.tours .action.closeregistration').click({ id: 'closeRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung schliessen', true)));
-echo $this->Js->buffer(sprintf("$('.tours .action.reopenregistration').click({ id: 'reopenRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung wiedereröffnen', true)));
-echo $this->Js->buffer(sprintf("$('.tours .action.cancel').click({ id: 'cancelConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Tour absagen', true)));
+$this->Js->buffer(sprintf("$('.tours .action.closeregistration').click({ id: 'closeRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung schliessen', true)));
+$this->Js->buffer(sprintf("$('.tours .action.reopenregistration').click({ id: 'reopenRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung wiedereröffnen', true)));
+$this->Js->buffer(sprintf("$('.tours .action.cancel').click({ id: 'cancelConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Tour absagen', true)));

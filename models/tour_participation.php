@@ -37,7 +37,116 @@ class TourParticipation extends AppModel
 		)
 	);
 
-	function createTourParticipation($tourId, $userId, $signupUserId, $email, $data = array())
+	var $validate = array(
+		'firstname' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'last' => true
+			),
+			'correctFormat' => array(
+				'rule' => 'validateName'
+			),
+		),
+		'lastname' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'last' => true
+			),
+			'correctFormat' => array(
+				'rule' => 'validateName'
+			),
+		),
+		'street' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
+		'zip' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'last' => true
+			),
+			'validRange' => array(
+				'rule' => '/[1-9]\d{3,4}/'
+			)
+		),
+		'city' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
+		'country_id' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
+		'phoneprivate' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'last' => true
+			),
+			'validPhone' => array(
+				'rule' => 'validatePhone'
+			)
+		),
+		'phonebusiness' => array(
+			'validPhone' => array(
+				'rule' => 'validatePhone',
+				'allowEmpty' => true
+			)
+		),
+		'cellphone' => array(
+			'validPhone' => array(
+				'rule' => 'validatePhone',
+				'allowEmpty' => true
+			)
+		),
+		'email' => array(
+			'validEmail' => array(
+				'rule' => 'email',
+				'allowEmpty' => true
+			)
+		),
+		'emergencycontact1_address' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
+		'emergencycontact1_phone' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty',
+				'last' => true
+			),
+			'validPhone' => array(
+				'rule' => 'validatePhone'
+			)
+		),
+		'emergencycontact2_phone' => array(
+			'validPhone' => array(
+				'rule' => 'validatePhone',
+				'allowEmpty' => true
+			)
+		),
+		'emergencycontact1_email' => array(
+			'correctFormat' => array(
+				'rule' => 'email',
+				'allowEmpty' => true
+			)
+		),
+		'emergencycontact2_email' => array(
+			'correctFormat' => array(
+				'rule' => 'email',
+				'allowEmpty' => true
+			)
+		),
+		'sac_member' => array(
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
+	);
+
+	function createTourParticipation($tourId, $userId, $signupUserId, $data = array())
 	{
 		$tourParticipationStatusId = $this->TourParticipationStatus->field('id', array('key' => TourParticipationStatus::REGISTERED));
 
@@ -46,7 +155,6 @@ class TourParticipation extends AppModel
 				'tour_id' => $tourId,
 				'user_id' => $userId,
 				'signup_user_id' => $signupUserId,
-				'email' => $email,
 				'tour_participation_status_id' => $tourParticipationStatusId
 			))
 		));

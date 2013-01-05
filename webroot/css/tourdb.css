@@ -240,6 +240,15 @@ table.tours .tourweek, table.tours .withmountainguide
 #ProfileAdditionalequipment, #ProfileHealthinformation	{ width: 610px; }
 .profiles.view table td	{ vertical-align: top; }
 
+/* tourparticipations */
+.tourparticipations .input label		{ width: 125px; }
+.tourparticipations .input.text input	{ width: 230px; }
+.tourparticipations .input.text input#TourParticipationExtraaddressline, .tourparticipations .input.text input#TourParticipationEmergencycontact1Address, .tourparticipations .input.text input#TourParticipationEmergencycontact2Address
+	{ width: 610px; }
+.tourparticipations .experience .input > label	{ width: 200px; }
+#TourParticipationAdditionalequipment, #TourParticipationHealthinformation	{ width: 610px; }
+.tourparticipations.view table td	{ vertical-align: top; }
+
 /* tourguidereports */
 .tourguidereports .input label					{ width: 200px; }
 .tourguidereports .input.error label			{ width: 195px; }

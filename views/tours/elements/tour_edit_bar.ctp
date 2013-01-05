@@ -30,6 +30,11 @@ if($tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
 		$actions[] = $this->Html->link(__('Tour absagen', true), array('action' => 'cancel', $tour['Tour']['id']), array('class' => 'action cancel'));
 	}
 
+	if(strtotime(date('Y-m-d')) < strtotime($tour['Tour']['startdate']) && !in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED)))
+	{
+		$actions[] = $this->Html->link(__('Teilnehmer hinzufügen', true), array('controller' => 'tour_participations', 'action' => 'add', $tour['Tour']['id']), array('class' => 'action addparticipant'));
+	}
+
 	if(time() > strtotime($tour['Tour']['enddate']))
 	{
 		if(!empty($tour['TourGuideReport']['id']))

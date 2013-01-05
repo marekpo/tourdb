@@ -13,6 +13,59 @@ class TourParticipationsController extends AppController
 	);
 
 	/**
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 */
+	function add($tourId)
+	{
+		if(!empty($this->data))
+		{
+			$tourParticipation = $this->TourParticipation->createTourParticipation(
+				$tourId, null, $this->Auth->user('id'), $this->data['TourParticipation']
+			);
+
+			if($tourParticipation)
+			{
+				$this->Session->setFlash(sprintf(__('Die Anmeldung von %s %s wurde gespeichert.', true), $this->data['TourParticipation']['firstname'], $this->data['TourParticipation']['lastname']));
+
+				if(!empty($this->data['TourParticipation']['email']))
+				{
+					$tourParticipation = $this->TourParticipation->find('first', array(
+						'conditions' => array('TourParticipation.id' => $this->Tour->TourParticipation->id),
+						'contain' => array('Tour', 'Tour.TourGroup', 'Tour.TourType', 'Tour.TourGuide', 'Tour.TourGuide.Profile')
+					));
+
+					$this->set(compact('tourParticipation'));
+
+					$this->_sendEmail(
+						$this->data['TourParticipation']['email'],
+						sprintf(__('Deine Touranmeldung zu "%s"', true), $tourParticipation['Tour']['title']),
+						'tours/add_participation_participant'
+					);
+				}
+
+				$this->redirect(array('controller' => 'tours', 'action' => 'view', $tourId));
+			}
+
+			$this->Session->setFlash(__('Beim Speichern der Anmeldung ist ein Fehler aufgetreten.', true));
+		}
+
+		$this->set(array(
+			'tour' => $this->TourParticipation->Tour->find('first', array(
+				'conditions' => array('Tour.id' => $tourId),
+				'contain' => array()
+			)),
+			'countries' => $this->TourParticipation->Country->find('list', array(
+				'order' => array('Country.name' => 'ASC')
+			)),
+			'sacSections' => $this->TourParticipation->SacMainSection->find('list', array(
+				'order' => array('SacMainSection.id' => 'ASC'),
+				'contain' => array()
+			)),
+			'climbingDifficulties' => $this->TourParticipation->Tour->Difficulty->getRockClimbingDifficulties(),
+			'skiAndAlpineTourDifficulties' => $this->TourParticipation->Tour->Difficulty->getSkiAndAlpineTourDifficulties()
+		));
+	}
+	/**
 	 * @auth:requireRole(safetycommittee)
 	 * @auth:Model.TourParticipation.isTourGuideOfRespectiveTour(#arg-0)
 	 */

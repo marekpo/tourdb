@@ -155,19 +155,19 @@ echo $this->Html->div('infoitem',
   <div class="half"><?php
 echo $this->Html->div('infoitem',
 	$this->Html->div('label', __('Kletterniveau im Vorstieg:', true), array('style' => 'width: 230px'))
-	. $this->Html->div('content', $tourParticipation['LeadClimbNiveau']['name'], array('style' => 'width: 160px'))
+	. $this->Html->div('content', $tourParticipation['LeadClimbNiveau']['name'] != null ? $tourParticipation['LeadClimbNiveau']['name'] : __('Keine Erfahrung', true), array('style' => 'width: 160px'))
 );
 echo $this->Html->div('infoitem',
 	$this->Html->div('label', __('Kletterniveau im Nachstieg:', true), array('style' => 'width: 230px'))
-	. $this->Html->div('content', $tourParticipation['SecondClimbNiveau']['name'], array('style' => 'width: 160px'))
+	. $this->Html->div('content', $tourParticipation['SecondClimbNiveau']['name'] != null ? $tourParticipation['SecondClimbNiveau']['name'] : __('Keine Erfahrung', true), array('style' => 'width: 160px'))
 );
 echo $this->Html->div('infoitem',
 	$this->Html->div('label', __('Alpin-/Hochtourenniveau:', true), array('style' => 'width: 230px'))
-	. $this->Html->div('content', $tourParticipation['AlpineTourNiveau']['name'], array('style' => 'width: 160px'))
+	. $this->Html->div('content', $tourParticipation['AlpineTourNiveau']['name'] != null ? $tourParticipation['AlpineTourNiveau']['name'] : __('Keine Erfahrung', true), array('style' => 'width: 160px'))
 );
 echo $this->Html->div('infoitem',
 	$this->Html->div('label', __('Skitourenniveau:', true), array('style' => 'width: 230px'))
-	. $this->Html->div('content', $tourParticipation['SkiTourNiveau']['name'], array('style' => 'width: 160px'))
+	. $this->Html->div('content', $tourParticipation['SkiTourNiveau']['name'] != null ? $tourParticipation['SkiTourNiveau']['name'] : __('Keine Erfahrung', true), array('style' => 'width: 160px'))
 );
 ?></div>
 </div>
