@@ -3,7 +3,7 @@ class TourParticipationsController extends AppController
 {
 	var $name = 'TourParticipations';
 
-	var $helpers = array('Widget', 'Display');
+	var $helpers = array('Widget', 'Display', 'Authorization');
 
 	var $components = array('RequestHandler', 'Email');
 
@@ -52,6 +52,50 @@ class TourParticipationsController extends AppController
 		$this->set(array(
 			'tour' => $this->TourParticipation->Tour->find('first', array(
 				'conditions' => array('Tour.id' => $tourId),
+				'contain' => array()
+			)),
+			'countries' => $this->TourParticipation->Country->find('list', array(
+				'order' => array('Country.name' => 'ASC')
+			)),
+			'sacSections' => $this->TourParticipation->SacMainSection->find('list', array(
+				'order' => array('SacMainSection.id' => 'ASC'),
+				'contain' => array()
+			)),
+			'climbingDifficulties' => $this->TourParticipation->Tour->Difficulty->getRockClimbingDifficulties(),
+			'skiAndAlpineTourDifficulties' => $this->TourParticipation->Tour->Difficulty->getSkiAndAlpineTourDifficulties()
+		));
+	}
+
+	/**
+	 * @auth:Model.TourParticipation.isTourGuideOfRespectiveTour(#arg-0)
+	 */
+	function edit($id)
+	{
+		if(!empty($this->data))
+		{
+			if($this->TourParticipation->save($this->data))
+			{
+				$tourId = $this->TourParticipation->field('tour_id', array('TourParticipation.id' => $id));
+				$this->Session->setFlash(sprintf(__('Die Anmeldung von %s %s wurde gespeichert.', true), $this->data['TourParticipation']['firstname'], $this->data['TourParticipation']['lastname']));
+				$this->redirect(array('controller' => 'tours', 'action' => 'view', $tourId));
+			}
+
+			$this->Session->setFlash(__('Beim Speichern der Anmeldung ist ein Fehler aufgetreten.', true));
+		}
+		else
+		{
+			$this->data = $this->TourParticipation->find('first', array(
+				'conditions' => array('TourParticipation.id' => $id),
+				'contain' => array(
+					'Country', 'LeadClimbNiveau', 'SecondClimbNiveau', 'AlpineTourNiveau', 'SkiTourNiveau',
+					'SacMainSection', 'SacAdditionalSection1', 'SacAdditionalSection2', 'SacAdditionalSection3'
+				)
+			));
+		}
+
+		$this->set(array(
+			'tour' => $this->TourParticipation->Tour->find('first', array(
+				'conditions' => array('Tour.id' => $this->TourParticipation->field('tour_id', array('TourParticipation.id' => $id))),
 				'contain' => array()
 			)),
 			'countries' => $this->TourParticipation->Country->find('list', array(

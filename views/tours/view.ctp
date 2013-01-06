@@ -260,14 +260,14 @@ if($tourParticipations)
 			$tourParticipation['TourParticipationStatus']['statusname']
 		);
 
-		if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT))
-				&& $tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
+		if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)))
 		{
-			$row[] = $this->Html->link(__('Status ändern', true), array(
-				'controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']
-			), array(
-				'class' => 'changeStatus'
-			));
+			$actionLinks = array();
+
+			$actionLinks[] = $this->Authorization->link(__('Status ändern', true), array('controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']), array('class' => 'changeStatus'));
+			$actionLinks[] = $this->Authorization->link(__('bearbeiten', true), array('controller' => 'tour_participations', 'action' => 'edit', $tourParticipation['TourParticipation']['id']), array('class' => 'edit'));
+
+			$row[] = implode(' ', $actionLinks);
 		}
 
 		$tableCells[] = $row;
