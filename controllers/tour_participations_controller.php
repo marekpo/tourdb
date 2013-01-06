@@ -65,6 +65,7 @@ class TourParticipationsController extends AppController
 			'skiAndAlpineTourDifficulties' => $this->TourParticipation->Tour->Difficulty->getSkiAndAlpineTourDifficulties()
 		));
 	}
+
 	/**
 	 * @auth:requireRole(safetycommittee)
 	 * @auth:Model.TourParticipation.isTourGuideOfRespectiveTour(#arg-0)
@@ -150,34 +151,38 @@ class TourParticipationsController extends AppController
 	{
 		if(!empty($this->data))
 		{
-			$tourParticipationInfo = $this->TourParticipation->find('first', array(
-				'conditions' => array('TourParticipation.id' => $id),
-				'contain' => array('User', 'User.Profile', 'Tour', 'Tour.TourGroup', 'TourParticipationStatus')
-			));
+			$tourId = $this->TourParticipation->field('tour_id', array('TourParticipation.id' => $id));
 
-			$redirect = array('controller' => 'tours', 'action' => 'view', $tourParticipationInfo['Tour']['id']);
+			$redirect = array('controller' => 'tours', 'action' => 'view', $tourId);
 
 			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
 			{
 				$this->redirect($redirect);
 			}
 
-			$this->TourParticipation->save($this->data);
+			if($this->TourParticipation->save($this->data))
+			{
+				$this->Session->setFlash(__('Der Status der Touranmeldung wurde geändert.', true));
 
-			$tourGuide = $this->TourParticipation->Tour->find('first', array(
-				'conditions' => array('Tour.id' => $tourParticipationInfo['TourParticipation']['tour_id']),
-				'contain' => array('TourGuide', 'TourGuide.Profile')
-			));
+				$tourParticipation = $this->TourParticipation->find('first', array(
+					'conditions' => array('TourParticipation.id' => $id),
+					'contain' => array('TourParticipationStatus', 'Tour', 'Tour.TourGroup', 'Tour.TourGuide', 'Tour.TourGuide.Profile')
+				));
 
-			$this->set(array(
-				'user' => array('User' => $tourParticipationInfo['User']),
-				'tour' => array('Tour' => $tourParticipationInfo['Tour']),
-				'tourParticipationStatus' => array('TourParticipationStatus' => $tourParticipationInfo['TourParticipationStatus']),
-				'tourGuide' => $tourGuide,
-				'message' => $this->data['TourParticipation']['message']
-			));
+				if(!empty($tourParticipation['TourParticipation']['email']))
+				{
+					$this->set(array(
+						'tourParticipation' => $tourParticipation,
+						'message' => $this->data['TourParticipation']['message']
+					));
 
-			$this->_sendEmail($tourParticipationInfo['User']['email'], __('Statusänderung Anmeldung', true), 'tours/change_tour_participation_status_participant');
+					$this->_sendEmail($tourParticipation['TourParticipation']['email'], __('Statusänderung Anmeldung', true), 'tours/change_tour_participation_status_participant');
+				}
+			}
+			else
+			{
+				$this->Session->setFlash(__('Beim ändern des Anmeldungsstatus ist ein Fehler aufgetreten.', true));
+			}
 
 			$this->redirect($redirect);
 		}
@@ -217,12 +222,12 @@ class TourParticipationsController extends AppController
 	{
 		if(!empty($this->data))
 		{
-			$tourParticipationInfo = $this->TourParticipation->find('first', array(
+			$tourParticipation = $this->TourParticipation->find('first', array(
 				'conditions' => array('TourParticipation.id' => $id),
-				'contain' => array('User', 'User.Profile', 'Tour', 'Tour.TourGroup', 'Tour.TourGuide', 'Tour.TourGuide.Profile')
+				'contain' => array('Tour', 'Tour.TourGroup', 'Tour.TourGuide', 'Tour.TourGuide.Profile')
 			));
 
-			$redirect = array('controller' => 'tours', 'action' => 'view', $tourParticipationInfo['Tour']['id']);
+			$redirect = array('controller' => 'tours', 'action' => 'view', $tourParticipation['Tour']['id']);
 
 			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
 			{
@@ -234,11 +239,11 @@ class TourParticipationsController extends AppController
 			$this->TourParticipation->save($this->data);
 
 			$this->set(array(
-				'tourParticipationInfo' => $tourParticipationInfo,
+				'tourParticipation' => $tourParticipation,
 				'message' => $this->data['TourParticipation']['message']
 			));
 
-			$this->_sendEmail($tourParticipationInfo['Tour']['TourGuide']['email'], __('Anmeldung storniert', true), 'tours/cancel_tour_participation_tourguide');
+			$this->_sendEmail($tourParticipation['Tour']['TourGuide']['email'], __('Anmeldung storniert', true), 'tours/cancel_tour_participation_tourguide');
 
 			$this->Session->setFlash(__('TourenleiterIn wurde über deine Absage informiert.', true));
 			$this->redirect($redirect);

@@ -1,10 +1,12 @@
-Hallo <?php echo $this->Display->displayUsersFirstName($tourParticipationInfo['Tour']['TourGuide']['username'], $tourParticipationInfo['Tour']['TourGuide']['Profile']); ?>!
+Hallo <?php echo $this->Display->displayUsersFirstName($tourParticipation['Tour']['TourGuide']['username'], $tourParticipation['Tour']['TourGuide']['Profile']); ?>!
 
-Der/die TeilnehmerIn <?php echo $this->Display->displayUsersFullName($tourParticipationInfo['User']['username'], $tourParticipationInfo['User']['Profile']); ?> hat soeben seine Teilnahme an der Tour "<?php echo $tourParticipationInfo['Tour']['title']; ?>" (<?php echo $tourParticipationInfo['Tour']['TourGroup']['tourgroupname']; ?>) storniert.
+Der/die TeilnehmerIn <?php printf('%s %s', $tourParticipation['TourParticipation']['firstname'], $tourParticipation['TourParticipation']['lastname']); ?> hat soeben seine Teilnahme an der Tour "<?php echo $tourParticipation['Tour']['title']; ?>" (<?php echo $tourParticipation['Tour']['TourGroup']['tourgroupname']; ?>) storniert.
 
-Benutze bitte für Rückfragen die E-Mail-Adresse <?php echo $tourParticipationInfo['User']['email']; ?>.
+<?php if(!empty($tourParticipation['TourParticipation']['email'])): ?>
+Benutze bitte für Rückfragen die E-Mail-Adresse <?php echo $tourParticipation['TourParticipation']['email']; ?>.
+<?php endif; ?>
 
-Tourlink: <?php echo $this->Html->url(array('controller' => 'tours', 'action' => 'view', $tourParticipationInfo['Tour']['id']), true); ?>
+Tourlink: <?php echo $this->Html->url(array('controller' => 'tours', 'action' => 'view', $tourParticipation['Tour']['id']), true); ?>
 
 <?php if(!empty($message)): ?>
 
