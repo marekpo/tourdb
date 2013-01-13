@@ -117,9 +117,11 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 .popup table .label	{ font-weight: bold; text-align: right; vertical-align: top; }
 
 /* actions */
-a.iconaction			{ width: 16px; height: 16px; display: block; float: left; margin-right: 4px; background: center center no-repeat; }
-a.iconaction.delete		{ background-image: url(../img/bin_closed.png); }
-a.iconaction.email		{ background-image: url(../img/email_go.png); }
+a.iconaction				{ width: 16px; height: 16px; display: block; float: left; margin-right: 4px; background: center center no-repeat; }
+a.iconaction.delete			{ background-image: url(../img/bin_closed.png); }
+a.iconaction.email			{ background-image: url(../img/email_go.png); }
+a.iconaction.edit			{ background-image: url(../img/edit.png); }
+a.iconaction.changestatus	{ background-image: url(../img/change_status.png); }
 
 /* status */
 .tourstatus					{ width: 16px; height: 16px; display: block; float: left; background: center center no-repeat; }

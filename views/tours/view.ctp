@@ -237,7 +237,7 @@ if($tourParticipations)
 	echo $this->Html->tag('h2', __('Anmeldungen', true));
 
 	$tableHeaders = array(
-		$this->Paginator->sort(__('Teilnehmer', true), 'TourParticipation.firstname'),
+		$this->Paginator->sort(__('TeilnehmerIn', true), 'TourParticipation.firstname'),
 		$this->Paginator->sort(__('Anmeldedatum', true), 'TourParticipation.created'),
 		$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.rank'),
 	);
@@ -264,8 +264,8 @@ if($tourParticipations)
 		{
 			$actionLinks = array();
 
-			$actionLinks[] = $this->Authorization->link(__('Status ändern', true), array('controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']), array('class' => 'changeStatus'));
-			$actionLinks[] = $this->Authorization->link(__('bearbeiten', true), array('controller' => 'tour_participations', 'action' => 'edit', $tourParticipation['TourParticipation']['id']), array('class' => 'edit'));
+			$actionLinks[] = $this->Authorization->link('', array('controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']), array('class' => 'iconaction changestatus', 'title' => __('Status ändern', true)));
+			$actionLinks[] = $this->Authorization->link('', array('controller' => 'tour_participations', 'action' => 'edit', $tourParticipation['TourParticipation']['id']), array('class' => 'iconaction edit', 'title' => __('Anmeldung bearbeiten', true)));
 
 			$row[] = implode(' ', $actionLinks);
 		}
@@ -274,7 +274,7 @@ if($tourParticipations)
 	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);
-	$this->Js->buffer(sprintf("$('.changeStatus').click({ id: 'changeTourparticipationStatusDialog', title: '%s' }, TourDB.Util.confirmationDialog);", __('Anmeldestatus ändern', true)));
+	$this->Js->buffer(sprintf("$('.changestatus').click({ id: 'changeTourparticipationStatusDialog', title: '%s' }, TourDB.Util.confirmationDialog);", __('Anmeldestatus ändern', true)));
 }
 
 $this->Js->buffer(sprintf("$('.tours .action.closeregistration').click({ id: 'closeRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung schliessen', true)));
