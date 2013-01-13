@@ -1,5 +1,7 @@
 <?php
-echo $this->Form->create();
+$this->set('title_for_layout', __('Anmeldestatus ändern', true));
+$this->Html->addCrumb($tour['Tour']['title'], array('controller' => 'tours', 'action' => 'view', $tour['Tour']['id']));
+$this->Html->addCrumb(__('Anmeldestatus ändern', true));
 
 if(!empty($this->data['TourParticipation']['id']))
 {

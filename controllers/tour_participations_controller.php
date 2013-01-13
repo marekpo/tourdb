@@ -118,6 +118,11 @@ class TourParticipationsController extends AppController
 		));
 
 		$this->set(array(
+			'tour' => $this->TourParticipation->find('first', array(
+				'fields' => array('Tour.id', 'Tour.title'),
+				'conditions' => array('TourParticipation.id' => $id),
+				'contain' => array('Tour')
+			)),
 			'tourParticipationStatuses' => $this->TourParticipation->TourParticipationStatus->find('list', array(
 				'conditions' => array(
 					'NOT' => array(
