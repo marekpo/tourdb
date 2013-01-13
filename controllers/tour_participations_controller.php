@@ -130,9 +130,21 @@ class TourParticipationsController extends AppController
 			)
 		));
 
-		$this->set(array(
-			'tourParticipation' => $tourParticipation
-		));
+		$confirmedTourParticipations = array();
+
+		if(!empty($tourParticipation['TourParticipation']['user_id']))
+		{
+			$confirmedTourParticipations = $this->TourParticipation->find('all', array(
+				'conditions' => array(
+					'TourParticipation.user_id' => $tourParticipation['TourParticipation']['user_id'],
+					'TourParticipationStatus.key' => TourParticipationStatus::AFFIRMED
+				),
+				'contain' => array('Tour', 'Tour.TourStatus', 'Tour.TourType', 'Tour.Difficulty', 'Tour.ConditionalRequisite', 'TourParticipationStatus'),
+				'order' => array('Tour.startdate' => 'desc')
+			));
+		}
+
+		$this->set(compact('tourParticipation', 'confirmedTourParticipations'));
 	}
 
 	/**

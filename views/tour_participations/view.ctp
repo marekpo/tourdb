@@ -201,3 +201,27 @@ if(!empty($tourParticipation['TourParticipation']['note_participant']))
 
 	echo $this->Html->para('', $tourParticipation['TourParticipation']['note_participant']);
 }
+
+if(!empty($confirmedTourParticipations))
+{
+	echo $this->Html->tag('h2', __('Bestätigte Tourenanmeldungen', true));
+
+	$tourParticipationHeaders = array(
+		'', __('Datum', true), __('Tag', true), __('Tourbezeichnung', true), __('Code', true)
+	);
+
+	$tourParticipationRows = array();
+
+	foreach($confirmedTourParticipations as $confirmedTourParticipation)
+	{
+		$tourParticipationRows[] = array(
+			$this->TourDisplay->getStatusLink($confirmedTourParticipation['Tour'], 'view'),
+			$this->Time->format('d.m.Y', $confirmedTourParticipation['Tour']['startdate']),
+			$this->Display->getDayOfWeekText($confirmedTourParticipation['Tour']['startdate'], $confirmedTourParticipation['Tour']['enddate']),
+			$this->Html->link($confirmedTourParticipation['Tour']['title'], array('controller' => 'tours', 'action' => 'view', $confirmedTourParticipation['Tour']['id'])),
+			$this->TourDisplay->getClassification($confirmedTourParticipation)
+		);
+	}
+
+	echo $this->Widget->table($tourParticipationHeaders, $tourParticipationRows);
+}
