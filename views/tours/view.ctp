@@ -238,6 +238,7 @@ if($tourParticipations)
 
 	$tableHeaders = array(
 		$this->Paginator->sort(__('TeilnehmerIn', true), 'TourParticipation.firstname'),
+		__('Erfasser', true),
 		$this->Paginator->sort(__('Anmeldedatum', true), 'TourParticipation.created'),
 		$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.rank'),
 	);
@@ -251,11 +252,22 @@ if($tourParticipations)
 
 	foreach($tourParticipations as $tourParticipation)
 	{
+		$signupUser = '';
+		if($tourParticipation['TourParticipation']['signup_user_id'] == $this->Session->read('Auth.User.id'))
+		{
+			$signupUser = __('Ich', true);
+		}
+		elseif($tourParticipation['TourParticipation']['signup_user_id'] != $tourParticipation['TourParticipation']['user_id'])
+		{
+			$signupUser = $this->Display->displayUsersFullName($tourParticipation['SignupUser']['username'], $tourParticipation['SignupUser']['Profile']);
+		}
+
 		$row = array(
 			$this->Html->link(
 				sprintf('%s %s', $tourParticipation['TourParticipation']['firstname'], $tourParticipation['TourParticipation']['lastname']),
 				array('controller' => 'tour_participations', 'action' => 'view', $tourParticipation['TourParticipation']['id'])
 			),
+			$signupUser,
 			$this->Time->format('d.m.Y', $tourParticipation['TourParticipation']['created']),
 			$tourParticipation['TourParticipationStatus']['statusname']
 		);
