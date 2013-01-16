@@ -30,7 +30,7 @@ class TourParticipationsController extends AppController
 				if(!empty($this->data['TourParticipation']['email']))
 				{
 					$tourParticipation = $this->TourParticipation->find('first', array(
-						'conditions' => array('TourParticipation.id' => $this->Tour->TourParticipation->id),
+						'conditions' => array('TourParticipation.id' => $this->TourParticipation->id),
 						'contain' => array('Tour', 'Tour.TourGroup', 'Tour.TourType', 'Tour.TourGuide', 'Tour.TourGuide.Profile')
 					));
 
