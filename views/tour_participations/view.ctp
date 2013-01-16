@@ -96,7 +96,7 @@ if($tourParticipation['TourParticipation']['sac_member'])
 {
 	echo $this->Html->div('infoitem',
 		$this->Html->div('label', __('Mitgliedernummer:', true))
-		. $this->Html->div('content', $tourParticipation['TourParticipation']['sac_membership_number'])
+		. $this->Html->div('content', (!empty($tourParticipation['TourParticipation']['sac_membership_number']) ? $tourParticipation['TourParticipation']['sac_membership_number'] : ''))
 	);
 
 	$sections = array();
