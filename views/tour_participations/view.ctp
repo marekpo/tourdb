@@ -189,9 +189,49 @@ if(!empty($tourParticipation['TourParticipation']['ownpassengercar']))
 {
 	echo $this->Html->div('infoitem',
 		$this->Html->div('label', __('Eigener PKW:', true), array('style' => 'width: 230px'))
-		. $this->Html->div('content', sprintf('Ja, %s', ($tourParticipation['TourParticipation']['freeseatsinpassengercar']
+		. $this->Html->div('content', sprintf(__('Ja, %s', true), ($tourParticipation['TourParticipation']['freeseatsinpassengercar']
 			? sprintf(__n('%d Sitzplatz vorhanden', '%d Sitzplätze vorhanden', $tourParticipation['TourParticipation']['freeseatsinpassengercar'], true), $tourParticipation['TourParticipation']['freeseatsinpassengercar'])
 			: __('Kein Sitzplatz vorhanden', true))))
+	);
+}
+
+if(!empty($tourParticipation['TourParticipation']['ownsinglerope'])
+	|| !empty($tourParticipation['TourParticipation']['ownhalfrope'])
+	|| !empty($tourParticipation['TourParticipation']['owntent'])
+	|| !empty($tourParticipation['TourParticipation']['additionalequipment']))
+{
+	echo $this->Html->tag('h2', __('Ausrüstung', true));
+}
+
+if(!empty($tourParticipation['TourParticipation']['ownsinglerope']))
+{
+	echo $this->Html->div('infoitem',
+		$this->Html->div('label', __('Eigenes Einfachseil', true), array('style' => 'width: 230px'))
+		. $this->Html->div('content', sprintf(__('Ja, %dm', true), $tourParticipation['TourParticipation']['lengthsinglerope']))
+	);
+}
+
+if(!empty($tourParticipation['TourParticipation']['ownhalfrope']))
+{
+	echo $this->Html->div('infoitem',
+		$this->Html->div('label', __('Eigenes Halbseil', true), array('style' => 'width: 230px'))
+		. $this->Html->div('content', sprintf(__('Ja, %dm', true), $tourParticipation['TourParticipation']['lengthhalfrope']))
+	);
+}
+
+if(!empty($tourParticipation['TourParticipation']['owntent']))
+{
+	echo $this->Html->div('infoitem',
+		$this->Html->div('label', __('Eigenes Zelt', true), array('style' => 'width: 230px'))
+		. $this->Html->div('content', __('Ja', true))
+	);
+}
+
+if(!empty($tourParticipation['TourParticipation']['additionalequipment']))
+{
+	echo $this->Html->div('infoitem',
+		$this->Html->div('label', __('Zus. Ausrüstung', true), array('style' => 'width: 230px'))
+		. $this->Html->div('content', $tourParticipation['TourParticipation']['additionalequipment'])
 	);
 }
 

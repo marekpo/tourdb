@@ -51,7 +51,16 @@ class M50483ec8fd5c47afbe4b0f201b2c2a9b extends CakeMigration {
 					'lead_climb_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'experience_avalanche_training'),
 					'second_climb_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'lead_climb_niveau_id'),
 					'alpine_tour_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'second_climb_niveau_id'),
-					'ski_tour_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'alpine_tour_niveau_id')
+					'ski_tour_niveau_id' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 36, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'alpine_tour_niveau_id'),
+					'publictransportsubscription' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'after' => 'ski_tour_niveau_id'),
+					'ownpassengercar' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'after' => 'publictransportsubscription'),
+					'freeseatsinpassengercar' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'after' => 'ownpassengercar'),
+					'ownsinglerope' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'after' => 'freeseatsinpassengercar'),
+					'lengthsinglerope' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'after' => 'ownsinglerope'),
+					'ownhalfrope' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'after' => 'lengthsinglerope'),
+					'lengthhalfrope' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'after' => 'ownhalfrope'),
+					'owntent' => array('type' => 'boolean', 'null' => true, 'default' => '0', 'after' => 'lengthhalfrope'),
+					'additionalequipment' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_general_ci', 'charset' => 'utf8', 'after' => 'owntent')
 				)
 			)
 		),
@@ -65,7 +74,9 @@ class M50483ec8fd5c47afbe4b0f201b2c2a9b extends CakeMigration {
 					'sac_member', 'sac_membership_number', 'sac_main_section_id', 'sac_additional_section1_id',
 					'sac_additional_section2_id', 'sac_additional_section3_id', 'experience_rope_guide',
 					'experience_knot_technique', 'experience_rope_handling', 'experience_avalanche_training',
-					'lead_climb_niveau_id', 'second_climb_niveau_id', 'alpine_tour_niveau_id', 'ski_tour_niveau_id'
+					'lead_climb_niveau_id', 'second_climb_niveau_id', 'alpine_tour_niveau_id', 'ski_tour_niveau_id',
+					'publictransportsubscription', 'ownpassengercar', 'freeseatsinpassengercar', 'ownsinglerope',
+					'lengthsinglerope', 'ownhalfrope', 'lengthhalfrope', 'owntent', 'additionalequipment'
 				)
 			)
 		)
@@ -139,7 +150,16 @@ class M50483ec8fd5c47afbe4b0f201b2c2a9b extends CakeMigration {
 					'lead_climb_niveau_id' => $profile['Profile']['lead_climb_niveau_id'],
 					'second_climb_niveau_id' => $profile['Profile']['second_climb_niveau_id'],
 					'alpine_tour_niveau_id' => $profile['Profile']['alpine_tour_niveau_id'],
-					'ski_tour_niveau_id' => $profile['Profile']['ski_tour_niveau_id']
+					'ski_tour_niveau_id' => $profile['Profile']['ski_tour_niveau_id'],
+					'publictransportsubscription' => $profile['Profile']['publictransportsubscription'],
+					'ownpassengercar' => $profile['Profile']['ownpassengercar'],
+					'freeseatsinpassengercar' => $profile['Profile']['freeseatsinpassengercar'],
+					'ownsinglerope' => $profile['Profile']['ownsinglerope'],
+					'lengthsinglerope' => $profile['Profile']['lengthsinglerope'],
+					'ownhalfrope' => $profile['Profile']['ownhalfrope'],
+					'lengthhalfrope' => $profile['Profile']['lengthhalfrope'],
+					'owntent' => $profile['Profile']['owntent'],
+					'additionalequipment' => $profile['Profile']['additionalequipment']
 				));
 
 				$TourParticipation->save($tourParticipation);

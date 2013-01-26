@@ -146,6 +146,35 @@ class TourParticipation extends AppModel
 		),
 	);
 
+	function beforeSave($options = array())
+	{
+		if(isset($this->data['TourParticipation']['sac_member']) && !$this->data['TourParticipation']['sac_member'])
+		{
+			$this->data['TourParticipation']['sac_membership_number'] = null;
+			$this->data['TourParticipation']['sac_main_section_id'] = null;
+			$this->data['TourParticipation']['sac_additional_section1_id'] = null;
+			$this->data['TourParticipation']['sac_additional_section2_id'] = null;
+			$this->data['TourParticipation']['sac_additional_section3_id'] = null;
+		}
+
+		if(isset($this->data['TourParticipation']['ownpassengercar']) && !$this->data['TourParticipation']['ownpassengercar'])
+		{
+			$this->data['TourParticipation']['freeseatsinpassengercar'] = null;
+		}
+
+		if(isset($this->data['TourParticipation']['ownsinglerope']) && !$this->data['TourParticipation']['ownsinglerope'])
+		{
+			$this->data['TourParticipation']['lengthsinglerope'] = null;
+		}
+
+		if(isset($this->data['TourParticipation']['ownhalfrope']) && !$this->data['TourParticipation']['ownhalfrope'])
+		{
+			$this->data['TourParticipation']['lengthhalfrope'] = null;
+		}
+
+		return true;
+	}
+
 	function createTourParticipation($tourId, $userId, $signupUserId, $data = array())
 	{
 		$tourParticipationStatusId = $this->TourParticipationStatus->field('id', array('key' => TourParticipationStatus::REGISTERED));

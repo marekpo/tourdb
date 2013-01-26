@@ -7,7 +7,7 @@ $emergencyContactsOffset = 9;
 $experienceInformationOffset = $exportEmergencyContacts ? $emergencyContactsOffset + 3 : $emergencyContactsOffset;
 $additionalInformationOffset = $exportExperienceInformation ? $experienceInformationOffset + 8 : $experienceInformationOffset;
 
-$endColumn = $emergencyContactsOffset + ($exportEmergencyContacts ? 3 : 0) + ($exportExperienceInformation ? 8 : 0) + ($exportAdditionalInformation ? 8 : 0) - 1;
+$endColumn = $emergencyContactsOffset + ($exportEmergencyContacts ? 3 : 0) + ($exportExperienceInformation ? 8 : 0) + ($exportAdditionalInformation ? 10 : 0) - 1;
 
 /* sac section name */
 $rowOffset = 2;
@@ -144,11 +144,15 @@ if($exportAdditionalInformation)
 	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(6.75);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Eigenes Halbseilpaar', true));
 	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(6.75);
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Eigenes Zelt', true));
+	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(6.75);
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Zusätzliche Ausrüstung', true));
+	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(30.75);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('SAC-Sektion', true));
 	$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(22.75);
 
 	$this->Excel->getActiveSheet()->getStyle(sprintf(
-			'%2$s%1$d:%3$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($additionalInformationOffset + 2), PHPExcel_Cell::stringFromColumnIndex($additionalInformationOffset + 6)
+			'%2$s%1$d:%3$s%1$d', $rowOffset, PHPExcel_Cell::stringFromColumnIndex($additionalInformationOffset + 2), PHPExcel_Cell::stringFromColumnIndex($additionalInformationOffset + 7)
 	))->applyFromArray(array('alignment' => array('rotation' => 90)));
 }
 
@@ -202,6 +206,9 @@ if($exportAdditionalInformation)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['freeseatsinpassengercar']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, ($tour['TourGuide']['Profile']['ownsinglerope'] ? sprintf('%dm', $tour['TourGuide']['Profile']['lengthsinglerope']) : ''));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, ($tour['TourGuide']['Profile']['ownhalfrope'] ? sprintf('%dm', $tour['TourGuide']['Profile']['lengthhalfrope']) : ''));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, ($tour['TourGuide']['Profile']['owntent'] ? __('Ja', true) : __('Nein', true)));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, $tour['TourGuide']['Profile']['additionalequipment']);
+	$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset)->getAlignment()->setWrapText(true);
 	/*SAC Membership*/
 	$sacMembershipCell = "";
 	if($tour['TourGuide']['Profile']['sac_member'] <= 1)
@@ -264,11 +271,14 @@ foreach($tourParticipations as $tourParticipation)
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipation']['note_participant']);
 		$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset + $index)->getAlignment()->setWrapText(true);
 		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipationStatus']['statusname']);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayPublicTransportSubscription($tourParticipation['User']['Profile']['publictransportsubscription']));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['User']['Profile']['ownpassengercar'] ? __('Ja', true) : __('Nein', true)));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['User']['Profile']['freeseatsinpassengercar']);
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['User']['Profile']['ownsinglerope'] ? sprintf('%dm', $tourParticipation['User']['Profile']['lengthsinglerope']) : ''));
-		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['User']['Profile']['ownhalfrope'] ? sprintf('%dm', $tourParticipation['User']['Profile']['lengthhalfrope']) : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayPublicTransportSubscription($tourParticipation['TourParticipation']['publictransportsubscription']));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['TourParticipation']['ownpassengercar'] ? __('Ja', true) : __('Nein', true)));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipation']['freeseatsinpassengercar']);
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['TourParticipation']['ownsinglerope'] ? sprintf('%dm', $tourParticipation['TourParticipation']['lengthsinglerope']) : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['TourParticipation']['ownhalfrope'] ? sprintf('%dm', $tourParticipation['TourParticipation']['lengthhalfrope']) : ''));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tourParticipation['TourParticipation']['owntent'] ? __('Ja', true) : __('Nein', true)));
+		$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tourParticipation['TourParticipation']['additionalequipment']);
+		$this->Excel->getActiveSheet()->getStyleByColumnAndRow($cell - 1, $rowOffset + $index)->getAlignment()->setWrapText(true);
 		/*SAC Membership*/
 		$sacMembershipCell = "";
 		if($tourParticipation['TourParticipation']['sac_member'] <= 1)

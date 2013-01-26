@@ -216,4 +216,54 @@ $this->Js->buffer("if($('#TourParticipationSacMember').val() == 1) { $('#sacmemb
 	));
 ?>
   </fieldset>
+
+  <fieldset class="mobility">
+    <legend><?php __('Mobilität'); ?></legend>
+<?php
+echo $this->Form->input('TourParticipation.publictransportsubscription', array(
+	'label' => __('ÖV-Abo', true), 'empty' => __('Keins', true),
+	'options' => $this->Display->getPublictransportSubscriptionOptions(), 'tabindex' => 32
+));
+echo $this->Form->input('TourParticipation.ownpassengercar', array(
+	'label' => __('Eigener PKW', true), 'tabindex' => 33,
+	'after' => $this->Form->input('TourParticipation.freeseatsinpassengercar', array(
+		'tabindex' => 34, 'label' => __('Freie Plätze im eigenen PKW', true), 'error' => array(
+			'correctFormat' => __('Bitte gib hier eine ganze Zahl ein.', true)
+		)
+	))
+));
+$this->Js->buffer("$('#TourParticipationOwnpassengercar').click(function(event) { $(event.target).siblings('.input').css('visibility', (event.target.checked ? 'visible' : 'hidden')); });");
+$this->Js->buffer("$('#TourParticipationFreeseatsinpassengercar').parent().css('visibility', ($('#TourParticipationOwnpassengercar').prop('checked') ? 'visible' : 'hidden'));");
+?>
+  </fieldset>
+
+  <fieldset class="equipment">
+    <legend><?php __('Ausrüstung'); ?></legend>
+<?php
+echo $this->Form->input('TourParticipation.ownsinglerope', array(
+	'label' => __('Eigenes Einfachseil vorhanden', true), 'tabindex' => 35,
+	'after' => $this->Form->input('TourParticipation.lengthsinglerope', array(
+		'tabindex' => 36, 'label' => __('Länge in Meter', true), 'error' => array(
+			'correctFormat' => __('Bitte gib hier die Länge in Meter ein. Beispiel: 40', true)
+		)
+	))
+));
+$this->Js->buffer("$('#TourParticipationOwnsinglerope').click(function(event) { $(event.target).siblings('.input').css('visibility', (event.target.checked ? 'visible' : 'hidden')); });");
+$this->Js->buffer("$('#TourParticipationLengthsinglerope').parent().css('visibility', ($('#TourParticipationOwnsinglerope').prop('checked') ? 'visible' : 'hidden'));");
+echo $this->Form->input('TourParticipation.ownhalfrope', array(
+	'label' => __('Eigenes Halbseilpaar vorhanden', true), 'tabindex' => 37,
+	'after' => $this->Form->input('TourParticipation.lengthhalfrope', array(
+		'tabindex' => 38,'label' => __('Länge in Meter', true), 'error' => array(
+			'correctFormat' => __('Bitte gib hier die Länge in Meter ein. Beispiel: 60', true)
+		)
+	))
+));
+$this->Js->buffer("$('#TourParticipationOwnhalfrope').click(function(event) { $(event.target).siblings('.input').css('visibility', (event.target.checked ? 'visible' : 'hidden')); });");
+$this->Js->buffer("$('#TourParticipationLengthhalfrope').parent().css('visibility', ($('#TourParticipationOwnhalfrope').prop('checked') ? 'visible' : 'hidden'));");
+echo $this->Form->input('TourParticipation.owntent', array('label' => __('Eigenes Zelt vorhanden', true), 'tabindex' => 39));
+echo $this->Html->para('', __('Im folgenden Feld kann weitere Ausrüstung angeben werde, die für die Tour zur Verfügung gestellt werden kann (z.B. Expressen, etc.).', true));
+echo $this->Form->input('TourParticipation.additionalequipment', array('label' => __('Zus. Ausrüstung', true), 'tabindex' => 40));
+
+?>
+  </fieldset>
 </div>
