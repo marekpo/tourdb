@@ -1,4 +1,9 @@
 <?php
+if(!isset($showEmail))
+{
+	$showEmail = false;
+}
+
 if(!empty($this->data['TourParticipation']['id']))
 {
 	echo $this->Form->hidden('TourParticipation.id');
@@ -84,11 +89,11 @@ echo $this->Html->div('columncontainer',
 				'validPhone' => __('Die Telefonnumer darf nur Pluszeichen (+), Leerzeichen ( ) und Ziffern (0-9) beinhalten.', true)
 			)
 		))
-		. $this->Form->input('TourParticipation.email', array(
+		. ($showEmail ? $this->Form->input('TourParticipation.email', array(
 			'label' => __('E-Mail', true), 'tabindex' => 12, 'error' => array(
 				'validEmail' => __('Gib bitte eine gültige E-Mail-Adresse ein oder lass das Feld leer.', true)
 			)
-		))
+		)) : '')
 	)
 );
 ?>

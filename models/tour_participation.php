@@ -175,20 +175,47 @@ class TourParticipation extends AppModel
 		return true;
 	}
 
-	function createTourParticipation($tourId, $userId, $signupUserId, $data = array())
+	/**
+	 * This method creates a new tour participation. If the parameter
+	 * $updateProfile is set to true, the
+	 *
+	 * @param string $tourId
+	 * 		The id of the tour the new tour participation should be created
+	 * 		for.
+	 * @param string $userId
+	 * 		The id of the user the new tour participation should be created
+	 * 		for (may be null).
+	 * @param string $signupUserId
+	 * 		The id of the user that creates the new tour participation.
+	 * @param array $data
+	 * 		An array containing the data for the new tour participation.
+	 * @param boolean $updateProfile
+	 * 		Indicates, whether the user's profile should be updated after the
+	 * 		new tour participation has been created successfully.
+	 *
+	 * @return array|boolean
+	 *		If the new tour participation has been created successfully, the
+	 *		created record is returned. If the creation was not successfull,
+	 *		false will be returned.
+	 */
+	function createTourParticipation($tourId, $userId, $signupUserId, $data = array(), $updateProfile = false)
 	{
 		$tourParticipationStatusId = $this->TourParticipationStatus->field('id', array('key' => TourParticipationStatus::REGISTERED));
 
-		$this->create(array(
-			'TourParticipation' => array_merge($data, array(
-				'tour_id' => $tourId,
-				'user_id' => $userId,
-				'signup_user_id' => $signupUserId,
-				'tour_participation_status_id' => $tourParticipationStatusId
-			))
-		));
+		$newTourParticipationData = $data;
+		$newTourParticipationData['TourParticipation']['tour_id'] = $tourId;
+		$newTourParticipationData['TourParticipation']['user_id'] = $userId;
+		$newTourParticipationData['TourParticipation']['signup_user_id'] = $signupUserId;
+		$newTourParticipationData['TourParticipation']['tour_participation_status_id'] = $tourParticipationStatusId;
 
-		return $this->save();
+		$saveResult = $this->save($newTourParticipationData);
+
+		if($updateProfile && !empty($userId) && $saveResult !== false)
+		{
+			$this->User->Profile->updateProfile($userId, array('Profile' => $data['TourParticipation']));
+		}
+
+		return $saveResult;
 	}
 
 	function tourParticipationExists($tourId, $userId)
@@ -212,6 +239,42 @@ class TourParticipation extends AppModel
 			),
 			'contain' => array('TourParticipationStatus')
 		));
+	}
+
+	/**
+	 * This method returns the initial tour participation data from the
+	 * specified user's profile.
+	 *
+	 * @param string $userId
+	 * 		The id of the user that you want to get the initial tour
+	 * 		participation data for.
+	 *
+	 * @return array|null
+	 * 		Returns the initial tour participation data, or null, if the user
+	 * 		currently has no profile.
+	 */
+	function getInitialTourParticipationData($userId)
+	{
+		$profile = $this->User->Profile->find('first', array(
+			'fields' => array(
+				'Profile.firstname', 'Profile.lastname', 'Profile.street', 'Profile.housenumber',
+				'Profile.extraaddressline', 'Profile.zip', 'Profile.city', 'Profile.country_id',
+				'Profile.phoneprivate', 'Profile.phonebusiness', 'Profile.cellphone', 'Profile.emergencycontact1_address',
+				'Profile.emergencycontact1_phone', 'Profile.emergencycontact1_email', 'Profile.emergencycontact2_address',
+				'Profile.emergencycontact2_phone', 'Profile.emergencycontact2_email', 'Profile.sac_member',
+				'Profile.sac_membership_number', 'Profile.sac_main_section_id', 'Profile.sac_additional_section1_id',
+				'Profile.sac_additional_section2_id', 'Profile.sac_additional_section3_id', 'Profile.experience_rope_guide',
+				'Profile.experience_knot_technique', 'Profile.experience_rope_handling', 'Profile.experience_avalanche_training',
+				'Profile.lead_climb_niveau_id', 'Profile.second_climb_niveau_id', 'Profile.alpine_tour_niveau_id',
+				'Profile.ski_tour_niveau_id', 'Profile.publictransportsubscription', 'Profile.ownpassengercar',
+				'Profile.freeseatsinpassengercar', 'Profile.ownsinglerope', 'Profile.lengthsinglerope',
+				'Profile.ownhalfrope', 'Profile.lengthhalfrope', 'Profile.owntent', 'Profile.additionalequipment',
+			),
+			'conditions' => array('Profile.user_id' => $userId),
+			'contain' => array()
+		));
+
+		return !empty($profile) ? array('TourParticipation' => $profile['Profile']) : null;
 	}
 
 	function mayBeCanceledByUser($id = null)

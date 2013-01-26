@@ -20,7 +20,7 @@ class TourParticipationsController extends AppController
 		if(!empty($this->data))
 		{
 			$tourParticipation = $this->TourParticipation->createTourParticipation(
-				$tourId, null, $this->Auth->user('id'), $this->data['TourParticipation']
+				$tourId, null, $this->Auth->user('id'), $this->data
 			);
 
 			if($tourParticipation)
@@ -145,6 +145,94 @@ class TourParticipationsController extends AppController
 		}
 
 		$this->set(compact('tourParticipation', 'confirmedTourParticipations'));
+	}
+
+	/**
+	 * This action allows a user to signup for the specified tour.
+	 *
+	 * @param string $tourId
+	 * 		The id of the tour that the current user wants to signup for.
+	 *
+	 * @auth:requireRole(user)
+	 */
+	function participantSignUp($tourId = null)
+	{
+		if(!$this->TourParticipation->Tour->find('count', array('conditions' => array('Tour.id' => $tourId))))
+		{
+			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
+			$this->redirect('/');
+		}
+
+		if(!$this->TourParticipation->Tour->field('signuprequired', array('Tour.id' => $tourId)))
+		{
+			$this->Session->setFlash(__('Für diese Tour ist keine Anmeldung erforderlich.', true));
+			$this->redirect(array('action' => 'view', $tourId));
+		}
+
+		if($this->TourParticipation->tourParticipationExists($tourId, $this->Auth->user('id')))
+		{
+			$this->Session->setFlash(__('Du bist bereits für diese Tour angemeldet.', true));
+			$this->redirect(array('action' => 'view', $tourId));
+		}
+
+		if(!empty($this->data))
+		{
+			$this->data['TourParticipation']['email'] = $this->Auth->user('email');
+
+			if($this->TourParticipation->createTourParticipation($tourId, $this->Auth->user('id'), $this->Auth->user('id'), $this->data, true))
+			{
+				$tourParticipation = $this->TourParticipation->find('first', array(
+					'conditions' => array('TourParticipation.id' => $this->TourParticipation->id),
+					'contain' => array(
+						'Tour', 'Tour.TourGuide', 'Tour.TourGuide.Profile', 'Tour.TourGroup',
+						'Tour.TourType', 'Country', 'LeadClimbNiveau', 'SecondClimbNiveau', 'AlpineTourNiveau',
+						'SkiTourNiveau', 'SacMainSection', 'SacAdditionalSection1', 'SacAdditionalSection2', 'SacAdditionalSection3'
+					)
+				));
+
+				$this->set(array(
+					'tourParticipation' => $tourParticipation
+				));
+
+				$this->_sendEmail(
+						$this->Auth->user('email'),
+						sprintf(__('Deine Touranmeldung zu "%s"', true), $tourParticipation['Tour']['title']),
+						'tours/signup_participant'
+				);
+
+				$this->_sendEmail(
+						$tourParticipation['Tour']['TourGuide']['email'],
+						sprintf(__('Neue Anmeldung zu "%s"', true), $tourParticipation['Tour']['title']),
+						'tours/signup_tourguide'
+				);
+
+				$this->Session->setFlash(__('Deine Anmeldung zu dieser Tour wurde gespeichert.', true));
+				$this->redirect(array('controller' => 'tours', 'action' => 'view', $tourId));
+			}
+
+			$this->Session->setFlash(__('Beim Anmelden ist ein Fehler aufgetreten.', true));
+		}
+		else
+		{
+			$this->data = $this->TourParticipation->getInitialTourParticipationData($this->Auth->user('id'));
+		}
+
+		$this->set(array(
+			'tour' => $this->TourParticipation->Tour->find('first', array(
+				'fields' => array('Tour.id', 'Tour.title'),
+				'conditions' => array('Tour.id' => $tourId),
+				'contain' => array()
+			)),
+			'countries' => $this->TourParticipation->Country->find('list', array(
+				'order' => array('Country.name' => 'ASC')
+			)),
+			'sacSections' => $this->TourParticipation->SacMainSection->find('list', array(
+				'order' => array('SacMainSection.id' => 'ASC'),
+				'contain' => array()
+			)),
+			'climbingDifficulties' => $this->TourParticipation->Tour->Difficulty->getRockClimbingDifficulties(),
+			'skiAndAlpineTourDifficulties' => $this->TourParticipation->Tour->Difficulty->getSkiAndAlpineTourDifficulties()
+		));
 	}
 
 	/**

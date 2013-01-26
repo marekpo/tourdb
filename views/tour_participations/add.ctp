@@ -5,7 +5,7 @@ $this->Html->addCrumb(__('Teilnehmer hinzufügen', true));
 
 echo $this->Form->create(false, array('url' => array($tour['Tour']['id'])));
 
-echo $this->element('../tour_participations/elements/tour_participation_form');
+echo $this->element('../tour_participations/elements/tour_participation_form', array('showEmail' => true));
 ?>
 <fieldset class="note">
   <legend><?php __('Mitteilung des Teilnehmers/der Teilnehmerin'); ?></legend>

@@ -177,7 +177,7 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 	{
 		echo $this->Html->div('columncontainer',
 			$this->Html->div('third',
-				$this->Form->create(false, array('type' => 'GET', 'url' => array('action' => 'signUp', $tour['Tour']['id'])))
+				$this->Form->create(false, array('type' => 'GET', 'url' => array('controller' => 'tour_participations', 'action' => 'participantSignUp', $tour['Tour']['id'])))
 				. $this->Form->submit(__('Zur Tour anmelden', true), array('div' => array('class' => 'submit obtrusive'), 'disabled' => !$this->Session->check('Auth.User')))
 				. $this->Form->end()
 			)
