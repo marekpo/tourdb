@@ -19,16 +19,16 @@ class Profile extends AppModel
 			'className' => 'Difficulty',
 		),
 		'SacMainSection' => array(
-			'className' => 'SacSection'			
+			'className' => 'SacSection'
 		),
 		'SacAdditionalSection1' => array(
-			'className' => 'SacSection'			
+			'className' => 'SacSection'
 		),
 		'SacAdditionalSection2' => array(
-			'className' => 'SacSection'			
+			'className' => 'SacSection'
 		),
 		'SacAdditionalSection3' => array(
-			'className' => 'SacSection'			
+			'className' => 'SacSection'
 		)
 	);
 
@@ -87,7 +87,7 @@ class Profile extends AppModel
 		'phonebusiness' => array(
 			'validPhone' => array(
 				'rule' => 'validatePhone',
-	        	'allowEmpty' => true				
+	        	'allowEmpty' => true
 			)
 		),
 		'cellphone' => array(
@@ -95,7 +95,7 @@ class Profile extends AppModel
 				'rule' => 'validatePhone',
 				'allowEmpty' => true
 			)
-		),	
+		),
 		'emergencycontact1_address' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty'
@@ -113,7 +113,7 @@ class Profile extends AppModel
 		'emergencycontact2_phone' => array(
 			'validPhone' => array(
 				'rule' => 'validatePhone',
-	            'allowEmpty' => true					
+	            'allowEmpty' => true
 			)
 		),
 		'emergencycontact1_email' => array(
@@ -121,7 +121,7 @@ class Profile extends AppModel
 				'rule' => 'email',
 				'allowEmpty' => true
 			)
-		),		
+		),
 		'emergencycontact2_email' => array(
 			'correctFormat' => array(
 				'rule' => 'email',
@@ -150,7 +150,13 @@ class Profile extends AppModel
 				'notEmpty' => array(
 						'rule' => 'notEmpty'
 				)
-		),		
+		),
+		'birthdate' => array(
+			'correctDateOrEmpty' => array(
+				'rule' => array('date','dmy'),
+				'allowEmpty' => true
+				)
+		)
 	);
 
 	function beforeSave($options = array())
@@ -210,7 +216,7 @@ class Profile extends AppModel
 			{
 				$results['age'] = $this->__calculateAge($results['birthdate']);
 			}
-		}	
+		}
 
 		return $results;
 	}

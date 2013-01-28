@@ -60,7 +60,11 @@ echo $this->Form->input('Profile.additionalequipment', array('label' => __('Zus.
     <legend><?php __('Weitere Angaben'); ?></legend>
 <?php
 echo $this->Widget->dateTime('Profile.birthdate', array(
-	'label' => __('Geburtstag', true), 'datepicker' => array(
+	'label' => __('Geburtstag', true),
+	'error' => array(
+				'correctDateOrEmpty' => __('Der Geburtstag muss ein gültiges Datum oder leer sein.', true)
+	),
+	'datepicker' => array(
 		'changeMonth' => true, 'changeYear' => true, 'minDate' => "'-90y'", 'maxDate' => "'-3y'", 'yearRange' => "'-90:-3'"
 	)
 ));
