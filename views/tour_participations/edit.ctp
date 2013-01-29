@@ -6,7 +6,7 @@ $this->Html->addCrumb($title);
 
 echo $this->Form->create();
 
-echo $this->element('../tour_participations/elements/tour_participation_form');
+echo $this->element('../tour_participations/elements/tour_participation_form', array('showEmail' => true));
 ?>
 <fieldset class="note">
   <legend><?php __('Mitteilung des Teilnehmers/der Teilnehmerin'); ?></legend>
