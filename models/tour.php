@@ -471,28 +471,14 @@ class Tour extends AppModel
 		foreach($tours as $index => $tour)
 		{
 			$memberStateCount = $this->TourParticipation->find('all', array(
-				'fields' => array('Profile.sac_member', 'COUNT(*) AS `count`'),
+				'fields' => array('TourParticipation.sac_member', 'COUNT(*) AS `count`'),
 				'conditions' => array('TourParticipation.tour_id' => $tour['Tour']['id']),
-				'group' => 'Profile.sac_member',
-				'contain' => array(),
-				'joins' => array(
-					array(
-						'alias' => 'User',
-						'table' =>  $dbo->fullTableName('users'),
-						'type' => 'LEFT',
-						'conditions' => array('`TourParticipation`.`user_id` = `User`.`id`')
-					),
-					array(
-						'alias' => 'Profile',
-						'table' =>  $dbo->fullTableName('profiles'),
-						'type' => 'LEFT',
-						'conditions' => array('`User`.`id` = `Profile`.`user_id`')
-					)
-				)
+				'group' => 'TourParticipation.sac_member',
+				'contain' => array()
 			));
 
-			$nonMemberCountResult = Set::extract('/Profile[sac_member=0]/..', $memberStateCount);
-			$memberCountResult = Set::extract('/Profile[sac_member=1]/..', $memberStateCount);
+			$nonMemberCountResult = Set::extract('/TourParticipation[sac_member=0]/..', $memberStateCount);
+			$memberCountResult = Set::extract('/TourParticipation[sac_member=1]/..', $memberStateCount);
 
 			$tours[$index]['Tour']['members'] = !empty($memberCountResult) ? $memberCountResult[0][0]['count'] : 0;
 			$tours[$index]['Tour']['others'] = !empty($nonMemberCountResult) ? $nonMemberCountResult[0][0]['count'] : 0;
