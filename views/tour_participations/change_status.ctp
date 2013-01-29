@@ -3,6 +3,8 @@ $this->set('title_for_layout', __('Anmeldestatus ändern', true));
 $this->Html->addCrumb($tour['Tour']['title'], array('controller' => 'tours', 'action' => 'view', $tour['Tour']['id']));
 $this->Html->addCrumb(__('Anmeldestatus ändern', true));
 
+echo $this->Form->create();
+
 if(!empty($this->data['TourParticipation']['id']))
 {
 	echo $this->Form->hidden('TourParticipation.id');
@@ -18,3 +20,5 @@ echo $this->Html->div('submit',
 	$this->Form->submit(__('Abbrechen', true), array('name' => 'data[Tour][cancel]', 'div' => false, 'class' => 'cancel'))
 	. $this->Form->submit(__('Speichern', true), array('div' => false))
 );
+
+echo $this->Form->end();
