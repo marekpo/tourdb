@@ -43,6 +43,8 @@ class ToursController extends AppController
 
 				$this->Session->setFlash(__('Die Tour konnte nicht gespeichert werden.', true));
 			}
+
+			$this->Session->setFlash(__('Fehler beim Speichern der Tour. Überprüfe deine Eingaben.', true));
 		}
 		else
 		{
@@ -144,6 +146,8 @@ class ToursController extends AppController
 					$this->redirect(array('action' => 'index'));
 				}
 			}
+
+			$this->Session->setFlash(__('Fehler beim Speichern der Tour. Überprüfe deine Eingaben.', true));
 		}
 		else
 		{
