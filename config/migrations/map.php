@@ -88,5 +88,7 @@ $map = array(
 		'043_add_menu_statistics_tours_overview' => 'M50b1eff42fb04a38bb9813a41b2c2a9b'),
 	44 => array(
 		'044_restructure_tour_participation_table' => 'M50483ec8fd5c47afbe4b0f201b2c2a9b'),
+	45 => array(
+		'045_add_menu_entry_for_feeds' => 'M51179e7406a4483eb429235c1b2c2a9b'),
 );
 ?>

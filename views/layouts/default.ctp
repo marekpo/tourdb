@@ -5,6 +5,7 @@
     <?php echo $this->Html->charset(); ?>
     <title><?php __('Tourenangebot'); ?> :: <?php echo $title_for_layout; ?></title>
     <?php echo $this->Html->meta('icon'); ?>
+    <?php echo $this->Html->meta('rss', array('controller' => 'appointments', 'action' => 'upcomingAppointments', 'ext' => 'rss')); ?>
     <?php echo $this->Html->css('tourdb'); ?>
     <?php echo $this->Html->css('jquery-ui-1.8.13.custom'); ?>
     <?php echo $this->Html->script('jquery-1.6.1.min'); ?>
