@@ -66,12 +66,9 @@ class TourParticipationsController extends AppController
 	{
 		if(!empty($this->data))
 		{
-			$tourParticipationInfo = $this->TourParticipation->find('first', array(
-				'conditions' => array('TourParticipation.id' => $id),
-				'contain' => array('User', 'User.Profile', 'Tour', 'Tour.TourGroup', 'TourParticipationStatus')
-			));
+			$tourId = $this->TourParticipation->field('tour_id', array('TourParticipation.id' => $id));
 
-			$redirect = array('controller' => 'tours', 'action' => 'view', $tourParticipationInfo['Tour']['id']);
+			$redirect = array('controller' => 'tours', 'action' => 'view', $tourId);
 
 			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
 			{
@@ -80,20 +77,21 @@ class TourParticipationsController extends AppController
 
 			$this->TourParticipation->save($this->data);
 
-			$tourGuide = $this->TourParticipation->Tour->find('first', array(
-				'conditions' => array('Tour.id' => $tourParticipationInfo['TourParticipation']['tour_id']),
-				'contain' => array('TourGuide', 'TourGuide.Profile')
+			$tourParticipation = $this->TourParticipation->find('first', array(
+				'conditions' => array('TourParticipation.id' => $id),
+				'contain' => array(
+					'User', 'User.Profile', 'Tour', 'Tour.TourGroup', 'TourParticipationStatus',
+					'Tour.TourGuide', 'Tour.TourGuide.Profile'
+				)
 			));
 
 			$this->set(array(
-				'user' => array('User' => $tourParticipationInfo['User']),
-				'tour' => array('Tour' => $tourParticipationInfo['Tour']),
-				'tourParticipationStatus' => array('TourParticipationStatus' => $tourParticipationInfo['TourParticipationStatus']),
+				'tourParticipation' => $tourParticipation,
 				'tourGuide' => $tourGuide,
 				'message' => $this->data['TourParticipation']['message']
 			));
 
-			$this->_sendEmail($tourParticipationInfo['User']['email'], __('Statusänderung Anmeldung', true), 'tours/change_tour_participation_status_participant');
+			$this->_sendEmail($tourParticipation['User']['email'], __('Statusänderung Anmeldung', true), 'tours/change_tour_participation_status_participant');
 
 			$this->redirect($redirect);
 		}
