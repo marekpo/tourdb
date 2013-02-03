@@ -449,7 +449,7 @@ class Tour extends AppModel
 		return $widgetData;
 	}
 
-	function getTourOverviewReportData($startDate, $endDate, $tourGroupId, $tourStatusIds)
+	function getTourOverviewReportData($startDate, $endDate, $tourStatusIds, $tourGroupId = null)
 	{
 		$filterConditions['Tour.startdate >='] = date('Y-m-d', strtotime($startDate));
 		$filterConditions['Tour.enddate <='] = date('Y-m-d', strtotime($endDate));
@@ -470,22 +470,35 @@ class Tour extends AppModel
 
 		foreach($tours as $index => $tour)
 		{
-			$memberStateCount = $this->TourParticipation->find('all', array(
-				'fields' => array('TourParticipation.sac_member', 'COUNT(*) AS `count`'),
-				'conditions' => array('TourParticipation.tour_id' => $tour['Tour']['id']),
-				'group' => 'TourParticipation.sac_member',
-				'contain' => array()
-			));
+			if($tour['TourStatus']['key'] == TourStatus::CARRIED_OUT)
+			{
+				$memberStateCount = $this->TourParticipation->find('all', array(
+					'fields' => array('TourParticipation.sac_member', 'COUNT(*) AS `count`'),
+					'conditions' => array(
+						'TourParticipation.tour_id' => $tour['Tour']['id'],
+						'TourParticipationStatus.key' => TourParticipationStatus::AFFIRMED
+					),
+					'group' => 'TourParticipation.sac_member',
+					'contain' => array('TourParticipationStatus')
+				));
 
-			$nonMemberCountResult = Set::extract('/TourParticipation[sac_member=0]/..', $memberStateCount);
-			$memberCountResult = Set::extract('/TourParticipation[sac_member=1]/..', $memberStateCount);
+				$nonMemberCountResult = Set::extract('/TourParticipation[sac_member=0]/..', $memberStateCount);
+				$memberCountResult = Set::extract('/TourParticipation[sac_member=1]/..', $memberStateCount);
 
-			$tours[$index]['Tour']['members'] = !empty($memberCountResult) ? $memberCountResult[0][0]['count'] : 0;
-			$tours[$index]['Tour']['others'] = !empty($nonMemberCountResult) ? $nonMemberCountResult[0][0]['count'] : 0;
+				$tours[$index]['Tour']['members'] = (!empty($memberCountResult) ? $memberCountResult[0][0]['count'] : 0) + 1; // adding 1 for the tour guide
+				$tours[$index]['Tour']['others'] = !empty($nonMemberCountResult) ? $nonMemberCountResult[0][0]['count'] : 0;
 
-			$duration = strtotime($tour['Tour']['enddate']) - strtotime($tour['Tour']['startdate']);
-			$tours[$index]['Tour']['nights'] = $duration / 86400;
-			$tours[$index]['Tour']['participantDays'] = (($duration / 86400) + 1) * ($tours[$index]['Tour']['members'] + $tours[$index]['Tour']['others']);
+				$duration = strtotime($tour['Tour']['enddate']) - strtotime($tour['Tour']['startdate']);
+				$tours[$index]['Tour']['nights'] = $duration / 86400;
+				$tours[$index]['Tour']['participantDays'] = (($duration / 86400) + 1) * ($tours[$index]['Tour']['members'] + $tours[$index]['Tour']['others']);
+			}
+			else
+			{
+				$tours[$index]['Tour']['members'] = 0;
+				$tours[$index]['Tour']['others'] = 0;
+				$tours[$index]['Tour']['nights'] = 0;
+				$tours[$index]['Tour']['participantDays'] = 0;
+			}
 		}
 
 		return $tours;

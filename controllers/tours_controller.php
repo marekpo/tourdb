@@ -881,7 +881,7 @@ class ToursController extends AppController
 			{
 				$tours = $this->Tour->getTourOverviewReportData(
 					$this->data['Tour']['startdate'], $this->data['Tour']['enddate'],
-					$this->data['Tour']['tour_group_id'], $this->data['Tour']['tour_status_id']
+					$this->data['Tour']['tour_status_id'], $this->data['Tour']['tour_group_id']
 				);
 
 				if(empty($tours))
