@@ -177,7 +177,7 @@ if($tour['Tour']['tour_guide_id'] != $this->Session->read('Auth.User.id'))
 	{
 		echo $this->Html->div('columncontainer',
 			$this->Html->div('third',
-				$this->Form->create(false, array('type' => 'GET', 'url' => array('action' => 'signUp', $tour['Tour']['id'])))
+				$this->Form->create(false, array('type' => 'GET', 'url' => array('controller' => 'tour_participations', 'action' => 'participantSignUp', $tour['Tour']['id'])))
 				. $this->Form->submit(__('Zur Tour anmelden', true), array('div' => array('class' => 'submit obtrusive'), 'disabled' => !$this->Session->check('Auth.User')))
 				. $this->Form->end()
 			)
@@ -237,7 +237,8 @@ if($tourParticipations)
 	echo $this->Html->tag('h2', __('Anmeldungen', true));
 
 	$tableHeaders = array(
-		__('Benutzer', true),
+		$this->Paginator->sort(__('TeilnehmerIn', true), 'TourParticipation.firstname'),
+		__('Erfasser', true),
 		$this->Paginator->sort(__('Anmeldedatum', true), 'TourParticipation.created'),
 		$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.rank'),
 	);
@@ -251,32 +252,43 @@ if($tourParticipations)
 
 	foreach($tourParticipations as $tourParticipation)
 	{
+		$signupUser = '';
+		if($tourParticipation['TourParticipation']['signup_user_id'] == $this->Session->read('Auth.User.id'))
+		{
+			$signupUser = __('Ich', true);
+		}
+		elseif($tourParticipation['TourParticipation']['signup_user_id'] != $tourParticipation['TourParticipation']['user_id'])
+		{
+			$signupUser = $this->Display->displayUsersFullName($tourParticipation['SignupUser']['username'], $tourParticipation['SignupUser']['Profile']);
+		}
+
 		$row = array(
 			$this->Html->link(
-				$this->Display->displayUsersFullName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']),
-				array('controller' => 'profiles', 'action' => 'view', $tourParticipation['User']['id'])
+				sprintf('%s %s', $tourParticipation['TourParticipation']['firstname'], $tourParticipation['TourParticipation']['lastname']),
+				array('controller' => 'tour_participations', 'action' => 'view', $tourParticipation['TourParticipation']['id'])
 			),
+			$signupUser,
 			$this->Time->format('d.m.Y', $tourParticipation['TourParticipation']['created']),
 			$tourParticipation['TourParticipationStatus']['statusname']
 		);
 
-		if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT))
-				&& $tour['Tour']['tour_guide_id'] == $this->Session->read('Auth.User.id'))
+		if(!in_array($tour['TourStatus']['key'], array(TourStatus::CANCELED, TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)))
 		{
-			$row[] = $this->Html->link(__('Status ändern', true), array(
-				'controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']
-			), array(
-				'class' => 'changeStatus'
-			));
+			$actionLinks = array();
+
+			$actionLinks[] = $this->Authorization->link('', array('controller' => 'tour_participations', 'action' => 'changeStatus', $tourParticipation['TourParticipation']['id']), array('class' => 'iconaction changestatus', 'title' => __('Status ändern', true)));
+			$actionLinks[] = $this->Authorization->link('', array('controller' => 'tour_participations', 'action' => 'edit', $tourParticipation['TourParticipation']['id']), array('class' => 'iconaction edit', 'title' => __('Anmeldung bearbeiten', true)));
+
+			$row[] = implode(' ', $actionLinks);
 		}
 
 		$tableCells[] = $row;
 	}
 
 	echo $this->Widget->table($tableHeaders, $tableCells);
-	$this->Js->buffer(sprintf("$('.changeStatus').click({ id: 'changeTourparticipationStatusDialog', title: '%s' }, TourDB.Util.confirmationDialog);", __('Anmeldestatus ändern', true)));
+	$this->Js->buffer(sprintf("$('.changestatus').click({ id: 'changeTourparticipationStatusDialog', title: '%s' }, TourDB.Util.confirmationDialog);", __('Anmeldestatus ändern', true)));
 }
 
-echo $this->Js->buffer(sprintf("$('.tours .action.closeregistration').click({ id: 'closeRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung schliessen', true)));
-echo $this->Js->buffer(sprintf("$('.tours .action.reopenregistration').click({ id: 'reopenRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung wiedereröffnen', true)));
-echo $this->Js->buffer(sprintf("$('.tours .action.cancel').click({ id: 'cancelConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Tour absagen', true)));
+$this->Js->buffer(sprintf("$('.tours .action.closeregistration').click({ id: 'closeRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung schliessen', true)));
+$this->Js->buffer(sprintf("$('.tours .action.reopenregistration').click({ id: 'reopenRegistrationConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Anmeldung wiedereröffnen', true)));
+$this->Js->buffer(sprintf("$('.tours .action.cancel').click({ id: 'cancelConfirmationDialog', title: '%s'}, TourDB.Util.confirmationDialog);", __('Tour absagen', true)));

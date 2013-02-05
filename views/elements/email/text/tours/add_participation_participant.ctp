@@ -1,6 +1,6 @@
 Hallo <?php echo $tourParticipation['TourParticipation']['firstname']; ?>!
 
-Deine Anmeldung zur Tour "<?php echo $tourParticipation['Tour']['title']; ?>" (<?php echo $tourParticipation['Tour']['TourGroup']['tourgroupname']; ?>) wurde gespeichert.
+<?php echo $this->TourDisplay->getTourGuide($tourParticipation); ?> hat deine Anmeldung zur Tour "<?php echo $tourParticipation['Tour']['title']; ?>" (<?php echo $tourParticipation['Tour']['TourGroup']['tourgroupname']; ?>) gespeichert.
 
 Hier noch einmal zusammenfassend die wichtigsten Daten über die Tour:
 

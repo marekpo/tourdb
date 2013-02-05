@@ -1,9 +1,9 @@
-Hallo <?php echo $this->Display->displayUsersFirstName($user['User']['username'], $user['User']['Profile']); ?>!
+Hallo <?php echo $tourParticipation['TourParticipation']['firstname']; ?>!
 
 <?php
 	$changeStatusSentence = '';
 
-	switch($tourParticipationStatus['TourParticipationStatus']['key'])
+	switch($tourParticipation['TourParticipationStatus']['key'])
 	{
 		case TourParticipationStatus::WAITINGLIST:
 			$changeStatusSentence = __('%s hat dich auf die Warteliste für die Tour "%s" (%s) gesetzt.', true);
@@ -19,15 +19,15 @@ Hallo <?php echo $this->Display->displayUsersFirstName($user['User']['username']
 			break;
 	}
 
-	$tourGuideName = $this->Display->displayUsersFullName($tourGuide['TourGuide']['username'], $tourGuide['TourGuide']['Profile']);
+	$tourGuideName = $this->Display->displayUsersFullName($tourParticipation['Tour']['TourGuide']['username'], $tourParticipation['Tour']['TourGuide']['Profile']);
 
-	echo sprintf($changeStatusSentence, $tourGuideName, $tour['Tour']['title'], $tour['Tour']['TourGroup']['tourgroupname']);
+	echo sprintf($changeStatusSentence, $tourGuideName, $tourParticipation['Tour']['title'], $tourParticipation['Tour']['TourGroup']['tourgroupname']);
 ?>
 
 
-Benutze bitte für Rückfragen die E-Mail-Adresse <?php echo $tourGuide['TourGuide']['email']; ?>.
+Benutze bitte für Rückfragen die E-Mail-Adresse <?php echo $tourParticipation['Tour']['TourGuide']['email']; ?>.
 
-Tourlink: <?php echo $this->Html->url(array('controller' => 'tours', 'action' => 'view', $tour['Tour']['id']), true); ?>
+Tourlink: <?php echo $this->Html->url(array('controller' => 'tours', 'action' => 'view', $tourParticipation['Tour']['id']), true); ?>
 
 <?php if(!empty($message)): ?>
 

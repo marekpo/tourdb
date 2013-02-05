@@ -65,9 +65,7 @@ class TourGuideReportsController extends AppController
 
 			$tourParticipations = $this->TourGuideReport->Tour->TourParticipation->find('all', array(
 				'conditions' => array('TourParticipation.tour_id' => $tourId, 'TourParticipationStatus.key' => 'affirmed'),
-				'contain' => array(
-					'User', 'User.Profile', 'User.Profile.SacMainSection','TourParticipationStatus'
-				)
+				'contain' => array('TourParticipationStatus')
 			));
 
 			$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
@@ -82,5 +80,5 @@ class TourGuideReportsController extends AppController
 			'conditions' => array('Tour.id' => $tourId),
 			'contain' => array()
 		));
-	}	
+	}
 }

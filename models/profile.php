@@ -221,6 +221,33 @@ class Profile extends AppModel
 		return $results;
 	}
 
+	/**
+	 * This method updates the profile of the specified user with the supplied
+	 * data.
+	 *
+	 * @param string $userId
+	 * 		The id of the user whose profile should be updated.
+	 * @param array $data
+	 * 		An array containing the new data for the user's profile.
+	 *
+	 * @return array|boolean
+	 * 		If the profile was updated successfully, the profile record is
+	 * 		returned, else, false ist returned.
+	 */
+	function updateProfile($userId, $data)
+	{
+		$profileId = $this->field('id', array('Profile.user_id' => $userId));
+
+		if(!empty($profileId))
+		{
+			$data['Profile']['id'] = $profileId;
+		}
+
+		$data['Profile']['user_id'] = $userId;
+
+		return $this->save($data);
+	}
+
 	function __calculateAge($birthdate)
 	{
 		$birthDateTime = new DateTime($birthdate);
