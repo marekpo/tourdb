@@ -4,5 +4,5 @@ Configure::write('Email.delivery', 'smtp');
 Configure::write('Email.Smtp.host', 'tourdb.ch');
 Configure::write('Email.Smtp.port', 25);
 Configure::write('Email.Smtp.timeout', 30);
-Configure::write('Email.Smtp.username', null);
-Configure::write('Email.Smtp.password', null);
+Configure::write('Email.Smtp.username', 'tourdb');
+Configure::write('Email.Smtp.password', '123456');
