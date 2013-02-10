@@ -1,6 +1,4 @@
 <?php
-require 'config/email.php';
-
 App::import('Core', array('Controller'));
 App::import('Component', 'Email');
 
@@ -57,7 +55,7 @@ class EmailTask extends Shell
 				'timeout' => Configure::read('Email.Smtp.timeout'),
 			);
 
-			if(Configure::read('Email.username') != null && Configure::read('Email.password') != null)
+			if(Configure::read('Email.Smtp.username') != null && Configure::read('Email.Smtp.password') != null)
 			{
 				$smtpOptions['username'] = Configure::read('Email.Smtp.username');
 				$smtpOptions['password'] = Configure::read('Email.Smtp.password');
