@@ -37,7 +37,7 @@ echo $this->Html->div('columncontainer',
 			. $this->Html->div('content', $this->Display->displayFlag($tour['Tour']['tourweek']))
 		)
 		. $this->Html->div('infoitem',
-			$this->Html->div('label', __('Bergführer', true))
+			$this->Html->div('label', __('BergführerIn', true))
 			. $this->Html->div('content', $this->Display->displayFlag($tour['Tour']['withmountainguide']))
 		)
 	)
@@ -238,7 +238,7 @@ if($tourParticipations)
 
 	$tableHeaders = array(
 		$this->Paginator->sort(__('TeilnehmerIn', true), 'TourParticipation.firstname'),
-		__('Erfasser', true),
+		__('ErfasserIn', true),
 		$this->Paginator->sort(__('Anmeldedatum', true), 'TourParticipation.created'),
 		$this->Paginator->sort(__('Anmeldestatus', true), 'TourParticipationStatus.rank'),
 	);
