@@ -817,7 +817,7 @@ class ToursController extends AppController
 			{
 				$tourParticipationEmails[] = $tourParticipation['TourParticipation']['email'];
 			}
-			$this->redirect(sprintf('mailto:%s?bcc=%s&subject=%s: %s', $tour['TourGuide']['email'], implode(';', $tourParticipationEmails), __('Tour',true), $tour['Tour']['title']));
+			$this->redirect(sprintf('mailto:%s?bcc=%s&subject=%s: %s', $tour['TourGuide']['email'], implode(',', $tourParticipationEmails), __('Tour',true), $tour['Tour']['title']));
 		}
 		else
 		{
