@@ -10,7 +10,7 @@ foreach($tours as $tour)
 	$itemTitle = $tour['Tour']['title'];
 	$itemTitle .= ($tour['Tour']['tourweek'] == 1 ? sprintf(' %s', __('TW',true)) : '');
 	$itemTitle .= ($tour['Tour']['withmountainguide'] == 1 ? sprintf(' %s', __('BGF',true)) : '');
-	$itemTitle .= sprintf('%s (%s) %s', $itemTitle, $this->TourDisplay->getClassification($tour, array('span' => false)), $this->TourDisplay->getTourGuide($tour));
+	$itemTitle = sprintf('%s (%s) %s', $itemTitle, $this->TourDisplay->getClassification($tour, array('span' => false)), $this->TourDisplay->getTourGuide($tour));
 
 	echo $this->Rss->item(array(), array(
 		'title' => $itemTitle,
