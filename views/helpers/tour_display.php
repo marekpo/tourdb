@@ -187,7 +187,7 @@ class TourDisplayHelper extends AppHelper
 						break;
 					case TourStatus::FIXED:
 						$statusClass = 'fixed';
-						$statusTitle = __('Anmeldung ist noch nicht möglich.', true);
+						$statusTitle = $tour['signuprequired'] ? __('Anmeldung ist noch nicht möglich.', true) : __('Die Tour ist noch nicht freigegeben.', true);
 						break;
 					case TourStatus::PUBLISHED:
 						if(strtotime($tour['deadline_calculated']) >= strtotime(date('Y-m-d')))
