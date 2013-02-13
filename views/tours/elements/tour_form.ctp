@@ -47,7 +47,7 @@ echo $this->Form->input('tourweek', array(
 	'label' => __('Tourenwoche', true), 'disabled' => !in_array('tourweek', $whitelist)
 ));
 echo $this->Form->input('withmountainguide', array(
-	'label' => __('Mit dipl. Bergführer', true), 'disabled' => !in_array('withmountainguide', $whitelist)
+	'label' => __('Mit dipl. BergführerIn', true), 'disabled' => !in_array('withmountainguide', $whitelist)
 ));
 echo $this->Form->input('signuprequired', array(
 	'label' => __('Anmeldung erforderlich', true), 'disabled' => !in_array('signuprequired', $whitelist)
