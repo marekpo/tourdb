@@ -77,8 +77,8 @@ foreach($tours as $tour)
 {
 	$cell = 0;
 
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('d.m.Y', $tour['Tour']['startdate']));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('d.m.Y', $tour['Tour']['enddate']));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('Y-m-d', $tour['Tour']['startdate']));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('Y-m-d', $tour['Tour']['enddate']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tour['TourStatus']['statusname']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->getDateRangeText($tour['Tour']['startdate'], $tour['Tour']['enddate']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->getDayOfWeekText($tour['Tour']['startdate'], $tour['Tour']['enddate']));

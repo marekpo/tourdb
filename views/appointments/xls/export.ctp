@@ -1,7 +1,7 @@
 <?php
 
 $startColumn = 0;
-$endColumn = 6;
+$endColumn = 8;
 
 $this->Excel->startNewDocument(true);
 $this->Excel->setFilename('anlaesse');
@@ -41,8 +41,8 @@ foreach($appointments as $appointment)
 {
 	$cell = 0;
 
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('d.m.Y', $appointment['Appointment']['startdate']));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('d.m.Y', $appointment['Appointment']['enddate']));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('Y-m-d', $appointment['Appointment']['startdate']));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('Y-m-d', $appointment['Appointment']['enddate']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->getDateRangeText($appointment['Appointment']['startdate'], $appointment['Appointment']['enddate']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->getDayOfWeekText($appointment['Appointment']['startdate'], $appointment['Appointment']['enddate']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $appointment['Appointment']['title']);
