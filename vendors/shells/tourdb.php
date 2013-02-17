@@ -208,9 +208,9 @@ class TourDBShell extends Shell
 
 	function sendTourChangesNotifications()
 	{
-		$this->out('This will send notification E-Mails when Tours was changed in last days.');
+		$this->out('This will send notification E-Mails when tours have been changed during the last days.');
 
-		if(empty($this->params['reviewDays']))
+		if(!isset($this->params['reviewDays']))
 		{
 			$reviewDays = 1;
 		}
@@ -218,32 +218,23 @@ class TourDBShell extends Shell
 		{
 			$reviewDays = $this->params['reviewDays'];
 
-			if(is_numeric($reviewDays))
+			if(!is_numeric($reviewDays) || $reviewDays < 1)
 			{
-				if($reviewDays == 0)
-				{
-					$reviewDays = 1;
-				}
-			}
-			else
-			{
-				$this->error(sprintf('-reviewDays %s must be number greater or equal 1!', $reviewDays ));
+				$this->error(sprintf('-reviewDays %s must be number greater or equal 1!', $reviewDays));
 				$this->_stop();
 			}
 		}
 
-		if(empty($this->params['baseUrl']))
+		if(!isset($this->params['baseUrl']))
 		{
 			$this->error('Missing parameter -baseUrl.');
 			$this->_stop();
 		}
 		else
 		{
-			$baseUrl = $this->params['baseUrl'];
-
 			if(!defined('FULL_BASE_URL'))
 			{
-				define('FULL_BASE_URL', $baseUrl);
+				define('FULL_BASE_URL', $this->params['baseUrl']);
 			}
 		}
 
@@ -281,6 +272,25 @@ class TourDBShell extends Shell
 
 		$this->out('SET Recipiens = ' . $recipients);
 		$this->out(sprintf('Sending notifications about %d new or changed tours.', count($tours)));
+
+		if(isset($this->params['testMode']))
+		{
+			$testMode = $this->params['testMode'];
+
+			if($testMode)
+			{
+				if(is_bool($testMode) && $testMode)
+				{
+					$this->out('Testmode active, aborting...');
+					$this->_stop();
+				}
+				else
+				{
+					$recipients = $testMode;
+					$this->out(sprintf('Testmode active, sending notification to %s.', $testMode));
+				}
+			}
+		}
 
 		$subject = sprintf('Tourenangebot: geänderte Touren von: %s bis: %s', $dateFromText, $dateToText) ;
 
