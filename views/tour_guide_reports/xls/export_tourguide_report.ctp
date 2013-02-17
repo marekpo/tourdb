@@ -78,7 +78,7 @@ else
  $rowOffset = 7;
  if(!empty($tour['TourGuideReport']['substitute_tour']))
  {
-	 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Ursprünflich geplant:', true));
+	 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn1, $rowOffset, __('Ursprünglich geplant:', true));
 	 $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn1, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => false)));
 	 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($labelColumn2, $rowOffset, $planedTour);
 	 $this->Excel->getActiveSheet()->getStyleByColumnAndRow($labelColumn2, $rowOffset)->applyFromArray(array('font' => array('size' => $fontSizeNormal, 'bold' => true)));
