@@ -31,7 +31,7 @@ Tourlink: <?php echo $this->Html->url(array('controller' => 'tours', 'action' =>
 
 <?php if(!empty($message)): ?>
 
-Persönliche Mitteilung:
+Persönliche Mitteilung vom Tourenleiter:
 --------------------------------------------------------------------------------
 <?php echo $message; ?>
 
