@@ -1,36 +1,36 @@
-Hallo <?php echo $this->Display->displayUsersFirstName($user['User']['username'], $user['Profile']); ?>!
+Hallo <?php echo $tourParticipation['TourParticipation']['firstname']; ?>!
 
-Deine Anmeldung zur Tour "<?php echo $tour['Tour']['title']; ?>" (<?php echo $tour['TourGroup']['tourgroupname']; ?>) wurde gespeichert.
+Deine Anmeldung zur Tour "<?php echo $tourParticipation['Tour']['title']; ?>" (<?php echo $tourParticipation['Tour']['TourGroup']['tourgroupname']; ?>) wurde gespeichert.
 
 Hier noch einmal zusammenfassend die wichtigsten Daten über die Tour:
 
-Titel: <?php echo $tour['Tour']['title']; ?>
+Titel: <?php echo $tourParticipation['Tour']['title']; ?>
 
 Datum: <?php
-	echo ($tour['Tour']['startdate'] == $tour['Tour']['enddate']
-		? $this->Time->format('d.m.Y', $tour['Tour']['startdate'])
-		: sprintf('%s - %s', $this->Time->format('d.m.Y', $tour['Tour']['startdate']), $this->Time->format('d.m.Y', $tour['Tour']['enddate']))); ?>
+	echo ($tourParticipation['Tour']['startdate'] == $tourParticipation['Tour']['enddate']
+		? $this->Time->format('d.m.Y', $tourParticipation['Tour']['startdate'])
+		: sprintf('%s - %s', $this->Time->format('d.m.Y', $tourParticipation['Tour']['startdate']), $this->Time->format('d.m.Y', $tourParticipation['Tour']['enddate']))); ?>
 
 Typ der Tour: <?php
 	$tourTypes = array();
 
-	foreach($tour['TourType'] as $tourType)
+	foreach($tourParticipation['Tour']['TourType'] as $tourType)
 	{
 		$tourTypes[] = $tourType['title'];
 	}
 
 	echo implode(', ', $tourTypes); ?>
 
-Tourenlink: <?php echo $this->Html->url(array('controller' => 'tours', 'action' => 'view', $tour['Tour']['id']), true); ?>
+Tourenlink: <?php echo $this->Html->url(array('controller' => 'tours', 'action' => 'view', $tourParticipation['Tour']['id']), true); ?>
 
 
-Deine Anmeldung gilt bis zur endgültigen Bestätigung durch den Tourenleiter nur als vorläufig. Solltest du in den nächsten Tagen keine Nachricht vom Tourenleiter erhalten, nimm bitte direkt mit ihm/ihr Kontakt auf:
+Deine Anmeldung gilt bis zur endgültigen Bestätigung durch den/die TourenleiterIn nur als vorläufig. Solltest du in den nächsten Tagen keine Nachricht vom/von der TourenleiterIn erhalten, nimm bitte direkt mit ihm/ihr Kontakt auf:
 
-Name: <?php echo $this->TourDisplay->getTourGuide($tour); ?>
+Name: <?php echo $this->TourDisplay->getTourGuide($tourParticipation); ?>
 
-Telefon: <?php echo $tour['TourGuide']['Profile']['phoneprivate']; ?>
+Telefon: <?php echo $tourParticipation['Tour']['TourGuide']['Profile']['phoneprivate']; ?>
 
-E-Mail: <?php echo $tour['TourGuide']['email']; ?>
+E-Mail: <?php echo $tourParticipation['Tour']['TourGuide']['email']; ?>
 
 
 Dein Tourenangebot Team

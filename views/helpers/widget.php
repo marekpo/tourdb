@@ -303,7 +303,7 @@ class WidgetHelper extends AppHelper
 			);
 		}
 
-		$options['class'] = 'input select';
+		$options['class'] = 'input select required';
 
 		$out = array();
 		$out[] = $this->Html->div('checkbox-container', $this->Html->div('', implode("\n", $inputs)), array('id' => 'tourtypes'));
@@ -535,7 +535,7 @@ class WidgetHelper extends AppHelper
 		$rows = array(
 			array(
 				array(
-					__('Tourenleiter', true),
+					__('TourenleiterIn', true),
 					array('class' => 'label')
 				),
 				$this->TourDisplay->getTourGuide($appointment['event'])

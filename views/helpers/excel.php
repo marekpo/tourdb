@@ -36,10 +36,10 @@ class ExcelHelper extends AppHelper
 
 	function setFilename($filename)
 	{
-		$filename = preg_replace('/\s+/', '_', $filename);
-		$filename = preg_replace('/\W/i', '', $filename);
+		$filename = preg_replace('/[^\s\p{L}\p{N}_-]/u', '', $filename);
+		$filename = preg_replace('/\s+/u', '_', $filename);
 
-		if(!preg_match(sprintf('/\%s$/i', $this->fileExtension), $filename))
+		if(!preg_match(sprintf('/\%s$/iu', $this->fileExtension), $filename))
 		{
 			$filename .= $this->fileExtension;
 		}
@@ -54,7 +54,7 @@ class ExcelHelper extends AppHelper
 		$view->layout = 'csv';
 
 		header('Content-type: application/excel');
-		header(sprintf('Content-disposition:attachment; filename="%s"', $this->filename));
+		header(sprintf("Content-disposition:attachment; filename*=UTF-8''%s", urlencode($this->filename)));
 
 		if($this->legacyMode)
 		{

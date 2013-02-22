@@ -5,6 +5,8 @@
     <?php echo $this->Html->charset(); ?>
     <title><?php __('Tourenangebot'); ?> :: <?php echo $title_for_layout; ?></title>
     <?php echo $this->Html->meta('icon'); ?>
+    <?php echo $this->Html->meta('rss', '/tours/search.rss', array('title' => __('Aktuelle Touren', true))); ?>
+    <?php echo $this->Html->meta('rss', array('controller' => 'appointments', 'action' => 'upcomingAppointments', 'ext' => 'rss'), array('title' => __('Aktuelle Anlässe', true))); ?>
     <?php echo $this->Html->css('tourdb'); ?>
     <?php echo $this->Html->css('jquery-ui-1.8.13.custom'); ?>
     <?php echo $this->Html->script('jquery-1.6.1.min'); ?>
@@ -75,7 +77,9 @@
 
         <div id="footer">
           <div class="globallinks">
-            <?php echo $this->Html->link(__('Kontakte', true), 'mailto:info@sac-baldern.ch', array('target' => '_blank') ); ?>
+            <?php echo $this->Html->link(__('Hilfe', true), 'http://sac-baldern.ch/joomlaLive/index.php/touren-und-anlaesse/touren-anleitungen', array('target' => '_blank', 'title' => __('Anleitungen, Dokumentation, weitere Quellen', true))); ?>
+            <?php echo $this->Html->link(__('Support', true), 'mailto:support-tourenangebot@sac-baldern.ch', array('target' => '_blank', 'title' => __('E-Mail an Support der Sektion schreiben', true))); ?>
+            <?php echo $this->Html->link(__('Kontakt', true), 'http://sac-baldern.ch/', array('target' => '_blank', 'title' => __('Allgemeine Infos und Kontakt', true))); ?>
 		    <?php echo $this->Html->link(__('Datenschutzbestimmungen', true), array('controller' => 'pages', 'action' => 'display', 'data_privacy_statement')); ?>
 		  </div>
           <?php __('©2011-2012 Tourenangebot für SAC Sektion Baldern, Zürich'); ?>

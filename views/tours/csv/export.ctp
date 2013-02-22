@@ -2,8 +2,8 @@
 
 $this->Csv->addRow(array(
 	__('Datum', true), __('Tag', true), __('Gruppe', true), __('Beschreibung', true),
-	__('Detailbeschreibung', true), __('TW', true), __('Mit Bergführer', true),
-	__('Tourencode', true), __('Tourenleiter(-in)', true),
+	__('Detailbeschreibung', true), __('TW', true), __('Mit BergführerIn', true),
+	__('Tourencode', true), __('TourenleiterIn', true),
 	__('Anmeldeschluss', true), __('Telefonnummer', true)
 ));
 

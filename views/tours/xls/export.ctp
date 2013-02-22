@@ -1,7 +1,7 @@
 <?php
 
 $startColumn = 0;
-$endColumn = 24;
+$endColumn = 26;
 
 $this->Excel->startNewDocument(true);
 $this->Excel->setFilename('touren');
@@ -9,6 +9,10 @@ $this->Excel->setFilename('touren');
 /* row header */
 $rowOffset = 1;
 $cell = 0;
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Datum von', true));
+$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(10);
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Datum bis', true));
+$this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(10);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Status', true));
 $this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(15);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Datum', true));
@@ -23,11 +27,11 @@ $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, 
 $this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(80);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('TW', true));
 $this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(4);
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Mit Bergführer', true));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Mit BergführerIn', true));
 $this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(15);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Tourencode', true));
 $this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(15);
-$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Tourenleiter(-in)', true));
+$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('TourenleiterIn', true));
 $this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(20);
 $this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset, __('Anmeldeschluss', true));
 $this->Excel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($cell - 1))->setWidth(15);
@@ -73,23 +77,11 @@ foreach($tours as $tour)
 {
 	$cell = 0;
 
-	$startTime = strtotime($tour['Tour']['startdate']);
-	$endTime = strtotime($tour['Tour']['enddate']);
-
-	$dateColumn = $this->Time->format($startTime, '%#d.') . $this->Time->format($startTime, '%#m.');
-
-	$dayColumn = $this->Time->format($startTime, '%a');
-	$duration = $endTime - $startTime;
-
-	if($duration > 0)
-	{
-		$dateColumn = sprintf('%s-%s', $dateColumn, $this->Time->format($endTime, '%#d.') . $this->Time->format($endTime, '%#m.'));
-		$dayColumn = sprintf('%s-%s', $dayColumn, $this->Time->format($endTime, '%a'));
-	}
-
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('Y-m-d', $tour['Tour']['startdate']));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Time->format('Y-m-d', $tour['Tour']['enddate']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tour['TourStatus']['statusname']);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $dateColumn);
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $dayColumn);
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->getDateRangeText($tour['Tour']['startdate'], $tour['Tour']['enddate']));
+	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->getDayOfWeekText($tour['Tour']['startdate'], $tour['Tour']['enddate']));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tour['TourGroup']['tourgroupname']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tour['Tour']['title']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tour['Tour']['description']);
@@ -98,7 +90,7 @@ foreach($tours as $tour)
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getClassification($tour, array('span' => false)));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getTourGuide($tour));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->TourDisplay->getDeadlineText($tour));
-	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $this->Display->displayUsersPhoneContact($tour['TourGuide']['Profile']));
+	$this->Excel->getActiveSheet()->getCell(sprintf('%s%d', PHPExcel_Cell::stringFromColumnIndex($cell++), $rowOffset + $index))->setValueExplicit($this->Display->displayUsersPhoneContact($tour['TourGuide']['Profile']), PHPExcel_Cell_DataType::TYPE_STRING);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, $tour['Tour']['meetingplace']);
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tour['Tour']['meetingtime'] !== null ? sprintf(__('%s Uhr', true), $this->Time->format('H:i', $tour['Tour']['meetingtime'])) : ''));
 	$this->Excel->getActiveSheet()->setCellValueByColumnAndRow($cell++, $rowOffset + $index, ($tour['Tour']['transport'] !== null ? $this->Display->displayTransport($tour['Tour']['transport']) : ''));

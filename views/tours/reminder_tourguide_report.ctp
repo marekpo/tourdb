@@ -1,5 +1,5 @@
 <?php
-$this->set('title_for_layout', __('E-Mail an Tourenleiter verschicken', true));
+$this->set('title_for_layout', __('E-Mail an TourenleiterIn verschicken', true));
 $this->Html->addCrumb($this->data['Tour']['title']);
 $this->Html->addCrumb(__('E-Mail schicken', true));
 

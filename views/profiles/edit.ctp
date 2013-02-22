@@ -60,7 +60,10 @@ echo $this->Form->input('Profile.additionalequipment', array('label' => __('Zus.
     <legend><?php __('Weitere Angaben'); ?></legend>
 <?php
 echo $this->Widget->dateTime('Profile.birthdate', array(
-	'label' => __('Geburtstag', true), 'datepicker' => array(
+	'label' => __('Geburtstag', true), 'error' => array(
+		'correctDateOrEmpty' => __('Der Geburtstag muss ein gültiges Datum oder leer sein.', true)
+	),
+	'datepicker' => array(
 		'changeMonth' => true, 'changeYear' => true, 'minDate' => "'-90y'", 'maxDate' => "'-3y'", 'yearRange' => "'-90:-3'"
 	)
 ));
@@ -73,7 +76,7 @@ echo $this->Form->input('Profile.sex', array(
   <fieldset class="healthinformation">
     <legend><?php __('Gesundheitliche Hinweise'); ?></legend>
 <?php
-echo $this->Html->para('', __('Bitte gib im folgenden Feld Informationen zu deiner Gesundheit an, die wichtig für den Tourenleiter sind (Medikamente, etc.)', true));
+echo $this->Html->para('', __('Bitte gib im folgenden Feld Informationen zu deiner Gesundheit an, die wichtig für den/die TourenleiterIn sind (Medikamente, etc.)', true));
 echo $this->Form->input('Profile.healthinformation', array('label' => __('Gesundheitliche Hinweise', true)));
 ?>
   </fieldset>

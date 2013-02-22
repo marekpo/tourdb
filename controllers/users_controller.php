@@ -210,9 +210,15 @@ class UsersController extends AppController
 	 */
 	function index()
 	{
+		$searchConditions = $this->User->getFilterConditions($this->params['url']);
+
 		$this->paginate = array_merge($this->paginate, array(
+			'conditions' => $searchConditions,
 			'contain' => array('Profile', 'Role')
 		));
+
+		$this->data['User'] = $this->params['url'];
+		unset($this->data['User']['url']);
 
 		$this->set(array(
 			'users' => $this->paginate('User')
@@ -229,7 +235,7 @@ class UsersController extends AppController
 			if($this->User->save($this->data))
 			{
 				$this->Session->setFlash(__('Gespeichert', true));
-				$this->redirect(array('action' => 'index'));			
+				$this->redirect(array('action' => 'index'));
 			}
 		}
 		else

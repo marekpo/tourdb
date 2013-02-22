@@ -36,15 +36,27 @@ class AppController extends Controller
 	{
 		$this->Email->reset();
 
-		$this->Email->from = 'TourDB <tourdb@tourdb.ch>';
+		$this->Email->from = Configure::read('Email.from');
 		$this->Email->sendAs = 'text';
-		$this->Email->delivery = 'smtp';
+		$this->Email->delivery = Configure::read('Email.delivery');
 		$this->Email->lineLength = 998;
-		$this->Email->smtpOptions = array(
-			'port' => 25,
-			'timeout' => 30,
-			'host' => 'tourdb.ch',
-		);
+
+		if(Configure::read('Email.delivery') === 'smtp')
+		{
+			$smtpOptions = array(
+				'host' => Configure::read('Email.Smtp.host'),
+				'port' => Configure::read('Email.Smtp.port'),
+				'timeout' => Configure::read('Email.Smtp.timeout'),
+			);
+
+			if(Configure::read('Email.Smtp.username') != null && Configure::read('Email.Smtp.password') != null)
+			{
+				$smtpOptions['username'] = Configure::read('Email.Smtp.username');
+				$smtpOptions['password'] = Configure::read('Email.Smtp.password');
+			}
+
+			$this->Email->smtpOptions = $smtpOptions;
+		}
 
 		$this->Email->to = $recipient;
 		$this->Email->subject = $subject;

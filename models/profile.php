@@ -19,16 +19,16 @@ class Profile extends AppModel
 			'className' => 'Difficulty',
 		),
 		'SacMainSection' => array(
-			'className' => 'SacSection'			
+			'className' => 'SacSection'
 		),
 		'SacAdditionalSection1' => array(
-			'className' => 'SacSection'			
+			'className' => 'SacSection'
 		),
 		'SacAdditionalSection2' => array(
-			'className' => 'SacSection'			
+			'className' => 'SacSection'
 		),
 		'SacAdditionalSection3' => array(
-			'className' => 'SacSection'			
+			'className' => 'SacSection'
 		)
 	);
 
@@ -87,7 +87,7 @@ class Profile extends AppModel
 		'phonebusiness' => array(
 			'validPhone' => array(
 				'rule' => 'validatePhone',
-	        	'allowEmpty' => true				
+				'allowEmpty' => true
 			)
 		),
 		'cellphone' => array(
@@ -95,7 +95,7 @@ class Profile extends AppModel
 				'rule' => 'validatePhone',
 				'allowEmpty' => true
 			)
-		),	
+		),
 		'emergencycontact1_address' => array(
 			'notEmpty' => array(
 				'rule' => 'notEmpty'
@@ -113,7 +113,7 @@ class Profile extends AppModel
 		'emergencycontact2_phone' => array(
 			'validPhone' => array(
 				'rule' => 'validatePhone',
-	            'allowEmpty' => true					
+				'allowEmpty' => true
 			)
 		),
 		'emergencycontact1_email' => array(
@@ -121,7 +121,7 @@ class Profile extends AppModel
 				'rule' => 'email',
 				'allowEmpty' => true
 			)
-		),		
+		),
 		'emergencycontact2_email' => array(
 			'correctFormat' => array(
 				'rule' => 'email',
@@ -147,10 +147,16 @@ class Profile extends AppModel
 			)
 		),
 		'sac_member' => array(
-				'notEmpty' => array(
-						'rule' => 'notEmpty'
-				)
-		),		
+			'notEmpty' => array(
+				'rule' => 'notEmpty'
+			)
+		),
+		'birthdate' => array(
+			'correctDateOrEmpty' => array(
+				'rule' => array('date','dmy'),
+				'allowEmpty' => true
+			)
+		)
 	);
 
 	function beforeSave($options = array())
@@ -210,9 +216,36 @@ class Profile extends AppModel
 			{
 				$results['age'] = $this->__calculateAge($results['birthdate']);
 			}
-		}	
+		}
 
 		return $results;
+	}
+
+	/**
+	 * This method updates the profile of the specified user with the supplied
+	 * data.
+	 *
+	 * @param string $userId
+	 * 		The id of the user whose profile should be updated.
+	 * @param array $data
+	 * 		An array containing the new data for the user's profile.
+	 *
+	 * @return array|boolean
+	 * 		If the profile was updated successfully, the profile record is
+	 * 		returned, else, false ist returned.
+	 */
+	function updateProfile($userId, $data)
+	{
+		$profileId = $this->field('id', array('Profile.user_id' => $userId));
+
+		if(!empty($profileId))
+		{
+			$data['Profile']['id'] = $profileId;
+		}
+
+		$data['Profile']['user_id'] = $userId;
+
+		return $this->save($data);
 	}
 
 	function __calculateAge($birthdate)

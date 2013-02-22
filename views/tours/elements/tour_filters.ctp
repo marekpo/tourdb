@@ -62,7 +62,7 @@ if(in_array('TourGuide', $activeFilters))
 	}
 
 	$searchFilters .= $this->Form->input('Tour.TourGuide', array(
-		'type' => 'select', 'options' => $tourGuideOptions, 'label' => __('Tourenleiter', true),
+		'type' => 'select', 'options' => $tourGuideOptions, 'label' => __('TourenleiterIn', true),
 		'empty' => ''
 	));
 }
@@ -144,6 +144,8 @@ if($searchFilters)
 {
 	echo $this->Widget->collapsibleFieldset(__('Suchfilter', true), $searchFilters, $filtersCollapsed);
 }
+
+echo $this->Html->para('', sprintf(__('Hier findest du die Erklärungen zu den verwendeten %s', true), $this->Html->link(__('Tourencodes', true), 'http://sac-baldern.ch/joomlaLive/index.php/touren-und-anlaesse/tourencodes', array('target' => '_blank'))));
 
 echo $this->Html->div('columncontainer',
 	$this->Html->div('half',

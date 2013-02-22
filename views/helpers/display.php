@@ -1,7 +1,7 @@
 <?php
 class DisplayHelper extends AppHelper
 {
-	var $helpers = array('Html');
+	var $helpers = array('Html', 'Time');
 
 	var $yesNoDontKnowLabels;
 
@@ -12,7 +12,7 @@ class DisplayHelper extends AppHelper
 	var $sexLabels;
 
 	var $transportLabels;
-	
+
 	var $sacMemberLabels;
 
 	function __construct()
@@ -60,6 +60,48 @@ class DisplayHelper extends AppHelper
 		}
 
 		return sprintf('%s %s', $profile['firstname'], $profile['lastname']);
+	}
+
+	function getDateRangeText($startDate, $endDate, $year = false, $onlyStartDate = false)
+	{
+		$dateRangeText = '';
+
+		$startTime = strtotime(date('d.m.Y', strtotime($startDate)));
+		$endTime = strtotime(date('d.m.Y', strtotime($endDate)));
+
+		$dateRangeText = sprintf('%s.%s.', $this->Time->format('d', $startTime), $this->Time->format('m', $startTime));
+		if($year)
+		{
+			$dateRangeText = $dateRangeText . $this->Time->format('Y', $startTime);
+		}
+
+		$duration = $endTime - $startTime;
+		if($duration > 0 && !$onlyStartDate)
+		{
+			$dateRangeText = sprintf('%s-%s.%s.', $dateRangeText, $this->Time->format('d', $endTime), $this->Time->format('m', $endTime));
+			if($year)
+			{
+				$dateRangeText = $dateRangeText . $this->Time->format('Y', $endTime);
+			}
+		}
+
+		return $dateRangeText;
+	}
+
+	function getDayOfWeekText($startDate, $endDate)
+	{
+		$startTime = strtotime(date('d.m.Y', strtotime($startDate)));
+		$endTime = strtotime(date('d.m.Y', strtotime($endDate)));
+
+		$dayOfWeekText = $this->Time->format($startTime, '%a');
+
+		$duration = $endTime - $startTime;
+		if($duration > 0)
+		{
+			$dayOfWeekText = sprintf('%s-%s', $dayOfWeekText, $this->Time->format($endTime, '%a'));
+		}
+
+		return $dayOfWeekText;
 	}
 
 	function getYesNoDontKnowOptions()
@@ -131,7 +173,7 @@ class DisplayHelper extends AppHelper
 	{
 		return $this->sacMemberLabels;
 	}
-	
+
 	function displaySacMember($value)
 	{
 		if($value == null)
@@ -141,7 +183,7 @@ class DisplayHelper extends AppHelper
 
 		return $this->sacMemberLabels[$value];
 	}
-	
+
 	function __replaceUrlCallback($match)
 	{
 		return $this->Html->link($match[0], $match[0], array('target' => '_blank'));

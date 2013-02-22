@@ -20,19 +20,23 @@ class MenuHelper extends AppHelper
 		{
 			$menuLink = false;
 
+			$url = array(
+				'controller' => $menuEntry['Menu']['controller'],
+				'action' => $menuEntry['Menu']['action']
+			);
+
+			if(!empty($menuEntry['Menu']['parameters']))
+			{
+				$url = array_merge($url, explode(';', $menuEntry['Menu']['parameters']));
+			}
+
 			if(!$menuEntry['Menu']['protected'] || $menuEntry['Menu']['separator'])
 			{
-				$menuLink = $this->Html->link($menuEntry['Menu']['caption'], array(
-					'controller' => $menuEntry['Menu']['controller'],
-					'action' => $menuEntry['Menu']['action']
-				));
+				$menuLink = $this->Html->link($menuEntry['Menu']['caption'], $url);
 			}
 			elseif($menuEntry['Menu']['protected'] && $loggedIn)
 			{
-				$menuLink = $this->Authorization->link($menuEntry['Menu']['caption'], array(
-					'controller' => $menuEntry['Menu']['controller'],
-					'action' => $menuEntry['Menu']['action']
-				));
+				$menuLink = $this->Authorization->link($menuEntry['Menu']['caption'], $url);
 			}
 
 			if($menuLink)

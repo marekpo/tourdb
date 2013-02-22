@@ -16,7 +16,7 @@ class ToursController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('search', 'view', 'calendar');
+		$this->Auth->allow('search', 'view', 'calendar', 'sendEmailTourLeader');
 	}
 
 	/**
@@ -43,6 +43,8 @@ class ToursController extends AppController
 
 				$this->Session->setFlash(__('Die Tour konnte nicht gespeichert werden.', true));
 			}
+
+			$this->Session->setFlash(__('Fehler beim Speichern der Tour. Überprüfe deine Eingaben.', true));
 		}
 		else
 		{
@@ -144,6 +146,8 @@ class ToursController extends AppController
 					$this->redirect(array('action' => 'index'));
 				}
 			}
+
+			$this->Session->setFlash(__('Fehler beim Speichern der Tour. Überprüfe deine Eingaben.', true));
 		}
 		else
 		{
@@ -222,6 +226,11 @@ class ToursController extends AppController
 	 */
 	function listMine()
 	{
+		if(!isset($this->params['url']['range']))
+		{
+			$this->params['url']['range'] = Tour::FILTER_RANGE_CURRENT;
+		}
+
 		$tourIds = $this->Tour->searchTours($this->params['url'], array(
 			'Tour.tour_guide_id' => $this->Auth->user('id')
 		));
@@ -243,6 +252,7 @@ class ToursController extends AppController
 				'contain' => array()
 			)),
 			'filtersCollapsed' => empty($this->data['Tour']['TourGroup'])
+				&& $this->data['Tour']['range'] == Tour::FILTER_RANGE_CURRENT
 				&& empty($this->data['Tour']['startdate'])
 				&& empty($this->data['Tour']['enddate'])
 				&& empty($this->data['Tour']['TourGuide'])
@@ -452,7 +462,7 @@ class ToursController extends AppController
 			$currentUserAlreadySignedUp = $this->Auth->user() ? $this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id')) : false;
 
 			$this->paginate['TourParticipation'] = array(
-				'contain' => array('User.Profile', 'TourParticipationStatus'),
+				'contain' => array('TourParticipationStatus', 'SignupUser', 'SignupUser.Profile'),
 				'limit' => 1000
 			);
 			$tourParticipations = $tour['Tour']['tour_guide_id'] == $this->Auth->user('id') || $this->Authorization->hasRole(Role::SAFETYCOMMITTEE)
@@ -542,6 +552,38 @@ class ToursController extends AppController
 	/**
 	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
 	 */
+	function reopenRegistration($id)
+	{
+		if(!empty($this->data))
+		{
+			$redirect = array('action' => 'view', $id);
+
+			if(isset($this->data['Tour']['cancel']) && $this->data['Tour']['cancel'])
+			{
+				$this->redirect($redirect);
+			}
+
+			$publishedStatusId = $this->Tour->TourStatus->field('id', array('key' => TourStatus::PUBLISHED));
+
+			$this->__changeTourStatus($id, $publishedStatusId);
+
+			$this->Session->setFlash(__('Die Anmeldung für diese Tour wurde wiedereröffnet.', true));
+			$this->redirect($redirect);
+		}
+		else
+		{
+			$this->data = $this->Tour->find('first', array(
+					'fields' => array('Tour.id', 'Tour.title'),
+					'conditions' => array('Tour.id' => $id),
+					'contain' => false
+			));
+		}
+	}
+
+
+	/**
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 */
 	function cancel($id)
 	{
 		$tour = $this->Tour->find('first', array(
@@ -575,7 +617,7 @@ class ToursController extends AppController
 					'TourParticipation.tour_id' => $id,
 					'TourParticipation.tour_participation_status_id' => Set::extract('/TourParticipationStatus/id', $tourParticipationStatuses)
 				),
-				'contain' => array('User', 'User.Profile')
+				'contain' => array()
 			));
 
 			foreach($tourParticipations as $tourParticipation)
@@ -585,7 +627,7 @@ class ToursController extends AppController
 					'message' => $this->data['Tour']['message']
 				));
 
-				$this->_sendEmail($tourParticipation['User']['email'], sprintf(__('Die Tour "%s" wurde abgesagt', true), $tour['Tour']['title']), 'tours/cancel_tour_participant');
+				$this->_sendEmail($tourParticipation['TourParticipation']['email'], sprintf(__('Die Tour "%s" wurde abgesagt', true), $tour['Tour']['title']), 'tours/cancel_tour_participant');
 			}
 
 			$this->Session->setFlash(__('Die Tour wurde abgesagt.', true));
@@ -611,112 +653,6 @@ class ToursController extends AppController
 	}
 
 	/**
-	 * @auth:requireRole(user)
-	 */
-	function signUp($id)
-	{
-		if(!$this->Tour->find('count', array('conditions' => array('Tour.id' => $id))))
-		{
-			$this->Session->setFlash(__('Diese Tour wurde nicht gefunden.', true));
-			$this->redirect('/');
-		}
-
-		if(!$this->Tour->field('signuprequired', array('Tour.id' => $id)))
-		{
-			$this->Session->setFlash(__('Für diese Tour ist keine Anmeldung erforderlich.', true));
-			$this->redirect(array('action' => 'view', $id));
-		}
-
-		if($this->Tour->TourParticipation->tourParticipationExists($id, $this->Auth->user('id')))
-		{
-			$this->Session->setFlash(__('Du bist bereits für diese Tour angemeldet.', true));
-			$this->redirect(array('action' => 'view', $id));
-		}
-
-		$this->loadModel('Profile');
-
-		if(!empty($this->data))
-		{
-			$this->data['Profile']['user_id'] = $this->Auth->user('id');
-			$profileId = $this->Profile->field('id', array('user_id' => $this->Auth->user('id')));
-
-			if($profileId)
-			{
-				$this->data['Profile']['id'] = $profileId;
-			}
-
-			if($this->Profile->save($this->data))
-			{
-				if($tourParticipation = $this->Tour->TourParticipation->createTourParticipation($id, $this->Auth->user('id'), $this->data['TourParticipation']))
-				{
-					$this->loadModel('User');
-
-					$tour = $this->Tour->find('first', array(
-						'conditions' => array('Tour.id' => $id),
-						'contain' => array('TourGroup', 'TourGuide', 'TourGuide.Profile', 'TourType')
-					));
-
-					$user = $this->User->find('first', array(
-						'conditions' => array('User.id' => $this->Auth->user('id')),
-						'contain' => array(
-							'Profile', 'Profile.Country', 'Profile.LeadClimbNiveau', 'Profile.SecondClimbNiveau',
-							'Profile.AlpineTourNiveau', 'Profile.SkiTourNiveau', 'Profile.SacMainSection', 'Profile.SacAdditionalSection1'
-						)
-					));
-
-					$this->set(array(
-						'user' => $user,
-						'tour' => $tour,
-						'tourParticipation' => $tourParticipation
-					));
-
-					$this->_sendEmail(
-						$this->Auth->user('email'),
-						sprintf(__('Deine Touranmeldung zu "%s"', true), $tour['Tour']['title']),
-						'tours/signup_participant'
-					);
-
-					$this->_sendEmail(
-						$tour['TourGuide']['email'],
-						sprintf(__('Neue Anmeldung zu "%s"', true), $tour['Tour']['title']),
-						'tours/signup_tourguide'
-					);
-
-					$this->Session->setFlash(__('Deine Anmeldung zu dieser Tour wurde gespeichert.', true));
-					$this->redirect(array('action' => 'view', $id));
-				}
-			}
-
-			$this->Session->setFlash(__('Beim Anmelden ist ein Fehler aufgetreten.', true));
-		}
-		else
-		{
-			$this->data = $this->Profile->find('first', array(
-				'conditions' => array('user_id' => $this->Auth->user('id'))
-			));
-		}
-
-		$this->loadModel('Country');
-		$this->loadModel('SacSection');
-
-		$this->set(array(
-			'tour' => $this->Tour->find('first', array(
-				'conditions' => array('Tour.id' => $id),
-				'contain' => array()
-			)),
-			'countries' => $this->Country->find('list', array(
-				'order' => array('name' => 'ASC')
-			)),
-			'climbingDifficulties' => $this->Tour->Difficulty->getRockClimbingDifficulties(),
-			'skiAndAlpineTourDifficulties' => $this->Tour->Difficulty->getSkiAndAlpineTourDifficulties(),
-			'sacSections' => $this->SacSection->find('list', array(
-				'order' => array('SacSection.id' => 'ASC'),
-				'contain' => array()
-			))
-		));
-	}
-
-	/**
 	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
 	 * @auth:requireRole(safetycommittee)
 	 */
@@ -739,9 +675,8 @@ class ToursController extends AppController
 			$tourParticipations = $this->Tour->TourParticipation->find('all', array(
 				'conditions' => array_merge(array('TourParticipation.tour_id' => $id), $conditions),
 				'contain' => array(
-					'User', 'User.Profile', 'User.Profile.LeadClimbNiveau', 'User.Profile.SecondClimbNiveau',
-					'User.Profile.AlpineTourNiveau', 'User.Profile.SkiTourNiveau', 'User.Profile.SacMainSection',
-					'TourParticipationStatus' 
+					'LeadClimbNiveau', 'SecondClimbNiveau', 'AlpineTourNiveau', 'SkiTourNiveau',
+					'SacMainSection', 'TourParticipationStatus'
 				)
 			));
 
@@ -847,5 +782,136 @@ class ToursController extends AppController
 			$this->Session->setFlash(__('Beim Ändern des Tourstatus ist ein Fehler aufgetreten.', true));
 			$this->redirect($this->referer(null, true));
 		}
+	}
+
+	/**
+	 * @auth:Model.Tour.isTourGuideOf(#arg-0)
+	 */
+	function sendEmailAllSelected($id)
+	{
+		$tour = $this->Tour->find('first', array(
+			'fields' => array('Tour.id', 'Tour.title'),
+			'conditions' => array('Tour.id' => $id),
+			'contain' => array()
+		));
+
+		$this->set(compact('tour'));
+
+		if(!empty($this->data))
+		{
+			$tour = $this->Tour->find('first', array(
+				'conditions' => array('Tour.id' => $id),
+				'contain' => array('TourGuide.email')
+			));
+
+			$tourParticipations = $this->Tour->TourParticipation->find('all', array(
+				'conditions' => array(
+					'TourParticipation.tour_id' => $id,
+					'TourParticipation.tour_participation_status_id' => $this->data['Tour']['participationStatuses']
+				),
+				'contain' => array()
+			));
+
+			$tourParticipationEmails = array();
+			foreach($tourParticipations as $tourParticipation)
+			{
+				$tourParticipationEmails[] = $tourParticipation['TourParticipation']['email'];
+			}
+			$this->redirect(sprintf('mailto:%s?bcc=%s&subject=%s: %s', $tour['TourGuide']['email'], implode(',', $tourParticipationEmails), __('Tour',true), $tour['Tour']['title']));
+		}
+		else
+		{
+			$this->data = $tour;
+			$this->set(array(
+				'participationStatuses' => $this->Tour->TourParticipation->TourParticipationStatus->find('list', array(
+					'conditions' => array('TourParticipationStatus.key' => array(TourParticipationStatus::REGISTERED, TourParticipationStatus::AFFIRMED, TourParticipationStatus::WAITINGLIST, TourParticipationStatus::CANCELED, TourParticipationStatus::REJECTED)),
+					'order' => array('TourParticipationStatus.rank' => 'ASC')
+				)),
+				'participationStatusDefault' => array_keys($this->Tour->TourParticipation->TourParticipationStatus->find('list', array(
+					'conditions' => array('TourParticipationStatus.key' => array(TourParticipationStatus::AFFIRMED)),
+					'order' => array('TourParticipationStatus.rank' => 'ASC')
+				)))
+			));
+		}
+	}
+
+	/**
+	 * @auth:allowed()
+	 */
+	function sendEmailTourLeader($id)
+	{
+		$tour = $this->Tour->find('first', array(
+			'conditions' => array('Tour.id' => $id),
+			'contain' => array('TourGuide')
+		));
+		$this->redirect(sprintf('mailto:%s?subject=%s: %s',$tour['TourGuide']['email'], __('Tour',true), $tour['Tour']['title']));
+	}
+
+	/**
+	 * @auth:requireRole(tourchief)
+	 * @auth:requireRole(bookkeeper)
+	 */
+	function exportStatisticsToursOverview()
+	{
+		if(!empty($this->data))
+		{
+			$valid = true;
+
+			if(!isset($this->data['Tour']['startdate']) || empty($this->data['Tour']['startdate']) || strtotime($this->data['Tour']['startdate']) === false)
+			{
+				$this->Tour->invalidate('startdate', 'correctDate');
+				$valid = false;
+			}
+
+			if(!isset($this->data['Tour']['enddate']) || empty($this->data['Tour']['enddate']) || strtotime($this->data['Tour']['enddate']) === false)
+			{
+				$this->Tour->invalidate('enddate', 'correctDate');
+				$valid = false;
+			}
+
+			if($valid && strtotime($this->data['Tour']['startdate']) > strtotime($this->data['Tour']['enddate']))
+			{
+				$this->Tour->invalidate('enddate', 'greaterOrEqualStartDate');
+				$valid = false;
+			}
+
+			if(empty($this->data['Tour']['tour_status_id']))
+			{
+				$this->Tour->invalidate('tour_status_id', 'notEmpty');
+				$valid = false;
+			}
+
+			if($valid)
+			{
+				$tours = $this->Tour->getTourOverviewReportData(
+					$this->data['Tour']['startdate'], $this->data['Tour']['enddate'],
+					$this->data['Tour']['tour_status_id'], $this->data['Tour']['tour_group_id']
+				);
+
+				if(empty($tours))
+				{
+					$this->Session->setFlash(__('Für die angegebenen Kriterien wurden keine Touren gefunden.', true));
+				}
+				else
+				{
+					$this->viewPath = Inflector::underscore($this->name) . DS . 'xls';
+					$this->set(array(
+						'tours' => $tours,
+						'exportExpenses' => $this->data['Tour']['exportExpenses']
+					));
+				}
+			}
+		}
+
+		$selectableTourStatuses = $this->Tour->TourStatus->find('list', array(
+			'conditions' => array('TourStatus.key' => array(TourStatus::CARRIED_OUT, TourStatus::NOT_CARRIED_OUT)),
+			'order' => array('TourStatus.rank' => 'ASC')
+		));
+
+		$this->set($this->Tour->getWidgetData(array(Tour::WIDGET_TOUR_GROUP)));
+		$this->set(array(
+			'tourStatuses' => $selectableTourStatuses,
+			'tourStatusDefault' => array_keys($selectableTourStatuses)
+		));
 	}
 }

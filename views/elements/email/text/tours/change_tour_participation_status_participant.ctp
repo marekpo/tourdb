@@ -1,4 +1,4 @@
-Hallo <?php echo $this->Display->displayUsersFirstName($tourParticipation['User']['username'], $tourParticipation['User']['Profile']); ?>!
+Hallo <?php echo $tourParticipation['TourParticipation']['firstname']; ?>!
 
 <?php
 	$changeStatusSentence = '';
