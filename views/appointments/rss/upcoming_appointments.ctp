@@ -2,7 +2,7 @@
 $this->set('channel', array(
 	'title' => __('Aktuelle Anlässe', true),
 	'link' => $this->Html->url(array('controller' => 'appointments', 'action' => 'upcomingAppointments', 'ext' => 'rss'), true),
-	'description' => __('Alle aktuellen Anlässe des SAC Am Albis', true)
+	'description' => __('Alle aktuellen Anlässe des SAC Sektion Baldern', true)
 ));
 
 foreach($appointments as $appointment)

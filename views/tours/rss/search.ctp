@@ -2,7 +2,7 @@
 $this->set('channel', array(
 	'title' => __('Aktuelle Touren', true),
 	'link' => $this->Html->url(array('controller' => 'tours', 'action' => 'tours', 'ext' => 'rss'), true),
-	'description' => __('Alle aktuellen Touren des SAC Am Albis', true)
+	'description' => __('Alle aktuellen Touren der SAC Sektion Baldern', true)
 ));
 
 foreach($tours as $tour)

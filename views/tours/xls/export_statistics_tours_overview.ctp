@@ -1,6 +1,6 @@
 <?php
 
-$sektionName = "SEKTION AM ALBIS";
+$sektionName = "SEKTION BALDERN";
 $fontSizeHeader = 18;
 
 $labelColumn = 0;

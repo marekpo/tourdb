@@ -33,6 +33,4 @@ Telefon: <?php echo $tourParticipation['Tour']['TourGuide']['Profile']['phonepri
 E-Mail: <?php echo $tourParticipation['Tour']['TourGuide']['email']; ?>
 
 
-Hinweis: Die Ausrüstungslisten für Wanderungen, Sommer- und Wintertouren findest du im Internet www.sac-albis.ch/service/dokumente/checklisten/
-
 Dein Tourenangebot Team
