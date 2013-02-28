@@ -16,6 +16,6 @@ foreach($appointments as $appointment)
 		'link' => $this->Html->url(array('controller' => 'appointments', 'action' => 'view', $appointment['Appointment']['id']), true),
 		'guid' => $appointment['Appointment']['id'],
 		'description' => $appointment['Appointment']['description'],
-		'pubDate' => $this->Time->format('d.m.Y H:i:s', $appointment['Appointment']['modified']),
+		'pubDate' => $this->Time->format('d.m.Y H:i:s', $appointment['Appointment']['startdate']),
 	));
 }
