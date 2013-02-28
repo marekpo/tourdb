@@ -78,7 +78,7 @@ ul.menu .caption	{ font-weight: bold; border-bottom: 1px solid #dddddd; }
 .ui-draggable.role			{ background: #ffffff url(../img/role.png) no-repeat 4px center; }
 
 /* calendar widget */
-.calendar								{ margin: 10px auto; width: 770px }
+.calendar								{ margin: 0px auto; width: 770px }
 .calendar .title						{ background: #dddddd; border: 1px solid #808080; font-size: 11pt; font-weight: bold; padding: 3px; text-align: center; }
 .calendar .title .previous				{ float: left; }
 .calendar .title .next					{ float: right; }
